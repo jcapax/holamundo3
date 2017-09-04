@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-07-17T17:31:23 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pachecos"/>
+	<parameter name="idTransaccion" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select *
+from vFactura
+where idTransaccion = $P{idTransaccion}]]>
+	</queryString>
+	<field name="idTransaccion" class="java.lang.Integer"/>
+	<field name="idproducto" class="java.lang.Integer"/>
+	<field name="nombreProducto" class="java.lang.String"/>
+	<field name="simbolo" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Double"/>
+	<field name="valorunitario" class="java.lang.Double"/>
+	<field name="valortotal" class="java.lang.Double"/>
+	<field name="tipovalor" class="java.lang.String"/>
+	<field name="recargo" class="java.lang.Integer"/>
+	<field name="idSucursal" class="java.lang.Long"/>
+	<field name="especificacion" class="java.lang.Integer"/>
+	<field name="correlativoSucursal" class="java.lang.Long"/>
+	<field name="fechaFactura" class="java.sql.Date"/>
+	<field name="nroFactura" class="java.math.BigInteger"/>
+	<field name="nroAutorizacion" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="nit" class="java.math.BigInteger"/>
+	<field name="razonSocial" class="java.lang.String"/>
+	<field name="importeTotal" class="java.lang.Double"/>
+	<field name="importeIce" class="java.math.BigDecimal"/>
+	<field name="importeExportaciones" class="java.math.BigDecimal"/>
+	<field name="importeVentasTasaCero" class="java.math.BigDecimal"/>
+	<field name="importeSubtotal" class="java.math.BigDecimal"/>
+	<field name="importeRebajas" class="java.math.BigDecimal"/>
+	<field name="importeBaseDebitoFiscal" class="java.math.BigDecimal"/>
+	<field name="debitoFiscal" class="java.math.BigDecimal"/>
+	<field name="codigoControl" class="java.lang.String"/>
+	<field name="fechaLimiteEmision" class="java.sql.Date"/>
+	<field name="idDosificacion" class="java.lang.Integer"/>
+	<field name="pieFactura" class="java.lang.String"/>
+	<field name="nombreSucursal" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="123" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="97" width="50" height="16" uuid="b61249a5-b5d8-4d62-8b77-361a937a27c1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="97" width="150" height="16" uuid="332c37eb-1349-4fe3-bf13-a312a75656ec"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{razonSocial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="40" width="100" height="20" uuid="5abe5fb3-2132-44ad-ac46-e8d672840bfa"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroFactura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="461" y="60" width="100" height="20" uuid="5b626bb0-c2f3-4813-846e-13f4065168ae"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroAutorizacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="420" y="17" width="27" height="18" uuid="1bf479c9-e616-4db8-98da-4328ce140ced"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="40" width="67" height="18" uuid="cb06d0b3-6780-4c73-a1f7-dc1b278885d7"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="58" width="77" height="18" uuid="45b55e22-5e63-4f25-974d-6e4a9aaa6ceb"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Autorizacion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="80" width="102" height="18" uuid="3ecb569f-7676-4e45-a93a-0538d221b8fc"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividad Economica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="17" width="97" height="18" uuid="3bec74fb-bbd9-4021-9fe6-dc45a83afc25"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[23423432234]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="10" width="171" height="30" uuid="53e16769-df87-4cd8-a0da-b011c3f80b01"/>
+				<textElement>
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACHECO SALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="46" width="101" height="30" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
+				<textElement textAlignment="Center">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACTURA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="240" y="97" width="100" height="16" uuid="d0b76e1e-5381-41c6-a7e6-eecd63dc4267"/>
+				<textFieldExpression><![CDATA[$F{fechaFactura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="50" width="80" height="18" uuid="b911d2c2-2de0-425d-8815-11f97b5f66e3"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CASA MATRIZ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="0" width="100" height="30" uuid="cd7b5373-1aaf-4a79-aebc-072ffbacdce6"/>
+				<text><![CDATA[nombreProducto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="100" height="30" uuid="7ef278f5-f406-433f-ab9e-da91be2739b4"/>
+				<text><![CDATA[cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="0" width="100" height="30" uuid="9bed46ae-2172-4026-9b93-5272f68687d8"/>
+				<text><![CDATA[valorunitario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="100" height="30" uuid="9ae7700c-9e6a-431b-bf2f-aa822fc98a8c"/>
+				<text><![CDATA[valortotal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="0" width="100" height="15" uuid="c8226ce7-1563-4fc2-b522-0bccdc996246">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nombreProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="100" height="15" uuid="81585d63-0825-412c-86d9-a7cf867aac9b"/>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="100" height="15" uuid="4b652972-da8f-4480-99a6-8625753fb472"/>
+				<textFieldExpression><![CDATA[$F{valorunitario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="0" width="100" height="15" uuid="7dc7da2c-8811-44ab-b979-23587f760110"/>
+				<textFieldExpression><![CDATA[$F{valortotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="100" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="40" width="100" height="30" uuid="b38a7405-aa4d-4e15-8805-703124ce8fb7"/>
+				<textFieldExpression><![CDATA[$F{codigoControl}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="45" splitType="Stretch"/>
+	</summary>
+</jasperReport>

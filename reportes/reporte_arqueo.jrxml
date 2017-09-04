@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-07-26T11:47:20 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="400" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pachecos"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="id" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+from arqueo where id = $P{id}]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer"/>
+	<field name="fechaApertura" class="java.sql.Timestamp"/>
+	<field name="fechaCierre" class="java.sql.Timestamp"/>
+	<field name="cajaInicial" class="java.math.BigDecimal"/>
+	<field name="importeCierre" class="java.math.BigDecimal"/>
+	<field name="Estado" class="java.lang.String"/>
+	<field name="idTerminal" class="java.lang.Integer"/>
+	<field name="idLugar" class="java.lang.Integer"/>
+	<field name="fechaHoraRegistro" class="java.sql.Timestamp"/>
+	<field name="usuario" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="282" splitType="Stretch">
+			<staticText>
+				<reportElement x="141" y="25" width="272" height="29" uuid="16579756-3d72-4a18-a876-8da5be6772dd"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARQUEO DE CAJA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="2" width="150" height="23" uuid="8cebf84f-4ba4-420e-be28-3f9aa2bf1670"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACHECO SALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="60" width="100" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<text><![CDATA[Fecha Apertura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="59" width="100" height="20" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
+				<text><![CDATA[Fecha Cierre]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="90" width="100" height="30" uuid="9e4a5ac3-986f-44d2-88a7-a49f4c6cb117"/>
+				<textFieldExpression><![CDATA[$F{fechaApertura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="90" width="100" height="30" uuid="f58b105a-99d6-4656-878e-f654153e34e5"/>
+				<textFieldExpression><![CDATA[$F{fechaCierre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="140" width="100" height="20" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Caja Inicial]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="140" y="140" width="100" height="20" uuid="6235c9ba-88d7-466c-95f8-eff2254987b2"/>
+				<textFieldExpression><![CDATA[$F{cajaInicial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="285" y="140" width="50" height="20" uuid="286a0036-d861-406c-b10f-390353cf8546"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe Cierre]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="350" y="140" width="100" height="20" uuid="2ffbd109-080a-402c-90b9-2b1f17d20ae3"/>
+				<textFieldExpression><![CDATA[$F{importeCierre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="180" width="100" height="20" uuid="27677860-54a2-4bf1-b312-4714525cb94f"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="140" y="180" width="100" height="20" uuid="18b02b30-36a8-4727-b228-bdb4c55a2866"/>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+</jasperReport>

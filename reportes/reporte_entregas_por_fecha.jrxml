@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pachecos"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="fecha_inicio" class="java.lang.String"/>
+	<parameter name="fecha_final" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT descripcion, simbolo, sum(cantidad) cantidad, sum(valorTotalProducto) valorTotalProducto 
+FROM vlistamovimiento 
+where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and idTipoTransaccion = 8
+  and estado <> 'N'
+  group by  descripcion, simbolo]]>
+	</queryString>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="simbolo" class="java.lang.String"/>
+	<field name="cantidad" class="java.math.BigDecimal"/>
+	<field name="valorTotalProducto" class="java.math.BigDecimal"/>
+	<variable name="valorTotalProducto1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorTotalProducto}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="141" y="25" width="272" height="29" uuid="16579756-3d72-4a18-a876-8da5be6772dd"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENTAS - ENTREGAS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="59" width="80" height="17" uuid="8965b8bd-ef8a-4d4d-8b65-2967c771a95c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="59" width="100" height="17" uuid="6c21a5d7-3b10-4b72-a6e6-8fe629d37f1a"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha_final}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="2" width="150" height="23" uuid="8cebf84f-4ba4-420e-be28-3f9aa2bf1670"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACHECO SALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="59" width="23" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<text><![CDATA[De:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="59" width="40" height="20" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
+				<text><![CDATA[Hasta: ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="0" width="100" height="20" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="0" width="100" height="20" uuid="27677860-54a2-4bf1-b312-4714525cb94f"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="50" height="20" uuid="286a0036-d861-406c-b10f-390353cf8546"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[simbolo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="3" width="100" height="20" uuid="86316072-e767-4944-8131-f6ccafcc08bb"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="0" width="170" height="20" uuid="fae567d6-af53-44f1-8def-51ccb6d17004"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="100" height="20" uuid="de8f90d0-761c-4db6-a7d6-c8673d7915c7"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="50" height="20" uuid="79dc8161-b60e-440a-86f9-d2d5072d03fd"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{simbolo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="20" uuid="b92a662d-2e25-4f56-a05a-c32361cd8b2a"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valorTotalProducto})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="47" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="54">
+			<line>
+				<reportElement x="10" y="1" width="500" height="1" uuid="ade9cde8-eb07-4b72-af75-1a60f708556a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="400" y="10" width="100" height="30" uuid="8a3af12e-eaf1-4834-b8bf-6836d4584063"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($V{valorTotalProducto1})]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
