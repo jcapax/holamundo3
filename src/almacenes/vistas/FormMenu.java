@@ -98,6 +98,7 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuCerrarCaja = new javax.swing.JMenuItem();
         jmAnularTrans = new javax.swing.JMenuItem();
         jmenuPendientesCobro = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
         jMenuMarcas = new javax.swing.JMenuItem();
         jMenuProcedencia = new javax.swing.JMenuItem();
@@ -249,6 +250,14 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmenuPendientesCobro);
+
+        jMenuItem5.setText("Credito X Facturar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jMenuItem5);
 
         jMenuBar1.add(jMenuProcesos);
 
@@ -676,6 +685,11 @@ public class FormMenu extends javax.swing.JFrame {
         pend.setVisible(true);
     }//GEN-LAST:event_jmenuPendientesCobroActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        FormFacturaCredito ffc = new FormFacturaCredito(connectionDB);
+        ffc.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -789,6 +803,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuMarcas;
     private javax.swing.JMenuItem jMenuProcedencia;
     private javax.swing.JMenu jMenuProcesos;

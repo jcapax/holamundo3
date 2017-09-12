@@ -7,6 +7,7 @@ package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.FacturaVenta;
+import almacenes.model.PendientePago;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,6 +97,39 @@ public class FacturaDAOImpl implements FacturaDAO{
         
         
         return lFactura;
+    }
+
+    @Override
+    public ArrayList<PendientePago> getListaCreditoPorFacturar() {
+        ArrayList<PendientePago> listaCreditoProFacturar = new ArrayList<PendientePago>();
+        
+        String sql = "select idTransaccion, fecha, nroTipoTransaccion, ImporteCaja, valorTotal, diferencia, "
+                + "detalle, cedulaIdentidad, nit, nombreCompleto, razonSocial "
+                + "from vpagocredito "
+                + "where diferencia = 0 and "
+                + "idTransaccion not in (select idTransaccion from facturaventa)";        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                PendientePago pp = new PendientePago();
+                
+                pp.setIdTransaccion(rs.getInt("idTransaccion"));
+                pp.setFecha(rs.getDate("fecha"));
+                pp.setValorTotal(rs.getDouble("valorTotal"));
+                pp.setDetalle(rs.getString("detalle"));
+                pp.setNombreCompleto(rs.getString("nombreCompleto"));
+                pp.setRazonSocial(rs.getString("razonSocial"));
+                
+                listaCreditoProFacturar.add(pp);
+            }
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return listaCreditoProFacturar;
     }
     
 }

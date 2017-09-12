@@ -6,6 +6,7 @@
 package dao;
 
 import almacenes.model.FacturaVenta;
+import almacenes.model.PendientePago;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +16,6 @@ import java.util.ArrayList;
 public interface FacturaDAO {
     public ArrayList<Integer> getListaAnnosFacturacion();
     public ArrayList<FacturaVenta> getListaFacturasLibroVenta(byte mes, int anno);
-
+    public ArrayList<PendientePago> getListaCreditoPorFacturar();
     
 }
