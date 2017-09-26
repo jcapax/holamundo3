@@ -16,5 +16,6 @@ public interface ConfiguracionGeneralDAO {
        public ArrayList<ConfiguracionGeneral> getConfiguracionGeneral();
        public String getRutaExcelLibroVentas();
        public int getNroDiasNullTransaccion();
+       public int getImpresionDirectaFactura();
     
 }

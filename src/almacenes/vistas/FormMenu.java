@@ -94,10 +94,13 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuVentas = new javax.swing.JMenuItem();
         jMenuCompras = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jmenuCajaInicial = new javax.swing.JMenuItem();
         jmenuCerrarCaja = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jmAnularTrans = new javax.swing.JMenuItem();
         jmenuPendientesCobro = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
         jMenuMarcas = new javax.swing.JMenuItem();
         jMenuProcedencia = new javax.swing.JMenuItem();
@@ -213,6 +216,7 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jMenuItem3);
+        jMenuProcesos.add(jSeparator2);
 
         jmenuCajaInicial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/caja_inicial.png"))); // NOI18N
         jmenuCajaInicial.setText("Caja Inicial");
@@ -231,6 +235,7 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmenuCerrarCaja);
+        jMenuProcesos.add(jSeparator3);
 
         jmAnularTrans.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
         jmAnularTrans.setText("Anular Trans");
@@ -249,6 +254,15 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmenuPendientesCobro);
+
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/tax.png"))); // NOI18N
+        jMenuItem5.setText("Credito X Facturar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jMenuItem5);
 
         jMenuBar1.add(jMenuProcesos);
 
@@ -299,6 +313,7 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenuConfiguracion.add(jMenuProductos);
 
+        jmenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/clients.png"))); // NOI18N
         jmenuCliente.setText("Clientes");
         jmenuCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,6 +322,7 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenuConfiguracion.add(jmenuCliente);
 
+        jmenuProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/kuser.png"))); // NOI18N
         jmenuProveedor.setText("Proveedores");
         jmenuProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -397,6 +413,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuInformes.setText("Informes");
 
         jMenuItem2.setText("Reporte Ventas");
+        jMenuItem2.setEnabled(false);
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -432,6 +449,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuInformes.add(jmenuEntregas);
 
         jMenuItem4.setText("Impresion Directa");
+        jMenuItem4.setEnabled(false);
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -676,6 +694,11 @@ public class FormMenu extends javax.swing.JFrame {
         pend.setVisible(true);
     }//GEN-LAST:event_jmenuPendientesCobroActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        FormFacturaCredito ffc = new FormFacturaCredito(connectionDB);
+        ffc.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -789,6 +812,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuMarcas;
     private javax.swing.JMenuItem jMenuProcedencia;
     private javax.swing.JMenu jMenuProcesos;
@@ -801,6 +825,8 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuVentas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel jlUsuario;
     private javax.swing.JMenuItem jmAnularTrans;

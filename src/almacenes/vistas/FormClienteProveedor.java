@@ -171,7 +171,7 @@ public class FormClienteProveedor extends javax.swing.JFrame {
         jlTituloFormulario = new javax.swing.JLabel();
         jlEdicion = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jtClienteProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

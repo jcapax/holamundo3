@@ -87,4 +87,21 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
         return nro;
     }
 
+    @Override
+    public int getImpresionDirectaFactura() {
+        int impDirec= 0;
+        String sql = "select impresionDirectaFactura from configuracion";
+        PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                impDirec = rs.getInt("impresionDirectaFactura");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionGeneralDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return impDirec;
+    }
+
 }

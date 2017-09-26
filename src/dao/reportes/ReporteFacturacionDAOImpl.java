@@ -7,6 +7,7 @@ package dao.reportes;
 
 import Literal.Numero_a_Letra;
 import almacenes.Imprimir;
+import dao.ConfiguracionGeneralDAOImpl;
 import java.sql.Connection;
 import java.util.HashMap;
 
@@ -28,6 +29,10 @@ public class ReporteFacturacionDAOImpl implements ReporteFacturacionDAO{
 
     @Override
     public void VistaPreviaFacturaVenta(int idTransaccion, String cadenaQr, double valorTotal) {
+        ConfiguracionGeneralDAOImpl conf = new ConfiguracionGeneralDAOImpl(connectionDB);
+        int imp = 0;
+        imp = conf.getImpresionDirectaFactura();
+        
         HashMap parametros = new HashMap<>();
         
         Numero_a_Letra lit = new Numero_a_Letra();
@@ -40,10 +45,14 @@ public class ReporteFacturacionDAOImpl implements ReporteFacturacionDAO{
         parametros.put("idTransaccion", idTransaccion);
         parametros.put("cadenaQr", cadenaQr);
         parametros.put("valorTotalLiteral", valorTotalLiteral);
-
-        //this.imprimir.vistaPreviaReporte("Factura de Venta", "reporte_factura.jrxml", parametros);
-        this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura.jrxml", parametros, false);
-        this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura_copia.jrxml", parametros, false);
+        
+        if(imp==0){
+            this.imprimir.vistaPreviaReporte("Factura de Venta", "reporte_factura.jrxml", parametros);
+        }
+        else{
+            this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura.jrxml", parametros, false);
+            this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura_copia.jrxml", parametros, false);
+        }
     }
     
 }
