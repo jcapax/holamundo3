@@ -99,6 +99,8 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuCerrarCaja = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jmAnularTrans = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jmenuCliente = new javax.swing.JMenuItem();
         jmenuPendientesCobro = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
@@ -107,7 +109,6 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuRubros = new javax.swing.JMenuItem();
         jMenuUnidadMedida = new javax.swing.JMenuItem();
         jMenuProductos = new javax.swing.JMenuItem();
-        jmenuCliente = new javax.swing.JMenuItem();
         jmenuProveedor = new javax.swing.JMenuItem();
         jMenuAdministracion = new javax.swing.JMenu();
         jMenuStockInicial = new javax.swing.JMenuItem();
@@ -120,11 +121,9 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuRestaurarDB = new javax.swing.JMenuItem();
         jMenuConfiguraciones = new javax.swing.JMenuItem();
         jMenuInformes = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuStockProductos = new javax.swing.JMenuItem();
         jmenuMovimientoCajaGeneral = new javax.swing.JMenuItem();
         jmenuEntregas = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jmenuLibroVentas = new javax.swing.JMenuItem();
         jmenuArqueos = new javax.swing.JMenuItem();
         jMenuAyuda = new javax.swing.JMenu();
@@ -245,6 +244,16 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmAnularTrans);
+        jMenuProcesos.add(jSeparator4);
+
+        jmenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/clients.png"))); // NOI18N
+        jmenuCliente.setText("Clientes");
+        jmenuCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuClienteActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jmenuCliente);
 
         jmenuPendientesCobro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pago_transaccion.png"))); // NOI18N
         jmenuPendientesCobro.setText("Pendientes Cobro");
@@ -312,15 +321,6 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuConfiguracion.add(jMenuProductos);
-
-        jmenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/clients.png"))); // NOI18N
-        jmenuCliente.setText("Clientes");
-        jmenuCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuClienteActionPerformed(evt);
-            }
-        });
-        jMenuConfiguracion.add(jmenuCliente);
 
         jmenuProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/kuser.png"))); // NOI18N
         jmenuProveedor.setText("Proveedores");
@@ -412,15 +412,6 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuInformes.setText("Informes");
 
-        jMenuItem2.setText("Reporte Ventas");
-        jMenuItem2.setEnabled(false);
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenuInformes.add(jMenuItem2);
-
         jMenuStockProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/stock.png"))); // NOI18N
         jMenuStockProductos.setText("Stock Productos");
         jMenuStockProductos.addActionListener(new java.awt.event.ActionListener() {
@@ -447,15 +438,6 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuInformes.add(jmenuEntregas);
-
-        jMenuItem4.setText("Impresion Directa");
-        jMenuItem4.setEnabled(false);
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenuInformes.add(jMenuItem4);
 
         jmenuLibroVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/factura.png"))); // NOI18N
         jmenuLibroVentas.setText("Libro Ventas");
@@ -550,10 +532,6 @@ public class FormMenu extends javax.swing.JFrame {
         salir();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        new ElegirFechasImprimirReportes(this, false, connectionDB, idUsuario, REPORTE_UNO).setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jMenuComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuComprasActionPerformed
         int idTipoTransaccion = 1;// nro para compras
         int idTipoTransaccionEntrega = 7;
@@ -611,10 +589,6 @@ public class FormMenu extends javax.swing.JFrame {
         FormIngresosEgresos fie = new FormIngresosEgresos(connectionDB, tipoCuenta, idLugar, idUsuario, idTipoTransaccion);
         fie.setVisible(true);
     }//GEN-LAST:event_jmenuEgresosActionPerformed
-
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        new FormImpresionDirecta(this, false, connectionDB, idUsuario).setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuBackupDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuBackupDBActionPerformed
         try {
@@ -809,9 +783,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuConfiguraciones;
     private javax.swing.JMenu jMenuInformes;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuMarcas;
     private javax.swing.JMenuItem jMenuProcedencia;
@@ -827,6 +799,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel jlUsuario;
     private javax.swing.JMenuItem jmAnularTrans;

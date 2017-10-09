@@ -57,15 +57,11 @@ public class FormValidarCodigoCotrol extends javax.swing.JFrame {
 
         jLabel2.setText("Nro Autorizacion");
 
-        jtxtNroAutorizacion.setText("118401700002092");
-
         jLabel3.setText("Fecha");
 
         jLabel4.setText("Importe");
 
         jLabel5.setText("Llave Dosificacion");
-
-        jtxtLlaveDosificacion.setText("(tNLS-jTVEF\\fZ+*STK+H\\7v#D4U\\C+T5_Cy--%+FZj#IGA=VVTbyeT\\2S(-G5%h");
 
         jLabel6.setText("Nro Factura");
 
@@ -89,7 +85,7 @@ public class FormValidarCodigoCotrol extends javax.swing.JFrame {
 
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
-        jlTituloFormulario.setText("Codigo Control");
+        jlTituloFormulario.setText("Validacion Impuestos - Codigo Control");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

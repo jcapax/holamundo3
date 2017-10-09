@@ -410,6 +410,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
         lmeses.add("JULIO");
         lmeses.add("AGOSTO");
         lmeses.add("SEPTIEMBRE");
+        lmeses.add("OCTUBRE");
         lmeses.add("NOVIEMBRE");
         lmeses.add("DICIEMBRE");
 

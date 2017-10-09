@@ -64,4 +64,9 @@ from vpagotransaccion p
 	join clienteproveedor cp on c.idClienteProveedor = cp.id
 
 
+**********************************
 
+ALTER TABLE `configuraciones` ADD `rutaExcel` VARCHAR(100) NOT NULL AFTER `ruta_programas_pg`, ADD `tiempoAnulacionTransaccion` INT NOT NULL AFTER `rutaExcel`, ADD `impresionDirectaFactura` INT NOT NULL AFTER `tiempoAnulacionTransaccion`;
+
+
+**************
