@@ -106,6 +106,8 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuCliente = new javax.swing.JMenuItem();
         jmenuPendientesCobro = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        jmenuReimpresion = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
         jMenuMarcas = new javax.swing.JMenuItem();
         jMenuProcedencia = new javax.swing.JMenuItem();
@@ -311,6 +313,16 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jMenuItem5);
+        jMenuProcesos.add(jSeparator5);
+
+        jmenuReimpresion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reimprimir.png"))); // NOI18N
+        jmenuReimpresion.setText("Re Impresion");
+        jmenuReimpresion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuReimpresionActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jmenuReimpresion);
 
         jMenuBar1.add(jMenuProcesos);
 
@@ -736,6 +748,11 @@ public class FormMenu extends javax.swing.JFrame {
         pend.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jmenuReimpresionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuReimpresionActionPerformed
+        FormReImpresionFactura reimp = new FormReImpresionFactura(connectionDB, idUsuario);
+        reimp.setVisible(true);
+    }//GEN-LAST:event_jmenuReimpresionActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -866,6 +883,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel jlUsuario;
     private javax.swing.JMenuItem jmAnularTrans;
@@ -881,6 +899,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenuMovimientoCajaGeneral;
     private javax.swing.JMenuItem jmenuPendientesCobro;
     private javax.swing.JMenuItem jmenuProveedor;
+    private javax.swing.JMenuItem jmenuReimpresion;
     private javax.swing.JMenuItem jmenuUsers;
     // End of variables declaration//GEN-END:variables
 }

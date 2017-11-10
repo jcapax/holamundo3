@@ -131,5 +131,44 @@ public class FacturaDAOImpl implements FacturaDAO{
         
         return listaCreditoProFacturar;
     }
+
+    @Override
+    public int getIdTransacion(int nroFactura, String Autorizacion) {
+        int idtransaccion = 0;
+        
+        String sql = "select idTransaccion from facturaventa where nroFactura = ? and nroAutorizacion = ?";
+        PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, nroFactura);
+            ps.setString(2, Autorizacion);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                idtransaccion = rs.getInt("idTransaccion");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idtransaccion;
+    }
+
+    @Override
+    public double getImporteTotal(int idTransaccion) {
+        double importeTotal = 0;
+        
+        String sql = "select importeTotal from facturaventa where idtransaccion = ?";
+        PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idTransaccion);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                importeTotal = rs.getInt("importeTotal");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return importeTotal;
+    }
     
 }

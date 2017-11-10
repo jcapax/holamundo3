@@ -17,5 +17,7 @@ public interface FacturaDAO {
     public ArrayList<Integer> getListaAnnosFacturacion();
     public ArrayList<FacturaVenta> getListaFacturasLibroVenta(byte mes, int anno);
     public ArrayList<PendientePago> getListaCreditoPorFacturar();
+    public int getIdTransacion(int nroFactura, String nroAutorizacion);
+    public double getImporteTotal(int idTransaccion);
     
 }
