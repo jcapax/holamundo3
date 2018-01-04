@@ -64,7 +64,8 @@ public class SistemaDAOImpl implements SistemaDAO {
                             "ruta_visor_pdf, " +
                             "ruta_destino_archivos_pdf, " +
                             "solo_guadar_archivos_pdf, " +
-                            "ruta_programas_pg " +
+                            "ruta_programas_pg," +
+                            "rutaExcel, tiempoAnulacionTransaccion, impresionDirectaFactura " +
                             "FROM configuraciones;";
         
         ResultSet rs = stmt.executeQuery(query);
@@ -76,6 +77,9 @@ public class SistemaDAOImpl implements SistemaDAO {
            configuracion.setRutaDestinoArchivosPDF(rs.getString("ruta_destino_archivos_pdf"));
            configuracion.setSoloGuadarArchivosPDF(rs.getBoolean("solo_guadar_archivos_pdf"));
            configuracion.setRutaProgramasPG(rs.getString("ruta_programas_pg"));
+           configuracion.setRutaExcel(rs.getString("rutaExcel"));
+           configuracion.setTiempoAnulacionTransaccion(rs.getInt("tiempoAnulacionTransaccion"));
+           configuracion.setImpresionDirectaFactura(rs.getInt("impresionDirectaFactura"));
         }
         rs.close();
 
@@ -99,20 +103,30 @@ public class SistemaDAOImpl implements SistemaDAO {
                     "SET ruta_visor_pdf = \"" + configuracion.getRutaVisorPdf() + "\", " + 
                         "ruta_destino_archivos_pdf = \""+ configuracion.getRutaDestinoArchivosPDF() + "\", " + 
                         "solo_guadar_archivos_pdf = "+ configuracion.getSoloGuadarArchivosPDF() + ", " +
-                        "ruta_programas_pg = \"" + configuracion.getRutaProgramasPG() + "\" " + 
+                        "ruta_programas_pg = \"" + configuracion.getRutaProgramasPG() + "\", " +
+                        "rutaExcel = \"" + configuracion.getRutaExcel() + "\" ," +
+                        "tiempoAnulacionTransaccion = \"" + configuracion.getTiempoAnulacionTransaccion() + "\", " +
+                        "impresionDirectaFactura = \"" + configuracion.getImpresionDirectaFactura() + "\" " +
+                    
                     "WHERE id_configuracion = " + configuracion.getIdConfiguracion();
             ps = connectionDB.prepareStatement(sql);
             ps.executeUpdate();
         } else {
             sql = "INSERT INTO configuraciones " +
-                    "(ruta_visor_pdf, " +
-                    "ruta_destino_archivos_pdf, " +
-                    "solo_guadar_archivos_pdf, " +
-                    "ruta_programas_pg) " +
+                        "(ruta_visor_pdf, " +
+                        "ruta_destino_archivos_pdf, " +
+                        "solo_guadar_archivos_pdf, " +
+                        "ruta_programas_pg, " +
+                        "rutaExcel, " +
+                        "tiempoAnulacionTransaccion, " +
+                        "impresionDirectaFactura) " +
                     "VALUES (\"" + configuracion.getRutaVisorPdf() + "\", " +
-                            "\"" + configuracion.getRutaDestinoArchivosPDF() + "\", " +
-                            configuracion.getSoloGuadarArchivosPDF() + ", " +
-                            "\"" + configuracion.getRutaProgramasPG() + "\")";
+                            "\"" + configuracion.getRutaDestinoArchivosPDF() + ", " +
+                            "\"" + configuracion.getSoloGuadarArchivosPDF() + ", " +
+                            "\"" + configuracion.getRutaProgramasPG() + ", " +
+                            "\"" + configuracion.getRutaExcel() + ", " +
+                            "\"" + configuracion.getTiempoAnulacionTransaccion() + ", " +
+                            "\"" + configuracion.getImpresionDirectaFactura() + "\")";
             ps = connectionDB.prepareStatement(sql);
             ps.execute();
         }

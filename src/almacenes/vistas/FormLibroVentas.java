@@ -6,14 +6,18 @@
 package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.Configuracion;
 import almacenes.model.FacturaVenta;
 import dao.ConfiguracionGeneralDAOImpl;
 import dao.FacturaDAOImpl;
+import dao.SistemaDAO;
+import dao.SistemaDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -37,26 +41,31 @@ public class FormLibroVentas extends javax.swing.JFrame {
 
     private DatabaseUtils databaseUtils;
     private static Connection connectionDB;
+
+    private static SistemaDAO sistemaDAO;
+
     DefaultTableModel dtm;
 
     public FormLibroVentas() {
         initComponents();
     }
 
-    public void headerTabla(){
+    public void headerTabla() {
         Font f = new Font("Times New Roman", Font.BOLD, 13);
-        
+
         jtFactura.getTableHeader().setFont(f);
         jtFactura.getTableHeader().setBackground(Color.orange);
     }
-    
+
     public FormLibroVentas(Connection connectionDB) {
         initComponents();
         this.setLocationRelativeTo(null);
 
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
-        
+
+        sistemaDAO = new SistemaDAOImpl(this.connectionDB);
+
         headerTabla();
 
         iniciarComponentes();
@@ -383,7 +392,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void iniciarComponentes() {
-        
+
         llenarMeses();
         llenarAnnos();
         vaciarTotales();
@@ -500,142 +509,149 @@ public class FormLibroVentas extends javax.swing.JFrame {
     }
 
     public static void exportarExcel(ArrayList<FacturaVenta> fact, int anno, int mes) {
-        
-        ConfiguracionGeneralDAOImpl conf = new ConfiguracionGeneralDAOImpl(connectionDB);
-        String ruta = conf.getRutaExcelLibroVentas();
-        
-        WritableWorkbook libro1 = null;
+
+        Configuracion configuracion = new Configuracion();
+
         try {
-            
-            String nombreArchivo = String.valueOf(anno)+"_"+String.valueOf(mes)+".xls";
-            
-            System.out.println(ruta +nombreArchivo);
-            
-            File file = new File(ruta +nombreArchivo);
+            configuracion = sistemaDAO.getGestionConfiguraciones();
 
-            libro1 = Workbook.createWorkbook(file);
+            String ruta = configuracion.getRutaExcel() + "/";
 
-            WritableSheet hoja1 = libro1.createSheet("hoja XX", 0);
-
-            Label labelEspecificacion = new Label(0, 0, "especificacion");
-            Label labelNro = new Label(1, 0, "nro");
-            Label labelFechaFactura = new Label(2, 0, "Fecha Fact.");
-            Label labelNroFactura = new Label(3, 0, "Nro Fact.");
-            Label labelNroAutorizacion = new Label(4, 0, "Nro Autori.");
-            Label labelEstado = new Label(5, 0, "Estado");
-            Label labelNit = new Label(6, 0, "Nit");
-            Label labelRazonSocial = new Label(7, 0, "Razon Social");
-            Label labelImporteTotal = new Label(8, 0, "Importe Total");
-            Label labelImporteIce = new Label(9, 0, "Importe Ice");
-            Label labelImporteExportaciones = new Label(10, 0, "Importe Exportaciones");
-            Label labelImportetasaCero = new Label(11, 0, "Importe Tasa Cero");
-            Label labelImporteSubTotal = new Label(12, 0, "Importe Sub Total");
-            Label labelImporteRebajas = new Label(13, 0, "Importe Rebajas");
-            Label labelImporteBase = new Label(14, 0, "Importe Base");
-            Label labelDebitoFiscal = new Label(15, 0, "Debito Fiscal");
-            Label labelCodigoControl = new Label(16, 0, "Codigo Control");
-
-            hoja1.addCell(labelEspecificacion);
-            hoja1.addCell(labelNro);
-            hoja1.addCell(labelFechaFactura);
-            hoja1.addCell(labelNroFactura);
-            hoja1.addCell(labelNroAutorizacion);
-            hoja1.addCell(labelEstado);
-            hoja1.addCell(labelNit);
-            hoja1.addCell(labelRazonSocial);
-            hoja1.addCell(labelImporteTotal);
-            hoja1.addCell(labelImporteIce);
-            hoja1.addCell(labelImporteExportaciones);
-            hoja1.addCell(labelImportetasaCero);
-            hoja1.addCell(labelImporteSubTotal);
-            hoja1.addCell(labelImporteRebajas);
-            hoja1.addCell(labelImporteBase);
-            hoja1.addCell(labelDebitoFiscal);
-            hoja1.addCell(labelCodigoControl);
-
-            Number especificacion = null;
-            Number nro = null;
-            Label fechaFactura = null;
-            Number nroFactura = null;
-            Label nroAutorizacion = null;
-            Label estado = null;
-            Label nit = null;
-            Label razonSocial = null;
-            Number importeTotal = null;
-            Number importeIce = null;
-            Number importeExportaciones = null;
-            Number importeTasaCero = null;
-            Number importeSubTotal = null;
-            Number importeRebajas = null;
-            Number importeBase = null;
-            Number importeDebitoFiscal = null;
-            Label codigoControl = null;
-
-            Integer getNroFactura = 0;
-            String getNroAutorizacion = "";
-
-            int i = 0;
-//                        Number nit = null;
-            for (int x = 0; x < fact.size(); x++) {
-                
-                i = x + 1;
-
-                especificacion = new Number(0, i, 3);
-                nro = new Number(1, i, i);
-                fechaFactura = new Label(2, i, fact.get(x).getFechaFactura().toString());
-
-                getNroFactura = fact.get(x).getNroFactura();
-                nroFactura = new Number(3, i, getNroFactura);
-
-                getNroAutorizacion = fact.get(x).getNroAutorizacion();
-                nroAutorizacion = new Label(4, i, getNroAutorizacion);
-
-                estado = new Label(5, i, fact.get(x).getEstado());
-                nit = new Label(6, i, fact.get(x).getNit());
-                razonSocial = new Label(7, i, fact.get(x).getRazonSocial());
-                importeTotal = new Number(8, i, fact.get(x).getImporteTotal());
-                importeIce = new Number(9, i, fact.get(x).getImporteIce());
-                importeExportaciones = new Number(10, i, fact.get(x).getImporteExportaciones());
-                importeTasaCero = new Number(11, i, fact.get(x).getImporteVentasTasaCero());
-                importeSubTotal = new Number(12, i, fact.get(x).getImporteSubtotal());
-                importeRebajas = new Number(13, i, fact.get(x).getImporteRebajas());
-                importeBase = new Number(14, i, fact.get(x).getImporteBaseDebitoFiscal());
-                importeDebitoFiscal = new Number(15, i, fact.get(x).getDebitoFiscal());
-                codigoControl = new Label(16, i, fact.get(x).getCodigoControl());
-
-                hoja1.addCell(especificacion);
-                hoja1.addCell(nro);
-                hoja1.addCell(fechaFactura);
-                hoja1.addCell(nroFactura);
-                hoja1.addCell(nroAutorizacion);
-                hoja1.addCell(estado);
-                hoja1.addCell(nit);
-                hoja1.addCell(razonSocial);
-                hoja1.addCell(importeTotal);
-                hoja1.addCell(importeIce);
-                hoja1.addCell(importeExportaciones);
-                hoja1.addCell(importeTasaCero);
-                hoja1.addCell(importeSubTotal);
-                hoja1.addCell(importeRebajas);
-                hoja1.addCell(importeBase);
-                hoja1.addCell(importeDebitoFiscal);
-                hoja1.addCell(codigoControl);
-
-            }
-            libro1.write();
-        } catch (WriteException | IOException ex) {
-            Logger.getLogger(FormLibroVentas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (libro1 != null) {
+            WritableWorkbook libro1 = null;
             try {
-                libro1.close();
-            } catch (WriteException | IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            // TODO Auto-generated catch block
 
+                String nombreArchivo = String.valueOf(anno) + "_" + String.valueOf(mes) + ".xls";
+
+                System.out.println(ruta + nombreArchivo);
+
+                File file = new File(ruta + nombreArchivo);
+
+                libro1 = Workbook.createWorkbook(file);
+
+                WritableSheet hoja1 = libro1.createSheet("hoja XX", 0);
+
+                Label labelEspecificacion = new Label(0, 0, "especificacion");
+                Label labelNro = new Label(1, 0, "nro");
+                Label labelFechaFactura = new Label(2, 0, "Fecha Fact.");
+                Label labelNroFactura = new Label(3, 0, "Nro Fact.");
+                Label labelNroAutorizacion = new Label(4, 0, "Nro Autori.");
+                Label labelEstado = new Label(5, 0, "Estado");
+                Label labelNit = new Label(6, 0, "Nit");
+                Label labelRazonSocial = new Label(7, 0, "Razon Social");
+                Label labelImporteTotal = new Label(8, 0, "Importe Total");
+                Label labelImporteIce = new Label(9, 0, "Importe Ice");
+                Label labelImporteExportaciones = new Label(10, 0, "Importe Exportaciones");
+                Label labelImportetasaCero = new Label(11, 0, "Importe Tasa Cero");
+                Label labelImporteSubTotal = new Label(12, 0, "Importe Sub Total");
+                Label labelImporteRebajas = new Label(13, 0, "Importe Rebajas");
+                Label labelImporteBase = new Label(14, 0, "Importe Base");
+                Label labelDebitoFiscal = new Label(15, 0, "Debito Fiscal");
+                Label labelCodigoControl = new Label(16, 0, "Codigo Control");
+
+                hoja1.addCell(labelEspecificacion);
+                hoja1.addCell(labelNro);
+                hoja1.addCell(labelFechaFactura);
+                hoja1.addCell(labelNroFactura);
+                hoja1.addCell(labelNroAutorizacion);
+                hoja1.addCell(labelEstado);
+                hoja1.addCell(labelNit);
+                hoja1.addCell(labelRazonSocial);
+                hoja1.addCell(labelImporteTotal);
+                hoja1.addCell(labelImporteIce);
+                hoja1.addCell(labelImporteExportaciones);
+                hoja1.addCell(labelImportetasaCero);
+                hoja1.addCell(labelImporteSubTotal);
+                hoja1.addCell(labelImporteRebajas);
+                hoja1.addCell(labelImporteBase);
+                hoja1.addCell(labelDebitoFiscal);
+                hoja1.addCell(labelCodigoControl);
+
+                Number especificacion = null;
+                Number nro = null;
+                Label fechaFactura = null;
+                Number nroFactura = null;
+                Label nroAutorizacion = null;
+                Label estado = null;
+                Label nit = null;
+                Label razonSocial = null;
+                Number importeTotal = null;
+                Number importeIce = null;
+                Number importeExportaciones = null;
+                Number importeTasaCero = null;
+                Number importeSubTotal = null;
+                Number importeRebajas = null;
+                Number importeBase = null;
+                Number importeDebitoFiscal = null;
+                Label codigoControl = null;
+
+                Integer getNroFactura = 0;
+                String getNroAutorizacion = "";
+
+                int i = 0;
+//                        Number nit = null;
+                for (int x = 0; x < fact.size(); x++) {
+
+                    i = x + 1;
+
+                    especificacion = new Number(0, i, 3);
+                    nro = new Number(1, i, i);
+                    fechaFactura = new Label(2, i, fact.get(x).getFechaFactura().toString());
+
+                    getNroFactura = fact.get(x).getNroFactura();
+                    nroFactura = new Number(3, i, getNroFactura);
+
+                    getNroAutorizacion = fact.get(x).getNroAutorizacion();
+                    nroAutorizacion = new Label(4, i, getNroAutorizacion);
+
+                    estado = new Label(5, i, fact.get(x).getEstado());
+                    nit = new Label(6, i, fact.get(x).getNit());
+                    razonSocial = new Label(7, i, fact.get(x).getRazonSocial());
+                    importeTotal = new Number(8, i, fact.get(x).getImporteTotal());
+                    importeIce = new Number(9, i, fact.get(x).getImporteIce());
+                    importeExportaciones = new Number(10, i, fact.get(x).getImporteExportaciones());
+                    importeTasaCero = new Number(11, i, fact.get(x).getImporteVentasTasaCero());
+                    importeSubTotal = new Number(12, i, fact.get(x).getImporteSubtotal());
+                    importeRebajas = new Number(13, i, fact.get(x).getImporteRebajas());
+                    importeBase = new Number(14, i, fact.get(x).getImporteBaseDebitoFiscal());
+                    importeDebitoFiscal = new Number(15, i, fact.get(x).getDebitoFiscal());
+                    codigoControl = new Label(16, i, fact.get(x).getCodigoControl());
+
+                    hoja1.addCell(especificacion);
+                    hoja1.addCell(nro);
+                    hoja1.addCell(fechaFactura);
+                    hoja1.addCell(nroFactura);
+                    hoja1.addCell(nroAutorizacion);
+                    hoja1.addCell(estado);
+                    hoja1.addCell(nit);
+                    hoja1.addCell(razonSocial);
+                    hoja1.addCell(importeTotal);
+                    hoja1.addCell(importeIce);
+                    hoja1.addCell(importeExportaciones);
+                    hoja1.addCell(importeTasaCero);
+                    hoja1.addCell(importeSubTotal);
+                    hoja1.addCell(importeRebajas);
+                    hoja1.addCell(importeBase);
+                    hoja1.addCell(importeDebitoFiscal);
+                    hoja1.addCell(codigoControl);
+
+                }
+                libro1.write();
+            } catch (WriteException | IOException ex) {
+                Logger.getLogger(FormLibroVentas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (libro1 != null) {
+                try {
+                    libro1.close();
+                } catch (WriteException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                // TODO Auto-generated catch block
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FormLibroVentas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

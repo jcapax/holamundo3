@@ -7,6 +7,7 @@ package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.AnularTransaccion;
+import almacenes.model.Configuracion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,48 +20,49 @@ import java.util.logging.Logger;
  *
  * @author jcapax
  */
-public class AnularTransaccionDAOImpl implements AnularTransaccionDAO{
+public class AnularTransaccionDAOImpl implements AnularTransaccionDAO {
 
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
-        
+
     public AnularTransaccionDAOImpl(Connection _connectionDB) {
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = _connectionDB;
     }
-    
+
     @Override
     public ArrayList<AnularTransaccion> getListaTransaccionesAnular(byte idTipoTransaccion, String usuario) {
-        
-        UsuariosDAOImpl us = new UsuariosDAOImpl(connectionDB);
-        int rol = us.getRolUsuario(usuario);       
-        
-        
+        SistemaDAO sistemaDAO = new SistemaDAOImpl(connectionDB);
         ArrayList<AnularTransaccion> listaTrans = new ArrayList<>();
-        
-        ConfiguracionGeneralDAOImpl conf = new ConfiguracionGeneralDAOImpl(connectionDB);
-        int nro = 0;
-        nro = conf.getNroDiasNullTransaccion();
-        
-        String sql = "SELECT e.idEntregaTransaccion, e.idTransaccion, t.fecha, t.idTipoTransaccion, t.valorTotal, "
-                + "f.nit, f.razonSocial, f.nroFactura, f.importeTotal "
-                + "FROM entregaTransaccion e "
-                + " join vtransaccion t on e.idTransaccion = t.ID "
-                + " left join facturaVenta f on f.idTransaccion = t.ID "
-                + "WHERE datediff(now(),t.fecha) <= ?"
-                + "  and t.idTipoTransaccion = ? ";
-        if(rol != 1){
-            String aux = "and t.usuario = '"+usuario+"'";
-            sql = sql.concat(aux);
-        }
-        
+        Configuracion conf;
         try {
-            PreparedStatement ps = connectionDB.prepareStatement(sql);
-            ps.setInt(1, nro);
-            ps.setByte(2, idTipoTransaccion);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                AnularTransaccion at = new AnularTransaccion();
+            conf = sistemaDAO.getGestionConfiguraciones();
+
+            UsuariosDAOImpl us = new UsuariosDAOImpl(connectionDB);
+            int rol = us.getRolUsuario(usuario);
+
+            int nro = 0;
+            nro = conf.getTiempoAnulacionTransaccion();
+
+            String sql = "SELECT e.idEntregaTransaccion, e.idTransaccion, t.fecha, t.idTipoTransaccion, t.valorTotal, "
+                    + "f.nit, f.razonSocial, f.nroFactura, f.importeTotal "
+                    + "FROM entregaTransaccion e "
+                    + " join vtransaccion t on e.idTransaccion = t.ID "
+                    + " left join facturaVenta f on f.idTransaccion = t.ID "
+                    + "WHERE datediff(now(),t.fecha) <= ?"
+                    + "  and t.idTipoTransaccion = ? ";
+            if (rol != 1) {
+                String aux = "and t.usuario = '" + usuario + "'";
+                sql = sql.concat(aux);
+            }
+
+            try {
+                PreparedStatement ps = connectionDB.prepareStatement(sql);
+                ps.setInt(1, nro);
+                ps.setByte(2, idTipoTransaccion);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    AnularTransaccion at = new AnularTransaccion();
                     at.setFecha(rs.getDate("fecha"));
                     at.setIdEntregaTransaccion(rs.getInt("idEntregaTransaccion"));
                     at.setIdTipoTransaccion(rs.getByte("idTipoTransaccion"));
@@ -70,12 +72,15 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO{
                     at.setNroFactura(rs.getInt("nroFactura"));
                     at.setRazonSocial(rs.getString("razonSocial"));
                     at.setValorTotal(rs.getDouble("valorTotal"));
-                listaTrans.add(at);
+                    listaTrans.add(at);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(AnularTransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(AnularTransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         return listaTrans;
     }
 
@@ -91,7 +96,7 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO{
         } catch (SQLException ex) {
             Logger.getLogger(AnularTransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     @Override
@@ -102,7 +107,7 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO{
                 + "importeSubtotal = 0, importeRebajas = 0, importeBaseDebitoFiscal = 0, "
                 + "debitoFiscal = 0, codigoControl = '0' "
                 + "where idTransaccion = ?";
-        
+
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
@@ -111,7 +116,7 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO{
         } catch (SQLException ex) {
             Logger.getLogger(AnularTransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
+
     }
 
     @Override
@@ -125,5 +130,5 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO{
             Logger.getLogger(AnularTransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
