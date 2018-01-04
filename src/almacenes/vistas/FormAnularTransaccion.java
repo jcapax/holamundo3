@@ -23,6 +23,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
+    
     DefaultTableModel dtm;
     String usuario;
     

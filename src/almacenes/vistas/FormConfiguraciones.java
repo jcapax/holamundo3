@@ -44,6 +44,14 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         this.configuracion = sistemaDAO.getGestionConfiguraciones();
         comandoPDF.setText(this.configuracion.getRutaVisorPdf());
         rutaDestinoPDF.setText(this.configuracion.getRutaDestinoArchivosPDF());
+        jtxtRutaExcel.setText(this.configuracion.getRutaExcel());
+        jspinnerTiempoAnulacionTransaccion.setValue(Integer.valueOf(this.configuracion.getTiempoAnulacionTransaccion()));
+        if(this.configuracion.getImpresionDirectaFactura() == 1){
+            jcheckImpresionDirectaFacturas.setSelected(true);
+        }else{
+            jcheckImpresionDirectaFacturas.setSelected(false);
+        }
+        
         if (this.configuracion.getSoloGuadarArchivosPDF() != null) {
             soloGuardarArchivoPDF.setSelected(this.configuracion.getSoloGuadarArchivosPDF());
         }
@@ -78,6 +86,13 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         grabarBT = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jtxtRutaExcel = new javax.swing.JTextField();
+        buscarRutaExcel = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jcheckImpresionDirectaFacturas = new javax.swing.JCheckBox();
+        jspinnerTiempoAnulacionTransaccion = new javax.swing.JSpinner();
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Archivos PDF"));
 
@@ -113,7 +128,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
                     .addComponent(comandoPDF)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(soloGuardarArchivoPDF)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 326, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(testBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -132,7 +147,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(testBT)
                     .addComponent(soloGuardarArchivoPDF))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Destino de los archivos PDF"));
@@ -253,6 +268,59 @@ public class FormConfiguraciones extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuraciones Varias"));
+
+        jLabel5.setText("Ruta Archivos Excel ");
+
+        buscarRutaExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Search-icon.png"))); // NOI18N
+        buscarRutaExcel.setText("Buscar");
+        buscarRutaExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarRutaExcelActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Tiempo Anulacion Trans.");
+
+        jcheckImpresionDirectaFacturas.setText("Impresion Directa Facturas");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtxtRutaExcel, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jspinnerTiempoAnulacionTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(jcheckImpresionDirectaFacturas)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addComponent(buscarRutaExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jtxtRutaExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscarRutaExcel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jcheckImpresionDirectaFacturas)
+                    .addComponent(jspinnerTiempoAnulacionTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -263,13 +331,16 @@ public class FormConfiguraciones extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -277,7 +348,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -288,7 +359,9 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         pack();
@@ -363,6 +436,22 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonRutaDestinoPDFActionPerformed
 
+    private void buscarRutaExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarRutaExcelActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("ruta excel para archivos");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+//          System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+//          System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+          jtxtRutaExcel.setText(chooser.getSelectedFile().getAbsolutePath());
+        } else {
+          System.out.println("No Selection ");
+        }
+    }//GEN-LAST:event_buscarRutaExcelActionPerformed
+
     private String validarCampos() {
         String errores = "";
         /*
@@ -388,6 +477,14 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         configuracion.setRutaDestinoArchivosPDF(rutaDestinoPDF.getText());
         configuracion.setSoloGuadarArchivosPDF(soloGuardarArchivoPDF.isSelected());
         configuracion.setRutaProgramasPG(rutaDestinoPG.getText());
+        configuracion.setRutaExcel(jtxtRutaExcel.getText());
+        configuracion.setTiempoAnulacionTransaccion((Integer) jspinnerTiempoAnulacionTransaccion.getValue());
+        if(jcheckImpresionDirectaFacturas.isSelected()){
+            configuracion.setImpresionDirectaFactura(1);
+        }else{
+            configuracion.setImpresionDirectaFactura(0);
+        }
+        
         return configuracion;
     }
     
@@ -443,6 +540,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonRutaDestinoPDF;
     private javax.swing.JButton botonRutaDestinoPDF1;
+    private javax.swing.JButton buscarRutaExcel;
     private javax.swing.JButton buscarVisorPDF;
     private javax.swing.JTextField comandoPDF;
     private javax.swing.JButton grabarBT;
@@ -451,11 +549,17 @@ public class FormConfiguraciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JCheckBox jcheckImpresionDirectaFacturas;
+    private javax.swing.JSpinner jspinnerTiempoAnulacionTransaccion;
+    private javax.swing.JTextField jtxtRutaExcel;
     private javax.swing.JTextField rutaDestinoPDF;
     private javax.swing.JTextField rutaDestinoPG;
     private javax.swing.JCheckBox soloGuardarArchivoPDF;

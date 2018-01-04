@@ -15,7 +15,36 @@ public class Configuracion {
   private String rutaDestinoArchivosPDF;
   private Boolean soloGuadarArchivosPDF;
   private String rutaProgramasPG;
+  private String rutaExcel;
+  private int tiempoAnulacionTransaccion;
+  private int impresionDirectaFactura;
 
+    public String getRutaExcel() {
+        return rutaExcel;
+    }
+
+    public void setRutaExcel(String rutaExcel) {
+        this.rutaExcel = rutaExcel;
+    }
+
+    public int getTiempoAnulacionTransaccion() {
+        return tiempoAnulacionTransaccion;
+    }
+
+    public void setTiempoAnulacionTransaccion(int tiempoAnulacionTransaccion) {
+        this.tiempoAnulacionTransaccion = tiempoAnulacionTransaccion;
+    }
+
+    public int getImpresionDirectaFactura() {
+        return impresionDirectaFactura;
+    }
+
+    public void setImpresionDirectaFactura(int impresionDirectaFactura) {
+        this.impresionDirectaFactura = impresionDirectaFactura;
+    }
+  
+  
+  
     public Integer getIdConfiguracion() {
         return idConfiguracion;
     }

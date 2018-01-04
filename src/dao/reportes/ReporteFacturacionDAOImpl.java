@@ -7,7 +7,9 @@ package dao.reportes;
 
 import Literal.Numero_a_Letra;
 import almacenes.Imprimir;
-import dao.ConfiguracionGeneralDAOImpl;
+import almacenes.model.Configuracion;
+import dao.SistemaDAO;
+import dao.SistemaDAOImpl;
 import java.sql.Connection;
 import java.util.HashMap;
 
@@ -29,7 +31,10 @@ public class ReporteFacturacionDAOImpl implements ReporteFacturacionDAO{
 
     @Override
     public void VistaPreviaFacturaVenta(int idTransaccion, String cadenaQr, double valorTotal) {
-        ConfiguracionGeneralDAOImpl conf = new ConfiguracionGeneralDAOImpl(connectionDB);
+        
+        SistemaDAO sistemaDAO = new SistemaDAOImpl(connectionDB);
+        Configuracion conf = new Configuracion();
+        
         int imp = 0;
         imp = conf.getImpresionDirectaFactura();
         
@@ -40,8 +45,7 @@ public class ReporteFacturacionDAOImpl implements ReporteFacturacionDAO{
         String valorTotalLiteral = "0";
         
         valorTotalLiteral = lit.Convertir(String.valueOf(valorTotal), true);
-        
-        
+       
         parametros.put("idTransaccion", idTransaccion);
         parametros.put("cadenaQr", cadenaQr);
         parametros.put("valorTotalLiteral", valorTotalLiteral);
