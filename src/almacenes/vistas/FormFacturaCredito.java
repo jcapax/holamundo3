@@ -47,6 +47,7 @@ public class FormFacturaCredito extends javax.swing.JFrame {
 
     public FormFacturaCredito(Connection connectionDB) {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
         headerTabla();

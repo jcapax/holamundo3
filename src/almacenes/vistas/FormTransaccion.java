@@ -873,6 +873,9 @@ public class FormTransaccion extends javax.swing.JFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtxtxCriterioKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtxCriterioKeyTyped(evt);
+            }
         });
 
         jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Clear-icon.png"))); // NOI18N
@@ -1336,6 +1339,10 @@ public class FormTransaccion extends javax.swing.JFrame {
     private void jtxtDetalleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtDetalleKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtDetalleKeyPressed
+
+    private void jtxtxCriterioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtxCriterioKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtxCriterioKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
