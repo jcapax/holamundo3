@@ -121,11 +121,11 @@ public class SistemaDAOImpl implements SistemaDAO {
                         "tiempoAnulacionTransaccion, " +
                         "impresionDirectaFactura) " +
                     "VALUES (\"" + configuracion.getRutaVisorPdf() + "\", " +
-                            "\"" + configuracion.getRutaDestinoArchivosPDF() + ", " +
-                            "\"" + configuracion.getSoloGuadarArchivosPDF() + ", " +
-                            "\"" + configuracion.getRutaProgramasPG() + ", " +
-                            "\"" + configuracion.getRutaExcel() + ", " +
-                            "\"" + configuracion.getTiempoAnulacionTransaccion() + ", " +
+                            "\"" + configuracion.getRutaDestinoArchivosPDF() + "\", " +
+                            configuracion.getSoloGuadarArchivosPDF() + ","+
+                            "\"" + configuracion.getRutaProgramasPG() + "\", " +
+                            "\"" + configuracion.getRutaExcel() + "\", " +
+                            "\"" + configuracion.getTiempoAnulacionTransaccion() + "\", " +
                             "\"" + configuracion.getImpresionDirectaFactura() + "\")";
             ps = connectionDB.prepareStatement(sql);
             ps.execute();
