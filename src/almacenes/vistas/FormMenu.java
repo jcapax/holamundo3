@@ -10,6 +10,8 @@ import almacenes.model.Configuracion;
 import almacenes.model.Permiso;
 import dao.SistemaDAO;
 import dao.SistemaDAOImpl;
+import dao.TerminalDAO;
+import dao.TerminalDAOImpl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,7 +28,9 @@ public class FormMenu extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     private String idUsuario;
+    private String hostName;
     SistemaDAO sistemaDAO;
+    private byte idTerminal;
 
     private static final String MENU_PROCESOS = "menu_procesos";
     private static final String MENU_VENTAS = "menu_ventas";
@@ -54,6 +58,7 @@ public class FormMenu extends javax.swing.JFrame {
     private static final int REPORTE_CUATRO = 4;
     
     private static byte idLugar = 1;
+    
     /**
      * Creates new form Menu
      */
@@ -70,6 +75,8 @@ public class FormMenu extends javax.swing.JFrame {
         ocultarMenus();
         habilitarMenusUsuario();
         jMenuRestaurarDB.setVisible(false);
+        
+        datosTerminal();
     }    
     
 
@@ -83,8 +90,8 @@ public class FormMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jlUsuario = new javax.swing.JLabel();
+        jlTerminal = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -120,6 +127,8 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuIngresos = new javax.swing.JMenuItem();
         jmenuEgresos = new javax.swing.JMenuItem();
         jmenuUsers = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jmenuDosificacion = new javax.swing.JMenuItem();
         jmenuCodigoControl = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuBackupDB = new javax.swing.JMenuItem();
@@ -135,33 +144,31 @@ public class FormMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logo_don_piston.png"))); // NOI18N
-
         jlUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jlUsuario.setText("jLabel2");
+        jlUsuario.setText("Usuario");
+
+        jlTerminal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlTerminal.setText("Terminal");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(271, 271, 271)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jlUsuario)))
-                .addContainerGap(294, Short.MAX_VALUE))
+                    .addComponent(jlUsuario)
+                    .addComponent(jlTerminal))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(339, Short.MAX_VALUE)
                 .addComponent(jlUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlTerminal, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
         );
 
         jToolBar1.setRollover(true);
@@ -241,6 +248,7 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/compras.png"))); // NOI18N
         jMenuCompras.setText("Compras");
+        jMenuCompras.setName(""); // NOI18N
         jMenuCompras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuComprasActionPerformed(evt);
@@ -421,6 +429,16 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuAdministracion.add(jmenuUsers);
+        jMenuAdministracion.add(jSeparator6);
+
+        jmenuDosificacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/folder-add-icon.png"))); // NOI18N
+        jmenuDosificacion.setText("Dosificacion");
+        jmenuDosificacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuDosificacionActionPerformed(evt);
+            }
+        });
+        jMenuAdministracion.add(jmenuDosificacion);
 
         jmenuCodigoControl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/codigo_control.png"))); // NOI18N
         jmenuCodigoControl.setText("Codigo Control Impuestos");
@@ -523,7 +541,7 @@ public class FormMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -607,7 +625,7 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuStockProductosActionPerformed
 
     private void jmenuCajaInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuCajaInicialActionPerformed
-        FormCajaInicial fcajaIn = new FormCajaInicial(connectionDB, idUsuario, idLugar);
+        FormCajaInicial fcajaIn = new FormCajaInicial(connectionDB, idUsuario, idLugar, idTerminal);
         fcajaIn.setVisible(true);
     }//GEN-LAST:event_jmenuCajaInicialActionPerformed
 
@@ -753,6 +771,12 @@ public class FormMenu extends javax.swing.JFrame {
         reimp.setVisible(true);
     }//GEN-LAST:event_jmenuReimpresionActionPerformed
 
+    private void jmenuDosificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuDosificacionActionPerformed
+        FormDosificacion dos = new FormDosificacion();
+        dos.setVisible(true);
+
+    }//GEN-LAST:event_jmenuDosificacionActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -855,7 +879,6 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenuAdministracion;
     private javax.swing.JMenu jMenuArchivo;
     private javax.swing.JMenu jMenuAyuda;
@@ -884,7 +907,9 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel jlTerminal;
     private javax.swing.JLabel jlUsuario;
     private javax.swing.JMenuItem jmAnularTrans;
     private javax.swing.JMenuItem jmenuArqueos;
@@ -892,6 +917,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenuCerrarCaja;
     private javax.swing.JMenuItem jmenuCliente;
     private javax.swing.JMenuItem jmenuCodigoControl;
+    private javax.swing.JMenuItem jmenuDosificacion;
     private javax.swing.JMenuItem jmenuEgresos;
     private javax.swing.JMenuItem jmenuEntregas;
     private javax.swing.JMenuItem jmenuIngresos;
@@ -902,4 +928,19 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenuReimpresion;
     private javax.swing.JMenuItem jmenuUsers;
     // End of variables declaration//GEN-END:variables
+
+    private void datosTerminal() {
+        TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
+        hostName = terminal.getNameHost();
+        idTerminal = terminal.getIdTerminal(hostName);
+        if (idTerminal == 0) {
+                JOptionPane.showMessageDialog( null, "El equipo no ha sido configurado correctamente \n\n" + 
+                        "¡consulte con el administrador!" , "Error", JOptionPane.ERROR_MESSAGE);
+                
+                this.databaseUtils.close(connectionDB);
+                System.exit(0);
+                
+            }
+        jlTerminal.setText("Terminal: " + hostName);
+    }
 }

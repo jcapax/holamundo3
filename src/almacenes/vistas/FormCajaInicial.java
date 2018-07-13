@@ -19,7 +19,7 @@ public class FormCajaInicial extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     
-    private byte idTerminal = 1;
+    private byte idTerminal;
     private byte idLugar; 
     private String usuario;
 
@@ -29,7 +29,7 @@ public class FormCajaInicial extends javax.swing.JFrame {
 
     }
     
-    public FormCajaInicial(Connection connectionDB, String usuario, byte idLugar) {
+    public FormCajaInicial(Connection connectionDB, String usuario, byte idLugar, byte idTerminal) {
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -37,6 +37,7 @@ public class FormCajaInicial extends javax.swing.JFrame {
         this.connectionDB = connectionDB;
         this.usuario = usuario;
         this.idLugar = idLugar;
+        this.idTerminal = idTerminal;
         
         cajaInicial();
     }
