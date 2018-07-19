@@ -31,8 +31,8 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
 
     @Override
     public void insertarDetalleTransaccion(ArrayList<DetalleTransaccion> detTrans) {
-        String sql = "insert into detalleTransaccion("
-                + "idTransaccion, idProducto, idUnidadMedida, cantidad, valorUnitario, valorTotal, tipoValor) "
+        String sql = "insert into detalle_transaccion("
+                + "id_transaccion, id_producto, id_unidad_medida, cantidad, valor_unitario, valor_total, tipo_valor) "
                 + "values(?, ?, ?, ?, ?, ?, ?)";
         
         for(int i = 0; i< detTrans.size(); i++){
@@ -57,7 +57,7 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
     public ArrayList<DetalleTransaccion> getDetalleTransaccion(int idTransaccion) {
         ArrayList<DetalleTransaccion> detTransaccion = new ArrayList<DetalleTransaccion>();
         
-        String sql = "SELECT * FROM vDetalleTransaccion where idTransaccion = ?";
+        String sql = "SELECT * FROM v_detalle_transaccion where id_transaccion = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -68,7 +68,7 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
                 dt.setCantidad(rs.getDouble("cantidad"));
                 dt.setNombreProducto(rs.getString("descripcion"));
                 dt.setSimbolo(rs.getString("simbolo"));
-                dt.setValorTotal(rs.getDouble("valorTotal"));
+                dt.setValorTotal(rs.getDouble("valor_total"));
                 
                 detTransaccion.add(dt);                        
             }

@@ -35,8 +35,8 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
     public int insertarDosificacion(Dosificacion dosificacion) {
         
             int aux = 0;
-            String sql = "INSERT INTO dosificacion(llaveDosificacion, fecha, idSucursal, nroAutorizacion, "
-                    + "nroInicioFactura, fechaLimiteEmision, pieFactura, estado) "
+            String sql = "INSERT INTO dosificacion(llave_dosificacion, fecha, id_sucursal, nro_autorizacion, "
+                    + "nro_inicio_factura, fecha_limite_emision, pie_factura, estado) "
                     + "values(?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -62,8 +62,8 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
     @Override
     public ArrayList<Dosificacion> getListDosificacion() {
         ArrayList<Dosificacion> listDosif = new ArrayList<>();
-        String sql = "select id, llaveDosificacion, fecha, idSucursal, nroAutorizacion, "
-                + "nroInicioFactura, fechaLimiteEmision, pieFactura, estado "
+        String sql = "select id, llave_dosificacion, fecha, id_sucursal, nro_autorizacion, "
+                + "nro_inicio_factura, fecha_limite_emision, pie_factura, estado "
                 + "from dosificacion "
                 + "order by id desc";
         try {
@@ -74,13 +74,13 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
                 
                 d.setEstado(rs.getString("estado"));
                 d.setFecha(rs.getDate("fecha"));
-                d.setFechaLimiteEmision(rs.getDate("fechaLimiteEmision"));
+                d.setFechaLimiteEmision(rs.getDate("fecha_limite_emision"));
                 d.setId(rs.getInt("id"));
-                d.setIdSucursal(rs.getInt("idSucursal"));
-                d.setLlaveDosificacion(rs.getString("llaveDosificacion"));
-                d.setNroAutorizacion(rs.getString("nroAutorizacion"));
-                d.setNroInicioFactura(rs.getInt("nroInicioFactura"));
-                d.setPieFactura(rs.getString("pieFactura"));
+                d.setIdSucursal(rs.getInt("id_sucursal"));
+                d.setLlaveDosificacion(rs.getString("llave_dosificacion"));
+                d.setNroAutorizacion(rs.getString("nro_autorizacion"));
+                d.setNroInicioFactura(rs.getInt("nro_inicio_factura"));
+                d.setPieFactura(rs.getString("pie_factura"));
                 
                 listDosif.add(d);
             }

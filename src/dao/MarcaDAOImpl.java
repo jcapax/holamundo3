@@ -60,7 +60,7 @@ public class MarcaDAOImpl implements MarcaDAO{
 
     @Override
     public void insertarMarca(Marca marca) {
-        String sql = "INSERT INTO `marca`(`DESCRIPCION`, `USUARIO`) VALUES (?, ?)";
+        String sql = "insert into `marca`(`descripcion`, `usuario`) values (?, ?)";
         
         try {
              PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -79,7 +79,7 @@ public class MarcaDAOImpl implements MarcaDAO{
 
     @Override
     public void eliminarMarca(int id) {
-        String sql = "DELETE FROM marca WHERE id = ?";
+        String sql = "delete from marca where id = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

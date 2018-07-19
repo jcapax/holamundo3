@@ -9,12 +9,10 @@ import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Caja;
 import almacenes.model.PendientePago;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,7 +48,7 @@ public class CreditoDAOImpl implements CreditoDAO{
     @Override
     public ArrayList<PendientePago> getListaPendientesPago(int idTipoTransaccion) {
         ArrayList<PendientePago> lPendientePago = new ArrayList<PendientePago>();
-        String sql = "select * from vPendientePago where idTipoTransaccion = ?";
+        String sql = "select * from v_pendiente_pago where id_tipo_transaccion = ?";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTipoTransaccion);
@@ -61,14 +59,14 @@ public class CreditoDAOImpl implements CreditoDAO{
                 pp.setDetalle(rs.getString("detalle"));
                 pp.setDiferencia(rs.getDouble("diferencia"));
                 pp.setFecha(rs.getDate("fecha"));
-                pp.setIdTipoTransaccion(rs.getInt("idTipoTransaccion"));
-                pp.setIdTransaccion(rs.getInt("idTransaccion"));
-                pp.setImporteCaja(rs.getDouble("importeCaja"));
-                pp.setNombreCompleto(rs.getString("nombreCompleto"));
-                pp.setNroTipoTransaccion(rs.getInt("nroTipoTransaccion"));
-                pp.setRazonSocial(rs.getString("razonSocial"));
+                pp.setIdTipoTransaccion(rs.getInt("id_tipo_transaccion"));
+                pp.setIdTransaccion(rs.getInt("id_transaccion"));
+                pp.setImporteCaja(rs.getDouble("importe_caja"));
+                pp.setNombreCompleto(rs.getString("nombre_completo"));
+                pp.setNroTipoTransaccion(rs.getInt("nro_tipo_transaccion"));
+                pp.setRazonSocial(rs.getString("razon_social"));
                 pp.setTelefonos(rs.getString("telefonos"));
-                pp.setValorTotal(rs.getDouble("valorTotal"));
+                pp.setValorTotal(rs.getDouble("valor_total"));
                 
                 lPendientePago.add(pp);
             }
@@ -84,7 +82,7 @@ public class CreditoDAOImpl implements CreditoDAO{
     public ArrayList<Caja> getHistorialPagos(int idTransaccion) {
         ArrayList<Caja> listaHistorialPagos = new ArrayList<Caja>();
         
-        String sql = "select * from caja where idTransaccion = ? order by idTransaccion";
+        String sql = "select * from caja where id_transaccion = ? order by id_transaccion";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTransaccion);
@@ -106,7 +104,7 @@ public class CreditoDAOImpl implements CreditoDAO{
     @Override
     public double getSaldoTransaccion(int idtransaccion) {
         double saldo = 0;
-        String sql = "select * from vPendientePago where idTransaccion = ?";
+        String sql = "select * from v_pendiente_pago where id_transaccion = ?";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idtransaccion);

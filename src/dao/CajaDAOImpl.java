@@ -32,8 +32,8 @@ public class CajaDAOImpl implements CajaDAO{
 
     @Override
     public void insertarCaja(Caja caja) {
-        String sql = "insert into caja(fecha, importe, idTransaccion, nroCobro, "
-                + "nroPago, estado, usuario) "
+        String sql = "insert into caja(fecha, importe, id_transaccion, nro_cobro, "
+                + "nro_pago, estado, usuario) "
                 + "values(?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -54,7 +54,7 @@ public class CajaDAOImpl implements CajaDAO{
     public ArrayList<ListaCaja> getListaCaja(int idArqueo) {
        ArrayList<ListaCaja> listaCaja = new ArrayList<ListaCaja>();
        
-       String sql = "select * from vCaja where idArqueo = ?";
+       String sql = "select * from v_caja where id_arqueo = ?";
        
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -62,12 +62,12 @@ public class CajaDAOImpl implements CajaDAO{
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 ListaCaja lc = new ListaCaja();
-                lc.setDescripcionTransaccion(rs.getString("descripcionTransaccion"));
+                lc.setDescripcionTransaccion(rs.getString("descripcion_transaccion"));
                 lc.setEstado(rs.getString("estado"));
-                lc.setFecha(rs.getDate("fechaCaja"));
-                lc.setIdArqueo(rs.getInt("idArqueo"));
-                lc.setIdTransaccion(rs.getInt("idtransaccion"));
-                lc.setImporteCaja(rs.getDouble("importeCaja"));
+                lc.setFecha(rs.getDate("fecha_caja"));
+                lc.setIdArqueo(rs.getInt("id_arqueo"));
+                lc.setIdTransaccion(rs.getInt("id_transaccion"));
+                lc.setImporteCaja(rs.getDouble("importe_caja"));
                 lc.setMovimiento(rs.getString("movimiento"));
                 
                 listaCaja.add(lc);

@@ -33,8 +33,8 @@ public class TransaccionDAOImpl implements TransaccionDAO{
     public int insertarTransaccion(Transaccion transaccion) {
         int n = 0;
         int idTransaccion = 0;
-        String sql = "insert into transaccion(fecha, idTipoTransaccion, nroTipoTransaccion, idLugar, idTerminal, "
-                + "tipoMovimiento, estado, usuario, descripcionTransaccion) "
+        String sql = "insert into transaccion(fecha, id_tipo_transaccion, nro_tipo_transaccion, id_lugar, id_terminal, "
+                + "tipo_movimiento, estado, usuario, descripcion_transaccion) "
                 + "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
@@ -76,14 +76,14 @@ public class TransaccionDAOImpl implements TransaccionDAO{
     @Override
     public int getNroTipoTransaccion(int idTipoTransaccion) {
         int nro = 0;
-        String sql = "select nroTipoTransaccion from transaccion where idTipoTransaccion = ? "
-                + "order by nroTipoTransaccion DESC LIMIT 1";
+        String sql = "select nro_tipo_transaccion from transaccion where id_tipo_transaccion = ? "
+                + "order by nro_tipo_transaccion DESC LIMIT 1";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTipoTransaccion);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                nro = rs.getInt("nroTipoTransaccion");
+                nro = rs.getInt("nro_tipo_transaccion");
             }
         } catch (SQLException ex) {
             Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,16 +94,16 @@ public class TransaccionDAOImpl implements TransaccionDAO{
 
     @Override
     public int getTipoMovimiento(int idTipoTransaccion) {
-        int tipoMovimiento = 100;
+        int tipoMovimiento = 0;
         
-        String sql = "SELECT tipoMovimiento FROM tipoTransaccion WHERE id = ?";
+        String sql = "SELECT tipo_movimiento FROM tipo_transaccion WHERE id = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTipoTransaccion);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                tipoMovimiento = rs.getInt("tipoMovimiento");
+                tipoMovimiento = rs.getInt("tipo_movimiento");
             }
         } catch (SQLException ex) {
             Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,8 +114,8 @@ public class TransaccionDAOImpl implements TransaccionDAO{
 
     @Override
     public void insertarEntregaTransaccion(int idTransaccion, int idEntregaTransaccion) {
-        String sql = "insert into entregaTransaccion(idEntregaTransaccion, idTransaccion, "
-                + "nroEntrega, nroRecepcion)"
+        String sql = "insert into entrega_transaccion(id_entrega_transaccion, id_transaccion, "
+                + "nro_entrega, nro_recepcion)"
                 + "values(?, ?, 0, 0)";
         
         try {
@@ -133,14 +133,14 @@ public class TransaccionDAOImpl implements TransaccionDAO{
     public double getValorTotalTransaccion(int idTransaccion) {
         double valorTotal = 0;
         
-        String sql = "select valorTotal from vTransaccion where id = ?";
+        String sql = "select valor_total from v_transaccion where id = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTransaccion);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-                valorTotal = rs.getDouble("valorTotal");
+                valorTotal = rs.getDouble("valor_total");
             }
         } catch (SQLException ex) {
             Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

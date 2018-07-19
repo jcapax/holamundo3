@@ -67,7 +67,7 @@ public class TerminalDAOImpl implements TerminalDAO{
 
     @Override
     public void insertarTerminal(Terminal terminal) {
-        String sql = "insert into terminal(id, idLugar, descripcion, usuario) "
+        String sql = "insert into terminal(id, id_lugar, descripcion, usuario) "
                 + "values(?, ?, ?, ?)";
         PreparedStatement ps;
         try {
@@ -85,8 +85,8 @@ public class TerminalDAOImpl implements TerminalDAO{
     @Override
     public ArrayList<Terminal> getListTerminal() {
         ArrayList<Terminal> lTerminal = new ArrayList<>();
-        String sql = "SELECT t.id, t.idLugar, l.descripcion nombreLugar, t.descripcion "
-                + "FROM terminal t join lugar l on t.idLugar = l.id";
+        String sql = "SELECT t.id, t.id_lugar, l.descripcion nombre_lugar, t.descripcion "
+                + "FROM terminal t join lugar l on t.id_lugar = l.id";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -95,8 +95,8 @@ public class TerminalDAOImpl implements TerminalDAO{
                 
                 t.setDescripcion(rs.getString("descripcion"));
                 t.setId(rs.getInt("id"));
-                t.setIdLugar(rs.getInt("idLugar"));
-                t.setNombreLugar(rs.getString("nombreLugar"));
+                t.setIdLugar(rs.getInt("id_lugar"));
+                t.setNombreLugar(rs.getString("nombre_lugar"));
                 
                 lTerminal.add(t);
             }

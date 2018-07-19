@@ -34,7 +34,7 @@ public class RubroDAOImpl implements RubroDAO{
 
     @Override
     public ArrayList<Rubro> getListaRubros() {
-        String sql = "SELECT * FROM rubroproducto";
+        String sql = "SELECT * FROM rubro_producto";
         
         ArrayList<Rubro> lrubro = new ArrayList<Rubro>();
         
@@ -59,7 +59,7 @@ public class RubroDAOImpl implements RubroDAO{
 
     @Override
     public void insertarRubro(Rubro rubro) {
-        String sql = "INSERT INTO `rubroproducto`(`DESCRIPCION`, `USUARIO`) VALUES (?, ?)";
+        String sql = "INSERT INTO `rubro_producto`(`descripcion`, `usuario`) VALUES (?, ?)";
         
         try {
              PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -79,7 +79,7 @@ public class RubroDAOImpl implements RubroDAO{
 
     @Override
     public void eliminarRubro(int id) {
-        String sql = "DELETE FROM rubroproducto WHERE id = ?";
+        String sql = "DELETE FROM rubro_producto WHERE id = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -98,7 +98,7 @@ public class RubroDAOImpl implements RubroDAO{
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         String sql = null;
         
-         sql = "SELECT id, descripcion FROM rubroProducto ORDER BY descripcion";
+         sql = "SELECT id, descripcion FROM rubro_producto ORDER BY descripcion";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

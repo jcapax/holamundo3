@@ -46,9 +46,9 @@ public class ReporteFacturacionDAOImpl implements ReporteFacturacionDAO{
         
         valorTotalLiteral = lit.Convertir(String.valueOf(valorTotal), true);
        
-        parametros.put("idTransaccion", idTransaccion);
-        parametros.put("cadenaQr", cadenaQr);
-        parametros.put("valorTotalLiteral", valorTotalLiteral);
+        parametros.put("id_transaccion", idTransaccion);
+        parametros.put("cadena_qr", cadenaQr);
+        parametros.put("valor_total_literal", valorTotalLiteral);
         
         if(imp==0){
             this.imprimir.vistaPreviaReporte("Factura de Venta", "reporte_factura.jrxml", parametros);

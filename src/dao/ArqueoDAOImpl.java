@@ -31,8 +31,8 @@ public class ArqueoDAOImpl implements ArqueoDAO {
 
     @Override
     public void insertarCajaInicial(Arqueo arqueo) {
-        String sql = "INSERT INTO arqueo(fechaApertura, "
-                + "cajaInicial, Estado, idTerminal, idLugar, usuario) "
+        String sql = "INSERT INTO arqueo(fecha_apertura, "
+                + "caja_inicial, estado, id_terminal, id_lugar, usuario) "
                 + "values(now(), ?, 'A', ?, ?, ?)";
 
         try {
@@ -70,8 +70,8 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     @Override
     public void cerrarArqueo(double importeCierre, int idArqueo) {
         String sql = "update arqueo "
-                + "set importeCierre = " + String.valueOf(importeCierre) + " , estado = 'C', "
-                + "fechaCierre = now() "
+                + "set importe_cierre = " + String.valueOf(importeCierre) + " , estado = 'C', "
+                + "fecha_cierre = now() "
                 + "where id = " + String.valueOf(idArqueo);
 
         try {
@@ -88,14 +88,14 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     public double getCajaInicial(int idArqueo) {
         double cajaInicial = 0;
 
-        String sql = "select cajaInicial from arqueo where id = ?";
+        String sql = "select caja_inicial from arqueo where id = ?";
 
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idArqueo);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                cajaInicial = rs.getDouble("cajaInicial");
+                cajaInicial = rs.getDouble("caja_inicial");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ArqueoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,7 +107,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     public int getIdArqueo(byte idLugar, byte idTerminal, String usuario) {
         int id = 0;
 
-        String sql = "select id from arqueo where idLugar = ? and idTerminal = ? and usuario = ? "
+        String sql = "select id from arqueo where idLugar = ? and id_terminal = ? and usuario = ? "
                 + "and estado = 'A'";
 
         try {
@@ -130,7 +130,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
         ArrayList<Integer> lTrans = new ArrayList<>();
 
         String sql = "select id from transaccion "
-                + "where idLugar = ? and idTerminal = ? and usuario = ? AND estado = 'A'";
+                + "where id_lugar = ? and id_terminal = ? and usuario = ? AND estado = 'A'";
 
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -158,8 +158,8 @@ public class ArqueoDAOImpl implements ArqueoDAO {
                 listaTrans = listaTrans + ", " + String.valueOf(lTrans.get(i));
             }
         }
-        String sql = "update caja set estado = 'C', idArqueo = " + String.valueOf(idArqueo)
-                + " where idTransaccion in (" + listaTrans + ")";
+        String sql = "update caja set estado = 'C', id_arqueo = " + String.valueOf(idArqueo)
+                + " where id_transaccion in (" + listaTrans + ")";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.executeUpdate();
@@ -171,13 +171,13 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     @Override
     public void cerrarCreditoCaja(byte idLugar, byte idTerminal, String usuario, int idArqueo) {
         String sql = "update caja c, transaccion t "
-                + "set c.estado = 'C', idArqueo = ? " 
-                + "where c.idTransaccion = t.id and "
+                + "set c.estado = 'C', id_arqueo = ? " 
+                + "where c.id_transaccion = t.id and "
                 + "c.estado = 'A' and "
-                + "t.idTerminal = ? and "
+                + "t.id_terminal = ? and "
                 + "c.usuario = ? and "
-                + "t.idLugar = ? and "
-                + "c.idTransaccion in(select idTransaccion from credito)";
+                + "t.id_lugar = ? and "
+                + "c.id_transaccion in(select id_transaccion from credito)";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idArqueo);
@@ -203,8 +203,8 @@ public class ArqueoDAOImpl implements ArqueoDAO {
             }
         }
 
-        String sql = "select sum(c.importe * tipoMovimiento) importeTotal "
-                + "from caja c join transaccion t on c.idTransaccion = t.id "
+        String sql = "select sum(c.importe * tipo_movimiento) importe_total "
+                + "from caja c join transaccion t on c.id_transaccion = t.id "
                 + "where t.id in (" + listaTrans + ")";
 
         PreparedStatement ps;
@@ -212,7 +212,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
             ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                importeTotal = rs.getDouble("importeTotal");
+                importeTotal = rs.getDouble("importe_total");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ArqueoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -224,10 +224,10 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     public double getImportePorArqueoUsuarioMaquina(byte idLugar, byte idTerminal, String usuario) {
         double importeTotal = 0;
         
-        String sql = "select sum(c.importe * tipoMovimiento) importeTotal "
-                + "from caja c join transaccion t on c.idTransaccion = t.id "
-                + "where t.idLugar = ? and "
-                + "t.idTerminal = ? and "
+        String sql = "select sum(c.importe * tipo_movimiento) importe_total "
+                + "from caja c join transaccion t on c.id_transaccion = t.id "
+                + "where t.id_lugar = ? and "
+                + "t.id_terminal = ? and "
                 + "c.usuario = ? and c.estado = 'A'";
 
         PreparedStatement ps;
@@ -238,7 +238,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
             ps.setString(3, usuario);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                importeTotal = rs.getDouble("importeTotal");
+                importeTotal = rs.getDouble("importe_total");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ArqueoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,7 +275,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
         ArrayList<Arqueo> listaArqueos = new ArrayList<Arqueo>();
 
         String sql = "select * from arqueo "
-                + "where estado = 'C' and year(fechaCierre) = ? and month(fechaCierre)=? "
+                + "where estado = 'C' and year(fecha_cierre) = ? and month(fecha_cierre)=? "
                 + "order by id desc";
 
         PreparedStatement ps;
@@ -288,13 +288,13 @@ public class ArqueoDAOImpl implements ArqueoDAO {
             while (rs.next()) {
                 Arqueo arq = new Arqueo();
                 arq.setId(rs.getInt("id"));
-                arq.setCajaInicial(rs.getDouble("cajaInicial"));
+                arq.setCajaInicial(rs.getDouble("caja_inicial"));
                 arq.setEstado(rs.getString("estado"));
-                arq.setFechaApertura(rs.getDate("fechaApertura"));
-                arq.setFechaCierre(rs.getDate("fechaCierre"));
-                arq.setIdLugar(rs.getByte("idLugar"));
-                arq.setIdTerminal(rs.getByte("idTerminal"));
-                arq.setImporteCierre(rs.getDouble("importeCierre"));
+                arq.setFechaApertura(rs.getDate("fecha_apertura"));
+                arq.setFechaCierre(rs.getDate("fecha_cierre"));
+                arq.setIdLugar(rs.getByte("id_lugar"));
+                arq.setIdTerminal(rs.getByte("id_terminal"));
+                arq.setImporteCierre(rs.getDouble("importe_cierre"));
                 arq.setUsuario(rs.getString("usuario"));
                 
                 listaArqueos.add(arq);
@@ -307,10 +307,10 @@ public class ArqueoDAOImpl implements ArqueoDAO {
 
     @Override
     public ArrayList<Integer> getListaAnnosArqueos() {
-    String sql = "select year(fechaApertura) anno "
+    String sql = "select year(fecha_apertura) anno "
                 + "from arqueo "
-                + "group by year(fechaApertura) "
-                + "order by year(fechaApertura) desc";
+                + "group by year(fecha_apertura) "
+                + "order by year(fecha_apertura) desc";
         ArrayList<Integer> lanno = new ArrayList<>();
         
         try {

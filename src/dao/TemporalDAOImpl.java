@@ -32,9 +32,9 @@ public class TemporalDAOImpl implements TemporalDAO{
     @Override
     public void insertarProductoTemp(Temporal detTransTemp) {
         
-        String sql = "INSERT INTO detalleTransaccionTemp("
-                + "idProducto, nombreProducto, idUnidadMedida, simbolo, "
-                + "cantidad, valorUnitario, valorTotal, tipoValor) "
+        String sql = "INSERT INTO detalle_transaccion_temp("
+                + "id_producto, nombre_producto, id_unidad_medida, simbolo, "
+                + "cantidad, valor_unitario, valor_total, tipo_valor) "
                 + "values(?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
@@ -61,8 +61,8 @@ public class TemporalDAOImpl implements TemporalDAO{
     @Override
     public void eliminarProdcutoTemp(int idProducto, int idUnidadMedida) {
         
-        String sql = "delete from detalleTransaccionTemp "
-                + "where idProducto = ? and idUnidadMedida = ?";
+        String sql = "delete from detalle_transaccion_temp "
+                + "where id_producto = ? and id_unidad_medida = ?";
         
         try {
             PreparedStatement ps = sqlite.prepareStatement(sql);
@@ -81,7 +81,7 @@ public class TemporalDAOImpl implements TemporalDAO{
 
     @Override
     public void vaciarProductoTemp() {
-        String sqlVaciarDetTransTemp = "delete from detalleTransaccionTemp";
+        String sqlVaciarDetTransTemp = "delete from detalle_transaccion_temp";
         
         PreparedStatement ps;
         try {
@@ -96,7 +96,7 @@ public class TemporalDAOImpl implements TemporalDAO{
 
     @Override
     public ArrayList<Temporal> getListaTemporal() {
-        String sql = "SELECT * FROM detalleTransaccionTemp";
+        String sql = "SELECT * FROM detalle_transaccion_temp";
         
         ArrayList<Temporal> lTemporal = new ArrayList<Temporal>();
         
@@ -107,13 +107,13 @@ public class TemporalDAOImpl implements TemporalDAO{
                 Temporal temporal = new Temporal();
                 
                 temporal.setCantidad(rs.getDouble("cantidad"));
-                temporal.setIdProducto(rs.getInt("idProducto"));
-                temporal.setIdUnidadMedida(rs.getInt("idUnidadMedida"));
-                temporal.setNombreProducto(rs.getString("nombreProducto"));
+                temporal.setIdProducto(rs.getInt("id_producto"));
+                temporal.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
+                temporal.setNombreProducto(rs.getString("nombre_producto"));
                 temporal.setSimbolo(rs.getString("simbolo"));
-                temporal.setTipoValor(rs.getString("tipoValor"));
-                temporal.setValorTotal(rs.getDouble("valorTotal"));
-                temporal.setValorUnitario(rs.getDouble("valorUnitario"));
+                temporal.setTipoValor(rs.getString("tipo_valor"));
+                temporal.setValorTotal(rs.getDouble("valor_total"));
+                temporal.setValorUnitario(rs.getDouble("valor_unitario"));
                 
                 lTemporal.add(temporal);
             }
@@ -129,14 +129,14 @@ public class TemporalDAOImpl implements TemporalDAO{
     public double totalProductosTemp() {
         double importeTotal = 0;
         
-        String sql = "select sum(valorTotal) as totalTemp from detalleTransaccionTemp";
+        String sql = "select sum(valor_total) as total_temp from detalle_transaccion_temp";
         
         PreparedStatement pst;
         try {
             pst = sqlite.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while(rs.next()){
-                importeTotal = rs.getDouble("totalTemp");
+                importeTotal = rs.getDouble("total_temp");
             }
         } catch (SQLException ex) {
             Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

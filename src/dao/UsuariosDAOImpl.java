@@ -43,16 +43,16 @@ public class UsuariosDAOImpl implements UsuariosDAO {
                 for (Map<String, Object> resp : respuesta) {
                     Usuario usuario = new Usuario();
                     usuario.setLogin(resp.get("login").toString());
-                    usuario.setNombres(resp.get("NOMBRES").toString());
-                    usuario.setApellidos(resp.get("APELLIDOS").toString());
-                    usuario.setDireccion(resp.get("DIRECCION").toString());
-                    usuario.setTelefono(resp.get("TELEFONO").toString());
+                    usuario.setNombres(resp.get("nombres").toString());
+                    usuario.setApellidos(resp.get("apellidos").toString());
+                    usuario.setDireccion(resp.get("direccion").toString());
+                    usuario.setTelefono(resp.get("telefono").toString());
                     //usuario.setTelCelular(resp.get("CELULAR").toString());                    
-                    usuario.setContrasenia(resp.get("PASS").toString());
-                    usuario.setRol(resp.get("ROL").toString());
+                    usuario.setContrasenia(resp.get("pass").toString());
+                    usuario.setRol(resp.get("rol").toString());
                     //usuario.setFechaHoraRegistro(resp.get("FECHAHORAREGISTRO").toString());
                     //usuario.setEstado(resp.get("ESTADO").toString());
-                    usuario.setUsuarioRegistro(resp.get("USUARIOREGISTRO").toString());
+                    usuario.setUsuarioRegistro(resp.get("usuario_registro").toString());
 
                     listaUsuarios.add(usuario);
                 }

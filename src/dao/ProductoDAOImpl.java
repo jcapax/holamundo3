@@ -33,7 +33,7 @@ public class ProductoDAOImpl implements ProductoDAO{
     
     @Override
     public ArrayList<ListaProductos> getListaProductos() {
-        String sql = "SELECT * FROM vproductos";
+        String sql = "SELECT * FROM v_productos";
         
         ArrayList<ListaProductos> lproducto = new ArrayList<ListaProductos>();
         
@@ -43,25 +43,25 @@ public class ProductoDAOImpl implements ProductoDAO{
             while(rs.next()){
                 ListaProductos lProd = new ListaProductos();
                 
-                lProd.setId(rs.getInt("idProducto"));
+                lProd.setId(rs.getInt("id_producto"));
                 lProd.setACTUALIZACION(rs.getInt("actualizacion"));
-                lProd.setControlStock(rs.getInt("controlStock"));
+                lProd.setControlStock(rs.getInt("control_stock"));
                 lProd.setDescripcion(rs.getString("descripcion"));
                 lProd.setEstado(rs.getString("estado"));
-                lProd.setIDUNIDADMEDIDA(rs.getInt("idUnidadMedida"));
-                lProd.setIdMarca(rs.getInt("idMarca"));
-                lProd.setIdProcedencia(rs.getInt("idProcedencia"));
-                lProd.setIdRubroProducto(rs.getInt("idRubroProducto"));
+                lProd.setIDUNIDADMEDIDA(rs.getInt("id_unidad_medida"));
+                lProd.setIdMarca(rs.getInt("id_marca"));
+                lProd.setIdProcedencia(rs.getInt("id_procedencia"));
+                lProd.setIdRubroProducto(rs.getInt("id_rubro_producto"));
                 lProd.setMarca(rs.getString("marca"));
-                lProd.setNombreUnidadMedida(rs.getString("nombreUnidadMedida"));
-                lProd.setPRECIOCOMPRA(rs.getDouble("precioCompra"));
-                lProd.setPRECIOVENTA(rs.getDouble("precioVenta"));
-                lProd.setPRECIOVENTAAUMENTO(rs.getDouble("precioVentaAumento"));
-                lProd.setPRECIOVENTAREBAJA(rs.getDouble("precioVentaRebaja"));
+                lProd.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
+                lProd.setPRECIOCOMPRA(rs.getDouble("precio_compra"));
+                lProd.setPRECIOVENTA(rs.getDouble("precio_venta"));
+                lProd.setPRECIOVENTAAUMENTO(rs.getDouble("precio_venta_aumento"));
+                lProd.setPRECIOVENTAREBAJA(rs.getDouble("precio_venta_rebaja"));
                 lProd.setProcedencia(rs.getString("procedencia"));
                 lProd.setRubro(rs.getString("rubro"));
-                lProd.setSTOCKMINIMO(rs.getDouble("stockMinimo"));
-                lProd.setUNIDADPRINCIPAL(rs.getInt("unidadPrincipal"));
+                lProd.setSTOCKMINIMO(rs.getDouble("stock_minimo"));
+                lProd.setUNIDADPRINCIPAL(rs.getInt("unidad_principal"));
                 
                 lproducto.add(lProd);
             }

@@ -33,7 +33,7 @@ public class UnidadMedidaDAOImpl implements UnidadMedidaDAO{
     }
     @Override
     public ArrayList<UnidadMedida> getListUnidadMedida() {
-        String sql = "SELECT * FROM unidadmedida";
+        String sql = "SELECT * FROM unidad_medida";
         
         ArrayList<UnidadMedida> lunimed = new ArrayList<UnidadMedida>();
         
@@ -60,7 +60,7 @@ public class UnidadMedidaDAOImpl implements UnidadMedidaDAO{
 
     @Override
     public void insertarUnidadMedida(UnidadMedida uMedida) {
-        String sql = "INSERT INTO unidadMedida(DESCRIPCION, SIMBOLO, USUARIO) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO unidad_medida(descripcion, simbolo, usuario) VALUES (?, ?, ?)";
         
         try {
              PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -81,7 +81,7 @@ public class UnidadMedidaDAOImpl implements UnidadMedidaDAO{
 
     @Override
     public void eliminarUnidadMedida(int id) {
-        String sql = "DELETE FROM unidadMedida WHERE id = ?";
+        String sql = "DELETE FROM unidad_medida WHERE id = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -99,7 +99,7 @@ public class UnidadMedidaDAOImpl implements UnidadMedidaDAO{
     public HashMap<String, Integer> unidadMedidaClaveValor() {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         
-        String sql = "SELECT id, descripcion FROM unidadMedida ORDER BY simbolo";
+        String sql = "SELECT id, descripcion FROM unidad_medida ORDER BY simbolo";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

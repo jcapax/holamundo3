@@ -34,8 +34,8 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
     public ArrayList<IngresoEgreso> getListaCuentasIngresoEgreso(String tipoCuenta) {
         ArrayList<IngresoEgreso> listaCuentas = new ArrayList<IngresoEgreso>();
         
-        String sql = "select id, claseProducto, descripcion, tipoCuenta "
-                + "from producto where estado = 'V' and tipoCuenta in('A', '"+tipoCuenta+"')";
+        String sql = "select id, clase_producto, descripcion, tipo_cuenta "
+                + "from producto where estado = 'V' and tipo_cuenta in('A', '"+tipoCuenta+"')";
         
 //        System.out.println(sql);
         
@@ -46,10 +46,10 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
             while(rs.next()){
                 IngresoEgreso cie = new IngresoEgreso();
                 
-                cie.setClaseProducto(rs.getString("claseProducto"));
+                cie.setClaseProducto(rs.getString("clase_producto"));
                 cie.setDescripcion(rs.getString("descripcion"));
                 cie.setIdProducto(rs.getInt("id"));
-                cie.setTipoCuenta(rs.getString("tipoCuenta"));
+                cie.setTipoCuenta(rs.getString("tipo_cuenta"));
                 
                 listaCuentas.add(cie);
             }
@@ -61,7 +61,7 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
 
     @Override
     public void registrarNuevaCuenta(String nombreCuenta, String idTipoCuenta) {
-        String sql = "insert into producto(claseProducto, descripcion, tipoCuenta, estado) "
+        String sql = "insert into producto(clase_producto, descripcion, tipo_cuenta, estado) "
                 + "values('M', ?, ?, 'V')";
         
         try {

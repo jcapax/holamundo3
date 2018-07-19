@@ -65,7 +65,7 @@ public class SistemaDAOImpl implements SistemaDAO {
                             "ruta_destino_archivos_pdf, " +
                             "solo_guadar_archivos_pdf, " +
                             "ruta_programas_pg," +
-                            "rutaExcel, tiempoAnulacionTransaccion, impresionDirectaFactura " +
+                            "rutaExcel, tiempo_anulacion_transaccion, impresion_directa_factura " +
                             "FROM configuraciones;";
         
         ResultSet rs = stmt.executeQuery(query);
@@ -77,9 +77,9 @@ public class SistemaDAOImpl implements SistemaDAO {
            configuracion.setRutaDestinoArchivosPDF(rs.getString("ruta_destino_archivos_pdf"));
            configuracion.setSoloGuadarArchivosPDF(rs.getBoolean("solo_guadar_archivos_pdf"));
            configuracion.setRutaProgramasPG(rs.getString("ruta_programas_pg"));
-           configuracion.setRutaExcel(rs.getString("rutaExcel"));
-           configuracion.setTiempoAnulacionTransaccion(rs.getInt("tiempoAnulacionTransaccion"));
-           configuracion.setImpresionDirectaFactura(rs.getInt("impresionDirectaFactura"));
+           configuracion.setRutaExcel(rs.getString("ruta_excel"));
+           configuracion.setTiempoAnulacionTransaccion(rs.getInt("tiempo_anulacion_transaccion"));
+           configuracion.setImpresionDirectaFactura(rs.getInt("impresion_directa_factura"));
         }
         rs.close();
 
@@ -104,9 +104,9 @@ public class SistemaDAOImpl implements SistemaDAO {
                         "ruta_destino_archivos_pdf = \""+ configuracion.getRutaDestinoArchivosPDF() + "\", " + 
                         "solo_guadar_archivos_pdf = "+ configuracion.getSoloGuadarArchivosPDF() + ", " +
                         "ruta_programas_pg = \"" + configuracion.getRutaProgramasPG() + "\", " +
-                        "rutaExcel = \"" + configuracion.getRutaExcel() + "\" ," +
-                        "tiempoAnulacionTransaccion = \"" + configuracion.getTiempoAnulacionTransaccion() + "\", " +
-                        "impresionDirectaFactura = \"" + configuracion.getImpresionDirectaFactura() + "\" " +
+                        "ruta_excel = \"" + configuracion.getRutaExcel() + "\" ," +
+                        "tiempo_anulacion_transaccion = \"" + configuracion.getTiempoAnulacionTransaccion() + "\", " +
+                        "impresion_directa_factura = \"" + configuracion.getImpresionDirectaFactura() + "\" " +
                     
                     "WHERE id_configuracion = " + configuracion.getIdConfiguracion();
             ps = connectionDB.prepareStatement(sql);
@@ -117,9 +117,9 @@ public class SistemaDAOImpl implements SistemaDAO {
                         "ruta_destino_archivos_pdf, " +
                         "solo_guadar_archivos_pdf, " +
                         "ruta_programas_pg, " +
-                        "rutaExcel, " +
-                        "tiempoAnulacionTransaccion, " +
-                        "impresionDirectaFactura) " +
+                        "ruta_excel, " +
+                        "tiempo_anulacion_transaccion, " +
+                        "impresion_directa_factura) " +
                     "VALUES (\"" + configuracion.getRutaVisorPdf() + "\", " +
                             "\"" + configuracion.getRutaDestinoArchivosPDF() + "\", " +
                             configuracion.getSoloGuadarArchivosPDF() + ","+

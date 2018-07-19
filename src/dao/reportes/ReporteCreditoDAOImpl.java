@@ -31,7 +31,7 @@ public class ReporteCreditoDAOImpl implements ReporteCreditoDAO{
     public void vistaPreviaPagoCredito(int idTransaccion) {
         Map parametros = new HashMap<>();
         
-        parametros.put("idTransaccion", idTransaccion);
+        parametros.put("id_transaccion", idTransaccion);
         
         this.imprimir.vistaPreviaReporte("Reporte Pago Credito", "reporte_pago_credito.jrxml", parametros);
     }
@@ -40,7 +40,7 @@ public class ReporteCreditoDAOImpl implements ReporteCreditoDAO{
     public void vistaPreviaCredito(int idTransaccion) {
         Map parametros = new HashMap<>();
         
-        parametros.put("idTransaccion", idTransaccion);
+        parametros.put("id_transaccion", idTransaccion);
         
         this.imprimir.vistaPreviaReporte("Reporte Pago Credito", "reporte_credito.jrxml", parametros);
     }

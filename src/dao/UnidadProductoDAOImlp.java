@@ -31,7 +31,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     
     @Override
     public ArrayList<UnidadProducto> getListaUnidadProducto(int idProducto) {
-        String sql = "SELECT * FROM vproductos WHERE idProducto = " + String.valueOf(idProducto);
+        String sql = "SELECT * FROM v_productos WHERE id_producto = " + String.valueOf(idProducto);
         
         ArrayList<UnidadProducto> lUnidadProducto = new ArrayList<UnidadProducto>();
         
@@ -41,17 +41,17 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 UnidadProducto uProd = new UnidadProducto();
-                uProd.setId(rs.getInt("idUnidadProducto"));
-                uProd.setIdProdcuto(rs.getInt("idProducto"));
-                uProd.setIdUnidadMedida(rs.getInt("idUnidadMedida"));
-                uProd.setNombreUnidadMedida(rs.getString("nombreUnidadMedida"));
-                uProd.setNombreUnidadPrincipal(rs.getString("nombreUnidadPrincipal"));
-                uProd.setPrecioCompra(rs.getDouble("precioCompra"));
-                uProd.setPrecioVenta(rs.getDouble("precioVenta"));
-                uProd.setPrecioVentaAumento(rs.getDouble("precioVentaAumento"));
-                uProd.setPrecioVentaRebaja(rs.getDouble("precioVentaRebaja"));
-                uProd.setStockMinimo(rs.getDouble("stockMinimo"));
-                uProd.setUnidadPrincipal(rs.getInt("unidadPrincipal"));
+                uProd.setId(rs.getInt("id_unidad_producto"));
+                uProd.setIdProdcuto(rs.getInt("id_producto"));
+                uProd.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
+                uProd.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
+                uProd.setNombreUnidadPrincipal(rs.getString("nombre_unidad_principal"));
+                uProd.setPrecioCompra(rs.getDouble("precio_compra"));
+                uProd.setPrecioVenta(rs.getDouble("precio_venta"));
+                uProd.setPrecioVentaAumento(rs.getDouble("precio_venta_aumento"));
+                uProd.setPrecioVentaRebaja(rs.getDouble("precio_venta_rebaja"));
+                uProd.setStockMinimo(rs.getDouble("stock_minimo"));
+                uProd.setUnidadPrincipal(rs.getInt("unidad_principal"));
                 
                 lUnidadProducto.add(uProd);
             }
@@ -65,9 +65,9 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     
     @Override
     public void insertarUnidadProducto(UnidadProducto unidadProducto) {
-        String sql = "INSERT INTO unidadproducto"
-                + "(IDPRODUCTO, IDUNIDADMEDIDA, UNIDADPRINCIPAL, STOCKMINIMO, PRECIOVENTA, "
-                + "PRECIOVENTAREBAJA, PRECIOVENTAAUMENTO, PRECIOCOMPRA, ACTUALIZACION, USUARIO) "
+        String sql = "INSERT INTO unidad_producto"
+                + "(id_producto, id_unidad_medida, unidad_principal, stock_minimo, precio_venta, "
+                + "precio_venta_rebaja, precio_venta_aumento, precio_compra, actualizacion, usuario) "
                 + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
@@ -97,7 +97,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     
     @Override
     public void eliminarUnidadProducto(int idUnidadProducto) {
-        String sql = "DELETE FROM unidadProducto WHERE id = ?";
+        String sql = "DELETE FROM unidad_producto WHERE id = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -122,7 +122,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     @Override
     public double getStockProducto(int idProducto, int idUnidadMedida, int idLugar) {
         double stockProducto = 0;
-        String sql = "select stock from vStock where idProducto = ? and idUnidadMedida = ? and idLugar = ?";
+        String sql = "select stock from v_stock where id_producto = ? and id_unidad_medida = ? and id_lugar = ?";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idProducto);
@@ -142,10 +142,10 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     
     @Override
     public void editarUnidadProducto(UnidadProducto unidadProducto) {
-        String sql = "update unidadProducto "
-                + "set idUnidadMedida = ?, unidadPrincipal = ?, stockMinimo = ?, "
-                + "precioVenta = ?, precioVentaRebaja = ?, "
-                + "precioVentaAumento = ?, precioCompra = ?, usuario = ? "
+        String sql = "update unidad_producto "
+                + "set id_unidad_medida = ?, unidad_principal = ?, stock_minimo = ?, "
+                + "precio_venta = ?, precio_venta_rebaja = ?, "
+                + "precio_venta_aumento = ?, precio_compra = ?, usuario = ? "
                 + "where id = ?";
         
         try {

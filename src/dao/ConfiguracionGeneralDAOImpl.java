@@ -41,8 +41,8 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
             while (rs.next()) {
                 ConfiguracionGeneral cf = new ConfiguracionGeneral();
                 
-                cf.setRutaExcel(rs.getString("rutaExcel"));
-                cf.setTiempoAnulacionTransaccion(rs.getInt("tiempoAnulacionTransaccion"));
+                cf.setRutaExcel(rs.getString("ruta_excel"));
+                cf.setTiempoAnulacionTransaccion(rs.getInt("tiempo_anulacion_transaccion"));
                 
                 listaConf.add(cf);
             }
@@ -56,13 +56,13 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
     @Override
     public String getRutaExcelLibroVentas() {
         String ruta = null;
-        String sql = "select rutaExcel from configuracion";
+        String sql = "select ruta_excel from configuracion";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ruta = rs.getString("rutaExcel");
+                ruta = rs.getString("ruta_excel");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionGeneralDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,13 +73,13 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
     @Override
     public int getNroDiasNullTransaccion() {
         int nro = 0;
-        String sql = "select tiempoAnulacionTransaccion from configuracion";
+        String sql = "select tiempo_anulacion_transaccion from configuracion";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                nro = rs.getInt("tiempoAnulacionTransaccion");
+                nro = rs.getInt("tiempo_anulacion_transaccion");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionGeneralDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,13 +90,13 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
     @Override
     public int getImpresionDirectaFactura() {
         int impDirec= 0;
-        String sql = "select impresionDirectaFactura from configuracion";
+        String sql = "select impresion_directa_factura from configuracion";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                impDirec = rs.getInt("impresionDirectaFactura");
+                impDirec = rs.getInt("impresion_directa_factura");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionGeneralDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

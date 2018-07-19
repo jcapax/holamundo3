@@ -32,10 +32,10 @@ public class FacturaDAOImpl implements FacturaDAO{
 
     @Override
     public ArrayList<Integer> getListaAnnosFacturacion() {
-        String sql = "select year(fechaFactura) anno "
-                + "from facturaVenta "
-                + "group by year(fechaFactura) "
-                + "order by year(fechaFactura) desc";
+        String sql = "select year(fecha_factura) anno "
+                + "from factura_venta "
+                + "group by year(fecha_factura) "
+                + "order by year(fecha_factura) desc";
         ArrayList<Integer> lanno = new ArrayList<>();
         
         try {
@@ -56,8 +56,8 @@ public class FacturaDAOImpl implements FacturaDAO{
     public ArrayList<FacturaVenta> getListaFacturasLibroVenta(byte mes, int anno) {
         ArrayList<FacturaVenta> lFactura = new ArrayList<FacturaVenta>();
         
-        String sql = "select * from facturaVenta "
-                + "where year(fechaFactura) = ? and month(fechaFactura) = ?";
+        String sql = "select * from factura_venta "
+                + "where year(fecha_factura) = ? and month(fecha_factura) = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -67,27 +67,27 @@ public class FacturaDAOImpl implements FacturaDAO{
             while(rs.next()){
                 FacturaVenta fv = new FacturaVenta();
                 
-                fv.setCodigoControl(rs.getString("codigoControl"));
-                fv.setCorrelativoSucursal(rs.getInt("correlativoSucursal"));
-                fv.setDebitoFiscal(rs.getDouble("debitoFiscal"));
+                fv.setCodigoControl(rs.getString("codigo_control"));
+                fv.setCorrelativoSucursal(rs.getInt("correlativo_sucursal"));
+                fv.setDebitoFiscal(rs.getDouble("debito_fiscal"));
                 fv.setEspecificacion(rs.getInt("especificacion"));
                 fv.setEstado(rs.getString("estado"));
-                fv.setFechaFactura(rs.getDate("fechaFactura"));
-                fv.setFechaLimiteEmision(rs.getDate("fechaLimiteEmision"));
-                fv.setIdDosificacion(rs.getInt("idDosificacion"));
-                fv.setIdSucursal(rs.getInt("idSucursal"));
-                fv.setIdTransaccion(rs.getInt("idtransaccion"));
-                fv.setImporteBaseDebitoFiscal(rs.getDouble("importeBaseDebitoFiscal"));
-                fv.setImporteExportaciones(rs.getDouble("importeExportaciones"));
-                fv.setImporteIce(rs.getDouble("importeICE"));
-                fv.setImporteRebajas(rs.getDouble("importeRebajas"));
-                fv.setImporteSubtotal(rs.getDouble("importeSubTotal"));
-                fv.setImporteTotal(rs.getDouble("importeTotal"));
-                fv.setImporteVentasTasaCero(rs.getDouble("importeVentasTasaCero"));
+                fv.setFechaFactura(rs.getDate("fecha_factura"));
+                fv.setFechaLimiteEmision(rs.getDate("fecha_limite_emision"));
+                fv.setIdDosificacion(rs.getInt("id_dosificacion"));
+                fv.setIdSucursal(rs.getInt("id_sucursal"));
+                fv.setIdTransaccion(rs.getInt("id_transaccion"));
+                fv.setImporteBaseDebitoFiscal(rs.getDouble("importe_base_debito_fiscal"));
+                fv.setImporteExportaciones(rs.getDouble("importe_exportaciones"));
+                fv.setImporteIce(rs.getDouble("importe_ice"));
+                fv.setImporteRebajas(rs.getDouble("importe_rebajas"));
+                fv.setImporteSubtotal(rs.getDouble("importe_sub_total"));
+                fv.setImporteTotal(rs.getDouble("importe_total"));
+                fv.setImporteVentasTasaCero(rs.getDouble("importe_ventas_tasa_cero"));
                 fv.setNit(rs.getString("nit"));
-                fv.setNroAutorizacion(rs.getString("nroAutorizacion"));
-                fv.setNroFactura(rs.getInt("nroFactura"));
-                fv.setRazonSocial(rs.getString("razonSocial"));
+                fv.setNroAutorizacion(rs.getString("nro_autorizacion"));
+                fv.setNroFactura(rs.getInt("nro_factura"));
+                fv.setRazonSocial(rs.getString("razon_social"));
                 
                 lFactura.add(fv);
             }
@@ -103,23 +103,23 @@ public class FacturaDAOImpl implements FacturaDAO{
     public ArrayList<PendientePago> getListaCreditoPorFacturar() {
         ArrayList<PendientePago> listaCreditoProFacturar = new ArrayList<PendientePago>();
         
-        String sql = "select idTransaccion, fecha, nroTipoTransaccion, ImporteCaja, valorTotal, diferencia, "
-                + "detalle, cedulaIdentidad, nit, nombreCompleto, razonSocial "
-                + "from vpagocredito "
+        String sql = "select id_transaccion, fecha, nro_tipo_transaccion, importe_caja, valor_total, diferencia, "
+                + "detalle, cedula_identidad, nit, nombre_completo, razon_social "
+                + "from v_pago_credito "
                 + "where diferencia = 0 and "
-                + "idTransaccion not in (select idTransaccion from facturaventa)";        
+                + "id_transaccion not in (select id_transaccion from factura_venta)";        
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 PendientePago pp = new PendientePago();
                 
-                pp.setIdTransaccion(rs.getInt("idTransaccion"));
+                pp.setIdTransaccion(rs.getInt("id_transaccion"));
                 pp.setFecha(rs.getDate("fecha"));
-                pp.setValorTotal(rs.getDouble("valorTotal"));
+                pp.setValorTotal(rs.getDouble("valor_total"));
                 pp.setDetalle(rs.getString("detalle"));
-                pp.setNombreCompleto(rs.getString("nombreCompleto"));
-                pp.setRazonSocial(rs.getString("razonSocial"));
+                pp.setNombreCompleto(rs.getString("nombre_completo"));
+                pp.setRazonSocial(rs.getString("razon_social"));
                 
                 listaCreditoProFacturar.add(pp);
             }
@@ -136,7 +136,7 @@ public class FacturaDAOImpl implements FacturaDAO{
     public int getIdTransacion(int nroFactura, String Autorizacion) {
         int idtransaccion = 0;
         
-        String sql = "select idTransaccion from facturaventa where nroFactura = ? and nroAutorizacion = ?";
+        String sql = "select id_transaccion from factura_venta where nro_factura = ? and nro_autorizacion = ?";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
@@ -144,7 +144,7 @@ public class FacturaDAOImpl implements FacturaDAO{
             ps.setString(2, Autorizacion);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                idtransaccion = rs.getInt("idTransaccion");
+                idtransaccion = rs.getInt("id_transaccion");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,14 +156,14 @@ public class FacturaDAOImpl implements FacturaDAO{
     public double getImporteTotal(int idTransaccion) {
         double importeTotal = 0;
         
-        String sql = "select importeTotal from facturaventa where idtransaccion = ?";
+        String sql = "select importe_total from factura_venta where id_transaccion = ?";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTransaccion);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                importeTotal = rs.getInt("importeTotal");
+                importeTotal = rs.getInt("importe_total");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

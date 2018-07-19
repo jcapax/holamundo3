@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +34,7 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
 
     @Override
     public ArrayList<ClienteProveedor> getListaClienteProveedor(String tipo) {
-        String sql = "SELECT * FROM clienteProveedor where tipo = ?";
+        String sql = "SELECT * FROM cliente_proveedor where tipo = ?";
         
         ArrayList<ClienteProveedor> cliPro = new ArrayList<ClienteProveedor>();
         
@@ -47,14 +46,14 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
             while(rs.next()){
                 ClienteProveedor cp = new ClienteProveedor();
                 
-                cp.setCedulaIdentidad(rs.getString("cedulaIdentidad"));
+                cp.setCedulaIdentidad(rs.getString("cedula_identidad"));
                 cp.setDireccion(rs.getString("direccion"));
                 cp.setEstado(rs.getString("estado"));
                 cp.setId(rs.getInt("id"));
                 cp.setNit(rs.getString("nit"));
-                cp.setNombreCompleto(rs.getString("nombreCompleto"));
-                cp.setOtrosDatos(rs.getString("otrosDatos"));
-                cp.setRazonSocial(rs.getString("razonSocial"));
+                cp.setNombreCompleto(rs.getString("nombre_completo"));
+                cp.setOtrosDatos(rs.getString("otros_datos"));
+                cp.setRazonSocial(rs.getString("razon_social"));
                 cp.setTelefonos(rs.getString("telefonos"));
                 cp.setTipo(rs.getString("tipo"));               
                 
@@ -71,9 +70,9 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
     @Override
     public void insertarClienteProveedor(ClienteProveedor clienteProveedor) {
         try {
-            String sql = "insert into clienteProveedor("
-                    + "tipo, cedulaIdentidad, nombreCompleto, razonSocial, "
-                    + "nit, direccion, telefonos, otrosDatos, estado) "
+            String sql = "insert into cliente_proveedor("
+                    + "tipo, cedula_identidad, nombre_completo, razon_social, "
+                    + "nit, direccion, telefonos, otros_datos, estado) "
                     + "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setString(1, clienteProveedor.getTipo());
@@ -98,7 +97,7 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
 
     @Override
     public void eliminarClienteProveedor(int idCliente) {
-        String sql = "delete from clienteProveedor where id = ?";
+        String sql = "delete from cliente_proveedor where id = ?";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
@@ -111,10 +110,10 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
 
     @Override
     public void actualizarClienteProveedor(ClienteProveedor clienteProveedor) {
-        String sql = "update clienteProveedor "
-                + "set cedulaIdentidad = ?, nombreCompleto = ?, "
-                + "razonSocial = ?, nit = ?, direccion = ?, "
-                + "telefonos = ?, otrosDatos = ?, estado = ? "
+        String sql = "update cliente_proveedor "
+                + "set cedula_identidad = ?, nombre_completo = ?, "
+                + "razon_social = ?, nit = ?, direccion = ?, "
+                + "telefonos = ?, otros_datos = ?, estado = ? "
                 + "where id = ?";
         
         try {
@@ -145,7 +144,7 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
         TreeMap<String, Integer> map = new TreeMap<String, Integer>();
         String sql = null;
         
-         sql = "SELECT * FROM clienteProveedor WHERE tipo = '"+tipo+"' ORDER BY razonSocial, nombreCompleto";
+         sql = "SELECT * FROM cliente_proveedor WHERE tipo = '"+tipo+"' ORDER BY razon_social, nombre_completo";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -157,8 +156,8 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
             
             while(rs.next()){
                 ClienteProveedor cp = new ClienteProveedor(); 
-                nombreCompleto = rs.getString("nombreCompleto");
-                razonSocial = rs.getString("razonSocial");
+                nombreCompleto = rs.getString("nombre_completo");
+                razonSocial = rs.getString("razon_social");
                 
                 if(razonSocial.equals("")){
                     descripcion = nombreCompleto;

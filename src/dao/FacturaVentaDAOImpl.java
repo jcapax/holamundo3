@@ -33,11 +33,11 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
 
     @Override
     public void insertarFacturaVenta(FacturaVenta facturaVenta) {
-        String sql = "insert into facturaVenta(idSucursal, especificacion, correlativoSucursal, "
-                + "fechaFactura, nroFactura, nroAutorizacion, estado, nit, razonSocial, "
-                + "importeTotal, importeIce, importeExportaciones, importeVentasTasaCero, "
-                + "importeSubtotal, importeRebajas, importeBaseDebitoFiscal, debitoFiscal, "
-                + "codigoControl, idTransaccion, fechaLimiteEmision, idDosificacion) "
+        String sql = "insert into factura_venta(id_sucursal, especificacion, correlativo_sucursal, "
+                + "fecha_factura, nro_factura, nro_autorizacion, estado, nit, razon_social, "
+                + "importe_total, importe_ice, importe_exportaciones, importe_ventas_tasa_cero, "
+                + "importe_sub_total, importe_rebajas, importe_base_debito_fiscal, debito_fiscal, "
+                + "codigo_control, id_transaccion, fecha_limite_emision, id_dosificacion) "
                 + "values(?, ?, ?, ?, ?, ?, ?,"
                       + " ?, ?, ?, ?, ?, ?, ?, "
                        + "?, ?, ?, ?, ?, ?, ?)";
@@ -77,7 +77,7 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
     @Override
     public String getNroAutorizacion(int idSucursal) {
         String nroAutorizacion = null;
-        String sql = "select nroAutorizacion from dosificacion where estado = 1";
+        String sql = "select nro_autorizacion from dosificacion where estado = 1";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -95,14 +95,14 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
     @Override
     public String getLlaveDosificacion(String nroAutorizacion) {
         String llaveDosificacion = null;
-        String sql = "select llaveDosificacion from dosificacion where nroAutorizacion = ?";
+        String sql = "select llave_dosificacion from dosificacion where nro_autorizacion = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setString(1, nroAutorizacion);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                llaveDosificacion = rs.getString("llaveDosificacion");
+                llaveDosificacion = rs.getString("llave_dosificacion");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaVentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,13 +115,13 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
     public int getNewNroFactura(String nroAutorizacion) {
         int nroFactura = 0;
         
-        String sql = "select nroFactura from facturaVenta where nroAutorizacion = ? order by nroFactura desc limit 1";
+        String sql = "select nro_factura from factura_venta where nro_autorizacion = ? order by nro_factura desc limit 1";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setString(1, nroAutorizacion);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                nroFactura = rs.getInt("nroFactura");
+                nroFactura = rs.getInt("nro_factura");
                 nroFactura++;
             }
         } catch (SQLException ex) {
@@ -136,14 +136,14 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
     @Override
     public int getNroInicioFacturaDosificacion(String nroAutorizacion) {
         int nroInicioFactura = 0;
-        String sql = "select nroInicioFactura from dosificacion where nroAutorizacion = ?";
+        String sql = "select nro_inicio_factura from dosificacion where nro_autorizacion = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setString(1, nroAutorizacion);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                nroInicioFactura = rs.getInt("nroInicioFactura");
+                nroInicioFactura = rs.getInt("nro_inicio_factura");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaVentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,14 +155,14 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
     @Override
     public Date getFechaLimiteEmision(String nroAutorizacion) {
         Date fechaLimiteEmision=null;
-        String sql = "select fechaLimiteEmision from dosificacion where nroAutorizacion = ?";
+        String sql = "select fecha_limite_emision from dosificacion where nro_autorizacion = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setString(1, nroAutorizacion);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                fechaLimiteEmision = rs.getDate("fechaLimiteEmision");
+                fechaLimiteEmision = rs.getDate("fecha_limite_emision");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaVentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,14 +173,14 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
     @Override
     public String getRazonSocialFactura(String ni) {
         String razonSocial = "";
-        String sql = "select razonSocial from facturaVenta where nit = ? order by id DESC limit 1";
+        String sql = "select razon_social from factura_venta where nit = ? order by id DESC limit 1";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setString(1, ni);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                razonSocial = rs.getString("razonSocial");
+                razonSocial = rs.getString("razon_social");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaVentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -193,7 +193,7 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
     public String getCadenaCodigoQr(int idTransaccion) {
         String cadenaQR = "";
         
-        String sql = "select * from facturaVenta where idTransaccion = ?";
+        String sql = "select * from factura_venta where id_transaccion = ?";
         
         String nitLocal = "1065443018";
         String nroFactura = null, nroAutorizacion = null;
@@ -207,21 +207,21 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 
-                Date fechaFactDate = rs.getDate("fechaFactura");
+                Date fechaFactDate = rs.getDate("fecha_factura");
                 java.util.Date fechaFactUtil = new Date(fechaFactDate.getTime());
                 Format formatDate = new SimpleDateFormat("yyyyMMdd");
                 fechaFactura = formatDate.format(fechaFactUtil).trim();
                 
                 
-                nroFactura = String.valueOf(rs.getInt("nroFactura"));
-                nroAutorizacion = rs.getString("nroAutorizacion");
-                importeTotal = String.valueOf(rs.getDouble("importeTotal"));
-                importeBaseDebitoFiscal = String.valueOf(rs.getDouble("importeBaseDebitoFiscal"));
-                codigoControl = rs.getString("codigoControl");
+                nroFactura = String.valueOf(rs.getInt("nro_factura"));
+                nroAutorizacion = rs.getString("nro_autorizacion");
+                importeTotal = String.valueOf(rs.getDouble("importe_total"));
+                importeBaseDebitoFiscal = String.valueOf(rs.getDouble("importe_base_debito_fiscal"));
+                codigoControl = rs.getString("codigo_control");
                 nit = rs.getString("nit");
-                ice = String.valueOf(rs.getDouble("importeIce"));
-                importeVentasTasaCero = String.valueOf(rs.getDouble("importeVentasTasaCero"));
-                importeRebajas = String.valueOf(rs.getDouble("importeRebajas"));
+                ice = String.valueOf(rs.getDouble("importe_ice"));
+                importeVentasTasaCero = String.valueOf(rs.getDouble("importe_ventas_tasa_cero"));
+                importeRebajas = String.valueOf(rs.getDouble("importe_rebajas"));
             }
             
             cadenaQR = nitLocal+"|"+nroFactura+"|"+nroAutorizacion+"|"+fechaFactura+"|"+importeTotal+

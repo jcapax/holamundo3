@@ -67,7 +67,7 @@ public class ProcedenciaDAOImpl implements ProcedenciaDAO{
 
     @Override
     public void insertarProcedencia(Procedencia procedencia) {
-        sql = "INSERT INTO `procedencia`(`DESCRIPCION`, `USUARIO`) VALUES (?, ?)";
+        sql = "INSERT INTO `procedencia`(`descripcion`, `usuario`) VALUES (?, ?)";
         
         try {
              PreparedStatement ps = connectionDB.prepareStatement(sql);
