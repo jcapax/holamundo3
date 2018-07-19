@@ -39,7 +39,6 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -60,13 +59,14 @@ public class FormTransaccion extends javax.swing.JFrame {
     private int idTipoTransaccion; // tipo de proceso q se ejecutara
     private int idTipoTransaccionEntrega;  // tipo de entrega q se ejecutara
     private byte idLugar;
+    private byte idTerminal;
     private String usuario;
     private DecimalFormat df;
 
 //    DefaultTableModel dtm;
     public FormTransaccion(Connection connectionDB,
             int idTipoTransaccion, int idTipoTransaccionEntrega,
-            String usuario, byte idLugar) {
+            String usuario, byte idLugar, byte idTerminal) {
 
         initComponents();
 
@@ -80,6 +80,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         this.idTipoTransaccionEntrega = idTipoTransaccionEntrega;
         this.usuario = usuario;
         this.idLugar = idLugar;
+        this.idTerminal = idTerminal;
 
         headerTabla();
 

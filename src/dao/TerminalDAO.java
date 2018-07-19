@@ -5,6 +5,9 @@
  */
 package dao;
 
+import almacenes.model.Terminal;
+import java.util.ArrayList;
+
 /**
  *
  * @author jcapax
@@ -12,7 +15,10 @@ package dao;
 public interface TerminalDAO {
     public byte getIdTerminal(String hostName);
     public String getNameHost();
-    
-    
+    public void insertarTerminal(Terminal terminal);
+    public ArrayList<Terminal> getListTerminal();
+    public void eliminarTerminal(int idTerminal);
+    public boolean existsTerminal(String hostname);
+    public int getIdterminalNueva();
     
 }

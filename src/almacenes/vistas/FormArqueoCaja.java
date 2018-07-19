@@ -23,17 +23,18 @@ public class FormArqueoCaja extends javax.swing.JFrame {
     private Connection connectionDB;
     
     private byte idLugar;
-    private byte idTerminal = 1;
+    private byte idTerminal;
     private String usuario;
 
     
-    public FormArqueoCaja(Connection connectionDB, String usuario, byte idLugar) {
+    public FormArqueoCaja(Connection connectionDB, String usuario, byte idLugar, byte idTerminal) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
         this.usuario = usuario;
         this.idLugar = idLugar;
+        this.idTerminal = idTerminal;
         
         cajaInicial();
         importeArqueo();

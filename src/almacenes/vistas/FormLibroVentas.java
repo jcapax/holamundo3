@@ -8,7 +8,6 @@ package almacenes.vistas;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Configuracion;
 import almacenes.model.FacturaVenta;
-import dao.ConfiguracionGeneralDAOImpl;
 import dao.FacturaDAOImpl;
 import dao.SistemaDAO;
 import dao.SistemaDAOImpl;

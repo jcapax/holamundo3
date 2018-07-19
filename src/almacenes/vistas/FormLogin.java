@@ -6,6 +6,9 @@
 package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.vistas.configuracion.FormTerminal;
+import dao.TerminalDAO;
+import dao.TerminalDAOImpl;
 import dao.UsuariosDAO;
 import dao.UsuariosDAOImpl;
 import java.awt.event.KeyEvent;
@@ -230,6 +233,8 @@ public class FormLogin extends javax.swing.JFrame {
 
     
     private void login() {
+        boolean aux = true;
+        
         String nombreUsuario = nombreUsuarioTF.getText();
         char[] pass = jPasswordField1.getPassword();
         String passString = new String(pass);
@@ -239,7 +244,23 @@ public class FormLogin extends javax.swing.JFrame {
         idUsuario = usuarioDAO.verificarUsuario(nombreUsuario, passString);
         if (idUsuario != null && idUsuario.length() > 0) {
             this.setVisible(false);
-            new almacenes.vistas.FormMenu(connectionDB, idUsuario).setVisible(true);
+            
+            int rolUsuario = 0;
+            rolUsuario = usuarioDAO.getRolUsuario(idUsuario);
+            
+            TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
+            String hostName = terminal.getNameHost();
+            if(!terminal.existsTerminal(hostName)){
+                if(rolUsuario == 1){
+                    FormTerminal ft = new FormTerminal(connectionDB);
+                    ft.setVisible(true);
+                }
+                aux = false;
+            }
+            
+            if(aux){
+                new almacenes.vistas.FormMenu(connectionDB, idUsuario).setVisible(true);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "¡No existe el Nombre de Usuario o la Contraseña es incorrecta!", "¡Atención!",
                     JOptionPane.WARNING_MESSAGE);

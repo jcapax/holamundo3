@@ -41,10 +41,12 @@ public class FormPendientesPago extends javax.swing.JFrame {
     private Connection connectionDB;
     DefaultTableModel dtm;
     int idTipoTransaccion;
+    private byte idLugar;
+    private byte idTerminal;
     String usuario;
     private DecimalFormat df;
     
-    public FormPendientesPago(Connection connectionDB, int idTipoTransaccion, String usuario) {
+    public FormPendientesPago(Connection connectionDB, int idTipoTransaccion, String usuario, byte idLugar, byte idTerminal) {
         initComponents();
         this.setLocationRelativeTo(null);
         df = new DecimalFormat("###,##0.00");
@@ -52,6 +54,8 @@ public class FormPendientesPago extends javax.swing.JFrame {
         this.connectionDB = connectionDB;
         this.idTipoTransaccion = idTipoTransaccion;
         this.usuario = usuario;
+        this.idLugar = idLugar;
+        this.idTerminal = idTerminal;
         headerTabla();        
         iniciarComponentes();
         llenarTablaPendientesPago();

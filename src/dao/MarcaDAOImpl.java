@@ -95,7 +95,7 @@ public class MarcaDAOImpl implements MarcaDAO{
 
     @Override
     public HashMap<String, Integer> marcaClaveValor() {
-    HashMap<String, Integer> map = new HashMap<String, Integer>();
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
         
         String sql = "SELECT id, descripcion FROM marca ORDER BY descripcion";
         
@@ -112,8 +112,6 @@ public class MarcaDAOImpl implements MarcaDAO{
             
         } catch (Exception e) {
         }
-        
-        
         return map;    
     }
     

@@ -34,7 +34,7 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     DefaultTableModel dtm;
     private String tipoCuenta;
     private byte idLugar;
-    private byte idTerminal = 1;
+    private byte idTerminal;
     private String usuario;
     private int idTipoTransaccion;
     
@@ -51,7 +51,7 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     }
     
     public FormIngresosEgresos(Connection connectionDB, String tipoCuenta, 
-                byte idLugar, String usuario, int idTipoTransaccion) {
+                byte idLugar, String usuario, int idTipoTransaccion, byte idTerminal) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.databaseUtils = new DatabaseUtils();
@@ -60,6 +60,7 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         this.idLugar = idLugar;
         this.usuario = usuario;
         this.idTipoTransaccion = idTipoTransaccion;
+        this.idTerminal = idTerminal;
         
         headerTabla();
         

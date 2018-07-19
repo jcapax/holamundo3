@@ -5,26 +5,29 @@
  */
 package almacenes.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
  * @author jcapax
  */
-public class Terminal {
+public class Lugar {
     private int id;
-    private int idLugar;
-    private String nombreLugar;
     private String descripcion;
-    private Date fechaHora;
+    private Date fechaHoraRegistro;
     private String usuario;
 
-    public String getNombreLugar() {
-        return nombreLugar;
+    public Lugar(String descripcion, String usuario) {
+        this.descripcion = descripcion;
+        this.usuario = usuario;
     }
 
-    public void setNombreLugar(String nombreLugar) {
-        this.nombreLugar = nombreLugar;
+    public Lugar(int id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
+    }
+    
+    public Lugar() {
     }
     
     public int getId() {
@@ -35,14 +38,6 @@ public class Terminal {
         this.id = id;
     }
 
-    public int getIdLugar() {
-        return idLugar;
-    }
-
-    public void setIdLugar(int idLugar) {
-        this.idLugar = idLugar;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -51,12 +46,12 @@ public class Terminal {
         this.descripcion = descripcion;
     }
 
-    public Date getFechaHora() {
-        return fechaHora;
+    public Date getFechaHoraRegistro() {
+        return fechaHoraRegistro;
     }
 
-    public void setFechaHora(Date fechaHora) {
-        this.fechaHora = fechaHora;
+    public void setFechaHoraRegistro(Date fechaHoraRegistro) {
+        this.fechaHoraRegistro = fechaHoraRegistro;
     }
 
     public String getUsuario() {
@@ -66,5 +61,7 @@ public class Terminal {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
- 
+    
+    
+    
 }
