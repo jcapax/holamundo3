@@ -33,7 +33,8 @@ public class FormMenu extends javax.swing.JFrame {
     private String hostName;
     SistemaDAO sistemaDAO;
     private byte idTerminal;
-
+    
+    private static final boolean config = true; // cuando la configuracion ha sido correcta
     private static final String MENU_PROCESOS = "menu_procesos";
     private static final String MENU_VENTAS = "menu_ventas";
     private static final String MENU_COMPRAS = "menu_compras";
@@ -803,12 +804,12 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmenuDosificacionActionPerformed
 
     private void jMenuILugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuILugarActionPerformed
-        FormLugar l = new FormLugar(connectionDB);
+        FormLugar l = new FormLugar(connectionDB, config);
         l.setVisible(true);
     }//GEN-LAST:event_jMenuILugarActionPerformed
 
     private void jMenuTerminalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuTerminalActionPerformed
-        FormTerminal formTerminal = new FormTerminal(connectionDB);
+        FormTerminal formTerminal = new FormTerminal(connectionDB, config);
         formTerminal.setVisible(true);
     }//GEN-LAST:event_jMenuTerminalActionPerformed
 

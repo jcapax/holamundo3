@@ -107,7 +107,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     public int getIdArqueo(byte idLugar, byte idTerminal, String usuario) {
         int id = 0;
 
-        String sql = "select id from arqueo where idLugar = ? and id_terminal = ? and usuario = ? "
+        String sql = "select id from arqueo where id_lugar = ? and id_terminal = ? and usuario = ? "
                 + "and estado = 'A'";
 
         try {

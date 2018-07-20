@@ -110,5 +110,21 @@ public class LugarDAOImpl implements LugarDAO{
         }
         return map;
     }
+
+    @Override
+    public boolean existsLugar() {
+        boolean aux = false;
+        String sql = "select id from lugar limit 1";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                aux = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LugarDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return aux;
+    }
     
 }

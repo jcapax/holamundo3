@@ -109,7 +109,7 @@ public class FormUnidadMedida extends javax.swing.JFrame {
 
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Nombre Procedencia:");
+        jLabel1.setText("Nombre Unidad:");
 
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);

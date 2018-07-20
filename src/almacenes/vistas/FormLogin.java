@@ -6,7 +6,10 @@
 package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.vistas.configuracion.FormLugar;
 import almacenes.vistas.configuracion.FormTerminal;
+import dao.LugarDAO;
+import dao.LugarDAOImpl;
 import dao.TerminalDAO;
 import dao.TerminalDAOImpl;
 import dao.UsuariosDAO;
@@ -248,11 +251,20 @@ public class FormLogin extends javax.swing.JFrame {
             int rolUsuario = 0;
             rolUsuario = usuarioDAO.getRolUsuario(idUsuario);
             
+            LugarDAO lugar = new LugarDAOImpl(connectionDB);
+            if(!lugar.existsLugar()){
+                boolean config = false; // cuando no existe configuracion
+                FormLugar fl = new FormLugar(connectionDB, config);
+                fl.setVisible(true);
+                aux = false;
+            }
+            
             TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
             String hostName = terminal.getNameHost();
             if(!terminal.existsTerminal(hostName)){
                 if(rolUsuario == 1){
-                    FormTerminal ft = new FormTerminal(connectionDB);
+                    boolean config = false; // cuando no existe configuracion
+                    FormTerminal ft = new FormTerminal(connectionDB, config);
                     ft.setVisible(true);
                 }
                 aux = false;

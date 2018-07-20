@@ -19,4 +19,5 @@ public interface LugarDAO {
     public void eliminarLugar(int idLugar);
     public void editarLugar(Lugar lugar);
     public HashMap<String, Integer> lugarClaveValor();
+    public boolean existsLugar();
 }

@@ -65,7 +65,7 @@ public class SistemaDAOImpl implements SistemaDAO {
                             "ruta_destino_archivos_pdf, " +
                             "solo_guadar_archivos_pdf, " +
                             "ruta_programas_pg," +
-                            "rutaExcel, tiempo_anulacion_transaccion, impresion_directa_factura " +
+                            "ruta_excel, tiempo_anulacion_transaccion, impresion_directa_factura " +
                             "FROM configuraciones;";
         
         ResultSet rs = stmt.executeQuery(query);

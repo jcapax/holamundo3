@@ -27,16 +27,15 @@ public class FormLugar extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     DefaultTableModel dtm;
+    private boolean config;
 
-    public FormLugar(Connection connectionDB) {
+    public FormLugar(Connection connectionDB, boolean config) {
         initComponents();
         this.setLocationRelativeTo(null);
         headerTabla();
         this.connectionDB = connectionDB;
         this.databaseUtils = new DatabaseUtils();
-        
-        this.databaseUtils = new DatabaseUtils();
-        this.connectionDB = connectionDB;
+        this.config = config;
         llenarTablaLugar();
     }
     
@@ -79,7 +78,7 @@ public class FormLugar extends javax.swing.JFrame {
     
     public void guardarLugar(){
         String descripcion = txtDescripcion.getText().toUpperCase();
-        Lugar l = new Lugar(descripcion, "SYS");
+        Lugar l = new Lugar(descripcion, "SIS");
         LugarDAO ldao = new LugarDAOImpl(connectionDB);
         ldao.insertarLugar(l);
         llenarTablaLugar();
@@ -269,7 +268,12 @@ public class FormLugar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        dispose();
+        if(config){
+            dispose();
+        }else{
+            this.databaseUtils.close(connectionDB);
+            System.exit(0);
+        }
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void jtLugarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtLugarMouseClicked

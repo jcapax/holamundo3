@@ -10,7 +10,6 @@ package almacenes.vistas.configuracion;
  * @author jcapax
  */
 
-import almacenes.Utiles;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Terminal;
 import dao.LugarDAO;
@@ -22,6 +21,7 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FormTerminal extends javax.swing.JFrame {
@@ -32,12 +32,14 @@ public class FormTerminal extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     DefaultTableModel dtm;
+    private boolean config;
 
-    public FormTerminal(Connection connectionDB) {
+    public FormTerminal(Connection connectionDB, boolean config) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.connectionDB = connectionDB;
         this.databaseUtils = new DatabaseUtils();
+        this.config = config;
         headerTabla();
         llenarTablaTerminal();
         llenarComboLugar();
@@ -265,7 +267,12 @@ public class FormTerminal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        dispose();
+        if(config){
+            dispose();
+        }else{
+            this.databaseUtils.close(connectionDB);
+            System.exit(0);
+        }
     }//GEN-LAST:event_btnSalirActionPerformed
 
     public void llenarComboLugar(){
@@ -360,19 +367,39 @@ public class FormTerminal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void guardarTerminal() {
+        TerminalDAO terminalDAO = new TerminalDAOImpl(connectionDB);
+        boolean aux = true;
         int idLugar = 0;
         String nombreTerminal = null;
         
         idLugar = Integer.valueOf(jlIdLugar.getText());
         nombreTerminal = txtDescripcion.getText();
         
-        TerminalDAO terminalDAO = new TerminalDAOImpl(connectionDB);
-        Terminal terminal = new Terminal();
-        terminal.setDescripcion(nombreTerminal);
-        terminal.setIdLugar(idLugar);
-        terminal.setUsuario("SYS");
-        terminalDAO.insertarTerminal(terminal);
-        llenarTablaTerminal();
+        if(idLugar == 0){
+            aux = false;
+            JOptionPane.showMessageDialog(null, "¡Favor seleccionar el Lugar!", "¡Atención!",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+        
+        if(nombreTerminal.length() == 0){
+            aux = false;
+            JOptionPane.showMessageDialog(null, "¡Favor registrar el nombre de la terminal!", "¡Atención!",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+        if(terminalDAO.existsTerminal(nombreTerminal)){
+            aux = false;
+            JOptionPane.showMessageDialog(null, "¡El nombre de terminal ya ha sido registrado!", "¡Atención!",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+        
+        if(aux){
+            Terminal terminal = new Terminal();
+            terminal.setDescripcion(nombreTerminal);
+            terminal.setIdLugar(idLugar);
+            terminal.setUsuario("SYS");
+            terminalDAO.insertarTerminal(terminal);
+            llenarTablaTerminal();
+        }
     }
 
     private void revisarRegistro() {
