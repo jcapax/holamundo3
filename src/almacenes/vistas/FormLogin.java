@@ -259,15 +259,17 @@ public class FormLogin extends javax.swing.JFrame {
                 aux = false;
             }
             
-            TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
-            String hostName = terminal.getNameHost();
-            if(!terminal.existsTerminal(hostName)){
-                if(rolUsuario == 1){
-                    boolean config = false; // cuando no existe configuracion
-                    FormTerminal ft = new FormTerminal(connectionDB, config);
-                    ft.setVisible(true);
+            if(aux){
+                TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
+                String hostName = terminal.getNameHost();
+                if(!terminal.existsTerminal(hostName)){
+                    if(rolUsuario == 1){
+                        boolean config = false; // cuando no existe configuracion
+                        FormTerminal ft = new FormTerminal(connectionDB, config);
+                        ft.setVisible(true);
+                    }
+                    aux = false;
                 }
-                aux = false;
             }
             
             if(aux){

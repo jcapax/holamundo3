@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pachecos"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -10,18 +10,28 @@
 	<parameter name="fecha_inicio" class="java.lang.String"/>
 	<parameter name="fecha_final" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT descripcion, simbolo, sum(cantidad) cantidad, sum(valorTotalProducto) valorTotalProducto 
-FROM vlistamovimiento 
-where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and idTipoTransaccion = 8
+		<![CDATA[SELECT descripcion, simbolo, sum(cantidad) cantidad, sum(valor_total_producto) valor_total_producto 
+FROM v_lista_movimiento 
+where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and id_tipo_transaccion = 8
   and estado <> 'N'
   group by  descripcion, simbolo]]>
 	</queryString>
-	<field name="descripcion" class="java.lang.String"/>
-	<field name="simbolo" class="java.lang.String"/>
-	<field name="cantidad" class="java.math.BigDecimal"/>
-	<field name="valorTotalProducto" class="java.math.BigDecimal"/>
+	<field name="descripcion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="producto"/>
+	</field>
+	<field name="simbolo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="simbolo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unidad_medida"/>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
+	</field>
+	<field name="valor_total_producto" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_total_producto"/>
+	</field>
 	<variable name="valorTotalProducto1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{valorTotalProducto}]]></variableExpression>
+		<variableExpression><![CDATA[$F{valor_total_producto}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -129,7 +139,7 @@ where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and idTipoTransaccion =
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valorTotalProducto})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valor_total_producto})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

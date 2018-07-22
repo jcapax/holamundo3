@@ -9,6 +9,7 @@ import almacenes.vistas.configuracion.FormLugar;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Configuracion;
 import almacenes.model.Permiso;
+import almacenes.vistas.configuracion.FormSucursal;
 import almacenes.vistas.configuracion.FormTerminal;
 import dao.SistemaDAO;
 import dao.SistemaDAOImpl;
@@ -128,6 +129,7 @@ public class FormMenu extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         jMenuILugar = new javax.swing.JMenuItem();
         jMenuTerminal = new javax.swing.JMenuItem();
+        jMenuSucursal = new javax.swing.JMenuItem();
         jMenuAdministracion = new javax.swing.JMenu();
         jMenuStockInicial = new javax.swing.JMenuItem();
         jmenuIngresos = new javax.swing.JMenuItem();
@@ -412,6 +414,14 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuConfiguracion.add(jMenuTerminal);
+
+        jMenuSucursal.setText("Sucursal");
+        jMenuSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSucursalActionPerformed(evt);
+            }
+        });
+        jMenuConfiguracion.add(jMenuSucursal);
 
         jMenuBar1.add(jMenuConfiguracion);
 
@@ -813,6 +823,11 @@ public class FormMenu extends javax.swing.JFrame {
         formTerminal.setVisible(true);
     }//GEN-LAST:event_jMenuTerminalActionPerformed
 
+    private void jMenuSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSucursalActionPerformed
+        FormSucursal formSucursal = new FormSucursal(connectionDB);
+        formSucursal.setVisible(true);
+    }//GEN-LAST:event_jMenuSucursalActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -936,6 +951,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuRubros;
     private javax.swing.JMenuItem jMenuStockInicial;
     private javax.swing.JMenuItem jMenuStockProductos;
+    private javax.swing.JMenuItem jMenuSucursal;
     private javax.swing.JMenuItem jMenuTerminal;
     private javax.swing.JMenuItem jMenuUnidadMedida;
     private javax.swing.JMenuItem jMenuVentas;

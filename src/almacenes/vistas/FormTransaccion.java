@@ -102,7 +102,7 @@ public class FormTransaccion extends javax.swing.JFrame {
     }
 
     public void iniciarComponentes() {
-        byte idTerminal = 1;
+//        byte idTerminal = 1;
         
         ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
 
@@ -192,7 +192,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         }
 
         int idArqueo = arq.getIdArqueo(idLugar, idTerminal, usuario);
-//        System.out.println("idarqueo: "+idArqueo+" estado: "+arq.getEstadoCaja(idArqueo));
+        
         if (!arq.getEstadoCaja(idArqueo).equals("A")) {
             JOptionPane.showMessageDialog(this, "No es posible realizar transacciones hasta que registre Caja Inicial");
             jbTransaccion.setEnabled(false);
@@ -679,7 +679,7 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         int nroTipoTransaccion = 0;
         int tipoMovimineto = transDaoImpl.getTipoMovimiento(idTipoTransaccion);
-        int idTerminal = 1;
+//        int idTerminal = 1;
         int idTransaccion = 0;
         String estado = "A";
         String descripcion = "";

@@ -1,35 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-08-28T10:54:43 -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pachecos"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
-	<parameter name="idTransaccion" class="java.lang.String"/>
+	<parameter name="id_transaccion" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select *
-from vCredito
-where idTransaccion = $P{idTransaccion}]]>
+from v_credito
+where id_transaccion = $P{id_transaccion}]]>
 	</queryString>
-	<field name="idTransaccion" class="java.lang.Integer"/>
-	<field name="fecha" class="java.sql.Date"/>
-	<field name="nroTipoTransaccion" class="java.lang.Integer"/>
-	<field name="valorTotalTransaccion" class="java.math.BigDecimal"/>
-	<field name="fechaHoraRegistro" class="java.sql.Timestamp"/>
-	<field name="usuario" class="java.lang.String"/>
-	<field name="descripcion" class="java.lang.String"/>
-	<field name="simbolo" class="java.lang.String"/>
-	<field name="cantidad" class="java.math.BigDecimal"/>
-	<field name="valorunitario" class="java.math.BigDecimal"/>
-	<field name="valortotal" class="java.math.BigDecimal"/>
-	<field name="detalle" class="java.lang.String"/>
-	<field name="cedulaIdentidad" class="java.lang.String"/>
-	<field name="nit" class="java.lang.Long"/>
-	<field name="nombreCompleto" class="java.lang.String"/>
-	<field name="razonSocial" class="java.lang.String"/>
+	<field name="id_transaccion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_transaccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="nro_tipo_transaccion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_tipo_transaccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="valor_total_transaccion" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_total_transaccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="fecha_hora_registro" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_hora_registro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="usuario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="usuario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="simbolo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="simbolo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="valor_unitario" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_unitario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="valor_total" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="detalle" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalle"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="cedula_identidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cedula_identidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="nit" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="nit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="nombre_completo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_completo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="razon_social" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="razon_social"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
 	<variable name="valortotal1" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{valortotal}]]></variableExpression>
+		<variableExpression><![CDATA[$F{valor_total}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -83,7 +130,7 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement textAlignment="Left">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nroTipoTransaccion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nro_tipo_transaccion}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="424" y="32" width="80" height="14" forecolor="#054A82" uuid="1b7d6392-ed6b-471a-9b9a-689fe3da025a"/>
@@ -116,7 +163,7 @@ where idTransaccion = $P{idTransaccion}]]>
 			</staticText>
 			<textField>
 				<reportElement x="80" y="94" width="200" height="16" uuid="18cb6607-44f0-451e-b1a1-979e19408360"/>
-				<textFieldExpression><![CDATA[$F{nombreCompleto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="282" y="94" width="80" height="16" forecolor="#054A82" uuid="2655188f-cc33-4a70-89e8-336bb32f2676"/>
@@ -127,7 +174,7 @@ where idTransaccion = $P{idTransaccion}]]>
 			</staticText>
 			<textField>
 				<reportElement x="362" y="94" width="200" height="16" uuid="f4848441-706e-4bd2-b2ed-2e9f2f151c1b"/>
-				<textFieldExpression><![CDATA[$F{razonSocial}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{razon_social}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="-1" y="111" width="80" height="16" forecolor="#054A82" uuid="636b19d3-374b-4cac-8867-eb1aae9111a4"/>
@@ -138,7 +185,7 @@ where idTransaccion = $P{idTransaccion}]]>
 			</staticText>
 			<textField>
 				<reportElement x="80" y="110" width="100" height="16" uuid="58dd6329-34a8-4490-9d5d-b941173afd93"/>
-				<textFieldExpression><![CDATA[$F{cedulaIdentidad}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cedula_identidad}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="282" y="110" width="80" height="16" forecolor="#054A82" uuid="5069ee3a-44d5-41bd-99c0-440f56fd265a"/>
@@ -218,7 +265,7 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valorunitario})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valor_unitario})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="475" y="0" width="60" height="15" uuid="56e7afba-12a9-47a2-8462-28dbb7f398b9">
@@ -227,7 +274,7 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valortotal})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valor_total})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-07-26T11:47:20 -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="400" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pachecos"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
@@ -14,16 +13,46 @@
 		<![CDATA[SELECT *
 from arqueo where id = $P{id}]]>
 	</queryString>
-	<field name="ID" class="java.lang.Integer"/>
-	<field name="fechaApertura" class="java.sql.Timestamp"/>
-	<field name="fechaCierre" class="java.sql.Timestamp"/>
-	<field name="cajaInicial" class="java.math.BigDecimal"/>
-	<field name="importeCierre" class="java.math.BigDecimal"/>
-	<field name="Estado" class="java.lang.String"/>
-	<field name="idTerminal" class="java.lang.Integer"/>
-	<field name="idLugar" class="java.lang.Integer"/>
-	<field name="fechaHoraRegistro" class="java.sql.Timestamp"/>
-	<field name="usuario" class="java.lang.String"/>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="fecha_apertura" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_apertura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="fecha_cierre" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_cierre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="caja_inicial" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="caja_inicial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="importe_cierre" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importe_cierre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="id_terminal" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_terminal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="id_lugar" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="fecha_hora_registro" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_hora_registro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
+	<field name="usuario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="usuario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="arqueo"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -53,11 +82,11 @@ from arqueo where id = $P{id}]]>
 			</staticText>
 			<textField>
 				<reportElement x="10" y="90" width="100" height="30" uuid="9e4a5ac3-986f-44d2-88a7-a49f4c6cb117"/>
-				<textFieldExpression><![CDATA[$F{fechaApertura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fecha_apertura}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="140" y="90" width="100" height="30" uuid="f58b105a-99d6-4656-878e-f654153e34e5"/>
-				<textFieldExpression><![CDATA[$F{fechaCierre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fecha_cierre}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="10" y="140" width="100" height="20" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0"/>
@@ -68,7 +97,7 @@ from arqueo where id = $P{id}]]>
 			</staticText>
 			<textField>
 				<reportElement x="140" y="140" width="100" height="20" uuid="6235c9ba-88d7-466c-95f8-eff2254987b2"/>
-				<textFieldExpression><![CDATA[$F{cajaInicial}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{caja_inicial}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="285" y="140" width="50" height="20" uuid="286a0036-d861-406c-b10f-390353cf8546"/>
@@ -79,7 +108,7 @@ from arqueo where id = $P{id}]]>
 			</staticText>
 			<textField>
 				<reportElement x="350" y="140" width="100" height="20" uuid="2ffbd109-080a-402c-90b9-2b1f17d20ae3"/>
-				<textFieldExpression><![CDATA[$F{importeCierre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{importe_cierre}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="10" y="180" width="100" height="20" uuid="27677860-54a2-4bf1-b312-4714525cb94f"/>

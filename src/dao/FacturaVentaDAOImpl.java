@@ -83,7 +83,7 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                nroAutorizacion = rs.getString("nroAutorizacion");
+                nroAutorizacion = rs.getString("nro_autorizacion");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaVentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

@@ -45,6 +45,8 @@ public class FormPendientesPago extends javax.swing.JFrame {
     private byte idTerminal;
     String usuario;
     private DecimalFormat df;
+    double saldoAux = 0;
+    
     
     public FormPendientesPago(Connection connectionDB, int idTipoTransaccion, String usuario, byte idLugar, byte idTerminal) {
         initComponents();
@@ -160,6 +162,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
         jtHistorialCaja.setModel(dtm);
         jtxtImporteTotalEnCaja.setText(String.valueOf(df.format(total))); 
         jtxtSaldo.setText(df.format(rub.getSaldoTransaccion(idTransaccion)).toString());
+        saldoAux = rub.getSaldoTransaccion(idTransaccion);
     }
     
     public void llenarDetalleTransaccion(int idTransaccion){
@@ -585,7 +588,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
             return;
         }
         
-        if (Double.parseDouble(jtxtImporte.getText()) > Double.parseDouble(jtxtSaldo.getText().replace(",", ""))) {
+        if (Double.parseDouble(jtxtImporte.getText()) > saldoAux) {
             JOptionPane.showMessageDialog(this, "El Importe Registrado no debe ser mayor al Saldo!!!");
             jtxtImporte.setText("");
             jtxtImporte.requestFocus();

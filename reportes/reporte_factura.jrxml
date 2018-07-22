@@ -1,57 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-08-29T16:45:52 -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pachecos"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
-	<parameter name="idTransaccion" class="java.lang.String"/>
-	<parameter name="cadenaQr" class="java.lang.String"/>
-	<parameter name="valorTotalLiteral" class="java.lang.String"/>
+	<parameter name="id_transaccion" class="java.lang.String"/>
+	<parameter name="cadena_qr" class="java.lang.String"/>
+	<parameter name="valor_total_literal" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select *
-from vFactura
-where idTransaccion = $P{idTransaccion}]]>
+from v_factura
+where id_transaccion = $P{id_transaccion}]]>
 	</queryString>
-	<field name="idTransaccion" class="java.lang.Integer"/>
-	<field name="idproducto" class="java.lang.Integer"/>
-	<field name="nombreProducto" class="java.lang.String"/>
-	<field name="simbolo" class="java.lang.String"/>
-	<field name="cantidad" class="java.math.BigDecimal"/>
-	<field name="valorunitario" class="java.math.BigDecimal"/>
-	<field name="valortotal" class="java.math.BigDecimal"/>
-	<field name="tipovalor" class="java.lang.String"/>
-	<field name="recargo" class="java.lang.Integer"/>
-	<field name="idSucursal" class="java.lang.Long"/>
-	<field name="especificacion" class="java.lang.Integer"/>
-	<field name="correlativoSucursal" class="java.lang.Long"/>
-	<field name="fechaFactura" class="java.sql.Date"/>
-	<field name="nroFactura" class="java.math.BigInteger"/>
-	<field name="nroAutorizacion" class="java.lang.String"/>
-	<field name="estado" class="java.lang.String"/>
-	<field name="nit" class="java.math.BigInteger"/>
-	<field name="razonSocial" class="java.lang.String"/>
-	<field name="importeTotal" class="java.lang.Double"/>
-	<field name="importeIce" class="java.math.BigDecimal"/>
-	<field name="importeExportaciones" class="java.math.BigDecimal"/>
-	<field name="importeVentasTasaCero" class="java.math.BigDecimal"/>
-	<field name="importeSubtotal" class="java.math.BigDecimal"/>
-	<field name="importeRebajas" class="java.math.BigDecimal"/>
-	<field name="importeBaseDebitoFiscal" class="java.math.BigDecimal"/>
-	<field name="debitoFiscal" class="java.math.BigDecimal"/>
-	<field name="codigoControl" class="java.lang.String"/>
-	<field name="fechaLimiteEmision" class="java.sql.Date"/>
-	<field name="idDosificacion" class="java.lang.Integer"/>
-	<field name="pieFactura" class="java.lang.String"/>
-	<field name="nombreSucursal" class="java.lang.String"/>
-	<field name="actividadEconomica" class="java.lang.String"/>
-	<field name="nitSucursal" class="java.lang.String"/>
+	<field name="id_transaccion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_transaccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="id_producto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="nombre_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="simbolo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="simbolo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="valor_unitario" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_unitario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="valor_total" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="tipo_valor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_valor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="recargo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="recargo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="id_sucursal" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id_sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="especificacion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="especificacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="correlativo_sucursal" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="correlativo_sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="fecha_factura" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="nro_factura" class="java.math.BigInteger">
+		<property name="com.jaspersoft.studio.field.label" value="nro_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="nro_autorizacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nro_autorizacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="nit" class="java.math.BigInteger">
+		<property name="com.jaspersoft.studio.field.label" value="nit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="razon_social" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="razon_social"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="importe_total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="importe_total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="importe_ice" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importe_ice"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="importe_exportaciones" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importe_exportaciones"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="importe_ventas_tasa_cero" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importe_ventas_tasa_cero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="importe_sub_total" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importe_sub_total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="importe_rebajas" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importe_rebajas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="importe_base_debito_fiscal" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importe_base_debito_fiscal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="debito_fiscal" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="debito_fiscal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="codigo_control" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo_control"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="fecha_limite_emision" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_limite_emision"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="id_dosificacion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_dosificacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="pie_factura" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pie_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="nombre_sucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="actividad_economica" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="actividad_economica"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
+	<field name="nit_sucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nit_sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	</field>
 	<variable name="importeTotal1" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{importeTotal}]]></variableExpression>
+		<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>
 	</variable>
 	<variable name="valortotal1" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{valortotal}]]></variableExpression>
+		<variableExpression><![CDATA[$F{valor_total}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -70,21 +168,21 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{razonSocial}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{razon_social}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="450" y="29" width="100" height="15" uuid="5abe5fb3-2132-44ad-ac46-e8d672840bfa"/>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nroFactura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nro_factura}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="450" y="47" width="100" height="15" uuid="5b626bb0-c2f3-4813-846e-13f4065168ae"/>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nroAutorizacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nro_autorizacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="396" y="10" width="46" height="15" forecolor="#054A82" uuid="1bf479c9-e616-4db8-98da-4328ce140ced">
@@ -130,7 +228,7 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fechaFactura})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha_factura})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="60" y="32" width="80" height="15" forecolor="#054A82" uuid="b911d2c2-2de0-425d-8815-11f97b5f66e3"/>
@@ -165,14 +263,14 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{actividadEconomica}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{actividad_economica}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="450" y="10" width="110" height="15" uuid="55e82380-ba3c-40be-b428-f7a3cd22c09e"/>
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nitSucursal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nit_sucursal}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="44" width="199" height="14" forecolor="#054A82" uuid="f33b42c0-91ed-470e-a196-ff126e0d2a50"/>
@@ -267,7 +365,7 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nombreProducto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="261" y="0" width="50" height="12" uuid="81585d63-0825-412c-86d9-a7cf867aac9b"/>
@@ -281,14 +379,14 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valorunitario})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valor_unitario})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="467" y="0" width="70" height="12" uuid="7dc7da2c-8811-44ab-b979-23587f760110"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valortotal})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valor_total})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -299,27 +397,27 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoControl}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigo_control}]]></textFieldExpression>
 			</textField>
 			<image>
 				<reportElement x="467" y="17" width="85" height="80" uuid="fb6a5d0d-b6bf-48ed-bf24-b79a5e0dc4a1"/>
 				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
     new com.google.zxing.qrcode.QRCodeWriter().encode(
-            $P{cadenaQr}, com.google.zxing.BarcodeFormat.QR_CODE, 200, 200))]]></imageExpression>
+            $P{cadena_qr}, com.google.zxing.BarcodeFormat.QR_CODE, 200, 200))]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="91" y="4" width="379" height="14" uuid="69e1388e-bcf9-4922-bb99-7e5d06ba41f7"/>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{valorTotalLiteral}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{valor_total_literal}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="91" y="40" width="160" height="14" uuid="633fd33a-5eec-48d4-bea0-c7d860c410c8"/>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fechaLimiteEmision})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha_limite_emision})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="21" width="73" height="16" forecolor="#054A82" uuid="37242836-dd3c-4600-afc1-f45cdc3b0546"/>
@@ -349,7 +447,7 @@ where idTransaccion = $P{idTransaccion}]]>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{pieFactura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pie_factura}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="64" y="86" width="402" height="14" forecolor="#054A82" uuid="ec5964d9-d815-4835-9f08-67efaa342bfd"/>
