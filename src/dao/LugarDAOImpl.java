@@ -126,5 +126,23 @@ public class LugarDAOImpl implements LugarDAO{
         }
         return aux;
     }
+
+    @Override
+    public byte getIdLugar(byte idTerminal) {
+        byte idLugar = 0;
+        String sql = "SELECT t.id_lugar FROM terminal t join lugar l on t.id_lugar = l.id "
+                + "WHERE t.id = ?";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setByte(1, idTerminal);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                idLugar = rs.getByte("id_lugar");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LugarDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idLugar;
+    }
     
 }

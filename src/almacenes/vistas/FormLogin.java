@@ -237,12 +237,17 @@ public class FormLogin extends javax.swing.JFrame {
     
     private void login() {
         boolean aux = true;
+        byte idLugar = 0;
+        byte idTerminal = 0;
         
         String nombreUsuario = nombreUsuarioTF.getText();
         char[] pass = jPasswordField1.getPassword();
         String passString = new String(pass);
 
         UsuariosDAO usuarioDAO = new UsuariosDAOImpl(connectionDB);
+        LugarDAO lugar = new LugarDAOImpl(connectionDB);
+        TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
+        
         String idUsuario;
         idUsuario = usuarioDAO.verificarUsuario(nombreUsuario, passString);
         if (idUsuario != null && idUsuario.length() > 0) {
@@ -251,7 +256,7 @@ public class FormLogin extends javax.swing.JFrame {
             int rolUsuario = 0;
             rolUsuario = usuarioDAO.getRolUsuario(idUsuario);
             
-            LugarDAO lugar = new LugarDAOImpl(connectionDB);
+            
             if(!lugar.existsLugar()){
                 boolean config = false; // cuando no existe configuracion
                 FormLugar fl = new FormLugar(connectionDB, config);
@@ -260,7 +265,6 @@ public class FormLogin extends javax.swing.JFrame {
             }
             
             if(aux){
-                TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
                 String hostName = terminal.getNameHost();
                 if(!terminal.existsTerminal(hostName)){
                     if(rolUsuario == 1){
@@ -273,7 +277,10 @@ public class FormLogin extends javax.swing.JFrame {
             }
             
             if(aux){
-                new almacenes.vistas.FormMenu(connectionDB, idUsuario).setVisible(true);
+                String hostName = terminal.getNameHost();
+                idTerminal = terminal.getIdTerminal(hostName);
+                idLugar = lugar.getIdLugar(idTerminal);
+                new almacenes.vistas.FormMenu(connectionDB, idUsuario, idLugar, idTerminal).setVisible(true);
             }
         } else {
             JOptionPane.showMessageDialog(null, "¡No existe el Nombre de Usuario o la Contraseña es incorrecta!", "¡Atención!",

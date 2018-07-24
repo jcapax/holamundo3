@@ -7,11 +7,15 @@ package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.StockProducto;
+import dao.LugarDAO;
+import dao.LugarDAOImpl;
 import dao.ProductoDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,14 +33,57 @@ public class FormStockProducto extends javax.swing.JFrame {
         initComponents();
     }
         
-    public FormStockProducto(Connection connectionDB, byte idLugar) {
+    public FormStockProducto(Connection connectionDB) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
         this.idLugar = idLugar;
         headerTabla();
+        llenarComboLugar();
         llenarTablaStockProducto("");
+    }
+    
+    public void llenarComboLugar(){
+        
+        String sel = "Sel";
+        jlIdLugar.setText("0");
+        jcLugar.removeAllItems();
+        jcLugar.addItem(sel);
+        
+        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
+        
+        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+
+        for (String s : map.keySet()) {
+            jcLugar.addItem(s.toString());
+        }
+        jlIdLugar.setVisible(false);
+        llenarTablaStockProducto("");
+    }
+    
+    private void seleccionarElementoLugar() {
+        String sel = null;
+        
+        String comp = "Sel";
+        
+        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
+        
+        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+            
+        try {
+            sel = jcLugar.getSelectedItem().toString();
+            if(sel.equals(comp)){
+                jlIdLugar.setText("0");
+            }
+            else{
+                jlIdLugar.setText(map.get(sel).toString());
+            }
+        } catch (Exception e) {
+        }
+        idLugar = Byte.valueOf(jlIdLugar.getText());
+        llenarTablaStockProducto("");
+        
     }
     
     public void headerTabla(){
@@ -47,31 +94,27 @@ public class FormStockProducto extends javax.swing.JFrame {
     }
 
     public void llenarTablaStockProducto(String criterio){
-         
         ProductoDAOImpl rub = new ProductoDAOImpl(connectionDB);
-        
+
         ArrayList<StockProducto> r = new ArrayList<StockProducto>();
-        
+
         r = rub.getListaStockProducto(idLugar, criterio);
-        
+
         dtm = (DefaultTableModel) this.jtStockProducto.getModel();
         dtm.setRowCount(0);
-        
+
         jtStockProducto.setModel(dtm);
-        
+
         Object[] fila = new Object[4];
-        
-//        System.out.println("nro de registros en pila: " + r.size());
-        
+
         for(int i=0; i< r.size(); i++){
             fila[0] = i + 1;
             fila[1] = r.get(i).getNombrePRoducto();
             fila[2] = r.get(i).getNombreUnidadMedida();
             fila[3] = r.get(i).getStock();
-            
+
             dtm.addRow(fila);
         }
-        
         jtStockProducto.setModel(dtm);
     }
 
@@ -91,6 +134,9 @@ public class FormStockProducto extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jtxtxCriterio = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jcLugar = new javax.swing.JComboBox<>();
+        jlIdLugar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -138,12 +184,27 @@ public class FormStockProducto extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Criterio de Busqueda");
 
+        jtxtxCriterio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtxCriterioActionPerformed(evt);
+            }
+        });
         jtxtxCriterio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtxtxCriterioKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtxtxCriterioKeyReleased(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel3.setText("Lugar");
+
+        jcLugar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcLugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcLugarActionPerformed(evt);
             }
         });
 
@@ -156,11 +217,10 @@ public class FormStockProducto extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(213, 213, 213))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jtxtxCriterio)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtxtxCriterio)
+                    .addComponent(jLabel2))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,7 +229,14 @@ public class FormStockProducto extends javax.swing.JFrame {
                         .addComponent(btnSalir))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jcLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlIdLugar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -177,15 +244,20 @@ public class FormStockProducto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jcLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlIdLugar))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtxtxCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addGap(26, 26, 26))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -210,6 +282,14 @@ public class FormStockProducto extends javax.swing.JFrame {
         llenarTablaStockProducto(criterio);
 
     }//GEN-LAST:event_jtxtxCriterioKeyReleased
+
+    private void jcLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcLugarActionPerformed
+        seleccionarElementoLugar();
+    }//GEN-LAST:event_jcLugarActionPerformed
+
+    private void jtxtxCriterioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtxCriterioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtxCriterioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,7 +330,10 @@ public class FormStockProducto extends javax.swing.JFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcLugar;
+    private javax.swing.JLabel jlIdLugar;
     private javax.swing.JTable jtStockProducto;
     private javax.swing.JTextField jtxtxCriterio;
     // End of variables declaration//GEN-END:variables

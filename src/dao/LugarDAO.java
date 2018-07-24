@@ -20,4 +20,5 @@ public interface LugarDAO {
     public void editarLugar(Lugar lugar);
     public HashMap<String, Integer> lugarClaveValor();
     public boolean existsLugar();
+    public byte getIdLugar(byte idTerminal);
 }

@@ -34,6 +34,7 @@ public class FormMenu extends javax.swing.JFrame {
     private String hostName;
     SistemaDAO sistemaDAO;
     private byte idTerminal;
+    private byte idLugar;
     
     private static final boolean config = true; // cuando la configuracion ha sido correcta
     private static final String MENU_PROCESOS = "menu_procesos";
@@ -61,8 +62,6 @@ public class FormMenu extends javax.swing.JFrame {
     private static final int REPORTE_TRES = 3;
     private static final int REPORTE_CUATRO = 4;
     
-    private static byte idLugar = 1;
-    
     /**
      * Creates new form Menu
      */
@@ -70,12 +69,14 @@ public class FormMenu extends javax.swing.JFrame {
         initComponents();
     }
 
-    public FormMenu(Connection _connectionDB, String _idUsuario) {
+    public FormMenu(Connection _connectionDB, String _idUsuario, byte idLugar, byte idTerminal) {
         initComponents();
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = _connectionDB;
         sistemaDAO = new SistemaDAOImpl(connectionDB);
         this.idUsuario = _idUsuario;
+        this.idLugar = idLugar;
+        this.idTerminal = idTerminal;
         ocultarMenus();
         habilitarMenusUsuario();
         jMenuRestaurarDB.setVisible(false);
@@ -653,7 +654,7 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuStockInicialActionPerformed
 
     private void jMenuStockProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuStockProductosActionPerformed
-        FormStockProducto fStock = new FormStockProducto(connectionDB, idLugar);
+        FormStockProducto fStock = new FormStockProducto(connectionDB);
         fStock.setVisible(true);
     }//GEN-LAST:event_jMenuStockProductosActionPerformed
 
@@ -987,15 +988,15 @@ public class FormMenu extends javax.swing.JFrame {
     private void datosTerminal() {
         TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
         hostName = terminal.getNameHost();
-        idTerminal = terminal.getIdTerminal(hostName);
-        if (idTerminal == 0) {
-                JOptionPane.showMessageDialog( null, "El equipo no ha sido configurado correctamente \n\n" + 
-                        "¡consulte con el administrador!" , "Error", JOptionPane.ERROR_MESSAGE);
-                
-                this.databaseUtils.close(connectionDB);
-                System.exit(0);
-                
-            }
+//        idTerminal = terminal.getIdTerminal(hostName);
+//        if (idTerminal == 0) {
+//                JOptionPane.showMessageDialog( null, "El equipo no ha sido configurado correctamente \n\n" + 
+//                        "¡consulte con el administrador!" , "Error", JOptionPane.ERROR_MESSAGE);
+//                
+//                this.databaseUtils.close(connectionDB);
+//                System.exit(0);
+//                
+//            }
         jlTerminal.setText("Terminal: " + hostName);
     }
 }
