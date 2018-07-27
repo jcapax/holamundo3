@@ -5,6 +5,7 @@
  */
 package almacenes.vistas;
 
+import almacenes.vistas.configuracion.FormDosificacion;
 import almacenes.vistas.configuracion.FormLugar;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Configuracion;

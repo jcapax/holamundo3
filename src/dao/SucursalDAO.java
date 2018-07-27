@@ -17,5 +17,6 @@ public interface SucursalDAO {
     public void eliminarSucursal(byte idSucursal);
     public void editarSucursal(Sucursal s);
     public ArrayList<Sucursal> getListSucursal();
+    public ArrayList<Sucursal> getSucursal(byte idSucursal);
     
 }
