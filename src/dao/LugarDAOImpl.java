@@ -98,11 +98,9 @@ public class LugarDAOImpl implements LugarDAO{
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs  = ps.executeQuery();
-            
             Lugar lugar;
             while(rs.next()){
                 lugar = new Lugar(rs.getInt("id"), rs.getString("descripcion"));
-                
                 map.put(lugar.getDescripcion(), lugar.getId());
             }
             
