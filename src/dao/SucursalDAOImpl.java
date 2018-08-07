@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -153,6 +154,27 @@ public class SucursalDAOImpl implements SucursalDAO{
             Logger.getLogger(SucursalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaSucursal;
+    }
+
+    @Override
+    public HashMap<String, Integer> sucursalClaveValor() {
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        String sql = null;
+        
+         sql = "SELECT id, nombre_sucursal FROM sucursal ORDER BY nombre_sucursal";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs  = ps.executeQuery();
+            
+            Sucursal sucursal;
+            while(rs.next()){
+//                sucursal = new Sucursal(rs.getInt("id"), rs.getString("descripcion"));                
+            map.put(rs.getString("nombre_sucursal"), rs.getInt("id"));
+            }
+        } catch (Exception e) {
+        }
+        return map;
     }
     
 }

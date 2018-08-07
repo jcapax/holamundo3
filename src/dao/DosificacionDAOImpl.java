@@ -47,7 +47,7 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
             ps.setInt(5, dosificacion.getNroInicioFactura());
             ps.setDate(6, dosificacion.getFechaLimiteEmision());
             ps.setString(7, dosificacion.getPieFactura());
-            ps.setString(7, dosificacion.getEstado());
+            ps.setInt(7, dosificacion.getEstado());
             
             ps.executeUpdate();
             
@@ -62,9 +62,9 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
     @Override
     public ArrayList<Dosificacion> getListDosificacion() {
         ArrayList<Dosificacion> listDosif = new ArrayList<>();
-        String sql = "select id, llave_dosificacion, fecha, id_sucursal, nro_autorizacion, "
-                + "nro_inicio_factura, fecha_limite_emision, pie_factura, estado "
-                + "from dosificacion "
+        String sql = "select d.id, llave_dosificacion, fecha, d.id_sucursal, s.nombre_sucursal, nro_autorizacion, "
+                + "nro_inicio_factura, fecha_limite_emision, pie_factura, d.estado "
+                + "from dosificacion d join sucursal s on d.id_sucursal = s.id "
                 + "order by id desc";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -72,11 +72,12 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
             while(rs.next()){
                 Dosificacion d = new Dosificacion();
                 
-                d.setEstado(rs.getString("estado"));
+                d.setEstado(rs.getInt("estado"));
                 d.setFecha(rs.getDate("fecha"));
                 d.setFechaLimiteEmision(rs.getDate("fecha_limite_emision"));
                 d.setId(rs.getInt("id"));
                 d.setIdSucursal(rs.getInt("id_sucursal"));
+                d.setNombreSucursal(rs.getString("nombre_sucursal"));
                 d.setLlaveDosificacion(rs.getString("llave_dosificacion"));
                 d.setNroAutorizacion(rs.getString("nro_autorizacion"));
                 d.setNroInicioFactura(rs.getInt("nro_inicio_factura"));

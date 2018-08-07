@@ -810,7 +810,7 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmenuReimpresionActionPerformed
 
     private void jmenuDosificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuDosificacionActionPerformed
-        FormDosificacion dos = new FormDosificacion();
+        FormDosificacion dos = new FormDosificacion(connectionDB);
         dos.setVisible(true);
 
     }//GEN-LAST:event_jmenuDosificacionActionPerformed

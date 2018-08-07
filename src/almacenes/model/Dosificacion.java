@@ -16,11 +16,20 @@ public class Dosificacion {
     private String llaveDosificacion;
     private Date fecha;
     private int idSucursal;
+    private String nombreSucursal;
     private String nroAutorizacion;
     private int nroInicioFactura;
     private Date fechaLimiteEmision;
     private String pieFactura;
-    private String estado;
+    private int estado;
+
+    public String getNombreSucursal() {
+        return nombreSucursal;
+    }
+
+    public void setNombreSucursal(String nombreSucursal) {
+        this.nombreSucursal = nombreSucursal;
+    }
 
     public int getId() {
         return id;
@@ -86,11 +95,11 @@ public class Dosificacion {
         this.pieFactura = pieFactura;
     }
 
-    public String getEstado() {
+    public int getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(int estado) {
         this.estado = estado;
     }
 }
