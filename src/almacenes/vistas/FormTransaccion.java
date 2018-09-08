@@ -355,17 +355,17 @@ public class FormTransaccion extends javax.swing.JFrame {
         String nit = jtxtNit.getText().trim();
         String razonSocial = jtxtRazonSocial.getText().trim().toUpperCase();
 
-        int idSucursal = 1;
         String codigoControl = "";
         int correlativoSucursal = 1;
 
         int especificacion = 1;
         String estado = "V";
+        int idSucursal = facDaoImpl.getIdSucursal(idLugar);
         String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
         Date fechaFactura = tran.getFechaTransaccion(idTransaccion);
         java.util.Date fechaFactura1 = new Date(fechaFactura.getTime());
         Date fechaLimiteEmision = facDaoImpl.getFechaLimiteEmision(nroAutorizacion);
-        int idDosificacion = 1;
+        int idDosificacion = facDaoImpl.getIdDosificacion(idSucursal);
         int nroFactura = facDaoImpl.getNewNroFactura(nroAutorizacion);
         String llaveDosf = facDaoImpl.getLlaveDosificacion(nroAutorizacion);
         double importeTotal = tran.getValorTotalTransaccion(idTransaccion);

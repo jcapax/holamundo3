@@ -539,7 +539,7 @@ public class FormProducto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelComponentesLayout.createSequentialGroup()
-                        .addGap(44, 44, 44)
+                        .addGap(50, 50, 50)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))

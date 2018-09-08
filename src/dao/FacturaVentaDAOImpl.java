@@ -234,5 +234,43 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
         return cadenaQR;
         
     }
+
+    @Override
+    public int getIdSucursal(int idLugar) {
+        int idSucursal = 0;
+        String sql = "select id from sucursal where estado = 1 and id_lugar = ?";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idLugar);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                idSucursal = rs.getInt("id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaVentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return idSucursal;
+    }
+
+    @Override
+    public int getIdDosificacion(int idSucursal) {
+        int idDosificacion = 0;
+        String sql = "select id from dosificacion where estado = 1 and id_sucursal = ?";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idSucursal);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                idDosificacion = rs.getInt("id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaVentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return idDosificacion;
+    }
     
 }
