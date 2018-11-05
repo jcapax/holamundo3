@@ -20,7 +20,7 @@ public interface UnidadMedidaDAO {
     public HashMap<String, Integer> unidadMedidaClaveValor();
     public void insertarUnidadMedida(UnidadMedida uMedida);
     public void eliminarUnidadMedida(int id);
-    
+    public String getSimboloUnidadMedida(int id);
     
     
 }

@@ -21,8 +21,17 @@ public class UnidadProducto {
     private double precioVentaRebaja;
     private double precioVentaAumento;
     private double precioCompra;
+    private int garantiaMeses;
     private int actualizacion;
     private String usuario;
+
+    public int getGarantiaMeses() {
+        return garantiaMeses;
+    }
+
+    public void setGarantiaMeses(int garantiaMeses) {
+        this.garantiaMeses = garantiaMeses;
+    }
 
     public UnidadProducto(int idProdcuto, int idUnidadMedida, int unidadPrincipal, double stockMinimo, double precioVenta, double precioVentaRebaja, double precioVentaAumento, double precioCompra, int actualizacion, String usuario) {
         this.idProdcuto = idProdcuto;

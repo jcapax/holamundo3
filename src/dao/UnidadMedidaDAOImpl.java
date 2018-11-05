@@ -117,5 +117,23 @@ public class UnidadMedidaDAOImpl implements UnidadMedidaDAO{
         
         return map;    
     }
+
+    @Override
+    public String  getSimboloUnidadMedida(int id) {
+        String sql = "Select simbolo From unidad_medida Where id = ?";
+        String simbolo = "";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                simbolo
+                         = rs.getString("simbolo");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UnidadMedidaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return simbolo;
+    }
     
 }

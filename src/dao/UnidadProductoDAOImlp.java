@@ -52,6 +52,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
                 uProd.setPrecioVentaRebaja(rs.getDouble("precio_venta_rebaja"));
                 uProd.setStockMinimo(rs.getDouble("stock_minimo"));
                 uProd.setUnidadPrincipal(rs.getInt("unidad_principal"));
+                uProd.setGarantiaMeses(rs.getInt("garantia_meses"));
                 
                 lUnidadProducto.add(uProd);
             }
@@ -67,8 +68,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     public void insertarUnidadProducto(UnidadProducto unidadProducto) {
         String sql = "INSERT INTO unidad_producto"
                 + "(id_producto, id_unidad_medida, unidad_principal, stock_minimo, precio_venta, "
-                + "precio_venta_rebaja, precio_venta_aumento, precio_compra, actualizacion, usuario) "
-                + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "precio_venta_rebaja, precio_venta_aumento, precio_compra, actualizacion, usuario, garantia_meses) "
+                + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -82,6 +83,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setDouble(7, unidadProducto.getPrecioVentaAumento());
             ps.setDouble(8, unidadProducto.getPrecioCompra());
             ps.setInt(9, unidadProducto.getActualizacion());
+            ps.setInt(10, unidadProducto.getGarantiaMeses());
             ps.setString(10, "SYS");
             
             int n = ps.executeUpdate();
@@ -145,7 +147,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
         String sql = "update unidad_producto "
                 + "set id_unidad_medida = ?, unidad_principal = ?, stock_minimo = ?, "
                 + "precio_venta = ?, precio_venta_rebaja = ?, "
-                + "precio_venta_aumento = ?, precio_compra = ?, usuario = ? "
+                + "precio_venta_aumento = ?, precio_compra = ?, usuario = ?, garantia_meses = ? "
                 + "where id = ?";
         
         try {
@@ -158,7 +160,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setDouble(6, unidadProducto.getPrecioVentaAumento());
             ps.setDouble(7, unidadProducto.getPrecioCompra());
             ps.setString(8, unidadProducto.getUsuario());
-            ps.setInt(9, unidadProducto.getId());
+            ps.setInt(9, unidadProducto.getGarantiaMeses());
+            ps.setInt(10, unidadProducto.getId());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UnidadProductoDAOImlp.class.getName()).log(Level.SEVERE, null, ex);
