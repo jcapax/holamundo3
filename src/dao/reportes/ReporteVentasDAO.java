@@ -18,4 +18,7 @@ public interface ReporteVentasDAO {
     public void impresionDirecta(Boolean cuadroConfirmacion);
     public void impresionPDF(String rutaExportarPDF);
     public void arqueo(int id);
+    public void listaArqueosMes(Integer anno, byte mes, String nombre_mes);
+    
+    public void stockProductosLugar(int idLugar);
 }

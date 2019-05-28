@@ -118,4 +118,24 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
         
         this.imprimir.vistaPreviaReporte("Reporte Movimiento Caja General", "reporte_movimiento_caja_por_fecha.jrxml", parametros);
     }
+
+    @Override
+    public void stockProductosLugar(int idLugar) {
+        Map parametros = new HashMap<>();
+        
+        parametros.put("id_lugar", idLugar);
+        
+        this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_lugar.jrxml", parametros);
+    }
+
+    @Override
+    public void listaArqueosMes(Integer anno, byte mes, String nombre_mes) {
+        Map parametros = new HashMap<>();
+        
+        parametros.put("anio", anno);
+        parametros.put("mes", Integer.valueOf(mes));
+        parametros.put("nombre_mes", nombre_mes);
+        
+        this.imprimir.vistaPreviaReporte("Reporte Lista Arqueos Mes", "reporte_lista_arqueos.jrxml", parametros);
+    }
 }

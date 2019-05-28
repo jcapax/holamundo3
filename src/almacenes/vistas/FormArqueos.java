@@ -12,6 +12,8 @@ import almacenes.model.ListaCaja;
 import dao.ArqueoDAOImpl;
 import dao.CajaDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
+import dao.reportes.ReporteVentasDAO;
+import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -99,6 +101,7 @@ public class FormArqueos extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jlTituloFormulario2 = new javax.swing.JLabel();
         jlTituloFormulario3 = new javax.swing.JLabel();
+        bImprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -245,6 +248,14 @@ public class FormArqueos extends javax.swing.JFrame {
         jlTituloFormulario3.setForeground(new java.awt.Color(153, 0, 51));
         jlTituloFormulario3.setText("Movimiento");
 
+        bImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/print.png"))); // NOI18N
+        bImprimir.setText("Imprimir");
+        bImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,14 +299,16 @@ public class FormArqueos extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jlTituloFormulario)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jlTituloFormulario1)
-                                .addGap(132, 132, 132))
+                                .addComponent(jlTituloFormulario1))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(89, 89, 89)
                                 .addComponent(jbBuscar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(bImprimir)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(40, 40, 40)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -317,7 +330,8 @@ public class FormArqueos extends javax.swing.JFrame {
                     .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbBuscar)
-                    .addComponent(btnSalir))
+                    .addComponent(btnSalir)
+                    .addComponent(bImprimir))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -377,6 +391,31 @@ public class FormArqueos extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void bImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bImprimirActionPerformed
+        Integer anno;
+        byte mes;
+        String nombre_mes = null;
+        
+        mes = (byte) (jcMes.getSelectedIndex() + 1);
+        anno = Integer.parseInt(jcAnno.getSelectedItem().toString());
+        
+        switch(mes){
+            case 1: nombre_mes = "ENERO";
+            case 2: nombre_mes = "FEBRERO";
+            case 3: nombre_mes = "MARZO";
+            case 4: nombre_mes = "ABRIL";
+            case 5: nombre_mes = "MAYO";
+            case 6: nombre_mes = "JUNIO";
+            case 7: nombre_mes = "JULIO";
+            case 8: nombre_mes = "AGOSTO";
+            case 9: nombre_mes = "SEPTIEMBRE";
+            case 10: nombre_mes = "OCTUBRE";
+            case 11: nombre_mes = "NOVIEMBRE";
+            case 12: nombre_mes = "DICIEMBRE";
+        }
+        imprimir_arqueo(anno, mes, nombre_mes);
+    }//GEN-LAST:event_bImprimirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -413,6 +452,7 @@ public class FormArqueos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bImprimir;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -625,6 +665,11 @@ public class FormArqueos extends javax.swing.JFrame {
     
     public void vaciarTotales(){
         jtxtTotalMes.setText("");
+    }
+
+    private void imprimir_arqueo(Integer anno, byte mes, String nombre_mes) {
+        ReporteVentasDAO aO = new ReporteVentasDAOImpl(connectionDB, "");
+        aO.listaArqueosMes(anno, mes, nombre_mes);
     }
 
 }

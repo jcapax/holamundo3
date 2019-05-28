@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
@@ -59,7 +59,7 @@ where id_transaccion = $P{id_transaccion}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="246" splitType="Stretch">
+		<band height="216" splitType="Stretch">
 			<staticText>
 				<reportElement x="183" y="3" width="195" height="30" forecolor="#054A82" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
 				<textElement textAlignment="Center">
@@ -73,6 +73,20 @@ where id_transaccion = $P{id_transaccion}]]>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="3" width="80" height="18" forecolor="#054A82" uuid="cbc118c5-7443-45ad-aad0-40473c1e1843"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DON PISTON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="15" width="37" height="12" forecolor="#054A82" uuid="b2aa844e-5edc-4ff5-90e0-de5832b26909"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Auto partes]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="510" y="32" width="40" height="14" uuid="4786be76-1c2e-4aec-9dbc-13916c1301fb"/>
@@ -191,28 +205,6 @@ where id_transaccion = $P{id_transaccion}]]>
 				<textElement>
 					<font size="8" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="4" width="200" height="18" forecolor="#054A82" uuid="96372c79-8aac-4cc1-8032-11b2e96c99b5">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DISMEBOL]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="21" width="200" height="12" forecolor="#054A82" uuid="5db2dc9a-6182-41af-8534-1897947bae0a">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Importadora y Distribuidora de Insumos Medicos Bolivia]]></text>
-			</staticText>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="226" width="144" height="20" uuid="7f9eb553-58a1-44e9-bf76-6f043b586e74"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

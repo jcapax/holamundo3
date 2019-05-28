@@ -37,7 +37,7 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
             int aux = 0;
             String sql = "INSERT INTO dosificacion(llave_dosificacion, fecha, id_sucursal, nro_autorizacion, "
                     + "nro_inicio_factura, fecha_limite_emision, pie_factura, estado) "
-                    + "values(?,?,?,?,?,?,?)";
+                    + "values(?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setString(1, dosificacion.getLlaveDosificacion());
@@ -47,7 +47,7 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
             ps.setInt(5, dosificacion.getNroInicioFactura());
             ps.setDate(6, dosificacion.getFechaLimiteEmision());
             ps.setString(7, dosificacion.getPieFactura());
-            ps.setInt(7, dosificacion.getEstado());
+            ps.setInt(8, dosificacion.getEstado());
             
             ps.executeUpdate();
             
