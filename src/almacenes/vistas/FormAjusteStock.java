@@ -229,11 +229,11 @@ public class FormAjusteStock extends javax.swing.JFrame {
 
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
 
-        registrarCaja(idTransaccion);
+//        registrarCaja(idTransaccion);
 
         limpiar();
 
-        JOptionPane.showMessageDialog(this, "Stock Inicial registrado con exito");
+        JOptionPane.showMessageDialog(this, "Ajuste Stock registrado con exito");
         vaciarProductosTemporales();
     }
 
@@ -1128,21 +1128,6 @@ public class FormAjusteStock extends javax.swing.JFrame {
             jtxtCantidad.requestFocus();
             aux = false;
             return;
-        }
-
-        if (idTipoTransaccion == 2) { // solo para ventas
-            ProductoDAOImpl prod = new ProductoDAOImpl(connectionDB);
-            byte controlStock = prod.getControlStock(Integer.parseInt(jlIdProducto.getText()));
-
-            if (controlStock == 1) {
-                double stock = Double.valueOf(jlStockProducto.getText());
-                if (Double.parseDouble(jtxtCantidad.getText()) > stock) {
-                    JOptionPane.showMessageDialog(this, "No existe la suficiente cantidad del producto seleccionado en Almacen!!!");
-                    aux = false;
-                    jtxtCantidad.requestFocus();
-                    return;
-                }
-            }
         }
 
         if (aux) {

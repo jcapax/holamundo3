@@ -3,12 +3,15 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_stock_lugar" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f4bdf3cc-08a4-4ca6-a162-43994a48b150">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dismebol"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="306"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="686"/>
 	<parameter name="id_lugar" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT p.descripcion, p.nombre_unidad_medida, s.stock, l.descripcion nombre_lugar
 FROM v_stock s
 	JOIN lugar l ON s.id_lugar = l.id
 	JOIN v_productos p ON p.id_producto = s.id_producto 
+		AND p.id_unidad_medida = S.id_unidad_medida
 WHERE l.id = $P{id_lugar}
 ORDER BY s.stock]]>
 	</queryString>

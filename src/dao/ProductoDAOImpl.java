@@ -149,11 +149,12 @@ public class ProductoDAOImpl implements ProductoDAO{
     public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio) {
         ArrayList<StockProducto> lStockProducto = new ArrayList<StockProducto>();
         
-        String sql = "SELECT p.descripcion, p.nombre_unidad_medida, s.stock " +
-                        "FROM v_stock s" +
-                        " JOIN v_productos p ON p.id_producto = s.id_producto "
-                + " WHERE s.id_lugar = ? and p.descripcion like '%"+criterio+"%'"
-                       + " ORDER BY s.stock";
+        String sql = "SELECT p.descripcion, p.nombre_unidad_medida, s.stock "
+                + "FROM v_stock s"
+                + " JOIN v_productos p ON p.id_producto = s.id_producto"
+                + "  AND p.id_unidad_medida = S.id_unidad_medida "
+                + "WHERE s.id_lugar = ? and p.descripcion like '%"+criterio+"%'"
+                + " ORDER BY s.stock";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
