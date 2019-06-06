@@ -82,9 +82,9 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setDouble(6, unidadProducto.getPrecioVentaRebaja());
             ps.setDouble(7, unidadProducto.getPrecioVentaAumento());
             ps.setDouble(8, unidadProducto.getPrecioCompra());
-            ps.setInt(9, unidadProducto.getActualizacion());
-            ps.setInt(10, unidadProducto.getGarantiaMeses());
+            ps.setInt(9, unidadProducto.getActualizacion());            
             ps.setString(10, "SYS");
+            ps.setInt(11, unidadProducto.getGarantiaMeses());
             
             int n = ps.executeUpdate();
             if (n != 0) {

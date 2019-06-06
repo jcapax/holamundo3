@@ -47,6 +47,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 lProd.setACTUALIZACION(rs.getInt("actualizacion"));
                 lProd.setControlStock(rs.getInt("control_stock"));
                 lProd.setDescripcion(rs.getString("descripcion"));
+                lProd.setCaducidad(rs.getInt("caducidad"));
                 lProd.setEstado(rs.getString("estado"));
                 lProd.setIDUNIDADMEDIDA(rs.getInt("id_unidad_medida"));
                 lProd.setIdMarca(rs.getInt("id_marca"));
@@ -77,8 +78,8 @@ public class ProductoDAOImpl implements ProductoDAO{
     @Override
     public void insertarProducto(Producto producto) {
         String sqlProd = "insert into "+
-                "producto(id_rubro_producto, id_marca, id_procedencia, descripcion, estado, control_stock, usuario) "+
-                "values(?, ?, ?, ?, ?, ?, ?)";
+                "producto(id_rubro_producto, id_marca, id_procedencia, descripcion, estado, control_stock, caducidad, usuario) "+
+                "values(?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sqlProd);
@@ -89,7 +90,8 @@ public class ProductoDAOImpl implements ProductoDAO{
             ps.setString(4, producto.getDescripcion());
             ps.setString(5, producto.getEstado());
             ps.setInt(6, producto.getControlStock());
-            ps.setString(7, producto.getUsuario());
+            ps.setInt(7, producto.getCaducidad());
+            ps.setString(8, producto.getUsuario());
             
             int n = ps.executeUpdate();
             if(n > 0){
@@ -118,6 +120,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 lProd.setId(rs.getInt("id_producto"));
                 lProd.setACTUALIZACION(rs.getInt("actualizacion"));
                 lProd.setControlStock(rs.getInt("control_stock"));
+                lProd.setCaducidad(rs.getInt("caducidad"));
                 lProd.setDescripcion(rs.getString("descripcion"));
                 lProd.setEstado(rs.getString("estado"));
                 lProd.setIDUNIDADMEDIDA(rs.getInt("id_unidad_medida"));
@@ -200,7 +203,7 @@ public class ProductoDAOImpl implements ProductoDAO{
         String sql = "update producto "
                 + "set id_rubro_producto = ?, id_procedencia = ?, "
                 + "id_marca = ?, descripcion = ?, estado = ?, "
-                + "control_stock = ?, usuario = ? "
+                + "control_stock = ?, caducidad = ?, usuario = ? "
                 + "where id = ?";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -210,8 +213,9 @@ public class ProductoDAOImpl implements ProductoDAO{
             ps.setString(4, producto.getDescripcion());
             ps.setString(5, producto.getEstado());
             ps.setInt(6, producto.getControlStock());
-            ps.setString(7, producto.getUsuario());
-            ps.setInt(8, producto.getId());
+            ps.setInt(7, producto.getCaducidad());
+            ps.setString(8, producto.getUsuario());
+            ps.setInt(9, producto.getId());
             ps.executeUpdate();
             
         } catch (SQLException ex) {

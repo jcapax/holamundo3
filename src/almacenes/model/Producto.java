@@ -20,11 +20,21 @@ public class Producto {
     private String estado;
     private int recargo;
     private int controlStock;
+    private int caducidad;
     private String usuario;
 
+    public int getCaducidad() {
+        return caducidad;
+    }
+
+    public void setCaducidad(int caducidad) {
+        this.caducidad = caducidad;
+    }
+
+    
     public Producto(String claseProducto, int idRubroProducto, int idMarca, int idProcedencia, 
                 String descripcion, String tipoCuenta, String estado, 
-                int recargo, int controlStock, String usuario) {
+                int recargo, int controlStock, int caducidad, String usuario) {
         this.claseProducto = claseProducto;
         this.idRubroProducto = idRubroProducto;
         this.idMarca = idMarca;
@@ -34,6 +44,7 @@ public class Producto {
         this.estado = estado;
         this.recargo = recargo;
         this.controlStock = controlStock;
+        this.caducidad = caducidad;
         this.usuario = usuario;
     }
 

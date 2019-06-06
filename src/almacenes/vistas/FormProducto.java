@@ -51,6 +51,7 @@ public class FormProducto extends javax.swing.JFrame {
         jcRubro.setEnabled(aux);
         jtxtNombreProducto.setEnabled(aux);
         jchControlStock.setEnabled(aux);
+        jchCaducidad.setEnabled(aux);
         jchEstado.setEnabled(aux);
     }
     
@@ -63,6 +64,7 @@ public class FormProducto extends javax.swing.JFrame {
         jcRubro.setEnabled(aux);
         jtxtNombreProducto.setEnabled(aux);
         jchControlStock.setEnabled(aux);
+        jchCaducidad.setEnabled(aux);
         jchEstado.setEnabled(aux);
     }
     
@@ -87,7 +89,7 @@ public class FormProducto extends javax.swing.JFrame {
         
         jtProductos.setModel(dtm);
         
-        Object[] fila = new Object[19];
+        Object[] fila = new Object[20];
         
 //        System.out.println("nro de registros en pila: " + lProd.size());
 
@@ -106,24 +108,26 @@ public class FormProducto extends javax.swing.JFrame {
             fila[8]  = aux;
             aux = (lProd.get(i).getControlStock()==1)?true:false;
             fila[9]  = aux;
-            fila[10] = lProd.get(i).getIDUNIDADMEDIDA();
-            fila[11] = lProd.get(i).getNombreUnidadMedida();
-            fila[12] = lProd.get(i).getUNIDADPRINCIPAL();
-            fila[13] = lProd.get(i).getSTOCKMINIMO();
-            fila[14] = df.format(lProd.get(i).getPRECIOVENTA());
-            fila[15] = lProd.get(i).getPRECIOVENTAREBAJA();
-            fila[16] = lProd.get(i).getPRECIOVENTAAUMENTO();
-            fila[17] = df.format(lProd.get(i).getPRECIOCOMPRA());
-            fila[18] = lProd.get(i).getACTUALIZACION();
+            aux = (lProd.get(i).getCaducidad()==1)?true:false;
+            fila[10]  = aux;
+            fila[11] = lProd.get(i).getIDUNIDADMEDIDA();
+            fila[12] = lProd.get(i).getNombreUnidadMedida();
+            fila[13] = lProd.get(i).getUNIDADPRINCIPAL();
+            fila[14] = lProd.get(i).getSTOCKMINIMO();
+            fila[15] = df.format(lProd.get(i).getPRECIOVENTA());
+            fila[16] = lProd.get(i).getPRECIOVENTAREBAJA();
+            fila[17] = lProd.get(i).getPRECIOVENTAAUMENTO();
+            fila[18] = df.format(lProd.get(i).getPRECIOCOMPRA());
+            fila[19] = lProd.get(i).getACTUALIZACION();
             
             dtm.addRow(fila);
         }
         
         TableColumnModel columnModel = jtProductos.getColumnModel();
 
-        TableColumn colStockMin = columnModel.getColumn(13);
-        TableColumn colPVenta = columnModel.getColumn(14);
-        TableColumn colPCompra = columnModel.getColumn(17);
+        TableColumn colStockMin = columnModel.getColumn(14);
+        TableColumn colPVenta = columnModel.getColumn(15);
+        TableColumn colPCompra = columnModel.getColumn(16);
         
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -143,6 +147,7 @@ public class FormProducto extends javax.swing.JFrame {
         
         String estado;
         int controlStock;
+        int caducidad;
         
         String descripcion = jtxtNombreProducto.getText().toUpperCase();
         
@@ -158,11 +163,18 @@ public class FormProducto extends javax.swing.JFrame {
             controlStock = 0;
         }
         
+        if(jchCaducidad.isSelected()){
+            caducidad = 1;
+        }else{
+            caducidad = 0;
+        }
+        
         ProductoDAOImpl prodDAOImpl = new ProductoDAOImpl(connectionDB);
         
         if(ljEditar.getText().equals("1")){
             Producto producto = new Producto();
             producto.setControlStock(controlStock);
+            producto.setCaducidad(caducidad);
             producto.setDescripcion(descripcion.toUpperCase());
             producto.setEstado(estado);
             producto.setId(Integer.parseInt(jlIdProducto.getText()));
@@ -175,7 +187,7 @@ public class FormProducto extends javax.swing.JFrame {
         else{
             Producto producto = new Producto("", idRubroproducto, idMarca, 
                                         idProcedencia, descripcion, "", 
-                                        estado, 0, controlStock, usuario);
+                                        estado, 0, controlStock, caducidad, usuario);
         
             prodDAOImpl.insertarProducto(producto);
         }
@@ -287,6 +299,7 @@ public class FormProducto extends javax.swing.JFrame {
         jcMarca = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jcProcedencia = new javax.swing.JComboBox<>();
+        jchCaducidad = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addFocusListener(new java.awt.event.FocusAdapter() {
@@ -360,14 +373,14 @@ public class FormProducto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "IdRubroProducto", "Rubro", "idMarca", "Marca", "idProcedencia", "Procedencia", "Descripcion", "Estado", "Stock", "idUnidadMedida", "U. Medida", "Unidad Principa", "Stock Min.", "P. Venta", "Precio Venta Rebaja", "Precio Venta Aumento", "P. Compra", "Actualizacion"
+                "id", "IdRubroProducto", "Rubro", "idMarca", "Marca", "idProcedencia", "Procedencia", "Descripcion", "Estado", "Stock", "Caduca", "idUnidadMedida", "U. Medida", "Unidad Principa", "Stock Min.", "P. Venta", "Precio Venta Rebaja", "Precio Venta Aumento", "P. Compra", "Actualizacion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, true, false, true, true, true, false, true, true, true, true, true, false
+                true, true, true, true, true, true, true, true, false, true, true, true, true, false, true, true, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -414,39 +427,42 @@ public class FormProducto extends javax.swing.JFrame {
             jtProductos.getColumnModel().getColumn(7).setMinWidth(250);
             jtProductos.getColumnModel().getColumn(7).setPreferredWidth(250);
             jtProductos.getColumnModel().getColumn(7).setMaxWidth(250);
-            jtProductos.getColumnModel().getColumn(8).setMinWidth(60);
-            jtProductos.getColumnModel().getColumn(8).setPreferredWidth(60);
-            jtProductos.getColumnModel().getColumn(8).setMaxWidth(60);
-            jtProductos.getColumnModel().getColumn(9).setMinWidth(60);
-            jtProductos.getColumnModel().getColumn(9).setPreferredWidth(60);
-            jtProductos.getColumnModel().getColumn(9).setMaxWidth(60);
-            jtProductos.getColumnModel().getColumn(10).setMinWidth(0);
-            jtProductos.getColumnModel().getColumn(10).setPreferredWidth(0);
-            jtProductos.getColumnModel().getColumn(10).setMaxWidth(0);
-            jtProductos.getColumnModel().getColumn(11).setMinWidth(85);
-            jtProductos.getColumnModel().getColumn(11).setPreferredWidth(85);
-            jtProductos.getColumnModel().getColumn(11).setMaxWidth(85);
-            jtProductos.getColumnModel().getColumn(12).setMinWidth(0);
-            jtProductos.getColumnModel().getColumn(12).setPreferredWidth(0);
-            jtProductos.getColumnModel().getColumn(12).setMaxWidth(0);
-            jtProductos.getColumnModel().getColumn(13).setMinWidth(90);
-            jtProductos.getColumnModel().getColumn(13).setPreferredWidth(90);
-            jtProductos.getColumnModel().getColumn(13).setMaxWidth(90);
-            jtProductos.getColumnModel().getColumn(14).setMinWidth(90);
-            jtProductos.getColumnModel().getColumn(14).setPreferredWidth(90);
-            jtProductos.getColumnModel().getColumn(14).setMaxWidth(90);
-            jtProductos.getColumnModel().getColumn(15).setMinWidth(0);
-            jtProductos.getColumnModel().getColumn(15).setPreferredWidth(0);
-            jtProductos.getColumnModel().getColumn(15).setMaxWidth(0);
+            jtProductos.getColumnModel().getColumn(8).setMinWidth(50);
+            jtProductos.getColumnModel().getColumn(8).setPreferredWidth(50);
+            jtProductos.getColumnModel().getColumn(8).setMaxWidth(50);
+            jtProductos.getColumnModel().getColumn(9).setMinWidth(50);
+            jtProductos.getColumnModel().getColumn(9).setPreferredWidth(50);
+            jtProductos.getColumnModel().getColumn(9).setMaxWidth(50);
+            jtProductos.getColumnModel().getColumn(10).setMinWidth(50);
+            jtProductos.getColumnModel().getColumn(10).setPreferredWidth(50);
+            jtProductos.getColumnModel().getColumn(10).setMaxWidth(50);
+            jtProductos.getColumnModel().getColumn(11).setMinWidth(0);
+            jtProductos.getColumnModel().getColumn(11).setPreferredWidth(0);
+            jtProductos.getColumnModel().getColumn(11).setMaxWidth(0);
+            jtProductos.getColumnModel().getColumn(12).setMinWidth(80);
+            jtProductos.getColumnModel().getColumn(12).setPreferredWidth(80);
+            jtProductos.getColumnModel().getColumn(12).setMaxWidth(80);
+            jtProductos.getColumnModel().getColumn(13).setMinWidth(0);
+            jtProductos.getColumnModel().getColumn(13).setPreferredWidth(0);
+            jtProductos.getColumnModel().getColumn(13).setMaxWidth(0);
+            jtProductos.getColumnModel().getColumn(14).setMinWidth(60);
+            jtProductos.getColumnModel().getColumn(14).setPreferredWidth(60);
+            jtProductos.getColumnModel().getColumn(14).setMaxWidth(60);
+            jtProductos.getColumnModel().getColumn(15).setMinWidth(90);
+            jtProductos.getColumnModel().getColumn(15).setPreferredWidth(90);
+            jtProductos.getColumnModel().getColumn(15).setMaxWidth(90);
             jtProductos.getColumnModel().getColumn(16).setMinWidth(0);
             jtProductos.getColumnModel().getColumn(16).setPreferredWidth(0);
             jtProductos.getColumnModel().getColumn(16).setMaxWidth(0);
-            jtProductos.getColumnModel().getColumn(17).setMinWidth(90);
-            jtProductos.getColumnModel().getColumn(17).setPreferredWidth(90);
-            jtProductos.getColumnModel().getColumn(17).setMaxWidth(90);
-            jtProductos.getColumnModel().getColumn(18).setMinWidth(0);
-            jtProductos.getColumnModel().getColumn(18).setPreferredWidth(0);
-            jtProductos.getColumnModel().getColumn(18).setMaxWidth(0);
+            jtProductos.getColumnModel().getColumn(17).setMinWidth(0);
+            jtProductos.getColumnModel().getColumn(17).setPreferredWidth(0);
+            jtProductos.getColumnModel().getColumn(17).setMaxWidth(0);
+            jtProductos.getColumnModel().getColumn(18).setMinWidth(90);
+            jtProductos.getColumnModel().getColumn(18).setPreferredWidth(90);
+            jtProductos.getColumnModel().getColumn(18).setMaxWidth(90);
+            jtProductos.getColumnModel().getColumn(19).setMinWidth(0);
+            jtProductos.getColumnModel().getColumn(19).setPreferredWidth(0);
+            jtProductos.getColumnModel().getColumn(19).setMaxWidth(0);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -531,6 +547,9 @@ public class FormProducto extends javax.swing.JFrame {
             }
         });
 
+        jchCaducidad.setForeground(new java.awt.Color(153, 0, 51));
+        jchCaducidad.setText("Caducidad");
+
         javax.swing.GroupLayout jPanelComponentesLayout = new javax.swing.GroupLayout(jPanelComponentes);
         jPanelComponentes.setLayout(jPanelComponentesLayout);
         jPanelComponentesLayout.setHorizontalGroup(
@@ -553,7 +572,9 @@ public class FormProducto extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jchEstado)
                                 .addGap(41, 41, 41)
-                                .addComponent(jchControlStock))
+                                .addComponent(jchControlStock)
+                                .addGap(34, 34, 34)
+                                .addComponent(jchCaducidad))
                             .addComponent(jtxtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelComponentesLayout.createSequentialGroup()
                                 .addComponent(jcProcedencia, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -583,7 +604,8 @@ public class FormProducto extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jchEstado)
-                    .addComponent(jchControlStock))
+                    .addComponent(jchControlStock)
+                    .addComponent(jchCaducidad))
                 .addContainerGap())
         );
 
@@ -761,6 +783,7 @@ public class FormProducto extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcMarca;
     private javax.swing.JComboBox<String> jcProcedencia;
     private javax.swing.JComboBox<String> jcRubro;
+    private javax.swing.JCheckBox jchCaducidad;
     private javax.swing.JCheckBox jchControlStock;
     private javax.swing.JCheckBox jchEstado;
     private javax.swing.JLabel jlIdMarca;
@@ -871,6 +894,10 @@ public class FormProducto extends javax.swing.JFrame {
         aux = (Boolean.parseBoolean(jtProductos.getValueAt(fila, 9).toString()))?true:false;
         
         jchControlStock.setSelected(aux);
+        
+        aux = (Boolean.parseBoolean(jtProductos.getValueAt(fila, 10).toString()))?true:false;
+        
+        jchCaducidad.setSelected(aux);
         
     }
     

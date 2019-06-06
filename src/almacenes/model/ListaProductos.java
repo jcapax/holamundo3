@@ -20,6 +20,7 @@ public class ListaProductos {
    private String descripcion;
    private String estado;
    private int controlStock;
+   private int caducidad;
    private int IDUNIDADMEDIDA;
    private String nombreUnidadMedida;
    private int UNIDADPRINCIPAL;
@@ -29,6 +30,14 @@ public class ListaProductos {
    private double PRECIOVENTAAUMENTO;
    private double PRECIOCOMPRA;
    private int ACTUALIZACION;
+
+    public int getCaducidad() {
+        return caducidad;
+    }
+
+    public void setCaducidad(int caducidad) {
+        this.caducidad = caducidad;
+    }
 
     public int getId() {
         return id;
