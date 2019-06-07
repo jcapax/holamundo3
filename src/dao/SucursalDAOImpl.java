@@ -176,5 +176,23 @@ public class SucursalDAOImpl implements SucursalDAO{
         }
         return map;
     }
+
+    @Override
+    public String getNitSucursal(byte idLugar) {
+        String nitSucursal = null;
+        String sql = "select nit_sucursal from sucursal where id_lugar = ?";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setByte(1, idLugar);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                nitSucursal = rs.getString("nit_sucursal");
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(SucursalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nitSucursal;
+    }
     
 }

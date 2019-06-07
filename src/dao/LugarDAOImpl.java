@@ -29,8 +29,6 @@ public class LugarDAOImpl implements LugarDAO{
         this.databaseUtils = new DatabaseUtils();
     }
     
-    
-
     @Override
     public void insertarLugar(Lugar lugar) {
         String sql = "insert into lugar(descripcion) values(?)";
@@ -142,5 +140,23 @@ public class LugarDAOImpl implements LugarDAO{
         }
         return idLugar;
     }
-    
+
+    @Override
+    public byte getIdLugarTransaccion(int idTransaccion) {
+        byte idLugar = 0;
+        String sql = "Select id_lugar From transaccion Where id = "+String.valueOf(idTransaccion);
+            PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+//            ps.setInt(1, idTransaccion);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                idLugar = rs.getByte("id_lugar");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(LugarDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idLugar;        
+    }
 }

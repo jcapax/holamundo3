@@ -195,7 +195,13 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
         
         String sql = "select * from factura_venta where id_transaccion = ?";
         
-        String nitLocal = null;
+        LugarDAO lug = new LugarDAOImpl(connectionDB);
+        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
+        
+        byte idLugar = lug.getIdLugarTransaccion(idTransaccion);
+        String nitSucursal = suc.getNitSucursal(idLugar);
+               
+        String nitLocal = nitSucursal;
         String nroFactura = null, nroAutorizacion = null;
         String fechaFactura = null, importeTotal = null, importeBaseDebitoFiscal = null;
         String codigoControl = null, nit = null;
@@ -212,7 +218,7 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
                 Format formatDate = new SimpleDateFormat("yyyyMMdd");
                 fechaFactura = formatDate.format(fechaFactUtil).trim();
                 
-                nitLocal = String.valueOf(rs.getInt("nit_sucursal"));
+//                nitLocal = String.valueOf(rs.getInt("nit_sucursal"));
                 nroFactura = String.valueOf(rs.getInt("nro_factura"));
                 nroAutorizacion = rs.getString("nro_autorizacion");
                 importeTotal = String.valueOf(rs.getDouble("importe_total"));

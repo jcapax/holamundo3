@@ -21,4 +21,5 @@ public interface LugarDAO {
     public HashMap<String, Integer> lugarClaveValor();
     public boolean existsLugar();
     public byte getIdLugar(byte idTerminal);
+    public byte getIdLugarTransaccion(int idTransaccion);
 }
