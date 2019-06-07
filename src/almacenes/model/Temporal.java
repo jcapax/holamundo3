@@ -6,6 +6,8 @@
 package almacenes.model;
 
 import java.sql.Connection;
+import java.util.Date;
+
 
 /**
  *
@@ -20,6 +22,15 @@ public class Temporal {
     private double valorUnitario;
     private double valorTotal;
     private String tipoValor;
+    private String fecha_vencimiento;
+
+    public String getFecha_vencimiento() {
+        return fecha_vencimiento;
+    }
+
+    public void setFecha_vencimiento(String fecha_vencimiento) {
+        this.fecha_vencimiento = fecha_vencimiento;
+    }
 
     public int getIdProducto() {
         return idProducto;

@@ -15,5 +15,6 @@ import java.util.ArrayList;
 public interface VencimientoDAO {
     public void insertarVencimiento(Vencimiento v);
     public void registrosSalidasProductosVencimiento(int idTransaccion);
+    public boolean isVencimiento(int idProducto);
     
 }

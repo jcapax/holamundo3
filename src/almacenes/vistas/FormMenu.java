@@ -639,7 +639,7 @@ public class FormMenu extends javax.swing.JFrame {
     private void jMenuComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuComprasActionPerformed
         int idTipoTransaccion = 1;// nro para compras
         int idTipoTransaccionEntrega = 7;
-        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
+        FormTransaccionCompras formTrans = new FormTransaccionCompras(connectionDB, 
                                         idTipoTransaccion, idTipoTransaccionEntrega, 
                                         idUsuario, idLugar, idTerminal);
         formTrans.setVisible(true);

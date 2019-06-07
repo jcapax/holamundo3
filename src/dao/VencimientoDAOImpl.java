@@ -30,7 +30,7 @@ public class VencimientoDAOImpl implements VencimientoDAO{
     
     @Override
     public void insertarVencimiento(Vencimiento v) {
-            String sql = "Insert Into vencimiento(id_transaccion, id_producto, id_unidad_medida, fecha_vencimiento, cantidad)"
+        String sql = "Insert Into vencimiento(id_transaccion, id_producto, id_unidad_medida, fecha_vencimiento, cantidad)"
                     + "Values(?,?,?,?,?)";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -115,5 +115,23 @@ public class VencimientoDAOImpl implements VencimientoDAO{
 //                        + "From v_stock_vencimiento "
 //                        + "Where id_lugar = ? and id_producto";
 //    }
+
+    @Override
+    public boolean isVencimiento(int idProducto) {
+        boolean aux = false;
+        
+        String sql = "select id from producto where id = ? and caducidad = 1";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idProducto);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                aux = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VencimientoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return aux;
+    }
     
 }
