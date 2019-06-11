@@ -138,4 +138,13 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
         
         this.imprimir.vistaPreviaReporte("Reporte Lista Arqueos Mes", "reporte_lista_arqueos.jrxml", parametros);
     }
+
+    @Override
+    public void vistaPreviaReciboVenta(int idTransaccion) {
+        Map parametros = new HashMap<>();
+        
+        parametros.put("id_transaccion", idTransaccion);
+        
+        this.imprimir.vistaPreviaReporte("Report Recibo de Ventas", "reporte_recibo_venta.jrxml", parametros);
+    }
 }

@@ -31,6 +31,8 @@ import dao.UnidadMedidaDAOImpl;
 import dao.UnidadProductoDAOImlp;
 import dao.VencimientoDAO;
 import dao.VencimientoDAOImpl;
+import dao.reportes.ReporteComprasDAO;
+import dao.reportes.ReporteComprasDAOImpl;
 import dao.reportes.ReporteFacturacionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
@@ -186,6 +188,10 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Compra generada con exito");
 
         vaciarProductosTemporales();
+        
+        ReporteComprasDAO reporte = new ReporteComprasDAOImpl(connectionDB, usuario);
+        reporte.vistaPreviaCompras(idEntregaTransaccion);
+        
     }
 
     public boolean validarRegistros() {
@@ -421,9 +427,14 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         
         TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
         if(vencimientoDAO.isVencimiento(temp.getIdProducto())){
-            Date fechaVencimiento = new Date(jtxtFechaVencimiento.getDate().getTime());
-            temp.setFecha_vencimiento(fechaVencimiento.toString());
-            tempDAOImpl.insertarProductoTempFechaVencimiento(temp);
+            try{
+                Date fechaVencimiento = new Date(jtxtFechaVencimiento.getDate().getTime());
+                temp.setFecha_vencimiento(fechaVencimiento.toString());
+                tempDAOImpl.insertarProductoTempFechaVencimiento(temp);
+            }catch(Exception e){
+                
+            }
+            
         }else{   
             tempDAOImpl.insertarProductoTemp(temp);
         }

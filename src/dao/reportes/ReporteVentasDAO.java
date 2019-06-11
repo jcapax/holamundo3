@@ -13,6 +13,7 @@ import java.sql.Date;
  */
 public interface ReporteVentasDAO {
     public void vistaPreviaReporte(Date fechaInicial, Date fechaFinal);
+    public void vistaPreviaReciboVenta(int idTransaccion);
     public void vistaPreviaEntregas(Date fechaInicial, Date fechaFinal);
     public void vistaPreviaMovimientoCaja(Date fechaInicial, Date fechaFinal);
     public void impresionDirecta(Boolean cuadroConfirmacion);

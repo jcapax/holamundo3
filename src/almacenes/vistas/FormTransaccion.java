@@ -31,6 +31,8 @@ import dao.UnidadProductoDAOImlp;
 import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
 import dao.reportes.ReporteFacturacionDAOImpl;
+import dao.reportes.ReporteVentasDAO;
+import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -309,6 +311,8 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         registrarFactura(idTransaccion);
 
+        vistaPreviaReciboVenta(idTransaccion);
+        
         limpiar();
 
         JOptionPane.showMessageDialog(this, "Venta generada con exito");
@@ -1537,5 +1541,11 @@ public class FormTransaccion extends javax.swing.JFrame {
     private void vaciarProductosTemporales() {
         TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
         tempDAOImpl.vaciarProductoTemp();
+    }
+
+    private void vistaPreviaReciboVenta(int idTransaccion) {
+        ReporteVentasDAO reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, usuario);
+        reporteVentasDAO.vistaPreviaReciboVenta(idTransaccion);
+        
     }
 }
