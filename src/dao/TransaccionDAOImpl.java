@@ -124,8 +124,6 @@ public class TransaccionDAOImpl implements TransaccionDAO{
             ps.setInt(2, idTransaccion);
             ps.executeUpdate();
             
-            VencimientoDAO vencimientoDAO = new VencimientoDAOImpl(connectionDB);
-            vencimientoDAO.registrosSalidasProductosVencimiento(idEntregaTransaccion);
         } catch (SQLException ex) {
             Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

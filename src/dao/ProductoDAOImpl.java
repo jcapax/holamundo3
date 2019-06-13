@@ -9,6 +9,7 @@ import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.ListaProductos;
 import almacenes.model.Producto;
 import almacenes.model.StockProducto;
+import almacenes.model.StockVencimiento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -152,12 +153,12 @@ public class ProductoDAOImpl implements ProductoDAO{
     public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio) {
         ArrayList<StockProducto> lStockProducto = new ArrayList<StockProducto>();
         
-        String sql = "SELECT p.descripcion, p.nombre_unidad_medida, s.stock "
+        String sql = "SELECT s.id_producto, s.id_unidad_medida, p.descripcion, p.nombre_unidad_medida, s.stock "
                 + "FROM v_stock s"
                 + " JOIN v_productos p ON p.id_producto = s.id_producto"
                 + "  AND p.id_unidad_medida = S.id_unidad_medida "
                 + "WHERE s.id_lugar = ? and p.descripcion like '%"+criterio+"%'"
-                + " ORDER BY s.stock";
+                + " ORDER BY s.stock, p.descripcion";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -166,7 +167,9 @@ public class ProductoDAOImpl implements ProductoDAO{
             while(rs.next()){
                 StockProducto sp = new StockProducto();
                 
-                sp.setNombrePRoducto(rs.getString("descripcion"));
+                sp.setIdProducto(rs.getInt("id_producto"));
+                sp.setIdUnidadMedida(rs.getByte("id_unidad_medida"));
+                sp.setNombreProducto(rs.getString("descripcion"));
                 sp.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
                 sp.setStock(rs.getDouble("stock"));
                 
@@ -222,6 +225,32 @@ public class ProductoDAOImpl implements ProductoDAO{
             Logger.getLogger(ProductoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+
+    @Override
+    public ArrayList<StockVencimiento> getListStockVencimiento(byte idLugar, int idProducto, byte idUnidadMedida) {
+        ArrayList<StockVencimiento> list = new ArrayList<>();
+        
+        String sql = "SELECT nombre_unidad_medida, fecha_vencimiento, stock " +
+                        "FROM v_stock_vencimiento " +
+                        "WHERE id_lugar = ? and id_producto = ? and id_unidad_medida = ?";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setByte(1, idLugar);
+            ps.setInt(2, idProducto);
+            ps.setByte(3, idUnidadMedida);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                StockVencimiento stock = new StockVencimiento();
+                stock.setCantidad(rs.getDouble("stock"));
+                stock.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
+                stock.setFechaVencimiento(rs.getDate("fecha_vencimiento"));
+                list.add(stock);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
     
 }

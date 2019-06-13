@@ -16,6 +16,7 @@ import dao.SistemaDAO;
 import dao.SistemaDAOImpl;
 import dao.TerminalDAO;
 import dao.TerminalDAOImpl;
+import java.awt.event.InputEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;

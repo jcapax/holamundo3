@@ -28,6 +28,8 @@ import dao.TransaccionDAOImpl;
 import dao.UnidadMedidaDAO;
 import dao.UnidadMedidaDAOImpl;
 import dao.UnidadProductoDAOImlp;
+import dao.VencimientoDAO;
+import dao.VencimientoDAOImpl;
 import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
 import dao.reportes.ReporteFacturacionDAOImpl;
@@ -36,6 +38,7 @@ import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.Date;
@@ -69,6 +72,7 @@ public class FormTransaccion extends javax.swing.JFrame {
     private byte idTerminal;
     private String usuario;
     private DecimalFormat df;
+    private VencimientoDAO vencimientoDAO;
 
 //    DefaultTableModel dtm;
     public FormTransaccion(Connection connectionDB,
@@ -291,7 +295,7 @@ public class FormTransaccion extends javax.swing.JFrame {
     }
 
 //    public void registrarVenta(int idTipoTransaccion, int idTipoTransaccionEntrega){
-    public void registrarVenta() {
+    public void registrarVenta(boolean shift) {
 
         int idTransaccion = 0;
         int idEntregaTransaccion = 0;
@@ -306,10 +310,15 @@ public class FormTransaccion extends javax.swing.JFrame {
         registrarDetalleTransaccion(idEntregaTransaccion);
 
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
+        
+        vencimientoDAO = new VencimientoDAOImpl(connectionDB);
+        vencimientoDAO.registrosSalidasProductosVencimiento(idEntregaTransaccion);
 
         registrarCaja(idTransaccion);
 
-        registrarFactura(idTransaccion);
+        if(shift){
+            registrarFactura(idTransaccion);
+        }
 
         vistaPreviaReciboVenta(idTransaccion);
         
@@ -336,6 +345,9 @@ public class FormTransaccion extends javax.swing.JFrame {
         registrarDetalleTransaccion(idEntregaTransaccion);
 
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
+        
+        vencimientoDAO = new VencimientoDAOImpl(connectionDB);
+        vencimientoDAO.registrosSalidasProductosVencimiento(idEntregaTransaccion);
         
         insertarCredito(idTransaccion, idClienteProveedor, detalle);
         
@@ -1400,6 +1412,12 @@ public class FormTransaccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtEliminarActionPerformed
 
     private void jbTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransaccionActionPerformed
+    
+        boolean shift = false;
+        if((evt.getModifiers() & InputEvent.SHIFT_MASK)!=0){
+            shift = true;
+        }
+        
         jbTransaccion.setEnabled(false);
         switch (idTipoTransaccion) {
             case 1:
@@ -1412,7 +1430,7 @@ public class FormTransaccion extends javax.swing.JFrame {
                 if (!validarRegistros()) {
                     return;
                 }
-                registrarVenta();
+                registrarVenta(shift);
                 break;
             case 3:
                 if (!validarRegistros()) {

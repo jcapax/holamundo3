@@ -87,17 +87,21 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
         jtAnularComprobante.setModel(dtm);
 
-        Object[] fila = new Object[7];
+        Object[] fila = new Object[11];
 
         for (int i = 0; i < r.size(); i++) {
             fila[0] = r.get(i).getIdEntregaTransaccion();
             fila[1] = r.get(i).getIdTransaccion();
-            fila[2] = r.get(i).getFecha();
-            fila[3] = r.get(i).getValorTotal();
-            fila[4] = r.get(i).getNit();
-            fila[5] = r.get(i).getRazonSocial();
-            fila[6] = r.get(i).getNroFactura();
-
+            fila[2] = r.get(i).getNombreTransaccion();
+            fila[3] = r.get(i).getNombreLugar();
+            fila[4] = r.get(i).getNombreTerminal();
+            fila[5] = r.get(i).getUsuario();
+            fila[6] = r.get(i).getFecha();
+            fila[7] = r.get(i).getValorTotal();
+            fila[8] = r.get(i).getNroFactura();
+            fila[9] = r.get(i).getNit();
+            fila[10] = r.get(i).getRazonSocial();
+           
             dtm.addRow(fila);
         }
 
@@ -138,12 +142,19 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idTransaccionEntrega", "idEntrega", "Fecha", "valorTotal", "nit", "razon social", "nroFactura"
+                "idTransaccionEntrega", "idEntrega", "Tipo", "Lugar", "Terminal", "Usuario", "Fecha", "ValorTotal", "nroFactura", "nit", "razon social"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, true, true, true, true, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -157,21 +168,21 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             jtAnularComprobante.getColumnModel().getColumn(1).setMinWidth(0);
             jtAnularComprobante.getColumnModel().getColumn(1).setPreferredWidth(0);
             jtAnularComprobante.getColumnModel().getColumn(1).setMaxWidth(0);
-            jtAnularComprobante.getColumnModel().getColumn(2).setMinWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(2).setMaxWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(3).setMinWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(3).setMaxWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(4).setMinWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(4).setPreferredWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(4).setMaxWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(5).setMinWidth(350);
-            jtAnularComprobante.getColumnModel().getColumn(5).setPreferredWidth(350);
-            jtAnularComprobante.getColumnModel().getColumn(5).setMaxWidth(350);
             jtAnularComprobante.getColumnModel().getColumn(6).setMinWidth(100);
             jtAnularComprobante.getColumnModel().getColumn(6).setPreferredWidth(100);
             jtAnularComprobante.getColumnModel().getColumn(6).setMaxWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(7).setMinWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(7).setPreferredWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(7).setMaxWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(8).setMinWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(8).setPreferredWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(8).setMaxWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(9).setMinWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(9).setPreferredWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(9).setMaxWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(10).setMinWidth(250);
+            jtAnularComprobante.getColumnModel().getColumn(10).setPreferredWidth(250);
+            jtAnularComprobante.getColumnModel().getColumn(10).setMaxWidth(250);
         }
 
         btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -184,6 +195,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
+        jlTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlTituloFormulario.setText("Anular Transacciones");
 
         jbSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
@@ -201,27 +213,22 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(14, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(345, 345, 345)
                         .addComponent(btnEliminar1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 444, Short.MAX_VALUE)
+                        .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(254, 254, 254)
-                .addComponent(jlTituloFormulario)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jlTituloFormulario)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar1)
                     .addComponent(jbSalir))

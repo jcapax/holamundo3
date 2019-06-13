@@ -5,7 +5,8 @@
  */
 package almacenes.model;
 
-import java.sql.Date;
+import java.math.BigInteger;
+import java.util.Date;
 
 /**
  *
@@ -15,52 +16,20 @@ public class AnularTransaccion {
     private int idEntregaTransaccion;
     private int idTransaccion;
     private Date fecha;
-    private byte idTipoTransaccion;
-    private double valorTotal;
+    private byte idTipoTransaccion;  
+    private String nombreTransaccion;
+    private int nroTipoTransaccion;
+    private byte idLugar; 
+    private String nombreLugar; 
+    private byte idTerminal;
+    private String nombreTerminal;
+    private String estado; 
+    private String descripcionTransaccion; 
+    private String usuario;
+    private int nroFactura; 
     private String nit;
     private String razonSocial;
-    private int nroFactura;
-    private double importeTotalFactura;
-
-    public int getIdEntregaTransaccion() {
-        return idEntregaTransaccion;
-    }
-
-    public void setIdEntregaTransaccion(int idEntregaTransaccion) {
-        this.idEntregaTransaccion = idEntregaTransaccion;
-    }
-
-    public int getIdTransaccion() {
-        return idTransaccion;
-    }
-
-    public void setIdTransaccion(int idTransaccion) {
-        this.idTransaccion = idTransaccion;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public byte getIdTipoTransaccion() {
-        return idTipoTransaccion;
-    }
-
-    public void setIdTipoTransaccion(byte idTipoTransaccion) {
-        this.idTipoTransaccion = idTipoTransaccion;
-    }
-
-    public double getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
-    }
+    private Double valorTotal;
 
     public String getNit() {
         return nit;
@@ -70,31 +39,133 @@ public class AnularTransaccion {
         this.nit = nit;
     }
 
-    public String getRazonSocial() {
-        return razonSocial;
+    public int getIdEntregaTransaccion() {
+        return idEntregaTransaccion;
     }
 
-    public void setRazonSocial(String razonSocial) {
-        this.razonSocial = razonSocial;
+    public int getIdTransaccion() {
+        return idTransaccion;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public byte getIdTipoTransaccion() {
+        return idTipoTransaccion;
+    }
+
+    public String getNombreTransaccion() {
+        return nombreTransaccion;
+    }
+
+    public int getNroTipoTransaccion() {
+        return nroTipoTransaccion;
+    }
+
+    public byte getIdLugar() {
+        return idLugar;
+    }
+
+    public String getNombreLugar() {
+        return nombreLugar;
+    }
+
+    public byte getIdTerminal() {
+        return idTerminal;
+    }
+
+    public String getNombreTerminal() {
+        return nombreTerminal;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getDescripcionTransaccion() {
+        return descripcionTransaccion;
+    }
+
+    public String getUsuario() {
+        return usuario;
     }
 
     public int getNroFactura() {
         return nroFactura;
     }
 
-    public void setNroFactura(int nroFactura) {
-        this.nroFactura = nroFactura;
+    public String getRazonSocial() {
+        return razonSocial;
     }
 
-    public double getImporteTotalFactura() {
-        return importeTotalFactura;
+    public Double getValorTotal() {
+        return valorTotal;
     }
 
-    public void setImporteTotalFactura(double importeTotalFactura) {
-        this.importeTotalFactura = importeTotalFactura;
+    public void setIdEntregaTransaccion(int idEntregaTransaccion) {
+        this.idEntregaTransaccion = idEntregaTransaccion;
     }
-    
-    
-    
+
+    public void setIdTransaccion(int idTransaccion) {
+        this.idTransaccion = idTransaccion;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setIdTipoTransaccion(byte idTipoTransaccion) {
+        this.idTipoTransaccion = idTipoTransaccion;
+    }
+
+    public void setNombreTransaccion(String nombreTransaccion) {
+        this.nombreTransaccion = nombreTransaccion;
+    }
+
+    public void setNroTipoTransaccion(int nroTipoTransaccion) {
+        this.nroTipoTransaccion = nroTipoTransaccion;
+    }
+
+    public void setIdLugar(byte idLugar) {
+        this.idLugar = idLugar;
+    }
+
+    public void setNombreLugar(String nombreLugar) {
+        this.nombreLugar = nombreLugar;
+    }
+
+    public void setIdTerminal(byte idTerminal) {
+        this.idTerminal = idTerminal;
+    }
+
+    public void setNombreTerminal(String nombreTerminal) {
+        this.nombreTerminal = nombreTerminal;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public void setDescripcionTransaccion(String descripcionTransaccion) {
+        this.descripcionTransaccion = descripcionTransaccion;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setNroFactura(int nro_factura) {
+        this.nroFactura = nro_factura;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
+    }
+
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
     
 }

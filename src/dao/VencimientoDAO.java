@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author jcapax
  */
 public interface VencimientoDAO {
-    public void insertarVencimiento(Vencimiento v);
+    public void insertarVencimiento(ArrayList<Vencimiento> listaVencimiento);
     public void registrosSalidasProductosVencimiento(int idTransaccion);
     public boolean isVencimiento(int idProducto);
     

@@ -174,6 +174,8 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
 
         //int idTipoTransaccionEntrega = 7; // recepcion - material
         idEntregaTransaccion = resgistrarTransaccion(idTipoTransaccionEntrega);
+        
+//        System.out.println("idEntregaTransaccion: " + idEntregaTransaccion);
 
         registrarDetalleTransaccion(idEntregaTransaccion);
         
@@ -1362,13 +1364,15 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
     }
 
     private void registrarProductosVencimiento(int idEntregaTransaccion) {
-        
         int idProducto = 0;
         int idUnidadMedida = 0;
         double cantidad = 0;
         String fechaVencimiento = "";
+        
+        ArrayList<Vencimiento> listaVencimiento = new ArrayList<>();
 
         for (int fila = 0; fila < jtTemporal.getRowCount(); fila++) {
+            
             idProducto = Integer.valueOf(jtTemporal.getValueAt(fila, 0).toString());
             
             if(vencimientoDAO.isVencimiento(idProducto)){
@@ -1384,9 +1388,13 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 v.setCantidad(cantidad);
                 v.setFecha_vencimiento(Date.valueOf(fechaVencimiento));
                 
-                vencimientoDAO.insertarVencimiento(v);
+                listaVencimiento.add(v);
             }
 
         }
+        
+        System.out.println("registrarProductosVencimiento(): "+ listaVencimiento.size());
+        
+        vencimientoDAO.insertarVencimiento(listaVencimiento);
     }
 }

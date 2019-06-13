@@ -11,7 +11,7 @@ import java.sql.Date;
  *
  * @author jcapax
  */
-public class StockVencimineto {
+public class StockVencimiento {
     private int idLugar;
     private int idProducto;
     private String nombreProducto;

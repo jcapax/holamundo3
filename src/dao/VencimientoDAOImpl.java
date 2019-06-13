@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,17 +30,23 @@ public class VencimientoDAOImpl implements VencimientoDAO{
     }
     
     @Override
-    public void insertarVencimiento(Vencimiento v) {
-        String sql = "Insert Into vencimiento(id_transaccion, id_producto, id_unidad_medida, fecha_vencimiento, cantidad)"
-                    + "Values(?,?,?,?,?)";
+    public void insertarVencimiento(ArrayList<Vencimiento> listaVencimiento) {
+        String sql;
+        PreparedStatement ps;
         try {
-            PreparedStatement ps = connectionDB.prepareStatement(sql);
-            ps.setInt(1, v.getId_transaccion());
-            ps.setInt(2, v.getId_producto());
-            ps.setInt(3, v.getId_unidad_medida());
-            ps.setDate(4, v.getFecha_vencimiento());
-            ps.setDouble(5, v.getCantidad());
-            ps.executeUpdate();
+            
+            for(int i=0; i<listaVencimiento.size(); i++){
+                sql = "Insert Into vencimiento(id_transaccion, id_producto, id_unidad_medida, fecha_vencimiento, cantidad)"
+                    + "Values(?,?,?,?,?)";
+                
+                ps = connectionDB.prepareStatement(sql);
+                ps.setInt(1, listaVencimiento.get(i).getId_transaccion());
+                ps.setInt(2, listaVencimiento.get(i).getId_producto());
+                ps.setInt(3, listaVencimiento.get(i).getId_unidad_medida());
+                ps.setDate(4, listaVencimiento.get(i).getFecha_vencimiento());
+                ps.setDouble(5, listaVencimiento.get(i).getCantidad());
+                ps.executeUpdate();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(VencimientoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,6 +61,7 @@ public class VencimientoDAOImpl implements VencimientoDAO{
         byte idUnidadMedida;
         boolean flag = false;
         Double cantidad, cantidadAux;
+        ArrayList<Vencimiento> listaVencimiento = new ArrayList<>();
         
         String sql = "Select id_lugar, id_producto, id_unidad_medida, cantidad "
                 + "From detalle_transaccion d join transaccion t on d.id_transaccion = t.id "
@@ -95,26 +103,21 @@ public class VencimientoDAOImpl implements VencimientoDAO{
                     v.setId_producto(rsAux.getInt("id_producto"));
                     v.setId_unidad_medida(rsAux.getByte("id_unidad_medida"));
                     
-                    insertarVencimiento(v);
+                    listaVencimiento.add(v);
                     
                     if(flag){
                         rsAux.last();
                     }
                 }
-                
-//                auxiliarRegistro(idLugar, idProducto, idUnidadMedida, cantidad);
+                if(listaVencimiento.size() > 0){
+                    insertarVencimiento(listaVencimiento);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(VencimientoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
-
-//    private void auxiliarRegistro(byte idLugar, int idProducto, byte idUnidadMedida, Double cantidad) {
-//        String sqlVen = "Select id_lugar, id_producto, id_unidad_medida, fecha_vencimiento, stock "
-//                        + "From v_stock_vencimiento "
-//                        + "Where id_lugar = ? and id_producto";
-//    }
 
     @Override
     public boolean isVencimiento(int idProducto) {
