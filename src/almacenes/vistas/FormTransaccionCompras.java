@@ -5,24 +5,19 @@
  */
 package almacenes.vistas;
 
-import CodigoControl.ControlCode;
 import almacenes.conectorDB.DataBaseSqlite;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Caja;
 import almacenes.model.DetalleTransaccion;
-import almacenes.model.FacturaVenta;
 import almacenes.model.Temporal;
 import almacenes.model.ListaProductos;
 import almacenes.model.Transaccion;
 import almacenes.model.Vencimiento;
 import dao.ArqueoDAOImpl;
 import dao.CajaDAOImpl;
-import dao.ClienteProveedorDAO;
-import dao.ClienteProveedorDAOImpl;
 import dao.CreditoDAO;
 import dao.CreditoDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
-import dao.FacturaVentaDAOImpl;
 import dao.TemporalDAOImpl;
 import dao.ProductoDAOImpl;
 import dao.TransaccionDAOImpl;
@@ -33,7 +28,6 @@ import dao.VencimientoDAO;
 import dao.VencimientoDAOImpl;
 import dao.reportes.ReporteComprasDAO;
 import dao.reportes.ReporteComprasDAOImpl;
-import dao.reportes.ReporteFacturacionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -128,9 +122,6 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 jbTransaccion.setVisible(true);
                 jlTituloFormulario.setText("COMPRAS");
 
-                jlnit.setEnabled(false);
-                jtxtNit.setEnabled(false);
-
                 jtxtValorUnitario.setEnabled(true);
                 jtxtValorUnitario.setEditable(true);
                 jtxtValorUnitario.setText("");
@@ -141,13 +132,20 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 jbTransaccion.setVisible(true);
                 jlTituloFormulario.setText("VENTAS");
 
-                jlnit.setVisible(true);
-                jtxtNit.setVisible(true);
-
                 jtxtValorUnitario.setEnabled(false);
                 jtxtValorUnitario.setEditable(false);
 
                 break;
+            case 6:  //stock
+                jbTransaccion.setVisible(true);
+                jlTituloFormulario.setText("AJUSTE STOCK");
+
+                jtxtValorUnitario.setEnabled(true);
+                jtxtValorUnitario.setEditable(true);
+                jtxtValorUnitario.setText("");
+
+                
+                break;    
             default:
                 System.err.println("nada");
         }
@@ -187,13 +185,12 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
 
         limpiar();
 
-        JOptionPane.showMessageDialog(this, "Compra generada con exito");
-
         vaciarProductosTemporales();
         
         ReporteComprasDAO reporte = new ReporteComprasDAOImpl(connectionDB, usuario);
         reporte.vistaPreviaCompras(idEntregaTransaccion);
         
+//        JOptionPane.showMessageDialog(this, "Compra generada con exito");
     }
 
     public boolean validarRegistros() {
@@ -202,28 +199,11 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No existen productos para ejectuar la transaccion!!!");
             aux = false;
         }
-        if (idTipoTransaccion == 2) { //VENTA
-            if (jtxtNit.getText().length() == 0) {
-                JOptionPane.showMessageDialog(this, "El Nit o CI del cliente no pueden estar vacio!!!");
-                aux = false;
-            }
-            if (jtxtRazonSocial.getText().length() == 0) {
-                JOptionPane.showMessageDialog(this, "Favor registrar Razon Social del cliente!!!");
-                aux = false;
-            }
-            try {
-                Long x = Long.parseLong(jtxtNit.getText());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Nit o Ci no valido!!!");
-                aux = false;
-            }
-        }
         
-
         return aux;
     }
 
-    public void registrarStockInicial() {
+    public void registrarAjusteStock() {
 
         int idTransaccion = 0;
         int idEntregaTransaccion = 0;
@@ -238,13 +218,20 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         registrarDetalleTransaccion(idEntregaTransaccion);
 
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
+        
+        registrarProductosVencimiento(idEntregaTransaccion);
 
-        registrarCaja(idTransaccion);
+//        registrarCaja(idTransaccion);
 
         limpiar();
 
-        JOptionPane.showMessageDialog(this, "Stock Inicial registrado con exito");
         vaciarProductosTemporales();
+        
+        ReporteComprasDAO reporte = new ReporteComprasDAOImpl(connectionDB, usuario);
+        reporte.vistaPreviaCompras(idEntregaTransaccion);
+        
+//        JOptionPane.showMessageDialog(this, "Ajuste Stock registrado con exito");
+        
     }
 
     public void insertarCredito(int idTransaccion, int idClienteProveedor, String detalle){
@@ -253,79 +240,6 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         
     }
     
-    public void registrarFactura(int idTransaccion) {
-        TransaccionDAOImpl tran = new TransaccionDAOImpl(connectionDB);
-        FacturaVentaDAOImpl facDaoImpl = new FacturaVentaDAOImpl(connectionDB);
-        ControlCode controlCode = new ControlCode();
-
-        String nit = jtxtNit.getText().trim();
-        String razonSocial = jtxtRazonSocial.getText().trim().toUpperCase();
-
-        String codigoControl = "";
-        int correlativoSucursal = 1;
-
-        int especificacion = 1;
-        String estado = "V";
-        int idSucursal = facDaoImpl.getIdSucursal(idLugar);
-        String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
-        Date fechaFactura = tran.getFechaTransaccion(idTransaccion);
-        java.util.Date fechaFactura1 = new Date(fechaFactura.getTime());
-        Date fechaLimiteEmision = facDaoImpl.getFechaLimiteEmision(nroAutorizacion);
-        int idDosificacion = facDaoImpl.getIdDosificacion(idSucursal);
-        int nroFactura = facDaoImpl.getNewNroFactura(nroAutorizacion);
-        String llaveDosf = facDaoImpl.getLlaveDosificacion(nroAutorizacion);
-        double importeTotal = tran.getValorTotalTransaccion(idTransaccion);
-        double importeExportaciones = 0;
-        double importeIce = 0;
-        double importeRebajas = 0;
-        double importeSubTotal = importeTotal - importeExportaciones - importeIce;
-        double importeVentasTasaCero = 0;
-        double importeBaseDebitoFiscal = importeSubTotal;
-        double debitoFiscal = importeBaseDebitoFiscal * 0.13;
-
-        Format fd = new SimpleDateFormat("yyyyMMdd");
-
-        String auxFecha = fd.format(fechaFactura1).trim();
-
-        codigoControl = controlCode.generate(nroAutorizacion,
-                String.valueOf(nroFactura).trim(),
-                nit.trim(),
-                auxFecha.trim(),
-                String.valueOf(importeTotal).trim(),
-                llaveDosf.trim());
-
-        FacturaVenta fact = new FacturaVenta();
-
-        fact.setCodigoControl(codigoControl);
-        fact.setCorrelativoSucursal(correlativoSucursal);
-        fact.setDebitoFiscal(debitoFiscal);
-        fact.setEspecificacion(especificacion);
-        fact.setEstado(estado);
-        fact.setFechaFactura(fechaFactura);
-        fact.setFechaLimiteEmision(fechaLimiteEmision);
-        fact.setIdDosificacion(idDosificacion);
-        fact.setIdSucursal(idSucursal);
-        fact.setIdTransaccion(idTransaccion);
-        fact.setImporteBaseDebitoFiscal(importeBaseDebitoFiscal);
-        fact.setImporteExportaciones(importeExportaciones);
-        fact.setImporteIce(importeIce);
-        fact.setImporteRebajas(importeRebajas);
-        fact.setImporteSubtotal(importeSubTotal);
-        fact.setImporteTotal(importeTotal);
-        fact.setImporteVentasTasaCero(importeVentasTasaCero);
-        fact.setNit(nit);
-        fact.setNroAutorizacion(nroAutorizacion);
-        fact.setNroFactura(nroFactura);
-        fact.setRazonSocial(razonSocial);
-
-        FacturaVentaDAOImpl factDaoImpl = new FacturaVentaDAOImpl(connectionDB);
-        factDaoImpl.insertarFacturaVenta(fact);
-
-        ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, estado);
-
-        repFactura.VistaPreviaFacturaVenta(idTransaccion, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
-    }
-
     public void abrirConexionTemp() {
         DataBaseSqlite sqLite = new DataBaseSqlite();
         connectionTemp = sqLite.conexion();
@@ -576,7 +490,6 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         dtm.setRowCount(0);
         jtTemporal.setModel(dtm);
 
-        jtxtNit.setText("");
         jtxtRazonSocial.setText("");
 
         jtxtTotalTransaccion.setText("");
@@ -660,8 +573,6 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         jtxtFechaVencimiento = new com.toedter.calendar.JDateChooser();
         jlFechaVencimiento = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jlnit = new javax.swing.JLabel();
-        jtxtNit = new javax.swing.JTextField();
         jlRazonSocial = new javax.swing.JLabel();
         jtxtRazonSocial = new javax.swing.JTextField();
         jbTransaccion = new javax.swing.JButton();
@@ -805,7 +716,6 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtTemporal.setNextFocusableComponent(jtxtNit);
         jScrollPane2.setViewportView(jtTemporal);
         if (jtTemporal.getColumnModel().getColumnCount() > 0) {
             jtTemporal.getColumnModel().getColumn(0).setMinWidth(0);
@@ -1031,18 +941,8 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jlnit.setForeground(new java.awt.Color(153, 0, 51));
-        jlnit.setText("CI / NIT");
-
-        jtxtNit.setNextFocusableComponent(jtxtRazonSocial);
-        jtxtNit.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtxtNitKeyPressed(evt);
-            }
-        });
-
         jlRazonSocial.setForeground(new java.awt.Color(153, 0, 51));
-        jlRazonSocial.setText("Razon Social");
+        jlRazonSocial.setText("Detalle");
 
         jtxtRazonSocial.setNextFocusableComponent(jbTransaccion);
 
@@ -1060,14 +960,10 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlnit)
-                    .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlRazonSocial)
-                    .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbTransaccion)
                 .addContainerGap())
@@ -1078,13 +974,9 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlnit)
-                            .addComponent(jlRazonSocial))
+                        .addComponent(jlRazonSocial)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(jbTransaccion)))
@@ -1255,23 +1147,11 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 if (!validarRegistros()) {
                     return;
                 }
-                registrarStockInicial();
+                registrarAjusteStock();
                 break;
         }
         jbTransaccion.setEnabled(true);
     }//GEN-LAST:event_jbTransaccionActionPerformed
-
-    private void jtxtNitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtNitKeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            if (jtxtNit.getText().equals("0")) {
-                jtxtRazonSocial.setText("SIN NOMBRE");
-            } else {
-                FacturaVentaDAOImpl fac = new FacturaVentaDAOImpl(connectionDB);
-                jtxtRazonSocial.setText(fac.getRazonSocialFactura(jtxtNit.getText()));
-                jtxtRazonSocial.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_jtxtNitKeyPressed
 
     private void jtProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtProductosKeyReleased
         seleccionarProducto();
@@ -1343,13 +1223,11 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
     private javax.swing.JLabel jlStockProducto;
     private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JLabel jlidClienteProveedor;
-    private javax.swing.JLabel jlnit;
     private javax.swing.JTable jtProductos;
     private javax.swing.JTable jtTemporal;
     private javax.swing.JTextField jtxtCantidad;
     private javax.swing.JButton jtxtEliminar;
     private com.toedter.calendar.JDateChooser jtxtFechaVencimiento;
-    private javax.swing.JTextField jtxtNit;
     private javax.swing.JTextField jtxtNombreProducto;
     private javax.swing.JTextField jtxtRazonSocial;
     private javax.swing.JTextField jtxtTotalTransaccion;
@@ -1390,7 +1268,6 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 
                 listaVencimiento.add(v);
             }
-
         }
         
         System.out.println("registrarProductosVencimiento(): "+ listaVencimiento.size());

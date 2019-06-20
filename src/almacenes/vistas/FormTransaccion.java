@@ -324,7 +324,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         
         limpiar();
 
-        JOptionPane.showMessageDialog(this, "Venta generada con exito");
+//        JOptionPane.showMessageDialog(this, "Venta generada con exito");
         vaciarProductosTemporales();
     }
 
@@ -356,7 +356,7 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         limpiar();
 
-        JOptionPane.showMessageDialog(this, "Credito generado con exito");        
+//        JOptionPane.showMessageDialog(this, "Credito generado con exito");        
         vaciarProductosTemporales();
         iniciarComponentes();
         

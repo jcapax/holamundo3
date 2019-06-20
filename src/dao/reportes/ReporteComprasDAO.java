@@ -11,4 +11,5 @@ package dao.reportes;
  */
 public interface ReporteComprasDAO {
     public void vistaPreviaCompras(int idTransaccion);
+    public void vistaPreviaAjusteStock(int idTransaccion);
 }

@@ -342,7 +342,7 @@
                   </TableColumnModel>
                 </Property>
                 <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="jtxtNit"/>
+                  <ComponentRef name="default"/>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -605,15 +605,10 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jlnit" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtxtNit" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jlRazonSocial" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtxtRazonSocial" alignment="0" min="-2" pref="295" max="-2" attributes="0"/>
+                      <Component id="jtxtRazonSocial" min="-2" pref="445" max="-2" attributes="0"/>
+                      <Component id="jlRazonSocial" alignment="0" min="-2" pref="229" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jbTransaccion" min="-2" max="-2" attributes="0"/>
@@ -627,15 +622,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jlnit" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jlRazonSocial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jlRazonSocial" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jtxtNit" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jtxtRazonSocial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jtxtRazonSocial" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -648,30 +637,12 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jlnit">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="0" red="99" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="CI / NIT"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jtxtNit">
-          <Properties>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="jtxtRazonSocial"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtxtNitKeyPressed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="jlRazonSocial">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="0" red="99" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Razon Social"/>
+            <Property name="text" type="java.lang.String" value="Detalle"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtxtRazonSocial">

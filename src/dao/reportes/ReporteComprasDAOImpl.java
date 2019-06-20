@@ -34,5 +34,14 @@ public class ReporteComprasDAOImpl implements ReporteComprasDAO{
 
         this.imprimir.vistaPreviaReporte("Reporte Compra", "reporte_compra.jrxml", parametros);
     }
+
+    @Override
+    public void vistaPreviaAjusteStock(int idTransaccion) {
+        Map parametros = new HashMap<>();
+        
+        parametros.put("id_transaccion", idTransaccion);
+
+        this.imprimir.vistaPreviaReporte("Reporte Compra", "reporte_ajuste_stock.jrxml", parametros);
+    }
     
 }

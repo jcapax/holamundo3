@@ -73,7 +73,7 @@ Where t.id = $P{id_transaccion}]]>
 				<textElement textAlignment="Center">
 					<font size="19" isBold="true"/>
 				</textElement>
-				<text><![CDATA[RECIBO DE COMPRAS]]></text>
+				<text><![CDATA[AJUSTE STOCK]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="37" y="3" width="80" height="18" forecolor="#054A82" uuid="2fd7ba6f-2069-42a3-b704-aa8a85e889a9"/>
@@ -122,14 +122,14 @@ Where t.id = $P{id_transaccion}]]>
 				<text><![CDATA[FECHA: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="101" width="60" height="18" forecolor="#054A82" uuid="38842963-adaa-4047-9f2e-6bfa22ba46f3"/>
+				<reportElement x="30" y="101" width="60" height="18" forecolor="#054A82" uuid="d8118094-c562-49e7-82ef-e79bad5a1743"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DETALLE: ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="90" y="101" width="448" height="18" uuid="84c24b3c-a8af-4712-9ef2-8439bd7f6bd7">
+				<reportElement x="90" y="101" width="448" height="18" uuid="551b9317-b10d-4a6f-8d64-315b05bedf23">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
