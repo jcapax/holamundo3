@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dismebol"/>
 	<parameter name="anio" class="java.lang.Integer"/>
-	<parameter name="mes" class=""/>
+	<parameter name="mes" class="java.lang.Integer"/>
 	<parameter name="nombre_mes" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select a.id, a.fecha_apertura, 

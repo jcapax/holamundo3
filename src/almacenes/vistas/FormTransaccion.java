@@ -21,9 +21,14 @@ import dao.ClienteProveedorDAOImpl;
 import dao.CreditoDAO;
 import dao.CreditoDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
+import dao.FacturaDAO;
+import dao.FacturaDAOImpl;
 import dao.FacturaVentaDAOImpl;
 import dao.TemporalDAOImpl;
 import dao.ProductoDAOImpl;
+import dao.SucursalDAO;
+import dao.SucursalDAOImpl;
+import dao.TemporalDAO;
 import dao.TransaccionDAOImpl;
 import dao.UnidadMedidaDAO;
 import dao.UnidadMedidaDAOImpl;
@@ -299,6 +304,10 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         int idTransaccion = 0;
         int idEntregaTransaccion = 0;
+        
+        if(shift){
+            rebajarRegistros();
+        }
 
 //        int idTipoTransaccion = 2; // venta -  plata
         idTransaccion = resgistrarTransaccion(idTipoTransaccion);
@@ -541,7 +550,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         temp.setValorTotal(valorTotal);
         temp.setValorUnitario(valorUnitario);
 
-        TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
+        TemporalDAO tempDAOImpl = new TemporalDAOImpl(connectionTemp);
         tempDAOImpl.insertarProductoTemp(temp);
 
         llenarTablaTemporal();
@@ -663,6 +672,12 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         cajaDaoImpl.insertarCaja(caja);
 
+    }
+    
+    private void rebajarRegistros(){
+        TemporalDAO temp = new TemporalDAOImpl(connectionTemp);
+        temp.reducir10();
+        llenarTablaTemporal();
     }
 
     public void registrarDetalleTransaccion(int idTransaccion) {
@@ -1416,6 +1431,21 @@ public class FormTransaccion extends javax.swing.JFrame {
         boolean shift = false;
         if((evt.getModifiers() & InputEvent.SHIFT_MASK)!=0){
             shift = true;
+        }
+        
+        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
+        byte idSucursal = suc.getIdSucursal(idLugar);
+        
+        FacturaDAO fac = new FacturaDAOImpl(connectionDB);
+        
+        if(!fac.getEstadoDosificacion(idSucursal)){
+            shift = false;
+            JOptionPane.showMessageDialog( null, "¡No se cuenta con una dosificación válida, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(!fac.getFechaLimiteEmisionVigente(idSucursal)){
+               shift = false;
+               JOptionPane.showMessageDialog( null, "¡La fecha de emisión para las facturas ha vencido, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
         
         jbTransaccion.setEnabled(false);

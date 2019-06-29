@@ -218,7 +218,15 @@ public class FormArqueos extends javax.swing.JFrame {
             new String [] {
                 "Producto", "Simbolo", "Cantidad", "Importe Total"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(jtDetalleTransaccion);
         if (jtDetalleTransaccion.getColumnModel().getColumnCount() > 0) {
             jtDetalleTransaccion.getColumnModel().getColumn(0).setResizable(false);
@@ -399,20 +407,8 @@ public class FormArqueos extends javax.swing.JFrame {
         mes = (byte) (jcMes.getSelectedIndex() + 1);
         anno = Integer.parseInt(jcAnno.getSelectedItem().toString());
         
-        switch(mes){
-            case 1: nombre_mes = "ENERO";
-            case 2: nombre_mes = "FEBRERO";
-            case 3: nombre_mes = "MARZO";
-            case 4: nombre_mes = "ABRIL";
-            case 5: nombre_mes = "MAYO";
-            case 6: nombre_mes = "JUNIO";
-            case 7: nombre_mes = "JULIO";
-            case 8: nombre_mes = "AGOSTO";
-            case 9: nombre_mes = "SEPTIEMBRE";
-            case 10: nombre_mes = "OCTUBRE";
-            case 11: nombre_mes = "NOVIEMBRE";
-            case 12: nombre_mes = "DICIEMBRE";
-        }
+        nombre_mes = getNombreMes(mes);
+        
         imprimir_arqueo(anno, mes, nombre_mes);
     }//GEN-LAST:event_bImprimirActionPerformed
 
@@ -670,6 +666,25 @@ public class FormArqueos extends javax.swing.JFrame {
     private void imprimir_arqueo(Integer anno, byte mes, String nombre_mes) {
         ReporteVentasDAO aO = new ReporteVentasDAOImpl(connectionDB, "");
         aO.listaArqueosMes(anno, mes, nombre_mes);
+    }
+
+    private String getNombreMes(byte mes) {
+        String nombreMes = "";
+        switch(mes){
+            case 1: nombreMes = "ENERO"; break;
+            case 2: nombreMes = "FEBRERO"; break;
+            case 3: nombreMes = "MARZO"; break;
+            case 4: nombreMes = "ABRIL"; break;
+            case 5: nombreMes = "MAYO"; break;
+            case 6: nombreMes = "JUNIO"; break;
+            case 7: nombreMes = "JULIO"; break;
+            case 8: nombreMes = "AGOSTO"; break;
+            case 9: nombreMes = "SEPTIEMBRE"; break;
+            case 10: nombreMes = "OCTUBRE"; break;
+            case 11: nombreMes = "NOVIEMBRE"; break;
+            case 12: nombreMes = "DICIEMBRE"; break;
+        }
+        return nombreMes;
     }
 
 }

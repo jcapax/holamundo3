@@ -12,8 +12,14 @@ import almacenes.model.Configuracion;
 import almacenes.model.Permiso;
 import almacenes.vistas.configuracion.FormSucursal;
 import almacenes.vistas.configuracion.FormTerminal;
+import dao.DosificacionDAO;
+import dao.DosificacionDAOImpl;
+import dao.FacturaDAO;
+import dao.FacturaDAOImpl;
 import dao.SistemaDAO;
 import dao.SistemaDAOImpl;
+import dao.SucursalDAO;
+import dao.SucursalDAOImpl;
 import dao.TerminalDAO;
 import dao.TerminalDAOImpl;
 import java.awt.event.InputEvent;
@@ -602,6 +608,20 @@ public class FormMenu extends javax.swing.JFrame {
 //        procesosVentas.setVisible(true);
         int idTipoTransaccion = 2;
         int idTipoTransaccionEntrega = 8;
+        
+        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
+        byte idSucursal = suc.getIdSucursal(idLugar);
+        
+        FacturaDAO fac = new FacturaDAOImpl(connectionDB);
+        
+        if(!fac.getEstadoDosificacion(idSucursal)){
+            JOptionPane.showMessageDialog( null, "¡No se cuenta con una dosificación válida, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(!fac.getFechaLimiteEmisionVigente(idSucursal)){
+               JOptionPane.showMessageDialog( null, "¡La fecha de emisión para las facturas ha vencido, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
         FormTransaccion formTrans = new FormTransaccion(connectionDB, 
                                             idTipoTransaccion, idTipoTransaccionEntrega, 
                                             idUsuario, idLugar, idTerminal);

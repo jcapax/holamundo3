@@ -19,5 +19,6 @@ public interface TemporalDAO {
     public void vaciarProductoTemp();
     public ArrayList<Temporal> getListaTemporal();
     public double totalProductosTemp();
+    public void reducir10();
     
 }

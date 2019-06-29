@@ -19,5 +19,7 @@ public interface FacturaDAO {
     public ArrayList<PendientePago> getListaCreditoPorFacturar();
     public int getIdTransacion(int nroFactura, String nroAutorizacion);
     public double getImporteTotal(int idTransaccion);
+    public boolean getEstadoDosificacion(byte idSucursal);
+    public boolean getFechaLimiteEmisionVigente(byte idSucursal);
     
 }

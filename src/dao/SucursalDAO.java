@@ -21,5 +21,6 @@ public interface SucursalDAO {
     public ArrayList<Sucursal> getSucursal(byte idSucursal);
     public HashMap<String, Integer> sucursalClaveValor();
     public String getNitSucursal(byte idLugar);
+    public byte getIdSucursal(byte idLugar);
     
 }

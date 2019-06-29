@@ -178,5 +178,17 @@ public class TemporalDAOImpl implements TemporalDAO{
             
         return importeTotal;
     }
+
+    @Override
+    public void reducir10() {
+        try {
+            String sql = "Update detalle_transaccion_temp set valor_total = valor_total * 0.9, valor_unitario = valor_unitario * 0.9";
+            PreparedStatement ps = sqlite.prepareStatement(sql);
+            ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
     
 }

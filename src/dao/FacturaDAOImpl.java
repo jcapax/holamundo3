@@ -170,5 +170,41 @@ public class FacturaDAOImpl implements FacturaDAO{
         }
         return importeTotal;
     }
+
+    @Override
+    public boolean getEstadoDosificacion(byte idSucursal) {
+        boolean estado = false;
+        String sql = "select id from dosificacion where id_sucursal = ? and estado is true";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setByte(1, idSucursal);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                estado = true;
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(SucursalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return estado;
+    }
+
+    @Override
+    public boolean getFechaLimiteEmisionVigente(byte idSucursal) {
+        boolean estado = false;
+        String sql = "Select id From dosificacion Where fecha_limite_emision >= DATE(now()) and id_sucursal = 1";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setByte(1, idSucursal);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                estado = true;
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(SucursalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return estado;
+    }
     
 }
