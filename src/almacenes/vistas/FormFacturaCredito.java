@@ -402,7 +402,7 @@ public class FormFacturaCredito extends javax.swing.JFrame {
         String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
         java.sql.Date fechaFactura1 = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         Date fechaLimiteEmision = facDaoImpl.getFechaLimiteEmision(nroAutorizacion);
-        int idDosificacion = 1;
+        int idDosificacion = facDaoImpl.getIdDosificacion(idSucursal);;
         int nroFactura = facDaoImpl.getNewNroFactura(nroAutorizacion);
         String llaveDosf = facDaoImpl.getLlaveDosificacion(nroAutorizacion);
         double importeTotal = tran.getValorTotalTransaccion(idTransaccion);
