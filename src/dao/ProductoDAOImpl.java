@@ -108,7 +108,8 @@ public class ProductoDAOImpl implements ProductoDAO{
 
     @Override
     public ArrayList<ListaProductos> getListaProductosVenta(String criterio) {
-        String sql = "SELECT * FROM v_productos WHERE estado = 'V' and descripcion like '%"+criterio+"%'";
+        String sql = "SELECT * FROM v_productos WHERE estado = 'V' and descripcion like '%"+criterio+"%' "
+                + "and id_unidad_producto is not null";
         
         ArrayList<ListaProductos> lproducto = new ArrayList<ListaProductos>();
         

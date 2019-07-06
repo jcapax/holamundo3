@@ -192,7 +192,7 @@ public class FacturaDAOImpl implements FacturaDAO{
     @Override
     public boolean getFechaLimiteEmisionVigente(byte idSucursal) {
         boolean estado = false;
-        String sql = "Select id From dosificacion Where fecha_limite_emision >= DATE(now()) and id_sucursal = 1";
+        String sql = "Select id From dosificacion Where fecha_limite_emision >= DATE(now()) and id_sucursal = ?";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setByte(1, idSucursal);

@@ -381,6 +381,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         TransaccionDAOImpl tran = new TransaccionDAOImpl(connectionDB);
         FacturaVentaDAOImpl facDaoImpl = new FacturaVentaDAOImpl(connectionDB);
         ControlCode controlCode = new ControlCode();
+        SucursalDAO sucursalDAO = new SucursalDAOImpl(connectionDB);
 
         String nit = jtxtNit.getText().trim();
         String razonSocial = jtxtRazonSocial.getText().trim().toUpperCase();
@@ -390,7 +391,7 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         int especificacion = 1;
         String estado = "V";
-        int idSucursal = facDaoImpl.getIdSucursal(idLugar);
+        int idSucursal = sucursalDAO.getIdSucursal(idLugar);
         String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
         Date fechaFactura = tran.getFechaTransaccion(idTransaccion);
         java.util.Date fechaFactura1 = new Date(fechaFactura.getTime());

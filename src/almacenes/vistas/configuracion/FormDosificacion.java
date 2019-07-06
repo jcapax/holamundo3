@@ -13,9 +13,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
@@ -82,9 +79,7 @@ public class FormDosificacion extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jbNuevo = new javax.swing.JButton();
         jbGuardar = new javax.swing.JButton();
-        jbEditar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
-        jbEliminar = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtDosificacion = new javax.swing.JTable();
@@ -257,27 +252,11 @@ public class FormDosificacion extends javax.swing.JFrame {
             }
         });
 
-        jbEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar.png"))); // NOI18N
-        jbEditar.setText("Editar");
-        jbEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEditarActionPerformed(evt);
-            }
-        });
-
         jbCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
         jbCancelar.setText("Cancelar");
         jbCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCancelarActionPerformed(evt);
-            }
-        });
-
-        jbEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/trash_icon.png"))); // NOI18N
-        jbEliminar.setText("Eliminar");
-        jbEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEliminarActionPerformed(evt);
             }
         });
 
@@ -298,15 +277,11 @@ public class FormDosificacion extends javax.swing.JFrame {
                 .addComponent(jbNuevo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbEliminar)
+                .addComponent(jbCancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbSalir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,9 +290,7 @@ public class FormDosificacion extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbGuardar)
-                        .addComponent(jbEliminar)
                         .addComponent(jbSalir)
-                        .addComponent(jbEditar)
                         .addComponent(jbCancelar))
                     .addComponent(jbNuevo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -364,12 +337,12 @@ public class FormDosificacion extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,19 +369,10 @@ public class FormDosificacion extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
-    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
-//        eliminarUnidadProducto();
-    }//GEN-LAST:event_jbEliminarActionPerformed
-
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         byte x = 4;
         botones(x);
     }//GEN-LAST:event_jbCancelarActionPerformed
-
-    private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
-        byte x = 3;
-        botones(x);
-    }//GEN-LAST:event_jbEditarActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         byte x = 4;
@@ -534,8 +498,6 @@ public class FormDosificacion extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton jbCancelar;
-    private javax.swing.JButton jbEditar;
-    private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevo;
     private javax.swing.JButton jbSalir;
@@ -557,7 +519,6 @@ public class FormDosificacion extends javax.swing.JFrame {
             case 1: //nuevo
                 jbNuevo.setEnabled(false);
                 jbGuardar.setEnabled(true);
-                jbEditar.setEnabled(false);
                 jbCancelar.setEnabled(true);
                 limpiar();
                 habilitarComponentes();
@@ -565,21 +526,18 @@ public class FormDosificacion extends javax.swing.JFrame {
             case 2: //guardar
                 jbNuevo.setEnabled(true);
                 jbGuardar.setEnabled(false);
-                jbEditar.setEnabled(true);
                 jbCancelar.setEnabled(false);
                 deshabilitarComponentes();
                 break;
             case 3: // editar
                 jbNuevo.setEnabled(false);
                 jbGuardar.setEnabled(true);
-                jbEditar.setEnabled(false);
                 jbCancelar.setEnabled(true);
                 habilitarComponentes();
                 break;
             case 4: // cancelar
                 jbNuevo.setEnabled(true);
                 jbGuardar.setEnabled(false);
-                jbEditar.setEnabled(true);
                 jbCancelar.setEnabled(false);
                 deshabilitarComponentes();
                 break;

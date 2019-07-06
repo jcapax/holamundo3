@@ -805,7 +805,7 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmenuPendientesCobroActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        FormFacturaCredito ffc = new FormFacturaCredito(connectionDB);
+        FormFacturaCredito ffc = new FormFacturaCredito(connectionDB, idLugar);
         ffc.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 29-06-2019 a las 06:05:07
+-- Tiempo de generación: 06-07-2019 a las 13:16:12
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 5.6.40
 
@@ -63,7 +63,8 @@ CREATE TABLE `arqueo` (
 INSERT INTO `arqueo` (`id`, `fecha_apertura`, `fecha_cierre`, `caja_inicial`, `importe_cierre`, `estado`, `id_terminal`, `id_lugar`, `fecha_hora_registro`, `usuario`) VALUES
 (1, '2019-06-18 10:27:06', '2019-06-18 11:47:39', '100.0000', '-5765.5000', 'C', 2, 2, '2019-06-18 14:27:06', 'juan'),
 (2, '2019-06-18 11:58:05', '2019-06-20 00:29:43', '200.0000', '236.0000', 'C', 2, 2, '2019-06-18 15:58:05', 'juan'),
-(3, '2019-06-20 01:57:43', '2019-06-20 10:48:09', '200.0000', '204.5000', 'C', 2, 2, '2019-06-20 05:57:43', 'juan');
+(3, '2019-06-20 01:57:43', '2019-06-20 10:48:09', '200.0000', '204.5000', 'C', 2, 2, '2019-06-20 05:57:43', 'juan'),
+(4, '2019-07-05 11:10:32', NULL, '100.0000', NULL, 'A', 2, 2, '2019-07-05 15:10:32', 'juan');
 
 -- --------------------------------------------------------
 
@@ -94,7 +95,14 @@ INSERT INTO `caja` (`id`, `fecha`, `importe`, `id_transaccion`, `nro_cobro`, `nr
 (3, '2019-06-18', '4.5000', 5, 0, 0, 'C', 1, '2019-06-18 15:39:11', 'juan'),
 (4, '2019-06-18', '22.5000', 7, 0, 0, 'C', 1, '2019-06-18 15:39:48', 'juan'),
 (6, '2019-06-20', '36.0000', 11, 0, 0, 'C', 2, '2019-06-20 04:28:37', 'juan'),
-(7, '2019-06-20', '4.5000', 13, 0, 0, 'C', 3, '2019-06-20 05:58:06', 'juan');
+(7, '2019-06-20', '4.5000', 13, 0, 0, 'C', 3, '2019-06-20 05:58:06', 'juan'),
+(8, '2019-07-05', '1000.0000', 15, 0, 0, 'A', NULL, '2019-07-05 15:12:53', 'juan'),
+(9, '2019-07-05', '4.5000', 17, 0, 0, 'A', NULL, '2019-07-05 15:13:36', 'juan'),
+(10, '2019-07-05', '165.0000', 15, 0, 0, 'A', NULL, '2019-07-05 15:15:49', 'juan'),
+(11, '2019-07-05', '1000.0000', 19, 0, 0, 'A', NULL, '2019-07-05 15:24:09', 'juan'),
+(12, '2019-07-05', '1000.0000', 19, 0, 0, 'A', NULL, '2019-07-05 15:24:18', 'juan'),
+(13, '2019-07-05', '330.0000', 19, 0, 0, 'A', NULL, '2019-07-05 15:24:29', 'juan'),
+(14, '2019-07-05', '1165.0000', 21, 0, 0, 'A', NULL, '2019-07-05 15:47:18', 'juan');
 
 -- --------------------------------------------------------
 
@@ -179,7 +187,10 @@ CREATE TABLE `credito` (
 
 INSERT INTO `credito` (`id_transaccion`, `id_cliente_proveedor`, `detalle`) VALUES
 (7, 3, ''),
-(9, 3, '');
+(9, 3, ''),
+(15, 3, 'PAGARA MANANA LA PRIMERA CUOTA'),
+(19, 2, 'DE TODAS TODAS'),
+(21, 2, 'QWQW');
 
 -- --------------------------------------------------------
 
@@ -218,7 +229,15 @@ INSERT INTO `detalle_transaccion` (`id`, `id_transaccion`, `id_producto`, `id_un
 (13, 11, 3, 4, '8.00', '4.5000', '36.0000', 'N'),
 (14, 12, 3, 4, '8.00', '4.5000', '36.0000', 'N'),
 (15, 13, 3, 4, '1.00', '4.5000', '4.5000', 'N'),
-(16, 14, 3, 4, '1.00', '4.5000', '4.5000', 'N');
+(16, 14, 3, 4, '1.00', '4.5000', '4.5000', 'N'),
+(17, 15, 2, 1, '1.00', '1165.0000', '1165.0000', 'N'),
+(18, 16, 2, 1, '1.00', '1165.0000', '1165.0000', 'N'),
+(19, 17, 3, 4, '1.00', '4.5000', '4.5000', 'N'),
+(20, 18, 3, 4, '1.00', '4.5000', '4.5000', 'N'),
+(21, 19, 2, 1, '2.00', '1165.0000', '2330.0000', 'N'),
+(22, 20, 2, 1, '2.00', '1165.0000', '2330.0000', 'N'),
+(23, 21, 2, 1, '1.00', '1165.0000', '1165.0000', 'N'),
+(24, 22, 2, 1, '1.00', '1165.0000', '1165.0000', 'N');
 
 -- --------------------------------------------------------
 
@@ -243,7 +262,7 @@ CREATE TABLE `dosificacion` (
 --
 
 INSERT INTO `dosificacion` (`id`, `llave_dosificacion`, `fecha`, `id_sucursal`, `nro_autorizacion`, `nro_inicio_factura`, `fecha_limite_emision`, `pie_factura`, `estado`) VALUES
-(2, '23432453425324234234#@$#$%^@#$!@#$#54r345345', '2019-06-24', 3, '123123123', 1, '2019-06-30', 'nada mas simple nada mas simple', 1);
+(2, '23432453425324234234#@$#$%^@#$!@#$#54r345345', '2019-06-24', 3, '123123123', 1, '2019-07-05', 'nada mas simple nada mas simple', 1);
 
 -- --------------------------------------------------------
 
@@ -269,7 +288,11 @@ INSERT INTO `entrega_transaccion` (`id_entrega_transaccion`, `id_transaccion`, `
 (8, 7, 0, 0),
 (10, 9, 0, 0),
 (12, 11, 0, 0),
-(14, 13, 0, 0);
+(14, 13, 0, 0),
+(16, 15, 0, 0),
+(18, 17, 0, 0),
+(20, 19, 0, 0),
+(22, 21, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -350,7 +373,12 @@ CREATE TABLE `factura_venta` (
 --
 
 INSERT INTO `factura_venta` (`id`, `id_sucursal`, `especificacion`, `correlativo_sucursal`, `fecha_factura`, `nro_factura`, `nro_autorizacion`, `estado`, `nit`, `razon_social`, `importe_total`, `importe_ice`, `importe_exportaciones`, `importe_ventas_tasa_cero`, `importe_sub_total`, `importe_rebajas`, `importe_base_debito_fiscal`, `debito_fiscal`, `codigo_control`, `id_transaccion`, `fecha_limite_emision`, `codigo_qr`, `id_dosificacion`) VALUES
-(1, 1, 1, 1, '2019-06-20', 1, '118401700002092', 'V', 123456, 'OSCAR MARTINEZ', 36.0000, '0.0000', '0.0000', '0.0000', '36.0000', '0.0000', '36.0000', '4.6800', '20-15-4B-98', 11, '2018-11-27', NULL, 1);
+(1, 1, 1, 1, '2019-06-20', 1, '118401700002092', 'V', 123456, 'OSCAR MARTINEZ', 36.0000, '0.0000', '0.0000', '0.0000', '36.0000', '0.0000', '36.0000', '4.6800', '20-15-4B-98', 11, '2018-11-27', NULL, 1),
+(2, 3, 1, 1, '2019-07-05', 1, '123123123', 'V', 0, 'SIN NOMBRE', 4.5000, '0.0000', '0.0000', '0.0000', '4.5000', '0.0000', '4.5000', '0.5850', 'C6-B8-64-97', 17, '2019-07-05', NULL, 2),
+(3, 1, 1, 1, '2019-07-05', 2, '123123123', 'V', 0, 'SIN NOMBRE', 22.5000, '0.0000', '0.0000', '0.0000', '22.5000', '0.0000', '22.5000', '2.9250', '88-47-16-86', 7, '2019-07-05', NULL, 1),
+(4, 1, 1, 1, '2019-07-05', 3, '123123123', 'V', 0, 'SIN NOMBRE', 1165.0000, '0.0000', '0.0000', '0.0000', '1165.0000', '0.0000', '1165.0000', '151.4500', 'E2-64-0F-C9', 15, '2019-07-05', NULL, 1),
+(5, 1, 1, 1, '2019-07-05', 4, '123123123', 'V', 3655453, 'JUAN CARLOS PORCEL', 2330.0000, '0.0000', '0.0000', '0.0000', '2330.0000', '0.0000', '2330.0000', '302.9000', '71-05-38-F0', 19, '2019-07-05', NULL, 1),
+(6, 3, 1, 1, '2019-07-05', 5, '123123123', 'V', 0, 'SIN NOMBRE', 1165.0000, '0.0000', '0.0000', '0.0000', '1165.0000', '0.0000', '1165.0000', '151.4500', '02-F0-2F-10', 21, '2019-07-05', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -548,7 +576,8 @@ INSERT INTO `producto` (`id`, `clase_producto`, `código_barras`, `id_rubro_prod
 (7, 'M', NULL, NULL, NULL, NULL, 'APORTE PERSONAL', 'I', 'V', NULL, 0, 0, 0, '2018-09-08 21:31:25', 'sis'),
 (8, 'M', NULL, NULL, NULL, NULL, 'USO DE BAÑO ', 'I', 'V', NULL, 0, 0, 0, '2018-09-08 21:32:12', 'sis'),
 (9, 'M', NULL, NULL, NULL, NULL, 'PAGO DE SERVICIOS ', 'E', 'V', NULL, 0, 0, 0, '2018-09-08 21:33:35', 'sis'),
-(10, 'M', NULL, NULL, NULL, NULL, 'PAGO DE BENEFICIOS EMPLEADOS', 'E', 'V', NULL, 0, 0, 0, '2018-09-08 21:35:08', 'sis');
+(10, 'M', NULL, NULL, NULL, NULL, 'PAGO DE BENEFICIOS EMPLEADOS', 'E', 'V', NULL, 0, 0, 0, '2018-09-08 21:35:08', 'sis'),
+(11, NULL, NULL, 4, 1, 2, 'ELECTRODOS', NULL, 'V', NULL, 0, 1, 1, '2019-07-04 21:39:47', 'juan');
 
 -- --------------------------------------------------------
 
@@ -765,7 +794,15 @@ INSERT INTO `transaccion` (`id`, `fecha`, `id_tipo_transaccion`, `nro_tipo_trans
 (11, '2019-06-20', 2, 3, 2, 2, 1, 'C', 'OSCAR MARTINEZ', '2019-06-20 04:28:37', 'juan'),
 (12, '2019-06-20', 8, 3, 2, 2, -1, 'C', 'OSCAR MARTINEZ', '2019-06-20 04:28:37', 'juan'),
 (13, '2019-06-20', 2, 4, 2, 2, 1, 'C', 'SIN NOMBRE', '2019-06-20 05:58:06', 'juan'),
-(14, '2019-06-20', 8, 4, 2, 2, -1, 'C', 'SIN NOMBRE', '2019-06-20 05:58:06', 'juan');
+(14, '2019-06-20', 8, 4, 2, 2, -1, 'C', 'SIN NOMBRE', '2019-06-20 05:58:06', 'juan'),
+(15, '2019-07-05', 3, 1, 2, 2, 1, 'A', '', '2019-07-05 15:11:02', 'juan'),
+(16, '2019-07-05', 8, 5, 2, 2, -1, 'A', '', '2019-07-05 15:11:02', 'juan'),
+(17, '2019-07-05', 2, 5, 2, 2, 1, 'A', 'SIN NOMBRE', '2019-07-05 15:13:36', 'juan'),
+(18, '2019-07-05', 8, 6, 2, 2, -1, 'A', 'SIN NOMBRE', '2019-07-05 15:13:36', 'juan'),
+(19, '2019-07-05', 3, 2, 2, 2, 1, 'A', '', '2019-07-05 15:23:40', 'juan'),
+(20, '2019-07-05', 8, 7, 2, 2, -1, 'A', '', '2019-07-05 15:23:40', 'juan'),
+(21, '2019-07-05', 3, 3, 2, 2, 1, 'A', '', '2019-07-05 15:47:05', 'juan'),
+(22, '2019-07-05', 8, 8, 2, 2, -1, 'A', '', '2019-07-05 15:47:05', 'juan');
 
 -- --------------------------------------------------------
 
@@ -880,7 +917,8 @@ INSERT INTO `vencimiento` (`id`, `id_transaccion`, `id_producto`, `id_unidad_med
 (5, 8, 3, 4, '2019-06-30', '1.00'),
 (6, 10, 3, 4, '2019-07-01', '1.00'),
 (7, 12, 3, 4, '2019-06-30', '8.00'),
-(8, 14, 3, 4, '2019-06-30', '1.00');
+(8, 14, 3, 4, '2019-06-30', '1.00'),
+(9, 18, 3, 4, '2019-07-01', '1.00');
 
 -- --------------------------------------------------------
 
@@ -1469,13 +1507,13 @@ ALTER TABLE `vencimiento`
 -- AUTO_INCREMENT de la tabla `arqueo`
 --
 ALTER TABLE `arqueo`
-  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente_proveedor`
@@ -1499,7 +1537,7 @@ ALTER TABLE `configuraciones`
 -- AUTO_INCREMENT de la tabla `detalle_transaccion`
 --
 ALTER TABLE `detalle_transaccion`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `dosificacion`
@@ -1511,7 +1549,7 @@ ALTER TABLE `dosificacion`
 -- AUTO_INCREMENT de la tabla `entrega_transaccion`
 --
 ALTER TABLE `entrega_transaccion`
-  MODIFY `id_entrega_transaccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_entrega_transaccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `equivalencia`
@@ -1529,7 +1567,7 @@ ALTER TABLE `factura_compra`
 -- AUTO_INCREMENT de la tabla `factura_venta`
 --
 ALTER TABLE `factura_venta`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `familia`
@@ -1571,7 +1609,7 @@ ALTER TABLE `procedencia`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
@@ -1595,7 +1633,7 @@ ALTER TABLE `sucursal`
 -- AUTO_INCREMENT de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `unidad_medida`
@@ -1613,7 +1651,7 @@ ALTER TABLE `unidad_producto`
 -- AUTO_INCREMENT de la tabla `vencimiento`
 --
 ALTER TABLE `vencimiento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

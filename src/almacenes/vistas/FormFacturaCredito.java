@@ -14,6 +14,8 @@ import dao.DetalleTransaccionDAOImpl;
 import dao.FacturaDAO;
 import dao.FacturaDAOImpl;
 import dao.FacturaVentaDAOImpl;
+import dao.SucursalDAO;
+import dao.SucursalDAOImpl;
 import dao.TransaccionDAOImpl;
 import dao.reportes.ReporteFacturacionDAOImpl;
 import java.awt.Color;
@@ -44,12 +46,14 @@ public class FormFacturaCredito extends javax.swing.JFrame {
     private Connection connectionDB;
     DefaultTableModel dtm;
     private DecimalFormat df;
+    private byte idLugar;
 
-    public FormFacturaCredito(Connection connectionDB) {
+    public FormFacturaCredito(Connection connectionDB, byte idLugar) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
+        this.idLugar = idLugar;
         headerTabla();
         df = new DecimalFormat("###,##0.00");
         llenarTablaFacturaPendiente();
@@ -383,20 +387,19 @@ public class FormFacturaCredito extends javax.swing.JFrame {
     public void registrarFactura(int idTransaccion) {
         TransaccionDAOImpl tran = new TransaccionDAOImpl(connectionDB);
         FacturaVentaDAOImpl facDaoImpl = new FacturaVentaDAOImpl(connectionDB);
+        SucursalDAO sucursalDAO = new SucursalDAOImpl(connectionDB);
         ControlCode controlCode = new ControlCode();
 
         String nit = jtxtNit.getText().trim();
         String razonSocial = jtxtRazonSocial.getText().trim().toUpperCase();
 
-        int idSucursal = 1;
+        int idSucursal = sucursalDAO.getIdSucursal(idLugar);
         String codigoControl = "";
         int correlativoSucursal = 1;
 
         int especificacion = 1;
         String estado = "V";
         String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
-        //Date fechaFactura = tran.getFechaTransaccion(idTransaccion);
-        //java.util.Date fechaFactura1 = new Date(fechaFactura.getTime());
         java.sql.Date fechaFactura1 = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         Date fechaLimiteEmision = facDaoImpl.getFechaLimiteEmision(nroAutorizacion);
         int idDosificacion = 1;

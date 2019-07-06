@@ -279,23 +279,23 @@ where id_transaccion = $P{id_transaccion}]]>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="135" splitType="Stretch">
+		<band height="110" splitType="Stretch">
 			<staticText>
-				<reportElement x="109" y="100" width="87" height="14" uuid="68b883fc-8191-413e-8b76-261fa9e819da"/>
+				<reportElement x="110" y="60" width="87" height="14" uuid="68b883fc-8191-413e-8b76-261fa9e819da"/>
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Entregué Conforme]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="374" y="100" width="87" height="14" uuid="56018532-8d06-491d-b207-419fca18211b"/>
+				<reportElement x="375" y="60" width="87" height="14" uuid="56018532-8d06-491d-b207-419fca18211b"/>
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Recibí Conforme]]></text>
 			</staticText>
 			<line>
-				<reportElement x="85" y="99" width="150" height="1" uuid="9a586eb4-88b2-4052-a0fe-75fe9d53e7a1">
+				<reportElement x="86" y="59" width="150" height="1" uuid="9a586eb4-88b2-4052-a0fe-75fe9d53e7a1">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -305,7 +305,7 @@ where id_transaccion = $P{id_transaccion}]]>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="338" y="99" width="150" height="1" uuid="35eac866-8e0b-43be-9acf-666a15dbf422">
+				<reportElement x="339" y="59" width="150" height="1" uuid="35eac866-8e0b-43be-9acf-666a15dbf422">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
