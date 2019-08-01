@@ -305,7 +305,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         int idTransaccion = 0;
         int idEntregaTransaccion = 0;
         
-        if(shift){
+        if(!shift){
             rebajarRegistros();
         }
 

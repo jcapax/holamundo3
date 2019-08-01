@@ -712,6 +712,7 @@ public class FormProducto extends javax.swing.JFrame {
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
         byte x = 1;
         botones(x);
+        ljEditar.setText("0");
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed

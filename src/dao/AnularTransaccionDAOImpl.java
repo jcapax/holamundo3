@@ -69,10 +69,12 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO {
                         "    left join factura_venta f on f.id_transaccion = t.id \n";
             String aux = "";
             if (rol != 1) {
-                aux = "Where datediff(now(), t.fecha) <= '"+ String.valueOf(nro)+"' and t.usuario = '"+usuario+"' ORDER by t.id desc";
+                aux = "Where datediff(now(), t.fecha) <= '"+ String.valueOf(nro)+"' "
+                        + "and t.estado <> 'N' and t.usuario = '"+usuario+"' ORDER by t.id desc";
                 sql = sql.concat(aux);
             }else{
-                aux = "Where datediff(now(), t.fecha) <= '"+ String.valueOf(nro)+"' ORDER by t.id desc";
+                aux = "Where datediff(now(), t.fecha) <= '"+ String.valueOf(nro)+"' "
+                        + "and t.estado <> 'N' ORDER by t.id desc";
                 sql = sql.concat(aux);
             }
             

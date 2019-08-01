@@ -29,7 +29,7 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
         this.databaseUtils = new DatabaseUtils();
     }
     
-    
+   
 
     @Override
     public int insertarDosificacion(Dosificacion dosificacion) {
@@ -91,6 +91,17 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
         
         
         return listDosif;
+    }
+
+    @Override
+    public void actualizarEstadoCeroDosificacion() {
+        String sql = "update dosificacion set estado = 0";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DosificacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

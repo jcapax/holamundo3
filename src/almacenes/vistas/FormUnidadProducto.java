@@ -235,7 +235,13 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         double precioVentaRebaja = 0;
         double precioVentaAumento = 0;
         double precioCompra = Double.valueOf(jtxtPrecioCompra.getText());
-        int garantiaMeses = Integer.valueOf(jtxtGarantiaMses.getText());
+        int garantiaMeses;
+        if(jtxtGarantiaMses.getText().length()==0){
+           garantiaMeses = 0;
+        }else{
+           garantiaMeses = Integer.valueOf(jtxtGarantiaMses.getText());
+        }
+         
         int actualizacion = 1;
         String usuario = "";
         String notEdicion = "0";

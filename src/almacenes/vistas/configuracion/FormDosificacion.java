@@ -609,6 +609,7 @@ public class FormDosificacion extends javax.swing.JFrame {
         d.setPieFactura(pieFactura);
         
         DosificacionDAOImpl dosificacionDAO = new DosificacionDAOImpl(connectionDB);
+        dosificacionDAO.actualizarEstadoCeroDosificacion();
         dosificacionDAO.insertarDosificacion(d);
         
     }
