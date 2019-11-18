@@ -667,20 +667,20 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuComprasActionPerformed
 
     private void jMenuStockInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuStockInicialActionPerformed
-        int idTipoTransaccion = 6;// stock inicial
-        int idTipoTransaccionEntrega = 7;
-        FormTransaccionCompras formTrans = new FormTransaccionCompras(connectionDB, 
-                                        idTipoTransaccion, idTipoTransaccionEntrega, 
-                                        idUsuario, idLugar, idTerminal);
-        formTrans.setVisible(true);
-
-
-//
 //        int idTipoTransaccion = 6;// stock inicial
 //        int idTipoTransaccionEntrega = 7;
-//        FormAjusteStock formAjuste = new FormAjusteStock(connectionDB, idTipoTransaccion, 
-//                idTipoTransaccionEntrega, idUsuario, idLugar, idTerminal);
-//        formAjuste.setVisible(true);
+//        FormTransaccionCompras formTrans = new FormTransaccionCompras(connectionDB, 
+//                                        idTipoTransaccion, idTipoTransaccionEntrega, 
+//                                        idUsuario, idLugar, idTerminal);
+//        formTrans.setVisible(true);
+
+
+
+        int idTipoTransaccion = 6;// ajuste stock 
+        int idTipoTransaccionEntrega = 7;
+        FormAjusteStock formAjuste = new FormAjusteStock(connectionDB, idTipoTransaccion, 
+                idTipoTransaccionEntrega, idUsuario, idLugar, idTerminal);
+        formAjuste.setVisible(true);
     }//GEN-LAST:event_jMenuStockInicialActionPerformed
 
     private void jMenuStockProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuStockProductosActionPerformed

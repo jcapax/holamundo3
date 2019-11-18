@@ -493,8 +493,8 @@ public class FormAjusteStock extends javax.swing.JFrame {
             idProducto = Integer.valueOf(jtTemporal.getValueAt(fila, 0).toString());
             idUnidadMedida = Integer.valueOf(jtTemporal.getValueAt(fila, 1).toString());
             cantidad = Double.valueOf(jtTemporal.getValueAt(fila, 4).toString());
-            valorUnitario = Double.valueOf(jtTemporal.getValueAt(fila, 5).toString());
-            valorTotal = Double.valueOf(jtTemporal.getValueAt(fila, 6).toString());
+            //valorUnitario = Double.valueOf(jtTemporal.getValueAt(fila, 5).toString());
+            //valorTotal = Double.valueOf(jtTemporal.getValueAt(fila, 6).toString());
 
             DetalleTransaccion dt = new DetalleTransaccion();
 
@@ -1146,24 +1146,6 @@ public class FormAjusteStock extends javax.swing.JFrame {
     private void jbTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransaccionActionPerformed
         jbTransaccion.setEnabled(false);
         switch (idTipoTransaccion) {
-            case 1:
-                if (!validarRegistros()) {
-                    return;
-                }
-                registrarCompra();
-                break;
-            case 2:
-                if (!validarRegistros()) {
-                    return;
-                }
-                registrarVenta();
-                break;
-            case 3:
-                if (!validarRegistros()) {
-                    return;
-                }
-                registrarCredito();
-                break;
             case 6:
                 if (!validarRegistros()) {
                     return;
