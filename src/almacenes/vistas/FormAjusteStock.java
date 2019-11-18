@@ -28,6 +28,8 @@ import dao.TransaccionDAOImpl;
 import dao.UnidadMedidaDAO;
 import dao.UnidadMedidaDAOImpl;
 import dao.UnidadProductoDAOImlp;
+import dao.reportes.ReporteComprasDAO;
+import dao.reportes.ReporteComprasDAOImpl;
 import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
 import dao.reportes.ReporteFacturacionDAOImpl;
@@ -1245,5 +1247,11 @@ public class FormAjusteStock extends javax.swing.JFrame {
     private void vaciarProductosTemporales() {
         TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
         tempDAOImpl.vaciarProductoTemp();
+    }
+    
+    private void vistaPreviaAjusteStock(int idTransaccion) {
+        ReporteComprasDAO reporteComprasDAO = new ReporteComprasDAOImpl(connectionDB, usuario);
+        reporteComprasDAO.vistaPreviaAjusteStock(idTransaccion);
+        
     }
 }
