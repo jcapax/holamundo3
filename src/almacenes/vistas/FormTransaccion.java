@@ -320,8 +320,8 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
         
-        vencimientoDAO = new VencimientoDAOImpl(connectionDB);
-        vencimientoDAO.registrosSalidasProductosVencimiento(idEntregaTransaccion);
+        //vencimientoDAO = new VencimientoDAOImpl(connectionDB);
+        //vencimientoDAO.registrosSalidasProductosVencimiento(idEntregaTransaccion);
 
         registrarCaja(idTransaccion);
 
@@ -355,8 +355,8 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
         
-        vencimientoDAO = new VencimientoDAOImpl(connectionDB);
-        vencimientoDAO.registrosSalidasProductosVencimiento(idEntregaTransaccion);
+        //vencimientoDAO = new VencimientoDAOImpl(connectionDB);
+        //vencimientoDAO.registrosSalidasProductosVencimiento(idEntregaTransaccion);
         
         insertarCredito(idTransaccion, idClienteProveedor, detalle);
         

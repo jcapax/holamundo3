@@ -449,7 +449,7 @@ public class FormStockProducto extends javax.swing.JFrame {
         int idProducto = (int) jtStockProducto.getValueAt(fila, 4);
         byte idUnidadMedida = (byte) jtStockProducto.getValueAt(fila, 5);
         
-        llenarStockVencimiento(idProducto, idUnidadMedida);
+        //llenarStockVencimiento(idProducto, idUnidadMedida);
         
     }
 

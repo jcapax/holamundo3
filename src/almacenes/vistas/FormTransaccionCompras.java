@@ -179,7 +179,7 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
         
-        registrarProductosVencimiento(idEntregaTransaccion);
+        //registrarProductosVencimiento(idEntregaTransaccion);
 
         registrarCaja(idTransaccion);
 
@@ -219,7 +219,7 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
 
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
         
-        registrarProductosVencimiento(idEntregaTransaccion);
+        //registrarProductosVencimiento(idEntregaTransaccion);
 
 //        registrarCaja(idTransaccion);
 
@@ -342,6 +342,7 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
         temp.setValorUnitario(valorUnitario);
         
         TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
+        /*
         if(vencimientoDAO.isVencimiento(temp.getIdProducto())){
             try{
                 Date fechaVencimiento = new Date(jtxtFechaVencimiento.getDate().getTime());
@@ -351,9 +352,9 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
                 
             }
             
-        }else{   
+        }else{   */
             tempDAOImpl.insertarProductoTemp(temp);
-        }
+        //}
         
         llenarTablaTemporal();
     }

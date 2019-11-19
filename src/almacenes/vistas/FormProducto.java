@@ -943,5 +943,6 @@ public class FormProducto extends javax.swing.JFrame {
         jtxtNombreProducto.setText("");
         jchControlStock.setSelected(false);
         jchEstado.setSelected(false);
+        jchCaducidad.setSelected(false);
     }
 }
