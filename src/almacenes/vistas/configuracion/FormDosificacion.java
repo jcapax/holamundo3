@@ -612,6 +612,8 @@ public class FormDosificacion extends javax.swing.JFrame {
         dosificacionDAO.actualizarEstadoCeroDosificacion();
         dosificacionDAO.insertarDosificacion(d);
         
+        llenarTablaDosificacion();
+        
     }
     
     private void seleccionarElementoSucursal() {

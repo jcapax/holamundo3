@@ -122,7 +122,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 lProd.setId(rs.getInt("id_producto"));
                 lProd.setACTUALIZACION(rs.getInt("actualizacion"));
                 lProd.setControlStock(rs.getInt("control_stock"));
-                lProd.setCaducidad(rs.getInt("caducidad"));
+                lProd.setCaducidad(rs.getInt("caducidimad"));
                 lProd.setDescripcion(rs.getString("descripcion"));
                 lProd.setEstado(rs.getString("estado"));
                 lProd.setIDUNIDADMEDIDA(rs.getInt("id_unidad_medida"));

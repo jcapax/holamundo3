@@ -215,7 +215,7 @@ public class FormAjusteStock extends javax.swing.JFrame {
         return aux;
     }
 
-    public void registrarStockInicial() {
+    public void registrarAjusteStock() {
 
         int idTransaccion = 0;
         int idEntregaTransaccion = 0;
@@ -231,11 +231,11 @@ public class FormAjusteStock extends javax.swing.JFrame {
 
         registrarEntregaTransaccion(idEntregaTransaccion, idTransaccion);
 
-//        registrarCaja(idTransaccion);
+        vistaPreviaAjusteStock(idTransaccion);
 
         limpiar();
 
-        JOptionPane.showMessageDialog(this, "Ajuste Stock registrado con exito");
+//        JOptionPane.showMessageDialog(this, "Ajuste Stock registrado con exito");
         vaciarProductosTemporales();
     }
 
@@ -1152,7 +1152,7 @@ public class FormAjusteStock extends javax.swing.JFrame {
                 if (!validarRegistros()) {
                     return;
                 }
-                registrarStockInicial();
+                registrarAjusteStock();
                 break;
         }
         jbTransaccion.setEnabled(true);

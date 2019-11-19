@@ -1439,13 +1439,15 @@ public class FormTransaccion extends javax.swing.JFrame {
         
         FacturaDAO fac = new FacturaDAOImpl(connectionDB);
         
-        if(!fac.getEstadoDosificacion(idSucursal)){
-            shift = false;
-            JOptionPane.showMessageDialog( null, "¡No se cuenta con una dosificación válida, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            if(!fac.getFechaLimiteEmisionVigente(idSucursal)){
-               shift = false;
-               JOptionPane.showMessageDialog( null, "¡La fecha de emisión para las facturas ha vencido, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+        if(shift){
+            if(!fac.getEstadoDosificacion(idSucursal)){
+                shift = false;
+                JOptionPane.showMessageDialog( null, "¡No se cuenta con una dosificación válida, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                if(!fac.getFechaLimiteEmisionVigente(idSucursal)){
+                   shift = false;
+                   JOptionPane.showMessageDialog( null, "¡La fecha de emisión para las facturas ha vencido, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
         
