@@ -7,13 +7,19 @@ package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.AnularTransaccion;
+import almacenes.model.DetalleTransaccion;
 import dao.AnularTransaccionDAOImpl;
+import dao.DetalleTransaccionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -123,6 +129,9 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
         btnEliminar1 = new javax.swing.JButton();
         jlTituloFormulario = new javax.swing.JLabel();
         jbSalir = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jtDetalleTransaccion = new javax.swing.JTable();
+        jlTituloFormulario1 = new javax.swing.JLabel();
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/trash_icon.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -158,6 +167,16 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jtAnularComprobante.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtAnularComprobanteMouseClicked(evt);
+            }
+        });
+        jtAnularComprobante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtAnularComprobanteKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jtAnularComprobante);
@@ -196,7 +215,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
         jlTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlTituloFormulario.setText("Anular Transacciones");
+        jlTituloFormulario.setText("Detalle");
 
         jbSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
         jbSalir.setText("Salir");
@@ -206,33 +225,72 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             }
         });
 
+        jtDetalleTransaccion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Producto", "Simbolo", "Cantidad", "Importe Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jtDetalleTransaccion);
+
+        jlTituloFormulario1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jlTituloFormulario1.setForeground(new java.awt.Color(153, 0, 51));
+        jlTituloFormulario1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlTituloFormulario1.setText("Anular Transacciones");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(345, 345, 345)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminar1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 444, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlTituloFormulario)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jlTituloFormulario1, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jlTituloFormulario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(57, 57, 57)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar1)
-                    .addComponent(jbSalir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jlTituloFormulario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnEliminar1)
+                        .addComponent(jbSalir))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(26, 26, 26)
+                    .addComponent(jlTituloFormulario1)
+                    .addContainerGap(453, Short.MAX_VALUE)))
         );
 
         pack();
@@ -249,6 +307,14 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jtAnularComprobanteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtAnularComprobanteKeyReleased
+        seleccionarDetalletransaccion();
+    }//GEN-LAST:event_jtAnularComprobanteKeyReleased
+
+    private void jtAnularComprobanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtAnularComprobanteMouseClicked
+        seleccionarDetalletransaccion();
+    }//GEN-LAST:event_jtAnularComprobanteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -285,13 +351,61 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void seleccionarDetalletransaccion(){
+        int fila = jtAnularComprobante.getSelectedRow();
+        int idtransaccion = (int) jtAnularComprobante.getValueAt(fila, 0);
+        
+        llenarDetalleTransaccion(idtransaccion);
+    }
+    
+    public void llenarDetalleTransaccion(int idTransaccion){
+        double importeTotal = 0;
+
+        DetalleTransaccionDAOImpl rub = new DetalleTransaccionDAOImpl(connectionDB);
+        DecimalFormat df = new DecimalFormat("###,##0.00");
+
+        ArrayList<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
+
+        r = rub.getDetalleTransaccion(idTransaccion);
+
+        dtm = (DefaultTableModel) this.jtDetalleTransaccion.getModel();
+        dtm.setRowCount(0);
+
+        jtDetalleTransaccion.setModel(dtm);
+
+        Object[] fila = new Object[4];
+
+        for (int i = 0; i < r.size(); i++) {
+            fila[0] = r.get(i).getNombreProducto();
+            fila[1] = r.get(i).getSimbolo();
+            fila[2] = r.get(i).getCantidad();
+            fila[3] = df.format(r.get(i).getValorTotal());
+            importeTotal = importeTotal + r.get(i).getValorTotal();
+            
+            dtm.addRow(fila);
+        }
+        
+        TableColumnModel columnModel = jtDetalleTransaccion.getColumnModel();
+        
+        TableColumn colImpTotal = columnModel.getColumn(3);
+        
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        
+        colImpTotal.setCellRenderer(renderer);
+        
+        jtDetalleTransaccion.setModel(dtm);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEliminar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton jbSalir;
     private javax.swing.JLabel jlTituloFormulario;
+    private javax.swing.JLabel jlTituloFormulario1;
     private javax.swing.JTable jtAnularComprobante;
+    private javax.swing.JTable jtDetalleTransaccion;
     // End of variables declaration//GEN-END:variables
 }

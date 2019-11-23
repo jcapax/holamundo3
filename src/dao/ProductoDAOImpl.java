@@ -157,7 +157,7 @@ public class ProductoDAOImpl implements ProductoDAO{
         String sql = "SELECT s.id_producto, s.id_unidad_medida, p.descripcion, p.nombre_unidad_medida, s.stock "
                 + "FROM v_stock s"
                 + " JOIN v_productos p ON p.id_producto = s.id_producto"
-                + "  AND p.id_unidad_medida = S.id_unidad_medida "
+                + "  AND p.id_unidad_medida = s.id_unidad_medida "
                 + "WHERE s.id_lugar = ? and p.descripcion like '%"+criterio+"%'"
                 + " ORDER BY s.stock, p.descripcion";
         

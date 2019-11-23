@@ -35,8 +35,31 @@ public class FormUsuario extends javax.swing.JFrame {
         this.connectionDB = connectionDB;
         this.edicionUsuario = false;
         llenarTablaUsuarios();
+        deshabilitarComponentes();
     }
 
+    public void habilitarComponentes(){
+        boolean aux = true;
+        
+        jtxtLogin.setEnabled(aux);
+        jpassContrasena1.setEnabled(aux);
+        jpassContrasena2.setEnabled(aux);
+        jpassContrasenaAnterior.setEnabled(aux);
+        jchAdministrador.setEnabled(aux);
+        jchEstado.setEnabled(aux);
+    }
+    
+    public void deshabilitarComponentes(){
+        boolean aux = false;
+        
+        jtxtLogin.setEnabled(aux);
+        jpassContrasena1.setEnabled(aux);
+        jpassContrasena2.setEnabled(aux);
+        jpassContrasenaAnterior.setEnabled(aux);
+        jchAdministrador.setEnabled(aux);
+        jchEstado.setEnabled(aux);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -268,6 +291,7 @@ public class FormUsuario extends javax.swing.JFrame {
     private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
         byte x = 3;//editar
         botones(x);
+        habilitarComponentes();
         jtxtLogin.setEnabled(false);
 
     }//GEN-LAST:event_jbEditarActionPerformed
@@ -275,26 +299,28 @@ public class FormUsuario extends javax.swing.JFrame {
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         byte x = 4;//cancelar
         botones(x);        
-        jtxtLogin.setEnabled(true);
+        deshabilitarComponentes();
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         byte x = 2;//guardar
         botones(x);        
-        jtxtLogin.setEnabled(true);
+        deshabilitarComponentes();
         llenarTablaUsuarios();
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
         byte x = 1;//nuevo
         botones(x);
-        jtxtLogin.setEnabled(true);
+        habilitarComponentes();
+        
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         byte x = 5; //eliminar
         botones(x);
         llenarTablaUsuarios();
+        deshabilitarComponentes();
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jchAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jchAdministradorActionPerformed
