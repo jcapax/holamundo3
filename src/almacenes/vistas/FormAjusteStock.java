@@ -533,7 +533,7 @@ public class FormAjusteStock extends javax.swing.JFrame {
 //        int idTerminal = 1;
         int idTransaccion = 0;
         String estado = "A";
-        String descripcion = "";
+        String descripcion = jtxtDetalle.getText().toUpperCase().toString();
 //        String usuario = "SYS";
         java.util.Date hoy = new java.util.Date();
         java.sql.Date fecha = new java.sql.Date(hoy.getTime());
