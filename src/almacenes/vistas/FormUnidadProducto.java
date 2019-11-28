@@ -115,7 +115,6 @@ public class FormUnidadProducto extends javax.swing.JFrame {
                 jbEditar.setEnabled(false);
                 jbCancelar.setEnabled(true);
                 limpiar();
-                jlEdicion.setText("0");
                 habilitarComponentes();
                 break;
             case 2: //guardar
@@ -123,7 +122,6 @@ public class FormUnidadProducto extends javax.swing.JFrame {
                 jbGuardar.setEnabled(false);
                 jbEditar.setEnabled(true);
                 jbCancelar.setEnabled(false);
-                jlEdicion.setText("0");
                 deshabilitarComponentes();
                 break;
             case 3: // editar
@@ -131,7 +129,6 @@ public class FormUnidadProducto extends javax.swing.JFrame {
                 jbGuardar.setEnabled(true);
                 jbEditar.setEnabled(false);
                 jbCancelar.setEnabled(true);
-                jlEdicion.setText("1");
                 habilitarComponentes();
                 break;
             case 4: // cancelar
@@ -139,7 +136,6 @@ public class FormUnidadProducto extends javax.swing.JFrame {
                 jbGuardar.setEnabled(false);
                 jbEditar.setEnabled(true);
                 jbCancelar.setEnabled(false);
-                jlEdicion.setText("0");
                 deshabilitarComponentes();
                 break;
         }
@@ -229,7 +225,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
     public void guardarUnidadProdcto() {
 
         int idProducto = Integer.valueOf(jlIdProducto.getText());
-        int idUnidadMedida = Integer.valueOf(jlIdUnidadMedida.getText());
+        int idUnidadMedida = Integer.valueOf(jlIdUnidadMedida.getText().trim());
 //        int idUnidadMedidaPrincipal = Integer.valueOf(jlIdUnidadMedidaPrincipal.getText());
         int idUnidadMedidaPrincipal = 0;
         double stockMinimo = Double.valueOf(jtxtStockMinimo.getText());
@@ -248,16 +244,9 @@ public class FormUnidadProducto extends javax.swing.JFrame {
          
         int actualizacion = 1;
         String usuario = "";
-        String notEdicion = "0";
-        String valorjlEdicion = jlEdicion.getText();
         
         UnidadProducto unidadProducto = new UnidadProducto();
         
-        int idUnidadProducto = 0;
-            
-        idUnidadProducto = Integer.parseInt(jlIdUnidadProducto.getText());
-        
-        unidadProducto.setId(idUnidadProducto);
         unidadProducto.setIdProdcuto(idProducto);
         unidadProducto.setIdUnidadMedida(idUnidadMedida);
         unidadProducto.setUnidadPrincipal(idUnidadMedidaPrincipal);
@@ -271,9 +260,18 @@ public class FormUnidadProducto extends javax.swing.JFrame {
 
         UnidadProductoDAOImlp uProdDAOImpl = new UnidadProductoDAOImlp(connectionDB);
         
-        if (valorjlEdicion.equals(notEdicion)) {    
+        String aux = "0";
+        
+        System.out.println("valor jledicion: "+jlEdicion.getText().toString());
+        
+        if (jlEdicion.getText().toString().trim().equals(aux)) {    
             uProdDAOImpl.insertarUnidadProducto(unidadProducto);
         } else {
+            int idUnidadProducto = 0;
+            
+            idUnidadProducto = Integer.valueOf(jlIdUnidadProducto.getText().toString().trim());
+            unidadProducto.setId(idUnidadProducto);
+            
             uProdDAOImpl.editarUnidadProducto(unidadProducto);
         }
         llenarTablaUnidadProduco(idProducto);
@@ -653,16 +651,19 @@ public class FormUnidadProducto extends javax.swing.JFrame {
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
         byte x = 1;
         botones(x);
+        jlEdicion.setText("0");
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
         byte x = 3;
         botones(x);
+        jlEdicion.setText("1");
     }//GEN-LAST:event_jbEditarActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         byte x = 4;
         botones(x);
+        jlEdicion.setText("0");
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jtUnidadProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtUnidadProductoKeyReleased
