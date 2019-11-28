@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
@@ -61,39 +61,30 @@ where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and id_tipo_transaccion
 				<text><![CDATA[Hasta: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="59" y="3" width="80" height="18" forecolor="#054A82" uuid="a9c55f01-3077-4ccf-822f-342912cd6036"/>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DISMEBOL]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="164" y="11" width="227" height="30" forecolor="#054A82" uuid="36c45f36-079f-4a5b-928b-6b92fb12f06e"/>
+				<reportElement x="164" y="19" width="227" height="30" forecolor="#054A82" uuid="36c45f36-079f-4a5b-928b-6b92fb12f06e"/>
 				<textElement textAlignment="Center">
 					<font size="19" isBold="true"/>
 				</textElement>
 				<text><![CDATA[VENTAS - ENTREGAS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="24" y="21" width="151" height="12" forecolor="#054A82" uuid="39dd2192-4c87-44c7-af6d-d8f89788504c"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="82729512-d58b-4a80-8d0a-2fcda6005723">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Importadora y Distribuidora de Insumos Medicos Bolivia]]></text>
+				<text><![CDATA[MATIAS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="32" width="199" height="14" forecolor="#054A82" uuid="3e347b1c-a0a2-4901-adf1-0a571542b765"/>
+				<reportElement x="0" y="20" width="200" height="11" forecolor="#054A82" uuid="767c338b-a55d-4711-a771-c1ec973f1d7b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="6" isBold="true"/>
+					<font size="5" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Calle La Paz Nro. 1002 Esq. Destacamento 111]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="52" y="42" width="94" height="14" forecolor="#054A82" uuid="2e770fba-d8a9-4cd6-b5de-649c199722bb"/>
-				<textElement textAlignment="Center">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Sucre - Chuquisaca - Bolivia]]></text>
+				<text><![CDATA[Prensado de Mangueras y Chicotillos]]></text>
 			</staticText>
 		</band>
 	</title>
