@@ -304,11 +304,11 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         int idTransaccion = 0;
         int idEntregaTransaccion = 0;
-        
+ /*
         if(!shift){
             rebajarRegistros();
         }
-
+*/
 //        int idTipoTransaccion = 2; // venta -  plata
         idTransaccion = resgistrarTransaccion(idTipoTransaccion);
         registrarDetalleTransaccion(idTransaccion);
