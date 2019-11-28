@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
@@ -280,7 +280,7 @@ where id_transaccion = $P{id_transaccion}]]>
 				<text><![CDATA[ORIGINAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="38" width="200" height="15" forecolor="#054A82" uuid="c901d96f-5792-4067-9e2e-d4de3f4c9be3">
+				<reportElement x="0" y="32" width="200" height="15" forecolor="#054A82" uuid="c901d96f-5792-4067-9e2e-d4de3f4c9be3">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -289,17 +289,16 @@ where id_transaccion = $P{id_transaccion}]]>
 				<text><![CDATA[CASA MATRIZ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="47" width="200" height="25" forecolor="#054A82" uuid="d7c46ef5-1a67-4c8b-9e90-7972dba1d292">
+				<reportElement x="0" y="41" width="200" height="14" forecolor="#054A82" uuid="d7c46ef5-1a67-4c8b-9e90-7972dba1d292">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Calle R. Martinez S/N - Zona Alto Mesa Verde]]></text>
+				<text><![CDATA[Calle La Paz Nro. 1002 Esq. Destacamento 111]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="57" width="200" height="14" forecolor="#054A82" uuid="ea0f09da-4808-488e-abf4-248399e46fcb">
+				<reportElement x="0" y="51" width="200" height="14" forecolor="#054A82" uuid="ea0f09da-4808-488e-abf4-248399e46fcb">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -314,16 +313,16 @@ where id_transaccion = $P{id_transaccion}]]>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[MATIAS]]></text>
+				<text><![CDATA[DISMEBOL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="27" width="200" height="12" forecolor="#054A82" uuid="74283977-2099-4f93-94d0-1ecf0d21927d">
+				<reportElement x="0" y="21" width="200" height="12" forecolor="#054A82" uuid="74283977-2099-4f93-94d0-1ecf0d21927d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Adolfo Israel Fernandez Valda]]></text>
+				<text><![CDATA[Importadora y Distribuidora de Insumos Medicos Bolivia]]></text>
 			</staticText>
 		</band>
 	</title>

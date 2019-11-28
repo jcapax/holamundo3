@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dismebol"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<parameter name="id_transaccion" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT t.id, t.id_lugar, l.descripcion as nombre_lugar, t.descripcion_transaccion, t.nro_tipo_transaccion,
+t.fecha, d.descripcion as nombre_producto, d.simbolo, d.cantidad, 
+d.valor_unitario, d.valor_total, v.fecha_vencimiento 
+FROM `v_transaccion` t 
+	join v_detalle_transaccion d on t.id = d.id_transaccion 
+	join lugar l on t.id_lugar = l.id 
+	left join vencimiento v on t.id = v.id_transaccion 
+		and v.id_producto = d.id_producto 
+		and v.id_unidad_medida = d.id_unidad_medida 
+Where t.id = $P{id_transaccion}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="transaccion"/>
+	</field>
+	<field name="id_lugar" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="transaccion"/>
+	</field>
+	<field name="nombre_lugar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lugar"/>
+	</field>
+	<field name="descripcion_transaccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descripcion_transaccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="transaccion"/>
+	</field>
+	<field name="nro_tipo_transaccion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_tipo_transaccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="transaccion"/>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="transaccion"/>
+	</field>
+	<field name="nombre_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="d"/>
+	</field>
+	<field name="simbolo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="simbolo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="d"/>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="d"/>
+	</field>
+	<field name="valor_unitario" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_unitario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="d"/>
+	</field>
+	<field name="valor_total" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="d"/>
+	</field>
+	<field name="fecha_vencimiento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_vencimiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vencimiento"/>
+	</field>
+	<variable name="sumValorTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="65" y="75" width="354" height="16" uuid="332c37eb-1349-4fe3-bf13-a312a75656ec"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion_transaccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="457" y="12" width="46" height="15" forecolor="#054A82" uuid="1bf479c9-e616-4db8-98da-4328ce140ced">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="4" width="101" height="30" forecolor="#054A82" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
+				<textElement textAlignment="Center">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="94" y="92" width="100" height="16" uuid="d0b76e1e-5381-41c6-a7e6-eecd63dc4267"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="75" width="45" height="20" forecolor="#054A82" uuid="ab152ac5-9c1b-405c-8cb8-cad93a5b234a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Señores: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="92" width="45" height="16" forecolor="#054A82" uuid="79b2e507-dcf3-418b-a5ad-efdf74713295">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Emisión:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="92" width="30" height="16" forecolor="#000000" uuid="31421146-c6c4-4d9d-987d-8d6b1f0ca4d5"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sucre, ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="4" width="200" height="18" forecolor="#054A82" uuid="87976a1f-732f-4da1-b901-1b185260047c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DISMEBOL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="21" width="200" height="12" forecolor="#054A82" uuid="74283977-2099-4f93-94d0-1ecf0d21927d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importadora y Distribuidora de Insumos Medicos Bolivia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="507" y="12" width="60" height="16" uuid="0697bf10-8fb2-4685-8337-9262d512a3fc"/>
+				<textFieldExpression><![CDATA[$F{nro_tipo_transaccion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="5" width="100" height="14" forecolor="#054A82" uuid="cd7b5373-1aaf-4a79-aebc-072ffbacdce6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="261" y="5" width="50" height="14" forecolor="#054A82" uuid="7ef278f5-f406-433f-ab9e-da91be2739b4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="5" width="100" height="14" forecolor="#054A82" uuid="9bed46ae-2172-4026-9b93-5272f68687d8"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prec. Unit.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="5" width="61" height="14" forecolor="#054A82" uuid="9ae7700c-9e6a-431b-bf2f-aa822fc98a8c"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="20" y="23" width="520" height="1" uuid="dc04cbd3-8209-49f8-ad35-adb40761be8d">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="0" width="220" height="12" uuid="c8226ce7-1563-4fc2-b522-0bccdc996246"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="261" y="0" width="50" height="12" uuid="81585d63-0825-412c-86d9-a7cf867aac9b"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{cantidad})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="0" width="70" height="12" uuid="4b652972-da8f-4480-99a6-8625753fb472"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valor_unitario})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="467" y="0" width="70" height="12" uuid="7dc7da2c-8811-44ab-b979-23587f760110"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valor_total})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="38" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="20" y="10" width="144" height="20" uuid="f97060fa-6eba-419d-9730-e9ce4911088d"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="19" splitType="Stretch">
+			<line>
+				<reportElement x="20" y="2" width="520" height="1" uuid="d12fa60a-7b26-4989-9001-97c71db7d786">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="462" y="5" width="75" height="14" uuid="aa82de6f-0127-4d81-989b-ad57f1ffeda3"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($V{sumValorTotal})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="396" y="5" width="61" height="14" uuid="2c01de2c-a15c-43fb-8a07-adf7585c068c"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe Total: ]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
