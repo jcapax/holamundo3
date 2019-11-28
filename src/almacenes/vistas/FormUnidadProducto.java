@@ -69,6 +69,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
 //        jtxtPrecioVentaRebaja.setEnabled(aux);
         jtxtStockMinimo.setEnabled(aux);  
         //jPanelComponentes.setEnabled(aux);
+        jtxtGarantiaMses.setEnabled(aux);
     }
     
     public void deshabilitarComponentes(){
@@ -81,6 +82,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
 //        jtxtPrecioVentaRebaja.setEnabled(aux);
         jtxtStockMinimo.setEnabled(aux); 
         //jPanelComponentes.setEnabled(aux);
+        jtxtGarantiaMses.setEnabled(aux);
     }
     
     public void headerTabla(){
@@ -137,6 +139,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
                 jbGuardar.setEnabled(false);
                 jbEditar.setEnabled(true);
                 jbCancelar.setEnabled(false);
+                jlEdicion.setText("0");
                 deshabilitarComponentes();
                 break;
         }
@@ -150,6 +153,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
 //        jtxtPrecioVentaRebaja.setText("");
 //        jtxtPrecioVentaAumento.setText("");
         jtxtPrecioCompra.setText("");
+        jtxtGarantiaMses.setText("");
     }
 
 //    public void llenarComboUnidadMedidaPrincipal() {
@@ -246,37 +250,31 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         String usuario = "";
         String notEdicion = "0";
         String valorjlEdicion = jlEdicion.getText();
+        
+        UnidadProducto unidadProducto = new UnidadProducto();
+        
+        int idUnidadProducto = 0;
+            
+        idUnidadProducto = Integer.parseInt(jlIdUnidadProducto.getText());
+        
+        unidadProducto.setId(idUnidadProducto);
+        unidadProducto.setIdProdcuto(idProducto);
+        unidadProducto.setIdUnidadMedida(idUnidadMedida);
+        unidadProducto.setUnidadPrincipal(idUnidadMedidaPrincipal);
+        unidadProducto.setStockMinimo(stockMinimo);
+        unidadProducto.setPrecioVenta(precioVenta);
+        unidadProducto.setPrecioVentaRebaja(precioVentaRebaja);
+        unidadProducto.setPrecioVentaAumento(precioVentaAumento);
+        unidadProducto.setPrecioCompra(precioCompra);
+        unidadProducto.setGarantiaMeses(garantiaMeses);
+        unidadProducto.setUsuario(usuario);
 
-        if (valorjlEdicion.equals(notEdicion)) {
-
-            UnidadProducto uProd = new UnidadProducto(idProducto, idUnidadMedida, idUnidadMedidaPrincipal,
-                    stockMinimo, precioVenta, precioVentaRebaja,
-                    precioVentaAumento, precioCompra, actualizacion, usuario);
-
-            UnidadProductoDAOImlp uProdDAOImpl = new UnidadProductoDAOImlp(connectionDB);
-            uProdDAOImpl.insertarUnidadProducto(uProd);
+        UnidadProductoDAOImlp uProdDAOImpl = new UnidadProductoDAOImlp(connectionDB);
+        
+        if (valorjlEdicion.equals(notEdicion)) {    
+            uProdDAOImpl.insertarUnidadProducto(unidadProducto);
         } else {
-            UnidadProductoDAOImlp uProd = new UnidadProductoDAOImlp(connectionDB);
-
-            UnidadProducto unidadProducto = new UnidadProducto();
-
-            int idUnidadProducto = 0;
-            
-            idUnidadProducto = Integer.parseInt(jlIdUnidadProducto.getText());
-            
-            unidadProducto.setId(idUnidadProducto);
-            unidadProducto.setIdProdcuto(idProducto);
-            unidadProducto.setIdUnidadMedida(idUnidadMedida);
-            unidadProducto.setUnidadPrincipal(idUnidadMedidaPrincipal);
-            unidadProducto.setStockMinimo(stockMinimo);
-            unidadProducto.setPrecioVenta(precioVenta);
-            unidadProducto.setPrecioVentaRebaja(precioVentaRebaja);
-            unidadProducto.setPrecioVentaAumento(precioVentaAumento);
-            unidadProducto.setPrecioCompra(precioCompra);
-            unidadProducto.setGarantiaMeses(garantiaMeses);
-            unidadProducto.setUsuario(usuario);
-
-            uProd.editarUnidadProducto(unidadProducto);
+            uProdDAOImpl.editarUnidadProducto(unidadProducto);
         }
         llenarTablaUnidadProduco(idProducto);
 

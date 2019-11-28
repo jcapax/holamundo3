@@ -40,6 +40,7 @@ public class FormProducto extends javax.swing.JFrame {
         initComponents();
         
         llenarComboMarca();
+         
     }
     
     public void habilitarComponentes(){
@@ -213,6 +214,8 @@ public class FormProducto extends javax.swing.JFrame {
         llenarComboRubro();
         llenarTablaProductos();
         deshabilitarComponentes();
+        
+        jchCaducidad.setVisible(false);
     }
 
     public void llenarComboMarca(){
@@ -433,9 +436,9 @@ public class FormProducto extends javax.swing.JFrame {
             jtProductos.getColumnModel().getColumn(9).setMinWidth(50);
             jtProductos.getColumnModel().getColumn(9).setPreferredWidth(50);
             jtProductos.getColumnModel().getColumn(9).setMaxWidth(50);
-            jtProductos.getColumnModel().getColumn(10).setMinWidth(50);
-            jtProductos.getColumnModel().getColumn(10).setPreferredWidth(50);
-            jtProductos.getColumnModel().getColumn(10).setMaxWidth(50);
+            jtProductos.getColumnModel().getColumn(10).setMinWidth(0);
+            jtProductos.getColumnModel().getColumn(10).setPreferredWidth(0);
+            jtProductos.getColumnModel().getColumn(10).setMaxWidth(0);
             jtProductos.getColumnModel().getColumn(11).setMinWidth(0);
             jtProductos.getColumnModel().getColumn(11).setPreferredWidth(0);
             jtProductos.getColumnModel().getColumn(11).setMaxWidth(0);
@@ -484,8 +487,8 @@ public class FormProducto extends javax.swing.JFrame {
                 .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 935, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -633,8 +636,7 @@ public class FormProducto extends javax.swing.JFrame {
                                 .addGap(269, 269, 269)
                                 .addComponent(jlIdRubroProducto))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -683,6 +685,7 @@ public class FormProducto extends javax.swing.JFrame {
         byte x = 2;
         botones(x);
         guardarProducto();
+        ljEditar.setText("0");
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -718,6 +721,7 @@ public class FormProducto extends javax.swing.JFrame {
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         byte x = 4;
         botones(x);
+        ljEditar.setText("0");
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
