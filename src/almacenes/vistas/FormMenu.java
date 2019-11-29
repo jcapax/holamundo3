@@ -114,6 +114,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuArchivo = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuProcesos = new javax.swing.JMenu();
+        jMenuFacturaFacil = new javax.swing.JMenuItem();
         jMenuVentas = new javax.swing.JMenuItem();
         jMenuCompras = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -253,6 +254,14 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenuArchivo);
 
         jMenuProcesos.setText("Procesos");
+
+        jMenuFacturaFacil.setText("Factura Facil");
+        jMenuFacturaFacil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuFacturaFacilActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jMenuFacturaFacil);
 
         jMenuVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/venta.png"))); // NOI18N
         jMenuVentas.setText("Ventas");
@@ -859,6 +868,11 @@ public class FormMenu extends javax.swing.JFrame {
         formSucursal.setVisible(true);
     }//GEN-LAST:event_jMenuSucursalActionPerformed
 
+    private void jMenuFacturaFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFacturaFacilActionPerformed
+        FormFacturaFacil facturaFacil = new FormFacturaFacil();
+        facturaFacil.setVisible(true);
+    }//GEN-LAST:event_jMenuFacturaFacilActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -969,6 +983,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuCompras;
     private javax.swing.JMenu jMenuConfiguracion;
     private javax.swing.JMenuItem jMenuConfiguraciones;
+    private javax.swing.JMenuItem jMenuFacturaFacil;
     private javax.swing.JMenuItem jMenuILugar;
     private javax.swing.JMenu jMenuInformes;
     private javax.swing.JMenuItem jMenuItem1;
