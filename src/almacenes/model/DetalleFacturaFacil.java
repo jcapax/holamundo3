@@ -11,17 +11,17 @@ package almacenes.model;
  */
 public class DetalleFacturaFacil {
     
-    private byte id;
+    private int id;
     private String detalle;
     private Double cantidad;
     private Double valorUnitario;
     private Double valorTotal;
 
-    public byte getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(byte id) {
+    public void setId(int id) {
         this.id = id;
     }
     

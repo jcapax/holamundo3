@@ -5,13 +5,18 @@
  */
 package almacenes.vistas;
 
+import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.DetalleFacturaFacil;
+import com.mxrck.autocompleter.TextAutoCompleter;
+import dao.FacturaFacilDAO;
+import dao.FacturaFacilDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
-
-
+import net.sf.jasperreports.engine.data.ListOfArrayDataSource;
 
 /**
  *
@@ -22,17 +27,31 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     /**
      * Creates new form FormRubro
      */
+    private DatabaseUtils databaseUtils;
+    private Connection connectionDB;
     DefaultTableModel dtm;
     
-    ArrayList<DetalleFacturaFacil> listaDetalleFF;
-     
-    public FormFacturaFacil() {
+    private TextAutoCompleter ac;
     
+    private ArrayList<DetalleFacturaFacil> listaDetalleFF;
+    
+    private FacturaFacilDAO facilDAO;
+    
+    public FormFacturaFacil(Connection connectionDB, boolean config) {
         initComponents();
+        this.setLocationRelativeTo(null);
         headerTabla();
         
-        listaDetalleFF = new ArrayList<>();
-    
+        listaDetalleFF = new ArrayList<DetalleFacturaFacil>();
+        facilDAO = new FacturaFacilDAOImpl(connectionDB);
+        
+        generarAutocompletado();
+        
+        ac = new TextAutoCompleter(jtxtDetalle);
+    }
+     
+    public FormFacturaFacil() {
+        initComponents();
     }
     
     public void headerTabla(){
@@ -40,6 +59,16 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         
         jtDetalleFacturaFacil.getTableHeader().setFont(f);
         jtDetalleFacturaFacil.getTableHeader().setBackground(Color.orange);
+    }
+    
+    public void generarAutocompletado(){
+        List<String> list = new ArrayList<>();
+        
+        list = facilDAO.getListaProductosAutocompletado();
+        ac.removeAllItems();
+        for(int i=0; i<list.size(); i++){
+            ac.addItem(list.get(i).getBytes());
+        }        
     }
     
     public void llenarTablaDetalleFacturaFacil(ArrayList<DetalleFacturaFacil> lista){
@@ -51,8 +80,6 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jtDetalleFacturaFacil.setModel(dtm);
         
         Object[] fila = new Object[5];
-        
-//        System.out.println("nro de registros en pila: " + r.size());
         
         for(int i=0; i< lista.size(); i++){
             fila[0] = lista.get(i).getId();
@@ -68,12 +95,15 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }
     
     public void agregarDetalleFacturaFacil(){
+        listaDetalleFF = new ArrayList<>();
+        
         DetalleFacturaFacil facil = new DetalleFacturaFacil();
         
-        facil.setDetalle(null);
-        facil.setCantidad(Double.NaN);
-        facil.setValorUnitario(Double.NaN);
-        facil.setValorTotal(Double.NaN);
+        facil.setId(1);
+        facil.setDetalle(jtxtDetalle.getText().toString().trim());
+        facil.setCantidad(Double.valueOf(jtxtCantidad.getText().toString()));
+        facil.setValorUnitario(Double.valueOf(jtxtValorUnitario.getText().toString()));
+        facil.setValorTotal(Double.valueOf(jtxtValorTotal.getText().toString()));
         
         listaDetalleFF.add(facil);
         
@@ -94,17 +124,18 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtDetalleFacturaFacil = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jtxtNombreProducto = new javax.swing.JTextField();
+        jtxtDetalle = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jtxtValorUnitario = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jtxtTotal = new javax.swing.JTextField();
+        jtxtValorTotal = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jtxtCantidad = new javax.swing.JTextField();
         jlnit = new javax.swing.JLabel();
         jtxtNit = new javax.swing.JTextField();
         jlRazonSocial = new javax.swing.JLabel();
         jtxtRazonSocial = new javax.swing.JTextField();
+        jbAgregarDetalle = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -113,7 +144,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "Detakke", "Cantidad", "P/Unit", "P/Total"
+                "id", "Detalle", "Cantidad", "P/Unit", "P/Total"
             }
         ) {
             Class[] types = new Class [] {
@@ -142,10 +173,10 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Detalle");
 
-        jtxtNombreProducto.setEnabled(false);
-        jtxtNombreProducto.addActionListener(new java.awt.event.ActionListener() {
+        jtxtDetalle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtxtDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtNombreProductoActionPerformed(evt);
+                jtxtDetalleActionPerformed(evt);
             }
         });
 
@@ -153,26 +184,26 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(153, 0, 51));
         jLabel4.setText("P/Unit");
 
-        jtxtValorUnitario.setEditable(false);
+        jtxtValorUnitario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jtxtValorUnitario.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtValorUnitario.setEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setText("Total");
 
-        jtxtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtTotal.addActionListener(new java.awt.event.ActionListener() {
+        jtxtValorTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtxtValorTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtValorTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtTotalActionPerformed(evt);
+                jtxtValorTotalActionPerformed(evt);
             }
         });
-        jtxtTotal.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtxtValorTotal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtxtTotalKeyPressed(evt);
+                jtxtValorTotalKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtxtTotalKeyReleased(evt);
+                jtxtValorTotalKeyReleased(evt);
             }
         });
 
@@ -180,7 +211,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(153, 0, 51));
         jLabel6.setText("Cantidad");
 
-        jtxtCantidad.setEnabled(false);
+        jtxtCantidad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jtxtCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtCantidadActionPerformed(evt);
@@ -191,6 +222,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jlnit.setForeground(new java.awt.Color(153, 0, 51));
         jlnit.setText("CI / NIT");
 
+        jtxtNit.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jtxtNit.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtxtNitKeyPressed(evt);
@@ -201,47 +233,58 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jlRazonSocial.setForeground(new java.awt.Color(153, 0, 51));
         jlRazonSocial.setText("Razon Social");
 
+        jtxtRazonSocial.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jbAgregarDetalle.setText("Agregar");
+        jbAgregarDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAgregarDetalleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(56, 56, 56)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jtxtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtxtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlnit)
-                            .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlRazonSocial)
-                            .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jbAgregarDetalle)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jtxtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(6, 6, 6)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel6)
+                                .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(47, 47, 47)
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jlnit)
+                                .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jlRazonSocial)
+                                .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
+                .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6)
@@ -249,12 +292,14 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbAgregarDetalle)
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlnit)
@@ -270,22 +315,22 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtxtNombreProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtNombreProductoActionPerformed
+    private void jtxtDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDetalleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtNombreProductoActionPerformed
+    }//GEN-LAST:event_jtxtDetalleActionPerformed
 
-    private void jtxtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtTotalActionPerformed
+    private void jtxtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtValorTotalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtTotalActionPerformed
+    }//GEN-LAST:event_jtxtValorTotalActionPerformed
 
-    private void jtxtTotalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtTotalKeyPressed
-        agregarDetalleFacturaFacil();
-    }//GEN-LAST:event_jtxtTotalKeyPressed
+    private void jtxtValorTotalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorTotalKeyPressed
+        //agregarDetalleFacturaFacil();
+    }//GEN-LAST:event_jtxtValorTotalKeyPressed
 
-    private void jtxtTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtTotalKeyReleased
+    private void jtxtValorTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorTotalKeyReleased
 
         
-    }//GEN-LAST:event_jtxtTotalKeyReleased
+    }//GEN-LAST:event_jtxtValorTotalKeyReleased
 
     private void jtxtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtCantidadActionPerformed
         // TODO add your handling code here:
@@ -294,6 +339,10 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     private void jtxtNitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtNitKeyPressed
         
     }//GEN-LAST:event_jtxtNitKeyPressed
+
+    private void jbAgregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarDetalleActionPerformed
+        agregarDetalleFacturaFacil();
+    }//GEN-LAST:event_jbAgregarDetalleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,14 +388,15 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbAgregarDetalle;
     private javax.swing.JLabel jlRazonSocial;
     private javax.swing.JLabel jlnit;
     private javax.swing.JTable jtDetalleFacturaFacil;
     private javax.swing.JTextField jtxtCantidad;
+    private javax.swing.JTextField jtxtDetalle;
     private javax.swing.JTextField jtxtNit;
-    private javax.swing.JTextField jtxtNombreProducto;
     private javax.swing.JTextField jtxtRazonSocial;
-    private javax.swing.JTextField jtxtTotal;
+    private javax.swing.JTextField jtxtValorTotal;
     private javax.swing.JTextField jtxtValorUnitario;
     // End of variables declaration//GEN-END:variables
 }

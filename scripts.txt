@@ -1,0 +1,1 @@
+CREATE TABLE `sucre_db_almacenes`.`detalle_fatura_facil` ( `id` INT NOT NULL AUTO_INCREMENT , `id_factura_facil` INT NOT NULL , `detalle` VARCHAR(150) NOT NULL , `cantidad` DOUBLE NOT NULL , `valor_unitario` DOUBLE NOT NULL , `valor_total` DOUBLE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
