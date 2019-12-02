@@ -5,6 +5,7 @@
  */
 package dao;
 
+import almacenes.model.DetalleFacturaFacil;
 import almacenes.model.Temporal;
 import java.util.ArrayList;
 
@@ -14,10 +15,13 @@ import java.util.ArrayList;
  */
 public interface TemporalDAO {
     public void insertarProductoTemp(Temporal detTransTemp);
+    public void insertarDetalleFacturaFacilTemp(DetalleFacturaFacil facil);
     public void insertarProductoTempFechaVencimiento(Temporal detTransTemp);
     public void eliminarProdcutoTemp(int idProducto, int idUnidadMedida);
     public void vaciarProductoTemp();
+    public void vaciarDetalleFacturaFacilTemp();
     public ArrayList<Temporal> getListaTemporal();
+    public ArrayList<DetalleFacturaFacil> getListaDetalleFacturaFacilTemporal();
     public double totalProductosTemp();
     public void reducir10();
     
