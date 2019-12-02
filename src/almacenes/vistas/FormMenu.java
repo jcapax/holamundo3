@@ -869,7 +869,7 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuSucursalActionPerformed
 
     private void jMenuFacturaFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFacturaFacilActionPerformed
-        FormFacturaFacil facturaFacil = new FormFacturaFacil();
+        FormFacturaFacil facturaFacil = new FormFacturaFacil(connectionDB, idLugar, config);
         facturaFacil.setVisible(true);
     }//GEN-LAST:event_jMenuFacturaFacilActionPerformed
 

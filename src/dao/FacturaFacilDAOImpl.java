@@ -33,7 +33,7 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
     public List<String> getListaProductosAutocompletado() {
         List<String> list = new ArrayList<>();
         
-        String sql = "Select detale from detalle_factura_facil group by detalle order by detalle";
+        String sql = "Select detalle from detalle_factura_facil group by detalle order by detalle";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

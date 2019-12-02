@@ -6,6 +6,7 @@
 package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.DetalleFacturaFacil;
 import almacenes.model.Temporal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -189,6 +190,71 @@ public class TemporalDAOImpl implements TemporalDAO{
             Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+
+    @Override
+    public void insertarDetalleFacturaFacilTemp(DetalleFacturaFacil facil) {
+        String sql = "INSERT INTO detalle_factura_facil_temp("
+                + "detalle, cantidad, valor_unitario, valor_total) "
+                + "values(?, ?, ?, ?)";
+        
+        try {
+            PreparedStatement ps = sqlite.prepareStatement(sql);
+            ps.setString(1, facil.getDetalle());
+            ps.setDouble(2, facil.getCantidad());
+            ps.setDouble(3, facil.getValorUnitario());
+            ps.setDouble(4, facil.getValorTotal());
+            
+            
+            int n = ps.executeUpdate();
+            if(n!=0){
+//                System.out.println("registrado con exito");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public ArrayList<DetalleFacturaFacil> getListaDetalleFacturaFacilTemporal() {
+        String sql = "SELECT * FROM detalle_factura_facil_temp order by id";
+        
+        ArrayList<DetalleFacturaFacil> lTemporal = new ArrayList<DetalleFacturaFacil>();
+        
+        try {
+            PreparedStatement pst = sqlite.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                DetalleFacturaFacil temporal = new DetalleFacturaFacil();
+                
+                temporal.setId(rs.getInt("id"));
+                temporal.setDetalle(rs.getString("detalle"));
+                temporal.setCantidad(rs.getDouble("cantidad"));                
+                temporal.setValorTotal(rs.getDouble("valor_total"));
+                temporal.setValorUnitario(rs.getDouble("valor_unitario"));               
+                
+                lTemporal.add(temporal);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RubroDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return lTemporal;
+    }
+
+    @Override
+    public void vaciarDetalleFacturaFacilTemp() {
+        String sqlVaciarDetalleFacturaTemp = "delete from detalle_factura_facil_temp";
+        
+        PreparedStatement ps;
+        try {
+            ps = sqlite.prepareStatement(sqlVaciarDetalleFacturaTemp);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

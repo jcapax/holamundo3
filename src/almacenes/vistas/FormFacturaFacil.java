@@ -5,18 +5,36 @@
  */
 package almacenes.vistas;
 
+import CodigoControl.ControlCode;
+import almacenes.conectorDB.DataBaseSqlite;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.DetalleFacturaFacil;
+import almacenes.model.FacturaVenta;
 import com.mxrck.autocompleter.TextAutoCompleter;
+import dao.FacturaDAO;
+import dao.FacturaDAOImpl;
 import dao.FacturaFacilDAO;
 import dao.FacturaFacilDAOImpl;
+import dao.FacturaVentaDAOImpl;
+import dao.SucursalDAO;
+import dao.SucursalDAOImpl;
+import dao.TemporalDAOImpl;
+import dao.reportes.ReporteFacturacionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.data.ListOfArrayDataSource;
 
 /**
  *
@@ -28,26 +46,46 @@ public class FormFacturaFacil extends javax.swing.JFrame {
      * Creates new form FormRubro
      */
     private DatabaseUtils databaseUtils;
-    private Connection connectionDB;
+    private Connection connectionDB, connectionTemp;
     DefaultTableModel dtm;
+    
+    private byte idLugar;
     
     private TextAutoCompleter ac;
     
     private ArrayList<DetalleFacturaFacil> listaDetalleFF;
     
     private FacturaFacilDAO facilDAO;
+    private TemporalDAOImpl tempDAOImpl;
     
-    public FormFacturaFacil(Connection connectionDB, boolean config) {
+    public FormFacturaFacil(Connection connectionDB, byte idLugar, boolean config) {
         initComponents();
         this.setLocationRelativeTo(null);
         headerTabla();
         
+        this.databaseUtils = new DatabaseUtils();
+        this.connectionDB = connectionDB;
+        
+        this.idLugar = idLugar;
+        
+        abrirConexionTemp();
         listaDetalleFF = new ArrayList<DetalleFacturaFacil>();
         facilDAO = new FacturaFacilDAOImpl(connectionDB);
         
         generarAutocompletado();
         
         ac = new TextAutoCompleter(jtxtDetalle);
+        
+    }
+    
+    public void abrirConexionTemp() {
+        DataBaseSqlite sqLite = new DataBaseSqlite();
+        connectionTemp = sqLite.conexion();
+
+        System.err.println(connectionTemp);
+        
+        tempDAOImpl = new TemporalDAOImpl(connectionTemp);
+        tempDAOImpl.vaciarDetalleFacturaFacilTemp();
     }
      
     public FormFacturaFacil() {
@@ -65,19 +103,30 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         List<String> list = new ArrayList<>();
         
         list = facilDAO.getListaProductosAutocompletado();
-        ac.removeAllItems();
+//        ac.removeAllItems();
         for(int i=0; i<list.size(); i++){
             ac.addItem(list.get(i).getBytes());
         }        
     }
     
-    public void llenarTablaDetalleFacturaFacil(ArrayList<DetalleFacturaFacil> lista){
+    public void limpiarComponentes(){
+        jtxtCantidad.setText("");
+        jtxtDetalle.setText("");
+        jtxtValorTotal.setText("");
+        jtxtValorUnitario.setText("");
+        jtxtDetalle.setFocusable(true);
+    }
+    
+    public void llenarTablaDetalleFacturaFacil(){
+        ArrayList<DetalleFacturaFacil> lista = new ArrayList<>();
         DetalleFacturaFacil facil = new DetalleFacturaFacil();
         
         dtm = (DefaultTableModel) this.jtDetalleFacturaFacil.getModel();
         dtm.setRowCount(0);
         
         jtDetalleFacturaFacil.setModel(dtm);
+        
+        lista = tempDAOImpl.getListaDetalleFacturaFacilTemporal();
         
         Object[] fila = new Object[5];
         
@@ -95,8 +144,6 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }
     
     public void agregarDetalleFacturaFacil(){
-        listaDetalleFF = new ArrayList<>();
-        
         DetalleFacturaFacil facil = new DetalleFacturaFacil();
         
         facil.setId(1);
@@ -104,13 +151,13 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         facil.setCantidad(Double.valueOf(jtxtCantidad.getText().toString()));
         facil.setValorUnitario(Double.valueOf(jtxtValorUnitario.getText().toString()));
         facil.setValorTotal(Double.valueOf(jtxtValorTotal.getText().toString()));
+                
         
-        listaDetalleFF.add(facil);
+        TemporalDAOImpl temp = new TemporalDAOImpl(connectionTemp);
+        temp.insertarDetalleFacturaFacilTemp(facil);
         
-        llenarTablaDetalleFacturaFacil(listaDetalleFF);
-              
+        llenarTablaDetalleFacturaFacil();              
     }
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -136,6 +183,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jlRazonSocial = new javax.swing.JLabel();
         jtxtRazonSocial = new javax.swing.JTextField();
         jbAgregarDetalle = new javax.swing.JButton();
+        jbFacturar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -242,6 +290,13 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             }
         });
 
+        jbFacturar.setText("Facturar");
+        jbFacturar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFacturarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -278,8 +333,11 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jlRazonSocial)
-                                .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(58, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbFacturar))))))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,8 +365,9 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                    .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbFacturar))
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -342,7 +401,22 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
     private void jbAgregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarDetalleActionPerformed
         agregarDetalleFacturaFacil();
+        limpiarComponentes();
     }//GEN-LAST:event_jbAgregarDetalleActionPerformed
+
+    private void jbFacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFacturarActionPerformed
+        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
+        byte idSucursal = suc.getIdSucursal(idLugar);
+        
+        FacturaDAO fac = new FacturaDAOImpl(connectionDB);
+        int nroFactura = 0;
+        try {
+            nroFactura = registrarFactura();
+            System.err.println("nroFactura:"+nroFactura);
+        } catch (ParseException ex) {
+            Logger.getLogger(FormFacturaFacil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbFacturarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -389,6 +463,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAgregarDetalle;
+    private javax.swing.JButton jbFacturar;
     private javax.swing.JLabel jlRazonSocial;
     private javax.swing.JLabel jlnit;
     private javax.swing.JTable jtDetalleFacturaFacil;
@@ -399,4 +474,98 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     private javax.swing.JTextField jtxtValorTotal;
     private javax.swing.JTextField jtxtValorUnitario;
     // End of variables declaration//GEN-END:variables
+
+    private int registrarFactura() throws ParseException {
+        FacturaVentaDAOImpl facDaoImpl = new FacturaVentaDAOImpl(connectionDB);
+        ControlCode controlCode = new ControlCode();
+        SucursalDAO sucursalDAO = new SucursalDAOImpl(connectionDB);
+
+        String nit = jtxtNit.getText().trim();
+        String razonSocial = jtxtRazonSocial.getText().trim().toUpperCase();
+
+        String codigoControl = "";
+        int correlativoSucursal = 1;
+
+        int especificacion = 1;
+        String estado = "V";
+        int idSucursal = sucursalDAO.getIdSucursal(idLugar);
+        String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
+        
+        Date date = new Date();        
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        
+        int year  = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int day   = calendar.get(Calendar.YEAR);
+        
+        String anno = String.valueOf(year);
+        String mes = String.valueOf(month);
+        if(mes.length() == 1){
+            mes = '0'+mes;
+        }
+        String dia = String.valueOf(day);        
+        if(dia.length() == 1){
+            dia = '0'+dia;
+        }
+        
+        String fechaCadena = anno+'-'+mes+'-'+dia;  
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date_aux = sdf.parse(fechaCadena);
+        
+        java.sql.Date fechaLimiteEmision = facDaoImpl.getFechaLimiteEmision(nroAutorizacion);
+        int idDosificacion = facDaoImpl.getIdDosificacion(idSucursal);
+        int nroFactura = facDaoImpl.getNewNroFactura(nroAutorizacion);
+        String llaveDosf = facDaoImpl.getLlaveDosificacion(nroAutorizacion);
+        
+        double importeTotal = 1;
+        double importeExportaciones = 0;
+        double importeIce = 0;
+        double importeRebajas = 0;
+        double importeSubTotal = importeTotal - importeExportaciones - importeIce;
+        double importeVentasTasaCero = 0;
+        double importeBaseDebitoFiscal = importeSubTotal;
+        double debitoFiscal = importeBaseDebitoFiscal * 0.13;
+
+        String auxFecha = anno+mes+dia;
+
+        codigoControl = controlCode.generate(nroAutorizacion,
+                String.valueOf(nroFactura).trim(),
+                nit.trim(),
+                auxFecha.trim(),
+                String.valueOf(importeTotal).trim(),
+                llaveDosf.trim());
+
+        FacturaVenta fact = new FacturaVenta();
+
+        fact.setCodigoControl(codigoControl);
+        fact.setCorrelativoSucursal(correlativoSucursal);
+        fact.setDebitoFiscal(debitoFiscal);
+        fact.setEspecificacion(especificacion);
+        fact.setEstado(estado);
+        fact.setFechaFactura(new java.sql.Date(date_aux.getTime()));
+        fact.setFechaLimiteEmision(fechaLimiteEmision);
+        fact.setIdDosificacion(idDosificacion);
+        fact.setIdSucursal(idSucursal);
+        fact.setIdTransaccion(0);
+        fact.setImporteBaseDebitoFiscal(importeBaseDebitoFiscal);
+        fact.setImporteExportaciones(importeExportaciones);
+        fact.setImporteIce(importeIce);
+        fact.setImporteRebajas(importeRebajas);
+        fact.setImporteSubtotal(importeSubTotal);
+        fact.setImporteTotal(importeTotal);
+        fact.setImporteVentasTasaCero(importeVentasTasaCero);
+        fact.setNit(nit);
+        fact.setNroAutorizacion(nroAutorizacion);
+        fact.setNroFactura(nroFactura);
+        fact.setRazonSocial(razonSocial);
+
+        FacturaVentaDAOImpl factDaoImpl = new FacturaVentaDAOImpl(connectionDB);
+        factDaoImpl.insertarFacturaVenta(fact);
+
+        //ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, estado);
+
+        //repFactura.VistaPreviaFacturaVenta(idTransaccion, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
+        return nroFactura;        
+    }
 }
