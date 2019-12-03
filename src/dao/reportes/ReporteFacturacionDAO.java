@@ -11,5 +11,6 @@ package dao.reportes;
  */
 public interface ReporteFacturacionDAO {
     public void VistaPreviaFacturaVenta(int idTransaccion, String cadenaQr, double valorTotal);
+    public void VistaPreviaFacturaFacil(int idFacturaFacil, String cadenaQr, double valorTotal);
     
 }
