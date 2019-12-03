@@ -6,6 +6,7 @@
 package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.DetalleFacturaFacil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,5 +47,44 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
         
         return list;
     }   
+
+    @Override
+    public void insertarDetalleFacturaFacil(ArrayList<DetalleFacturaFacil> facil, int idFacturaFacil) {
+        String sql = null;
+        PreparedStatement ps;
+        ResultSet rs;
+        for(int i=0; i<facil.size(); i++){
+            sql = "INSERT INTO detalle_factura_facil (id_factura_facil, detalle, cantidad, valor_unitario, valor_total) "
+                        + "VALUES ("+idFacturaFacil
+                        +", '"+facil.get(i).getDetalle()
+                        +"', "+facil.get(i).getCantidad()
+                        +", "+facil.get(i).getValorUnitario()
+                        +", "+facil.get(i).getValorTotal()
+                        +")";
+            try {                
+                ps = connectionDB.prepareStatement(sql);
+                rs = ps.executeQuery();
+            } catch (SQLException ex) {
+                Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
+    }
+
+    @Override
+    public int getIdFacturaUltima() {
+        int id = 0;
+        String sql = "Select id From factura_venta Order by id Desc Limit 1";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                id = rs.getInt("id");
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(SucursalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
     
 }
