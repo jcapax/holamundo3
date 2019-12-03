@@ -2,148 +2,132 @@
 <!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="almacenes"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
-	<parameter name="id_transaccion" class="java.lang.String"/>
+	<parameter name="id_factura_facil" class="java.lang.String"/>
 	<parameter name="cadena_qr" class="java.lang.String"/>
 	<parameter name="valor_total_literal" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select *
-from v_factura
-where id_transaccion = $P{id_transaccion}]]>
+from v_factura_facil
+where id_factura_facil = $P{id_factura_facil}]]>
 	</queryString>
-	<field name="id_transaccion" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="id_transaccion"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
-	</field>
-	<field name="id_producto" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="id_producto"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+	<field name="id_factura_facil" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id_factura_facil"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="nombre_producto" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
-	<field name="simbolo" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="simbolo"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
-	</field>
-	<field name="cantidad" class="java.math.BigDecimal">
+	<field name="cantidad" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
-	<field name="valor_unitario" class="java.math.BigDecimal">
+	<field name="valor_unitario" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="valor_unitario"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
-	<field name="valor_total" class="java.math.BigDecimal">
+	<field name="valor_total" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="valor_total"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
-	</field>
-	<field name="tipo_valor" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="tipo_valor"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
-	</field>
-	<field name="recargo" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="recargo"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="id_sucursal" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.label" value="id_sucursal"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="especificacion" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="especificacion"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="correlativo_sucursal" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.label" value="correlativo_sucursal"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="fecha_factura" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.label" value="fecha_factura"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="nro_factura" class="java.math.BigInteger">
 		<property name="com.jaspersoft.studio.field.label" value="nro_factura"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="nro_autorizacion" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nro_autorizacion"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="estado" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="estado"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="nit" class="java.math.BigInteger">
 		<property name="com.jaspersoft.studio.field.label" value="nit"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="razon_social" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="razon_social"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="importe_total" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="importe_total"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="importe_ice" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="importe_ice"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="importe_exportaciones" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="importe_exportaciones"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="importe_ventas_tasa_cero" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="importe_ventas_tasa_cero"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="importe_sub_total" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="importe_sub_total"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="importe_rebajas" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="importe_rebajas"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="importe_base_debito_fiscal" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="importe_base_debito_fiscal"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="debito_fiscal" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="debito_fiscal"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="codigo_control" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="codigo_control"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="fecha_limite_emision" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.label" value="fecha_limite_emision"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="id_dosificacion" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="id_dosificacion"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="pie_factura" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="pie_factura"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="nombre_sucursal" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nombre_sucursal"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="actividad_economica" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="actividad_economica"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<field name="nit_sucursal" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nit_sucursal"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_factura_facil"/>
 	</field>
 	<variable name="importeTotal1" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>

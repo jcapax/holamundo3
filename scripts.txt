@@ -1,1 +1,26 @@
-CREATE TABLE `sucre_db_almacenes`.`detalle_fatura_facil` ( `id` INT NOT NULL AUTO_INCREMENT , `id_factura_facil` INT NOT NULL , `detalle` VARCHAR(150) NOT NULL , `cantidad` DOUBLE NOT NULL , `valor_unitario` DOUBLE NOT NULL , `valor_total` DOUBLE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `sucre_db_almacenes`.`detalle_factura_facil` 
+	( `id` INT NOT NULL AUTO_INCREMENT , `id_factura_facil` INT NOT NULL , `detalle` VARCHAR(150) NOT NULL , `cantidad` DOUBLE NOT NULL , `valor_unitario` DOUBLE NOT NULL , `valor_total` DOUBLE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+
+
+CREATE VIEW v_factura_facil
+AS
+
+select f.id as id_factura_facil, 
+	d.detalle AS nombre_producto, d.cantidad AS cantidad,
+	d.valor_unitario AS valor_unitario,d.valor_total AS valor_total,
+	f.id_sucursal AS id_sucursal,
+	f.especificacion AS especificacion,f.correlativo_sucursal AS correlativo_sucursal,
+	f.fecha_factura AS fecha_factura,f.nro_factura AS nro_factura,
+	f.nro_autorizacion AS nro_autorizacion,f.estado AS estado,
+	f.nit AS nit,f.razon_social AS razon_social,f.importe_total AS importe_total,
+	f.importe_ice AS importe_ice,f.importe_exportaciones AS importe_exportaciones,
+	f.importe_ventas_tasa_cero AS importe_ventas_tasa_cero,f.importe_sub_total AS importe_sub_total,
+	f.importe_rebajas AS importe_rebajas,f.importe_base_debito_fiscal AS importe_base_debito_fiscal,
+	f.debito_fiscal AS debito_fiscal,f.codigo_control AS codigo_control,f.fecha_limite_emision AS fecha_limite_emision,
+	f.id_dosificacion AS id_dosificacion,o.pie_factura AS pie_factura,s.nombre_sucursal AS nombre_sucursal,
+	s.actividad_economica AS actividad_economica,s.nit_sucursal AS nit_sucursal 
+from detalle_factura_facil d 
+	join factura_venta f on d.id_factura_facil = f.id
+	join dosificacion o on o.id = f.id_dosificacion 
+	join sucursal s on s.id = o.id_sucursal

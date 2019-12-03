@@ -19,6 +19,8 @@ import dao.FacturaVentaDAOImpl;
 import dao.SucursalDAO;
 import dao.SucursalDAOImpl;
 import dao.TemporalDAOImpl;
+import dao.UtilsDAO;
+import dao.UtilsDAOImpl;
 import dao.reportes.ReporteFacturacionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
@@ -103,9 +105,12 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         List<String> list = new ArrayList<>();
         
         list = facilDAO.getListaProductosAutocompletado();
-//        ac.removeAllItems();
+        String aux = null;
+        ac = new TextAutoCompleter(jtxtDetalle);
+        ac.removeAllItems();
         for(int i=0; i<list.size(); i++){
-            ac.addItem(list.get(i).getBytes());
+            aux = list.get(i);
+            ac.addItem(aux);
         }        
     }
     
@@ -115,6 +120,8 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jtxtValorTotal.setText("");
         jtxtValorUnitario.setText("");
         jtxtDetalle.setFocusable(true);
+        jtxtNit.setText("");
+        jtxtRazonSocial.setText("");
     }
     
     public void llenarTablaDetalleFacturaFacil(){
@@ -409,13 +416,15 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         byte idSucursal = suc.getIdSucursal(idLugar);
         
         FacturaDAO fac = new FacturaDAOImpl(connectionDB);
-        int nroFactura = 0;
+        int nroIdFactura = 0;
         try {
-            nroFactura = registrarFactura();
-            System.err.println("nroFactura:"+nroFactura);
+            nroIdFactura = registrarFactura();
+            facilDAO.insertarDetalleFacturaFacil(tempDAOImpl.getListaDetalleFacturaFacilTemporal(), nroIdFactura);
+            System.err.println("nroIdFactura:"+nroIdFactura);
         } catch (ParseException ex) {
             Logger.getLogger(FormFacturaFacil.class.getName()).log(Level.SEVERE, null, ex);
         }
+        limpiarComponentes();
     }//GEN-LAST:event_jbFacturarActionPerformed
 
     /**
@@ -477,6 +486,10 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
     private int registrarFactura() throws ParseException {
         FacturaVentaDAOImpl facDaoImpl = new FacturaVentaDAOImpl(connectionDB);
+        UtilsDAO utilsDAO = new UtilsDAOImpl(connectionDB);
+        
+        java.sql.Date fechaServidor = utilsDAO.getFechaActual();
+        
         ControlCode controlCode = new ControlCode();
         SucursalDAO sucursalDAO = new SucursalDAOImpl(connectionDB);
 
@@ -491,13 +504,12 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         int idSucursal = sucursalDAO.getIdSucursal(idLugar);
         String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
         
-        Date date = new Date();        
         GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
+        calendar.setTime(fechaServidor);
         
-        int year  = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int day   = calendar.get(Calendar.YEAR);
+        int day  = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year   = calendar.get(Calendar.YEAR);
         
         String anno = String.valueOf(year);
         String mes = String.valueOf(month);
@@ -510,8 +522,6 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         }
         
         String fechaCadena = anno+'-'+mes+'-'+dia;  
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date date_aux = sdf.parse(fechaCadena);
         
         java.sql.Date fechaLimiteEmision = facDaoImpl.getFechaLimiteEmision(nroAutorizacion);
         int idDosificacion = facDaoImpl.getIdDosificacion(idSucursal);
@@ -543,7 +553,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         fact.setDebitoFiscal(debitoFiscal);
         fact.setEspecificacion(especificacion);
         fact.setEstado(estado);
-        fact.setFechaFactura(new java.sql.Date(date_aux.getTime()));
+        fact.setFechaFactura(fechaServidor);
         fact.setFechaLimiteEmision(fechaLimiteEmision);
         fact.setIdDosificacion(idDosificacion);
         fact.setIdSucursal(idSucursal);
@@ -566,6 +576,6 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         //ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, estado);
 
         //repFactura.VistaPreviaFacturaVenta(idTransaccion, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
-        return nroFactura;        
+        return facilDAO.getIdFacturaUltima();        
     }
 }

@@ -12,11 +12,20 @@ package almacenes.model;
 public class DetalleFacturaFacil {
     
     private int id;
+    private int idFacturaFacil;
     private String detalle;
     private Double cantidad;
     private Double valorUnitario;
     private Double valorTotal;
 
+    public int getIdFacturaFacil() {
+        return idFacturaFacil;
+    }
+
+    public void setIdFacturaFacil(int idFacturaFacil) {
+        this.idFacturaFacil = idFacturaFacil;
+    }
+    
     public int getId() {
         return id;
     }

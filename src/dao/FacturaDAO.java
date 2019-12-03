@@ -21,5 +21,4 @@ public interface FacturaDAO {
     public double getImporteTotal(int idTransaccion);
     public boolean getEstadoDosificacion(byte idSucursal);
     public boolean getFechaLimiteEmisionVigente(byte idSucursal);
-    
 }
