@@ -135,5 +135,34 @@ public class UnidadMedidaDAOImpl implements UnidadMedidaDAO{
         }
         return simbolo;
     }
+
+    @Override
+    public HashMap<String, Integer> unidadMedidaClaveValorProducto(int idProducto) {
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        
+        String sql = "SELECT id, descripcion \n" +
+                "FROM unidad_medida \n" +
+                "WHERE id in ("
+                + "select id_unidad_medida "
+                + "from unidad_producto "
+                + "where id_producto = "+Integer.valueOf(idProducto)+" "
+                + "ORDER BY simbolo)";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs  = ps.executeQuery();
+            
+            UnidadMedida unidadMedida;
+            while(rs.next()){
+                unidadMedida = new UnidadMedida(rs.getInt("id"), rs.getString("descripcion"));
+                
+                map.put(unidadMedida.getSimbolo(), unidadMedida.getId());
+            }
+            
+        } catch (Exception e) {
+        }
+        
+        return map;    
+    }
     
 }

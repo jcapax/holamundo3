@@ -18,6 +18,7 @@ public interface UnidadMedidaDAO {
     
     public ArrayList<UnidadMedida> getListUnidadMedida();
     public HashMap<String, Integer> unidadMedidaClaveValor();
+    public HashMap<String, Integer> unidadMedidaClaveValorProducto(int idProducto);
     public void insertarUnidadMedida(UnidadMedida uMedida);
     public void eliminarUnidadMedida(int id);
     public String getSimboloUnidadMedida(int id);

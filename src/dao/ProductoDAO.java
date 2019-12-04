@@ -10,6 +10,7 @@ import almacenes.model.Producto;
 import almacenes.model.StockProducto;
 import almacenes.model.StockVencimiento;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -24,6 +25,8 @@ public interface ProductoDAO {
     public byte getControlStock(int idProducto);
     public ArrayList<StockVencimiento> getListStockVencimiento(byte idLugar, int idProducto, byte idUnidadMedida);
     public void editarProducto(Producto producto);
+    
+    public HashMap<String, Integer> getProductoClaveValor();
     
     
     

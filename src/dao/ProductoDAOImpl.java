@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -252,6 +253,34 @@ public class ProductoDAOImpl implements ProductoDAO{
             Logger.getLogger(ProductoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    @Override
+    public HashMap<String, Integer> getProductoClaveValor() {
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        
+        String sql = "select u.id_producto, p.descripcion, count(u.id_producto) \n" +
+                        "from unidad_producto u \n" +
+                        "	join producto p on u.id_producto = p.id \n" +
+                        "group by u.id_producto, p.descripcion \n" +
+                        "having count(u.id_producto) > 1";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Producto p = new Producto();
+                
+                p.setId(rs.getInt("id_producto"));
+                p.setDescripcion(rs.getString("descripcion"));
+                
+                map.put(p.getDescripcion(), p.getId());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return map;
     }
     
 }

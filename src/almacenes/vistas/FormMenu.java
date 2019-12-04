@@ -129,6 +129,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jmenuReimpresion = new javax.swing.JMenuItem();
+        jmenuDesempaque = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
         jMenuMarcas = new javax.swing.JMenuItem();
         jMenuProcedencia = new javax.swing.JMenuItem();
@@ -357,6 +358,14 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmenuReimpresion);
+
+        jmenuDesempaque.setText("Desempaque");
+        jmenuDesempaque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuDesempaqueActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jmenuDesempaque);
 
         jMenuBar1.add(jMenuProcesos);
 
@@ -873,6 +882,12 @@ public class FormMenu extends javax.swing.JFrame {
         facturaFacil.setVisible(true);
     }//GEN-LAST:event_jMenuFacturaFacilActionPerformed
 
+    private void jmenuDesempaqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuDesempaqueActionPerformed
+        FormDesempaque desempaque = new FormDesempaque(connectionDB, idUsuario,
+                    idLugar, idTerminal);
+        desempaque.setVisible(true);
+    }//GEN-LAST:event_jmenuDesempaqueActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -1018,6 +1033,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenuCerrarCaja;
     private javax.swing.JMenuItem jmenuCliente;
     private javax.swing.JMenuItem jmenuCodigoControl;
+    private javax.swing.JMenuItem jmenuDesempaque;
     private javax.swing.JMenuItem jmenuDosificacion;
     private javax.swing.JMenuItem jmenuEgresos;
     private javax.swing.JMenuItem jmenuEntregas;
