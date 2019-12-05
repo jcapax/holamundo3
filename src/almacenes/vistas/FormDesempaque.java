@@ -6,11 +6,16 @@
 package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.DetalleTransaccion;
+import almacenes.model.Transaccion;
+import dao.DetalleTransaccionDAOImpl;
 import dao.ProductoDAO;
 import dao.ProductoDAOImpl;
+import dao.TransaccionDAOImpl;
 import dao.UnidadMedidaDAO;
 import dao.UnidadMedidaDAOImpl;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -62,14 +67,14 @@ public class FormDesempaque extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jcProducto = new javax.swing.JComboBox<>();
+        jcProducto = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
         jbDesempacar = new javax.swing.JButton();
         jlTituloFormulario = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jcUnidadMedidaInicio = new javax.swing.JComboBox<>();
+        jcUnidadMedidaInicio = new javax.swing.JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
-        jcUnidadMedidaFinal = new javax.swing.JComboBox<>();
+        jcUnidadMedidaFinal = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
         jtxtCantidadInicial = new javax.swing.JTextField();
         jtxtCantidadFinal = new javax.swing.JTextField();
@@ -79,9 +84,9 @@ public class FormDesempaque extends javax.swing.JFrame {
         jlIdUnidadMedidaFinal = new javax.swing.JLabel();
         jlIdProducto = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jcProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcProductoActionPerformed(evt);
@@ -107,7 +112,7 @@ public class FormDesempaque extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedidaInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaInicioActionPerformed(evt);
@@ -117,7 +122,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Unidad Medida 2");
 
-        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedidaFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaFinalActionPerformed(evt);
@@ -421,15 +426,90 @@ public class FormDesempaque extends javax.swing.JFrame {
         int cantidadInicial;
         int cantidadFinal;
         
+        int idTipoTransaccion = 0;
+        int idTransaccion = 0;
+        int idEntregaTransaccionDesempaque = 0;
+        int idEntregaTransaccionDesembalaje = 0;
+        
         idProducto = Integer.valueOf(jlIdProducto.getText().toString().trim());
         idUnidadMedidaInicial = Integer.valueOf(jlIdUnidadMedidaInicio.getText().toString().trim());
         idUnidadMedidaFinal = Integer.valueOf(jlIdUnidadMedidaFinal.getText().toString().trim());
         cantidadInicial = Integer.valueOf(jtxtCantidadInicial.getText().toString().trim());
         cantidadFinal = Integer.valueOf(jtxtCantidadFinal.getText().toString().trim());
         
+        idTipoTransaccion = 9; // registro transaccion
+        idTransaccion = resgistrarTransaccion(idTipoTransaccion);        
+        registrarDetalleTransaccion(idTransaccion, idProducto, idUnidadMedidaInicial, cantidadInicial);
+        
+        idTipoTransaccion = 8; // entrega
+        idEntregaTransaccionDesempaque = resgistrarTransaccion(idTipoTransaccion);
+        registrarDetalleTransaccion(idEntregaTransaccionDesempaque, idProducto, idUnidadMedidaInicial, cantidadInicial);
+        registrarEntregaTransaccion(idEntregaTransaccionDesempaque, idTransaccion);
+        
+        idTipoTransaccion = 7; // recepcion
+        idEntregaTransaccionDesembalaje = resgistrarTransaccion(idTipoTransaccion);
+        registrarDetalleTransaccion(idEntregaTransaccionDesembalaje, idProducto, idUnidadMedidaFinal, cantidadFinal);
+        registrarEntregaTransaccion(idEntregaTransaccionDesembalaje, idTransaccion);
+        
+        System.err.println("Concluido");
+        
         
     }
+    
+    public int resgistrarTransaccion(int idTipoTransaccion){
+        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
 
+        int nroTipoTransaccion = 0;
+        int tipoMovimineto = transDaoImpl.getTipoMovimiento(idTipoTransaccion);
+
+        int idTransaccion = 0;
+        String estado = "A";
+        String descripcion = "";
+
+        java.util.Date hoy = new java.util.Date();
+        java.sql.Date fecha = new java.sql.Date(hoy.getTime());
+
+        nroTipoTransaccion = transDaoImpl.getNroTipoTransaccion(idTipoTransaccion);
+
+        descripcion = "Desempaque - Embalaje";
+
+        Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion,
+                idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion);
+
+        idTransaccion = transDaoImpl.insertarTransaccion(trans);
+
+        return idTransaccion;       
+    }
+    
+    public void registrarDetalleTransaccion(int idTransaccion, int idProducto, int idUnidadMedida, int cantidad) {
+
+        DetalleTransaccionDAOImpl detTranDAOImpl = new DetalleTransaccionDAOImpl(connectionDB);
+
+        double valorUnitario = 0;
+        double valorTotal = 0;
+        String tipoValor = "N";
+
+        ArrayList<DetalleTransaccion> detTrans = new ArrayList<DetalleTransaccion>();
+
+        DetalleTransaccion dt = new DetalleTransaccion();
+
+        dt.setIdTransaccion(idTransaccion);
+        dt.setIdProducto(idProducto);
+        dt.setIdUnidadMedida(idUnidadMedida);
+        dt.setCantidad(cantidad);
+        dt.setValorUnitario(valorUnitario);
+        dt.setValorTotal(valorTotal);
+        dt.setTipoValor(tipoValor);
+
+        detTrans.add(dt);
+
+        detTranDAOImpl.insertarDetalleTransaccion(detTrans);
+    }
+
+    public void registrarEntregaTransaccion(int idEntregaTransaccion, int idTransaccion) {
+        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
+        transDaoImpl.insertarEntregaTransaccion(idTransaccion, idEntregaTransaccion);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
