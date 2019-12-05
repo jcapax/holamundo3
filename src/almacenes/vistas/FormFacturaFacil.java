@@ -420,6 +420,12 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         try {
             nroIdFactura = registrarFactura();
             facilDAO.insertarDetalleFacturaFacil(tempDAOImpl.getListaDetalleFacturaFacilTemporal(), nroIdFactura);
+
+            ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, "XXX");
+
+            //repFactura.VistaPreviaFacturaVenta(nroIdFactura, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
+            repFactura.VistaPreviaFacturaFacil(nroIdFactura, "matias", 120);
+
             System.err.println("nroIdFactura:"+nroIdFactura);
         } catch (ParseException ex) {
             Logger.getLogger(FormFacturaFacil.class.getName()).log(Level.SEVERE, null, ex);
