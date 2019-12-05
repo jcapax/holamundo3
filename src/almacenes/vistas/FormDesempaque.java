@@ -5,6 +5,13 @@
  */
 package almacenes.vistas;
 
+import almacenes.conectorDB.DatabaseUtils;
+import dao.ProductoDAO;
+import dao.ProductoDAOImpl;
+import dao.UnidadMedidaDAOImpl;
+import java.sql.Connection;
+import java.util.HashMap;
+
 /**
  *
  * @author jcapax
@@ -13,10 +20,31 @@ public class FormDesempaque extends javax.swing.JFrame {
 
     /**
      * Creates new form FormDesempaque
-     */
+     */   
+    private DatabaseUtils databaseUtils;
+    private Connection connectionDB;
+    private byte idLugar;
+    private byte idTerminal;
+    private String usuario;
+    
     public FormDesempaque() {
         initComponents();
     }
+
+    public FormDesempaque(Connection connectionDB, String usuario, byte idLugar, byte idTerminal) {
+        this.connectionDB = connectionDB;
+        this.usuario = usuario;
+        this.idLugar = idLugar;
+        this.idTerminal = idTerminal;       
+        initComponents();
+        
+        llenarComboProductos();
+        
+    }
+
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,26 +55,27 @@ public class FormDesempaque extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jcUnidadMedida2 = new javax.swing.JComboBox<>();
+        jcProducto = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
         jbCancelar = new javax.swing.JButton();
         jlTituloFormulario = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jcUnidadMedida = new javax.swing.JComboBox<>();
+        jcUnidadMedidaInicio = new javax.swing.JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
-        jcUnidadMedida1 = new javax.swing.JComboBox<>();
+        jcUnidadMedidaFinal = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
-        jtxtPrecioVenta = new javax.swing.JTextField();
-        jtxtPrecioVenta1 = new javax.swing.JTextField();
+        jtxtCantidadInicio = new javax.swing.JTextField();
+        jtxtCantidadFinal = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jlIdProducto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jcUnidadMedida2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcUnidadMedida2.addActionListener(new java.awt.event.ActionListener() {
+        jcProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcUnidadMedida2ActionPerformed(evt);
+                jcProductoActionPerformed(evt);
             }
         });
 
@@ -69,29 +98,29 @@ public class FormDesempaque extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jcUnidadMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcUnidadMedida.addActionListener(new java.awt.event.ActionListener() {
+        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcUnidadMedidaActionPerformed(evt);
+                jcUnidadMedidaInicioActionPerformed(evt);
             }
         });
 
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Unidad Medida 2");
 
-        jcUnidadMedida1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcUnidadMedida1.addActionListener(new java.awt.event.ActionListener() {
+        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcUnidadMedida1ActionPerformed(evt);
+                jcUnidadMedidaFinalActionPerformed(evt);
             }
         });
 
         jLabel4.setForeground(new java.awt.Color(153, 0, 51));
         jLabel4.setText("Cantidad 1");
 
-        jtxtPrecioVenta.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtCantidadInicio.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        jtxtPrecioVenta1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtCantidadFinal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel5.setForeground(new java.awt.Color(153, 0, 51));
         jLabel5.setText("Cantidad 2");
@@ -106,15 +135,15 @@ public class FormDesempaque extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jcUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcUnidadMedidaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel4)
-                    .addComponent(jtxtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtCantidadInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(122, 122, 122)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jtxtPrecioVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcUnidadMedida1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtCantidadFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcUnidadMedidaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -127,22 +156,24 @@ public class FormDesempaque extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jcUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcUnidadMedidaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(67, 67, 67))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jtxtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jtxtCantidadInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcUnidadMedida1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcUnidadMedidaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtPrecioVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtxtCantidadFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
+
+        jlIdProducto.setText("jLabel6");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,9 +185,11 @@ public class FormDesempaque extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jcUnidadMedida2, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(128, 128, 128))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jlIdProducto))
+                            .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(210, 210, 210)
                         .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -171,9 +204,11 @@ public class FormDesempaque extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jlTituloFormulario)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jlIdProducto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcUnidadMedida2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
@@ -184,17 +219,17 @@ public class FormDesempaque extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jcUnidadMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcUnidadMedidaActionPerformed
+    private void jcUnidadMedidaInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcUnidadMedidaInicioActionPerformed
 //        seleccionarUnidadMedida();
-    }//GEN-LAST:event_jcUnidadMedidaActionPerformed
+    }//GEN-LAST:event_jcUnidadMedidaInicioActionPerformed
 
-    private void jcUnidadMedida1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcUnidadMedida1ActionPerformed
+    private void jcUnidadMedidaFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcUnidadMedidaFinalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jcUnidadMedida1ActionPerformed
+    }//GEN-LAST:event_jcUnidadMedidaFinalActionPerformed
 
-    private void jcUnidadMedida2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcUnidadMedida2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcUnidadMedida2ActionPerformed
+    private void jcProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcProductoActionPerformed
+        seleccionarProducto();
+    }//GEN-LAST:event_jcProductoActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         byte x = 4;
@@ -235,6 +270,79 @@ public class FormDesempaque extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void llenarComboProductos(){
+        
+        String sel = "Sel";
+        
+        jcProducto.removeAllItems();
+        jcProducto.addItem(sel);
+        
+        ProductoDAO productoDAOImpl = new ProductoDAOImpl(connectionDB);
+        
+            HashMap<String, Integer> map = productoDAOImpl.getProductoClaveValor();
+            
+            for (String s : map.keySet()) {
+                jcProducto.addItem(s.toString());
+            }
+    }
+    
+    public void llenarComboUnidadMedidaInicio(int idProducto) {
+        String sel = "Sel";
+
+        jcUnidadMedidaInicio.removeAllItems();
+        jcUnidadMedidaInicio.addItem(sel);
+
+        UnidadMedidaDAOImpl unid = new UnidadMedidaDAOImpl(connectionDB);
+
+        HashMap<String, Integer> map = unid.unidadMedidaClaveValorProducto(idProducto);
+
+        for (String s : map.keySet()) {
+            jcUnidadMedidaInicio.addItem(s.toString());
+        }
+    }
+    
+    public void llenarComboUnidadMedidaFinal(int idProducto) {
+        String sel = "Sel";
+
+        jcUnidadMedidaFinal.removeAllItems();
+        jcUnidadMedidaFinal.addItem(sel);
+
+        UnidadMedidaDAOImpl unid = new UnidadMedidaDAOImpl(connectionDB);
+
+        HashMap<String, Integer> map = unid.unidadMedidaClaveValorProducto(idProducto);
+
+        for (String s : map.keySet()) {
+            jcUnidadMedidaFinal.addItem(s.toString());
+        }
+    }
+    
+    private void seleccionarProducto(){
+        jlIdProducto.setVisible(false);
+        String sel = null;
+        
+        String comp = "Sel";
+        
+        ProductoDAOImpl rubroDAOImpl = new ProductoDAOImpl(connectionDB);
+        
+        HashMap<String, Integer> map = rubroDAOImpl.getProductoClaveValor();
+            
+        try {
+            sel = jcProducto.getSelectedItem().toString();
+
+//            System.out.println("elemento seleccionado "+ sel);
+
+            if(sel.equals(comp)){
+                jlIdProducto.setText("0");
+            }
+            else{
+                jlIdProducto.setText(map.get(sel).toString());
+                llenarComboUnidadMedidaInicio(Integer.valueOf(jlIdProducto.getText()));
+                llenarComboUnidadMedidaFinal(Integer.valueOf(jlIdProducto.getText()));
+            }
+        } catch (Exception e) {
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -244,11 +352,12 @@ public class FormDesempaque extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbCancelar;
-    private javax.swing.JComboBox<String> jcUnidadMedida;
-    private javax.swing.JComboBox<String> jcUnidadMedida1;
-    private javax.swing.JComboBox<String> jcUnidadMedida2;
+    private javax.swing.JComboBox<String> jcProducto;
+    private javax.swing.JComboBox<String> jcUnidadMedidaFinal;
+    private javax.swing.JComboBox<String> jcUnidadMedidaInicio;
+    private javax.swing.JLabel jlIdProducto;
     private javax.swing.JLabel jlTituloFormulario;
-    private javax.swing.JTextField jtxtPrecioVenta;
-    private javax.swing.JTextField jtxtPrecioVenta1;
+    private javax.swing.JTextField jtxtCantidadFinal;
+    private javax.swing.JTextField jtxtCantidadInicio;
     // End of variables declaration//GEN-END:variables
 }
