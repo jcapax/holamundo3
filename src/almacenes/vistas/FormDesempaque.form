@@ -38,12 +38,12 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
-                      <Component id="jbCancelar" min="-2" pref="111" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
+                      <Component id="jbDesempacar" min="-2" pref="143" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="26" max="32767" attributes="0"/>
@@ -65,7 +65,7 @@
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="32767" attributes="0"/>
-              <Component id="jbCancelar" min="-2" max="-2" attributes="0"/>
+              <Component id="jbDesempacar" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -98,7 +98,7 @@
         <Property name="text" type="java.lang.String" value="Producto"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jbCancelar">
+    <Component class="javax.swing.JButton" name="jbDesempacar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Imagenes/exit.png"/>
@@ -106,7 +106,7 @@
         <Property name="text" type="java.lang.String" value="Desempacar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCancelarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbDesempacarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jlTituloFormulario">
@@ -136,15 +136,23 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jcUnidadMedidaInicio" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtxtCantidadInicio" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jlIdUnidadMedidaInicio" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jtxtCantidadInicial" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jlIdUnidadMedidaFinal" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Component id="jtxtCantidadFinal" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
                       <Component id="jcUnidadMedidaFinal" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -158,25 +166,27 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jcUnidadMedidaInicio" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jcUnidadMedidaInicio" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jlIdUnidadMedidaInicio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jtxtCantidadInicio" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jtxtCantidadInicial" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jcUnidadMedidaFinal" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jlIdUnidadMedidaFinal" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jtxtCantidadFinal" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -239,7 +249,7 @@
             <Property name="text" type="java.lang.String" value="Cantidad 1"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jtxtCantidadInicio">
+        <Component class="javax.swing.JTextField" name="jtxtCantidadInicial">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
@@ -265,11 +275,21 @@
             <Property name="text" type="java.lang.String" value="Unidad Medida 1"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JLabel" name="jlIdUnidadMedidaInicio">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="idUnidad1"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jlIdUnidadMedidaFinal">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="idUnidad2"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="jlIdProducto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel6"/>
+        <Property name="text" type="java.lang.String" value="idProducto"/>
       </Properties>
     </Component>
   </SubComponents>
