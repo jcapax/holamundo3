@@ -24,7 +24,9 @@ import dao.UtilsDAOImpl;
 import dao.reportes.ReporteFacturacionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -95,7 +98,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }
     
     public void headerTabla(){
-        Font f = new Font("Times New Roman", Font.BOLD, 14);
+        Font f = new Font("Times New Roman", Font.BOLD, 24);
         
         jtDetalleFacturaFacil.getTableHeader().setFont(f);
         jtDetalleFacturaFacil.getTableHeader().setBackground(Color.orange);
@@ -177,23 +180,27 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jtDetalleFacturaFacil = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jtxtDetalle = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jbAgregarDetalle = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jtxtValorUnitario = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jtxtValorTotal = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jtxtCantidad = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jtxtDetalle = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jbFacturar = new javax.swing.JButton();
         jlnit = new javax.swing.JLabel();
         jtxtNit = new javax.swing.JTextField();
         jlRazonSocial = new javax.swing.JLabel();
         jtxtRazonSocial = new javax.swing.JTextField();
-        jbAgregarDetalle = new javax.swing.JButton();
-        jbFacturar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jtDetalleFacturaFacil.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jtDetalleFacturaFacil.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -217,6 +224,13 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtDetalleFacturaFacil.setRowHeight(24);
+        jtDetalleFacturaFacil.setRowMargin(2);
+        jtDetalleFacturaFacil.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtDetalleFacturaFacilKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtDetalleFacturaFacil);
         if (jtDetalleFacturaFacil.getColumnModel().getColumnCount() > 0) {
             jtDetalleFacturaFacil.getColumnModel().getColumn(0).setMinWidth(0);
@@ -224,30 +238,36 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             jtDetalleFacturaFacil.getColumnModel().getColumn(0).setMaxWidth(0);
         }
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 0, 51));
-        jLabel1.setText("Detalle");
-
-        jtxtDetalle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtxtDetalle.addActionListener(new java.awt.event.ActionListener() {
+        jbAgregarDetalle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jbAgregarDetalle.setText("Agregar");
+        jbAgregarDetalle.setFocusable(false);
+        jbAgregarDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtDetalleActionPerformed(evt);
+                jbAgregarDetalleActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(153, 0, 51));
         jLabel4.setText("P/Unit");
 
-        jtxtValorUnitario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtxtValorUnitario.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jtxtValorUnitario.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtValorUnitario.setNextFocusableComponent(jtxtValorUnitario);
+        jtxtValorUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtxtValorUnitarioKeyReleased(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setText("Total");
 
-        jtxtValorTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtxtValorTotal.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jtxtValorTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtValorTotal.setName(""); // NOI18N
+        jtxtValorTotal.setNextFocusableComponent(jtDetalleFacturaFacil);
         jtxtValorTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtValorTotalActionPerformed(evt);
@@ -262,119 +282,193 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(153, 0, 51));
         jLabel6.setText("Cantidad");
 
-        jtxtCantidad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtxtCantidad.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtxtCantidad.setNextFocusableComponent(jtxtCantidad);
+        jtxtCantidad.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtxtCantidadFocusLost(evt);
+            }
+        });
         jtxtCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtCantidadActionPerformed(evt);
             }
         });
-
-        jlnit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jlnit.setForeground(new java.awt.Color(153, 0, 51));
-        jlnit.setText("CI / NIT");
-
-        jtxtNit.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtxtNit.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtxtNitKeyPressed(evt);
+        jtxtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtxtCantidadKeyReleased(evt);
             }
         });
 
-        jlRazonSocial.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jlRazonSocial.setForeground(new java.awt.Color(153, 0, 51));
-        jlRazonSocial.setText("Razon Social");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel1.setText("Detalle");
 
-        jtxtRazonSocial.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        jbAgregarDetalle.setText("Agregar");
-        jbAgregarDetalle.addActionListener(new java.awt.event.ActionListener() {
+        jtxtDetalle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtxtDetalle.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jtxtDetalle.setName(""); // NOI18N
+        jtxtDetalle.setNextFocusableComponent(jtxtDetalle);
+        jtxtDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAgregarDetalleActionPerformed(evt);
+                jtxtDetalleActionPerformed(evt);
+            }
+        });
+        jtxtDetalle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtxtDetalleKeyReleased(evt);
             }
         });
 
-        jbFacturar.setText("Facturar");
-        jbFacturar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbFacturarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbAgregarDetalle)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addComponent(jtxtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(6, 6, 6)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel6)
-                                .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(47, 47, 47)
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel3))))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jlnit)
-                                .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jlRazonSocial)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jbFacturar))))))
-                .addContainerGap(63, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jtxtDetalle))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(jLabel4))
+                            .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jbAgregarDetalle)))
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(48, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6)
                     .addComponent(jLabel1)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbAgregarDetalle)
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jbFacturar.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jbFacturar.setText("Facturar");
+        jbFacturar.setFocusable(false);
+        jbFacturar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFacturarActionPerformed(evt);
+            }
+        });
+
+        jlnit.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jlnit.setForeground(new java.awt.Color(153, 0, 51));
+        jlnit.setText("CI / NIT");
+
+        jtxtNit.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtxtNit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxtNitKeyPressed(evt);
+            }
+        });
+
+        jlRazonSocial.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jlRazonSocial.setForeground(new java.awt.Color(153, 0, 51));
+        jlRazonSocial.setText("Razon Social");
+
+        jtxtRazonSocial.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jlnit)
+                        .addGap(0, 111, Short.MAX_VALUE))
+                    .addComponent(jtxtNit))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jlRazonSocial)
+                        .addGap(258, 258, 258))
+                    .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jbFacturar)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlnit)
                     .addComponent(jlRazonSocial))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbFacturar))
-                .addGap(25, 25, 25))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Factura");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -394,7 +488,26 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtValorTotalKeyPressed
 
     private void jtxtValorTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorTotalKeyReleased
-
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jtxtDetalle.requestFocus();
+            agregarDetalleFacturaFacil();
+            limpiarComponentes();
+        }else{         
+            if((isNumeric(jtxtCantidad.getText())&&(isNumeric(jtxtValorTotal.getText())))){
+                Double cantidad = Double.valueOf(jtxtCantidad.getText());
+                Double valorTotal = Double.valueOf(jtxtValorTotal.getText());
+                Double valorUnitario = valorTotal / cantidad * 1.0;
+                DecimalFormat df = new DecimalFormat("###.##");
+                
+                jtxtValorUnitario.setText(String.valueOf(df.format(valorUnitario)));
+         
+            }
+        }
+        
+         if(evt.getKeyCode() == KeyEvent.VK_TAB){
+             jtDetalleFacturaFacil.requestFocus();
+             jtDetalleFacturaFacil. editCellAt(0, 0);
+         }
         
     }//GEN-LAST:event_jtxtValorTotalKeyReleased
 
@@ -403,7 +516,15 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtCantidadActionPerformed
 
     private void jtxtNitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtNitKeyPressed
-        
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            if (jtxtNit.getText().equals("0")) {
+                jtxtRazonSocial.setText("SIN NOMBRE");
+            } else {
+                FacturaVentaDAOImpl fac = new FacturaVentaDAOImpl(connectionDB);
+                jtxtRazonSocial.setText(fac.getRazonSocialFactura(jtxtNit.getText()));
+                jtxtRazonSocial.requestFocus();
+            }
+        }
     }//GEN-LAST:event_jtxtNitKeyPressed
 
     private void jbAgregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarDetalleActionPerformed
@@ -432,6 +553,64 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         }
         limpiarComponentes();
     }//GEN-LAST:event_jbFacturarActionPerformed
+
+    private void jtxtDetalleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtDetalleKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            boolean aux = false;
+        
+            aux = isNumeric(jtxtCantidad.getText());
+            if((!aux)&&(jtxtCantidad.getText().length()>0)){
+                JOptionPane.showMessageDialog(this, "Registro inválido!!!");
+                jtxtCantidad.requestFocus();
+            }else{            
+                jtxtCantidad.requestFocus();            
+            }
+        }
+    }//GEN-LAST:event_jtxtDetalleKeyReleased
+
+    private void jtxtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            
+            jtxtValorUnitario.requestFocus();
+            
+           /* 
+            boolean aux = false;
+        
+            aux = isNumeric(jtxtCantidad.getText());
+            if((!aux)&&(jtxtCantidad.getText().length()>0)){
+                JOptionPane.showMessageDialog(this, "Registro inválido!!!");
+                jtxtCantidad.requestFocus();
+            }else{            
+                jtxtValorUnitario.requestFocus();
+            }
+            */
+        }
+    }//GEN-LAST:event_jtxtCantidadKeyReleased
+
+    private void jtxtValorUnitarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorUnitarioKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jtxtValorTotal.requestFocus();
+        }else{
+            if((isNumeric(jtxtCantidad.getText())&&(isNumeric(jtxtValorUnitario.getText())))){
+                Double cantidad = Double.valueOf(jtxtCantidad.getText());
+                Double valorUnitario = Double.valueOf(jtxtValorUnitario.getText());
+                Double valorTotal = cantidad * valorUnitario * 1.0;
+                DecimalFormat df = new DecimalFormat("###.##");
+                
+                jtxtValorTotal.setText(String.valueOf(df.format(valorTotal)));
+            }
+        }
+    }//GEN-LAST:event_jtxtValorUnitarioKeyReleased
+
+    private void jtxtCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtCantidadFocusLost
+        
+    }//GEN-LAST:event_jtxtCantidadFocusLost
+
+    private void jtDetalleFacturaFacilKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDetalleFacturaFacilKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jtxtNit.requestFocus();
+        }
+    }//GEN-LAST:event_jtDetalleFacturaFacilKeyReleased
 
     /**
      * @param args the command line arguments
@@ -473,9 +652,12 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAgregarDetalle;
     private javax.swing.JButton jbFacturar;
@@ -583,5 +765,14 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
         //repFactura.VistaPreviaFacturaVenta(idTransaccion, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
         return facilDAO.getIdFacturaUltima();        
+    }
+    
+    public static boolean isNumeric(String str) { 
+        try {  
+          Double.parseDouble(str);  
+          return true;
+        } catch(NumberFormatException e){  
+          return false;  
+        }  
     }
 }
