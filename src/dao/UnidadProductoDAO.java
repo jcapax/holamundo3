@@ -19,5 +19,6 @@ public interface UnidadProductoDAO {
     public void eliminarUnidadProducto(int idUnidadProducto);
     public void actualizarUnidadProducto(UnidadProducto unidadProducto);
     public void editarUnidadProducto(UnidadProducto unidadProducto);
+    public UnidadProducto getProductoCodigoBarras(String codigoAdjunto);
     
 }

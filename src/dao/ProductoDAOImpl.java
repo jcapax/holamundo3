@@ -65,6 +65,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 lProd.setRubro(rs.getString("rubro"));
                 lProd.setSTOCKMINIMO(rs.getDouble("stock_minimo"));
                 lProd.setUNIDADPRINCIPAL(rs.getInt("unidad_principal"));
+                lProd.setCodigoAdjunto(rs.getString("codigo_adjunto"));
                 
                 lproducto.add(lProd);
             }

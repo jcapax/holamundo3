@@ -14,6 +14,7 @@ import almacenes.model.FacturaVenta;
 import almacenes.model.Temporal;
 import almacenes.model.ListaProductos;
 import almacenes.model.Transaccion;
+import almacenes.model.UnidadProducto;
 import dao.ArqueoDAOImpl;
 import dao.CajaDAOImpl;
 import dao.ClienteProveedorDAO;
@@ -582,6 +583,36 @@ public class FormTransaccion extends javax.swing.JFrame {
         jlStockProducto.setText(String.valueOf(stock));
 
     }
+    
+    public void seleccionarProductoCodigoAdjunto() {
+        
+        UnidadMedidaDAO unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
+
+        UnidadProductoDAOImlp up = new UnidadProductoDAOImlp(connectionDB);
+
+        String codigoAdjunto = jtxtxCriterio.getText().trim();
+        UnidadProducto producto = new UnidadProducto();
+        producto = up.getProductoCodigoBarras(codigoAdjunto);
+        
+        
+
+        int idProducto = producto.getIdProdcuto();
+        int idUnidadMedida = producto.getIdUnidadMedida();
+        String nombreProducto = producto.getNombreProducto();
+        Double valorUnitario = producto.getPrecioVenta();
+
+        double stock = up.getStockProducto(idProducto, idUnidadMedida, idLugar);
+
+        jtxtNombreProducto.setText(nombreProducto);
+        jtxtValorUnitario.setText(valorUnitario.toString());
+        jlIdProducto.setText(String.valueOf(idProducto));
+        jlIdUnidadMedida.setText(String.valueOf(idUnidadMedida));
+        
+        jtxtUnidad.setText(unidadMedidaDAO.getSimboloUnidadMedida(idUnidadMedida));
+
+        jlStockProducto.setText(String.valueOf(stock));
+
+    }
 
     public void llenarTablaProductos(String criterio) {
         ProductoDAOImpl prodDAOImpl = new ProductoDAOImpl(connectionDB);
@@ -597,7 +628,6 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         Object[] fila = new Object[19];
 
-//        System.out.println("nro de registros en pila: " + lProd.size());
         for (int i = 0; i < lProd.size(); i++) {
             fila[0] = lProd.get(i).getId();
             fila[1] = lProd.get(i).getIDUNIDADMEDIDA();
@@ -1526,7 +1556,17 @@ public class FormTransaccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtxCriterioKeyReleased
 
     private void jtxtxCriterioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtxCriterioKeyPressed
-
+        boolean aux = false;
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            aux = true;
+            seleccionarProductoCodigoAdjunto();  
+            evt.setKeyCode(KeyEvent.VK_ESCAPE);
+            
+        }
+        if(aux){           
+           jtxtCantidad.requestFocus();
+           jtxtxCriterio.setText("");
+        }
     }//GEN-LAST:event_jtxtxCriterioKeyPressed
 
     private void jtxtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyPressed

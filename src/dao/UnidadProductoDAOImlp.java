@@ -53,6 +53,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
                 uProd.setStockMinimo(rs.getDouble("stock_minimo"));
                 uProd.setUnidadPrincipal(rs.getInt("unidad_principal"));
                 uProd.setGarantiaMeses(rs.getInt("garantia_meses"));
+                uProd.setCodigoAdjunto(rs.getString("codigo_adjunto"));
                 
                 lUnidadProducto.add(uProd);
             }
@@ -163,13 +164,35 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setDouble(7, unidadProducto.getPrecioCompra());
             ps.setString(8, unidadProducto.getUsuario());
             ps.setInt(9, unidadProducto.getGarantiaMeses());
-            ps.setInt(10, unidadProducto.getId());
-            ps.setString(11, unidadProducto.getCodigoAdjunto());
+            ps.setString(10, unidadProducto.getCodigoAdjunto());
+            ps.setInt(11, unidadProducto.getId());            
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UnidadProductoDAOImlp.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+
+    @Override
+    public UnidadProducto getProductoCodigoBarras(String codigoAdjunto) {
+        String sql = "Select * From v_productos Where codigo_adjunto = '"+codigoAdjunto+"'";
+        
+        UnidadProducto up = new UnidadProducto();
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                up.setIdProdcuto(rs.getInt("id_producto"));
+                up.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
+                up.setNombreProducto(rs.getString("descripcion"));
+                up.setPrecioVenta(rs.getDouble("precio_venta"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UnidadProductoDAOImlp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return up;
     }
     
 }

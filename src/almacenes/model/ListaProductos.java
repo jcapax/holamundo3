@@ -30,7 +30,16 @@ public class ListaProductos {
    private double PRECIOVENTAAUMENTO;
    private double PRECIOCOMPRA;
    private int ACTUALIZACION;
+   private String codigoAdjunto;
 
+    public String getCodigoAdjunto() {
+        return codigoAdjunto;
+    }
+
+    public void setCodigoAdjunto(String codigoAdjunto) {
+        this.codigoAdjunto = codigoAdjunto;
+    }
+   
     public int getCaducidad() {
         return caducidad;
     }

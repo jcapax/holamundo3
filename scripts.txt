@@ -24,3 +24,22 @@ from detalle_factura_facil d
 	join factura_venta f on d.id_factura_facil = f.id
 	join dosificacion o on o.id = f.id_dosificacion 
 	join sucursal s on s.id = o.id_sucursal
+
+
+drop view v_productos;
+
+create view v_productos
+as
+
+select up.id AS id_unidad_producto,p.id AS id_producto,p.id_rubro_producto AS id_rubro_producto,
+		r.descripcion AS rubro,p.id_marca AS id_marca,m.descripcion AS marca,p.id_procedencia AS id_procedencia,
+		pr.descripcion AS procedencia,p.descripcion AS descripcion,p.estado AS estado,p.control_stock AS control_stock,
+		up.id_unidad_medida AS id_unidad_medida,f_nombre_unidad_medida(up.id_unidad_medida) AS nombre_unidad_medida,
+		up.unidad_principal AS unidad_principal,f_nombre_unidad_medida(up.unidad_principal) AS nombre_unidad_principal,
+		up.stock_minimo AS stock_minimo,up.precio_venta AS precio_venta,up.precio_venta_rebaja AS precio_venta_rebaja,
+		up.precio_venta_aumento AS precio_venta_aumento,up.precio_compra AS precio_compra,
+		up.actualizacion AS actualizacion,up.garantia_meses AS garantia_meses, p.caducidad, up.codigo_adjunto
+	from ((((producto p join rubro_producto r on((p.id_rubro_producto = r.id))) 
+		join marca m on((p.id_marca = m.id))) 
+		join procedencia pr on((pr.id = p.id_procedencia))) 
+		left join unidad_producto up on((p.id = up.id_producto))) 

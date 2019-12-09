@@ -25,7 +25,16 @@ public class UnidadProducto {
     private int actualizacion;
     private String usuario;
     private String codigoAdjunto;
+    private String nombreProducto;
 
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+    
     public String getCodigoAdjunto() {
         return codigoAdjunto;
     }
