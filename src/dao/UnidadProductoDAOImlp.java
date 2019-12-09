@@ -68,8 +68,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     public void insertarUnidadProducto(UnidadProducto unidadProducto) {
         String sql = "INSERT INTO unidad_producto"
                 + "(id_producto, id_unidad_medida, unidad_principal, stock_minimo, precio_venta, "
-                + "precio_venta_rebaja, precio_venta_aumento, precio_compra, actualizacion, usuario, garantia_meses) "
-                + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "precio_venta_rebaja, precio_venta_aumento, precio_compra, actualizacion, usuario, garantia_meses, codigo_adjunto) "
+                + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -85,6 +85,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setInt(9, unidadProducto.getActualizacion());            
             ps.setString(10, "SYS");
             ps.setInt(11, unidadProducto.getGarantiaMeses());
+            ps.setString(12, unidadProducto.getCodigoAdjunto());
             
             int n = ps.executeUpdate();
             if (n != 0) {
@@ -147,7 +148,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
         String sql = "update unidad_producto "
                 + "set id_unidad_medida = ?, unidad_principal = ?, stock_minimo = ?, "
                 + "precio_venta = ?, precio_venta_rebaja = ?, "
-                + "precio_venta_aumento = ?, precio_compra = ?, usuario = ?, garantia_meses = ? "
+                + "precio_venta_aumento = ?, precio_compra = ?, usuario = ?, "
+                + "garantia_meses = ?, codigo_adjunto = ? "
                 + "where id = ?";
         
         try {
@@ -162,6 +164,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setString(8, unidadProducto.getUsuario());
             ps.setInt(9, unidadProducto.getGarantiaMeses());
             ps.setInt(10, unidadProducto.getId());
+            ps.setString(11, unidadProducto.getCodigoAdjunto());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UnidadProductoDAOImlp.class.getName()).log(Level.SEVERE, null, ex);

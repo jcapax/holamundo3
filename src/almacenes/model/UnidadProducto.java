@@ -24,6 +24,17 @@ public class UnidadProducto {
     private int garantiaMeses;
     private int actualizacion;
     private String usuario;
+    private String codigoAdjunto;
+
+    public String getCodigoAdjunto() {
+        return codigoAdjunto;
+    }
+
+    public void setCodigoAdjunto(String codigoAdjunto) {
+        this.codigoAdjunto = codigoAdjunto;
+    }
+    
+    
 
     public int getGarantiaMeses() {
         return garantiaMeses;
