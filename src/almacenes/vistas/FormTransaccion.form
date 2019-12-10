@@ -494,17 +494,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jtxtNombreProducto">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtxtNombreProductoActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jtxtUnidad">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtxtUnidadActionPerformed"/>
               </Events>
@@ -524,10 +518,11 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jtxtValorUnitario">
               <Properties>
-                <Property name="editable" type="boolean" value="false"/>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtxtValorUnitarioKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jlIdProducto">
               <Properties>

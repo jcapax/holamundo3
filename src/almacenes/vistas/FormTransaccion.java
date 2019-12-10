@@ -157,7 +157,7 @@ public class FormTransaccion extends javax.swing.JFrame {
                 jlnit.setVisible(true);
                 jtxtNit.setVisible(true);
 
-                jtxtValorUnitario.setEnabled(false);
+                jtxtValorUnitario.setEnabled(true);
                 jtxtValorUnitario.setEditable(false);
 
                 jlClienteProveedor.setEnabled(false);
@@ -842,7 +842,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         jbTransaccion = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jlClienteProveedor = new javax.swing.JLabel();
-        jcClienteProveedor = new javax.swing.JComboBox<>();
+        jcClienteProveedor = new javax.swing.JComboBox<String>();
         jlDetalle = new javax.swing.JLabel();
         jtxtDetalle = new javax.swing.JTextField();
         jlTituloFormulario = new javax.swing.JLabel();
@@ -1035,14 +1035,12 @@ public class FormTransaccion extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(153, 0, 51));
         jLabel4.setText("P/Unit");
 
-        jtxtNombreProducto.setEnabled(false);
         jtxtNombreProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtNombreProductoActionPerformed(evt);
             }
         });
 
-        jtxtUnidad.setEnabled(false);
         jtxtUnidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtUnidadActionPerformed(evt);
@@ -1065,9 +1063,12 @@ public class FormTransaccion extends javax.swing.JFrame {
             }
         });
 
-        jtxtValorUnitario.setEditable(false);
         jtxtValorUnitario.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtValorUnitario.setEnabled(false);
+        jtxtValorUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxtValorUnitarioKeyPressed(evt);
+            }
+        });
 
         jlIdProducto.setText("...");
         jlIdProducto.setAlignmentY(0.7F);
@@ -1221,7 +1222,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         jlClienteProveedor.setForeground(new java.awt.Color(153, 0, 51));
         jlClienteProveedor.setText("Cliente");
 
-        jcClienteProveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcClienteProveedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcClienteProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcClienteProveedorActionPerformed(evt);
@@ -1566,6 +1567,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         if(aux){           
            jtxtCantidad.requestFocus();
            jtxtxCriterio.setText("");
+           llenarTablaProductos("");
         }
     }//GEN-LAST:event_jtxtxCriterioKeyPressed
 
@@ -1574,16 +1576,22 @@ public class FormTransaccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtCantidadKeyPressed
 
     private void jtxtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyReleased
-
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if((evt.getKeyCode() == KeyEvent.VK_ENTER)&&(jtxtCantidad.getText().length()>0)){
             agregar();
             jtxtxCriterio.requestFocus();
+            jtxtCantidad.setText("");
         }
     }//GEN-LAST:event_jtxtCantidadKeyReleased
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
         agregar();
     }//GEN-LAST:event_jbAgregarActionPerformed
+
+    private void jtxtValorUnitarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorUnitarioKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jtxtCantidad.requestFocus();
+        }
+    }//GEN-LAST:event_jtxtValorUnitarioKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

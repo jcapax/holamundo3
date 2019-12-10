@@ -499,8 +499,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 Double valorUnitario = valorTotal / cantidad * 1.0;
                 DecimalFormat df = new DecimalFormat("###.##");
                 
-                jtxtValorUnitario.setText(String.valueOf(df.format(valorUnitario)));
-         
+                jtxtValorUnitario.setText(String.valueOf(df.format(valorUnitario)));         
             }
         }
         
@@ -516,7 +515,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtCantidadActionPerformed
 
     private void jtxtNitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtNitKeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        if ((evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)&&(jtxtNit.getText().length()>0)) {
             if (jtxtNit.getText().equals("0")) {
                 jtxtRazonSocial.setText("SIN NOMBRE");
             } else {
