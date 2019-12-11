@@ -75,20 +75,6 @@ Where t.id = $P{id_transaccion}]]>
 				</textElement>
 				<text><![CDATA[AJUSTE STOCK]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="37" y="3" width="80" height="18" forecolor="#054A82" uuid="2fd7ba6f-2069-42a3-b704-aa8a85e889a9"/>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DISMEBOL]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2" y="21" width="151" height="12" forecolor="#054A82" uuid="9164d74b-90f5-48ee-8025-34b772fd8852"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Importadora y Distribuidora de Insumos Medicos Bolivia]]></text>
-			</staticText>
 			<textField>
 				<reportElement x="172" y="70" width="136" height="18" uuid="5192bdd5-b139-4a1e-874d-15706ffcea99">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -137,6 +123,10 @@ Where t.id = $P{id_transaccion}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descripcion_transaccion}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="10" y="0" width="40" height="59" uuid="2dd2051b-cda3-4c3b-a7e2-b3946558e653"/>
+				<imageExpression><![CDATA["C:\\Users\\jcarlos.porcel\\Documents\\NetBeansProjects\\holamundo3\\reportes\\img\\logo.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

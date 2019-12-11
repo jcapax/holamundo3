@@ -256,5 +256,20 @@ public class TemporalDAOImpl implements TemporalDAO{
             Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public void eliminarProductoDetalleFacturaFacil(int id) {
+        String sql = "delete from detalle_factura_facil_temp "
+                + "where id = ?";
+        
+        try {
+            PreparedStatement ps = sqlite.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            ps.executeUpdate();                        
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

@@ -18,6 +18,7 @@ public interface TemporalDAO {
     public void insertarDetalleFacturaFacilTemp(DetalleFacturaFacil facil);
     public void insertarProductoTempFechaVencimiento(Temporal detTransTemp);
     public void eliminarProdcutoTemp(int idProducto, int idUnidadMedida);
+    public void eliminarProductoDetalleFacturaFacil(int id);
     public void vaciarProductoTemp();
     public void vaciarDetalleFacturaFacilTemp();
     public ArrayList<Temporal> getListaTemporal();

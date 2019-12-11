@@ -111,10 +111,11 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         String aux = null;
         ac = new TextAutoCompleter(jtxtDetalle);
         ac.removeAllItems();
+                
         for(int i=0; i<list.size(); i++){
             aux = list.get(i);
             ac.addItem(aux);
-        }        
+        }         
     }
     
     public void limpiarComponentes(){
@@ -227,6 +228,9 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jtDetalleFacturaFacil.setRowHeight(24);
         jtDetalleFacturaFacil.setRowMargin(2);
         jtDetalleFacturaFacil.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtDetalleFacturaFacilKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtDetalleFacturaFacilKeyReleased(evt);
             }
@@ -385,6 +389,11 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 jbFacturarActionPerformed(evt);
             }
         });
+        jbFacturar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbFacturarKeyPressed(evt);
+            }
+        });
 
         jlnit.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jlnit.setForeground(new java.awt.Color(153, 0, 51));
@@ -416,9 +425,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                     .addComponent(jtxtNit))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jlRazonSocial)
-                        .addGap(258, 258, 258))
+                    .addComponent(jlRazonSocial)
                     .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jbFacturar)
@@ -532,28 +539,12 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }//GEN-LAST:event_jbAgregarDetalleActionPerformed
 
     private void jbFacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFacturarActionPerformed
-        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
-        byte idSucursal = suc.getIdSucursal(idLugar);
         
-        FacturaDAO fac = new FacturaDAOImpl(connectionDB);
-        int nroIdFactura = 0;
-        try {
-            nroIdFactura = registrarFactura();
-            facilDAO.insertarDetalleFacturaFacil(tempDAOImpl.getListaDetalleFacturaFacilTemporal(), nroIdFactura);
-
-            ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, "XXX");
-
-            //repFactura.VistaPreviaFacturaVenta(nroIdFactura, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
-            repFactura.VistaPreviaFacturaFacil(nroIdFactura, "matias", 120);
-
-            System.err.println("nroIdFactura:"+nroIdFactura);
-        } catch (ParseException ex) {
-            Logger.getLogger(FormFacturaFacil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        limpiarComponentes();
     }//GEN-LAST:event_jbFacturarActionPerformed
 
     private void jtxtDetalleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtDetalleKeyReleased
+        System.out.println(evt.getKeyCode());
+        
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             boolean aux = false;
         
@@ -564,6 +555,9 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             }else{            
                 jtxtCantidad.requestFocus();            
             }
+        }
+        if((evt.getKeyCode() == KeyEvent.VK_SHIFT)&&(evt.getKeyCode() == KeyEvent.VK_ENTER)){
+            jtDetalleFacturaFacil.requestFocus();
         }
     }//GEN-LAST:event_jtxtDetalleKeyReleased
 
@@ -583,6 +577,9 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 jtxtValorUnitario.requestFocus();
             }
             */
+        }
+        if((evt.getKeyCode() == KeyEvent.VK_SHIFT)&&(evt.getKeyCode() == KeyEvent.VK_ENTER)){
+            jtDetalleFacturaFacil.requestFocus();
         }
     }//GEN-LAST:event_jtxtCantidadKeyReleased
 
@@ -610,6 +607,44 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             jtxtNit.requestFocus();
         }
     }//GEN-LAST:event_jtDetalleFacturaFacilKeyReleased
+
+    private void jtDetalleFacturaFacilKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDetalleFacturaFacilKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+            if(listaDetalleFF.size()>0){
+                int filSel = jtDetalleFacturaFacil.getSelectedRow();            
+                int id = (int) jtDetalleFacturaFacil.getValueAt(filSel, 0);
+
+                tempDAOImpl.eliminarProductoDetalleFacturaFacil(id);
+                llenarTablaDetalleFacturaFacil();
+                jtxtDetalle.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_jtDetalleFacturaFacilKeyPressed
+
+    private void jbFacturarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbFacturarKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_SHIFT){
+            
+            SucursalDAO suc = new SucursalDAOImpl(connectionDB);
+            byte idSucursal = suc.getIdSucursal(idLugar);
+
+            FacturaDAO fac = new FacturaDAOImpl(connectionDB);
+            int nroIdFactura = 0;
+            try {
+                nroIdFactura = registrarFactura();
+                facilDAO.insertarDetalleFacturaFacil(tempDAOImpl.getListaDetalleFacturaFacilTemporal(), nroIdFactura);
+
+                ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, "XXX");
+
+                //repFactura.VistaPreviaFacturaVenta(nroIdFactura, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
+                repFactura.VistaPreviaFacturaFacil(nroIdFactura, "matias", 120);
+
+                System.err.println("nroIdFactura:"+nroIdFactura);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormFacturaFacil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            limpiarComponentes();
+        }
+    }//GEN-LAST:event_jbFacturarKeyPressed
 
     /**
      * @param args the command line arguments

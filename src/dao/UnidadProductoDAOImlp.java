@@ -54,6 +54,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
                 uProd.setUnidadPrincipal(rs.getInt("unidad_principal"));
                 uProd.setGarantiaMeses(rs.getInt("garantia_meses"));
                 uProd.setCodigoAdjunto(rs.getString("codigo_adjunto"));
+                uProd.setCantidad(rs.getInt("cantidad"));                
+                uProd.setDescuento(rs.getInt("descuento"));
                 
                 lUnidadProducto.add(uProd);
             }

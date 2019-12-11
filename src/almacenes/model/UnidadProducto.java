@@ -26,7 +26,25 @@ public class UnidadProducto {
     private String usuario;
     private String codigoAdjunto;
     private String nombreProducto;
+    private int cantidad;
+    private int descuento;
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public int getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(int descuento) {
+        this.descuento = descuento;
+    }
+    
     public String getNombreProducto() {
         return nombreProducto;
     }

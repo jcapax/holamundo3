@@ -133,10 +133,25 @@ Where t.id = $P{id_transaccion}]]>
 				<reportElement x="507" y="12" width="60" height="16" uuid="0697bf10-8fb2-4685-8337-9262d512a3fc"/>
 				<textFieldExpression><![CDATA[$F{nro_tipo_transaccion}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="10" y="0" width="40" height="59" uuid="f6b599b3-b415-45db-84a4-29029a8d3ebc"/>
-				<imageExpression><![CDATA["C:\\Users\\jcarlos.porcel\\Documents\\NetBeansProjects\\holamundo3\\reportes\\img\\logo.png"]]></imageExpression>
-			</image>
+			<staticText>
+				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="fa757a8d-715c-49c1-8be9-c5cf5114ca07">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MATIAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="200" height="11" forecolor="#054A82" uuid="d3f4a610-57f6-49d1-83d3-a2798431c34e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prensado de Mangueras y Chicotillos]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>
