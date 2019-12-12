@@ -207,19 +207,13 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         String unidadMedida = (String) jtUnidadProducto.getValueAt(fila, 3);
         jcUnidadMedida.setSelectedItem(unidadMedida);
 
-//        String unidadPrincipal = (String) jtUnidadProducto.getValueAt(fila, 5);
-//        jcUnidadMedidaPrincipal.setSelectedItem(unidadPrincipal);
-
         jtxtStockMinimo.setText(jtUnidadProducto.getValueAt(fila, 4).toString());
         jtxtPrecioVenta.setText(jtUnidadProducto.getValueAt(fila, 5).toString());
-//        jtxtPrecioVentaRebaja.setText(jtUnidadProducto.getValueAt(fila, 8).toString());
-//        jtxtPrecioVentaAumento.setText(jtUnidadProducto.getValueAt(fila, 9).toString());
         jtxtPrecioCompra.setText(jtUnidadProducto.getValueAt(fila, 6).toString());
         jtxtGarantiaMses.setText(jtUnidadProducto.getValueAt(fila, 7).toString());
         jtxtCodigoAdjunto.setText(jtUnidadProducto.getValueAt(fila, 8).toString());
         jtxtCantidad.setText(jtUnidadProducto.getValueAt(fila, 9).toString());
         jtxtDescuento.setText(jtUnidadProducto.getValueAt(fila, 10).toString());
-
     }
 
     public void guardarUnidadProdcto() {
@@ -707,6 +701,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         eliminarUnidadProducto();
+        jlEdicion.setText("0");
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed

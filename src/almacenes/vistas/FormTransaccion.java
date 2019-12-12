@@ -252,10 +252,12 @@ public class FormTransaccion extends javax.swing.JFrame {
             aux = false;
         }
         if (idTipoTransaccion == 2) { //VENTA
+            if(jtxtNit.getText().length() == 0){jtxtNit.setText("0");}
             if (jtxtNit.getText().length() == 0) {
                 JOptionPane.showMessageDialog(this, "El Nit o CI del cliente no pueden estar vacio!!!");
                 aux = false;
             }
+            if(jtxtRazonSocial.getText().length() == 0){jtxtRazonSocial.setText("SIN NOMBRE");}
             if (jtxtRazonSocial.getText().length() == 0) {
                 JOptionPane.showMessageDialog(this, "Favor registrar Razon Social del cliente!!!");
                 aux = false;
@@ -929,14 +931,14 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         jtxtxCriterio.setNextFocusableComponent(jtProductos);
         jtxtxCriterio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtxtxCriterioKeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtxtxCriterioKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtxtxCriterioKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtxCriterioKeyTyped(evt);
             }
         });
 
@@ -1046,12 +1048,16 @@ public class FormTransaccion extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(153, 0, 51));
         jLabel4.setText("P/Unit");
 
+        jtxtNombreProducto.setEditable(false);
+        jtxtNombreProducto.setFocusable(false);
         jtxtNombreProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtNombreProductoActionPerformed(evt);
             }
         });
 
+        jtxtUnidad.setEditable(false);
+        jtxtUnidad.setFocusable(false);
         jtxtUnidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtUnidadActionPerformed(evt);
@@ -1074,7 +1080,9 @@ public class FormTransaccion extends javax.swing.JFrame {
             }
         });
 
+        jtxtValorUnitario.setEditable(false);
         jtxtValorUnitario.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtValorUnitario.setFocusable(false);
         jtxtValorUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtxtValorUnitarioKeyPressed(evt);
