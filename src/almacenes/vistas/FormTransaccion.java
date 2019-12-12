@@ -541,12 +541,16 @@ public class FormTransaccion extends javax.swing.JFrame {
         String nombreProducto = jtxtNombreProducto.getText();
         String simbolo = unidadMedidaDAO.getSimboloUnidadMedida(idUnidadMedida);
         double cantidad = Double.valueOf(jtxtCantidad.getText());
+        
         double valorUnitario = 0.0;
-        valorUnitario = unidadProductoDAO.getValorUnitarioDescuento(idProducto, idUnidadMedida, cantidad);
+        if(idTipoTransaccion == 2){
+            valorUnitario = unidadProductoDAO.getValorUnitarioDescuento(idProducto, idUnidadMedida, cantidad);
+        }
         if(valorUnitario == 0){
             valorUnitario = Double.valueOf(jtxtValorUnitario.getText());
         }
         double valorTotal = cantidad * valorUnitario;
+        
         String tipoValor = "N";// normal
 
         temp.setCantidad(cantidad);
@@ -597,6 +601,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         UnidadProductoDAOImlp up = new UnidadProductoDAOImlp(connectionDB);
 
         String codigoAdjunto = jtxtxCriterio.getText().trim();
+        codigoAdjunto = codigoAdjunto.replace("'", "-");
         UnidadProducto producto = new UnidadProducto();
         producto = up.getProductoCodigoBarras(codigoAdjunto);
         
@@ -848,7 +853,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         jbTransaccion = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jlClienteProveedor = new javax.swing.JLabel();
-        jcClienteProveedor = new javax.swing.JComboBox<>();
+        jcClienteProveedor = new javax.swing.JComboBox<String>();
         jlDetalle = new javax.swing.JLabel();
         jtxtDetalle = new javax.swing.JTextField();
         jlTituloFormulario = new javax.swing.JLabel();
@@ -924,14 +929,14 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         jtxtxCriterio.setNextFocusableComponent(jtProductos);
         jtxtxCriterio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtxCriterioKeyTyped(evt);
+            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtxtxCriterioKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtxtxCriterioKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtxtxCriterioKeyTyped(evt);
             }
         });
 
@@ -967,8 +972,8 @@ public class FormTransaccion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jtxtxCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton3)
                     .addComponent(jbSalir))
@@ -1192,8 +1197,8 @@ public class FormTransaccion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtEliminar)
                     .addComponent(jtxtTotalTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1228,7 +1233,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         jlClienteProveedor.setForeground(new java.awt.Color(153, 0, 51));
         jlClienteProveedor.setText("Cliente");
 
-        jcClienteProveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcClienteProveedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcClienteProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcClienteProveedorActionPerformed(evt);
@@ -1554,7 +1559,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         String criterio = "";
         if (jtxtxCriterio.getText().length() != 0) {
 
-            criterio = jtxtxCriterio.getText();
+            criterio = jtxtxCriterio.getText();            
         } else {
             criterio = "";
         }

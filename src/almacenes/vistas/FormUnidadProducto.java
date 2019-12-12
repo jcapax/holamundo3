@@ -236,6 +236,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         double precioVentaAumento = 0;
         double precioCompra = Double.valueOf(jtxtPrecioCompra.getText());
         String codigoAdjunto = jtxtCodigoAdjunto.getText().trim();
+        codigoAdjunto = codigoAdjunto.replace("'", "-");
         
         int cantidad = Integer.valueOf(jtxtCantidad.getText().toString().trim());
         int descuento = Integer.valueOf(jtxtDescuento.getText().toString().trim());

@@ -184,6 +184,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     public UnidadProducto getProductoCodigoBarras(String codigoAdjunto) {
         String sql = "Select * From v_productos Where codigo_adjunto = '"+codigoAdjunto+"'";
         
+        System.out.println(sql);
+        
         UnidadProducto up = new UnidadProducto();
         
         try {
@@ -205,9 +207,9 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     @Override
     public Double getValorUnitarioDescuento(int idProducto, int idUnidadMedida, double cantidad) {
         double valorUnitario = 0;
-        String sql = "SELECT (precio_venta * descuento / 100) as precio_descuento " +
+        String sql = "SELECT (precio_venta - precio_venta * descuento / 100.0) as precio_descuento " +
                         "FROM unidad_producto " +
-                        "WHERE id_producto = ? and id_unidad_medida = ? and cantidad >= ?";
+                        "WHERE id_producto = ? and id_unidad_medida = ? and ? >= cantidad";
         
         System.out.println(sql);
         try {
