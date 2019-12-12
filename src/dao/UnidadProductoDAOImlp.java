@@ -71,8 +71,9 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     public void insertarUnidadProducto(UnidadProducto unidadProducto) {
         String sql = "INSERT INTO unidad_producto"
                 + "(id_producto, id_unidad_medida, unidad_principal, stock_minimo, precio_venta, "
-                + "precio_venta_rebaja, precio_venta_aumento, precio_compra, actualizacion, usuario, garantia_meses, codigo_adjunto) "
-                + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "precio_venta_rebaja, precio_venta_aumento, precio_compra, actualizacion, "
+                + "usuario, garantia_meses, codigo_adjunto, cantidad, descuento) "
+                + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -89,6 +90,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setString(10, "SYS");
             ps.setInt(11, unidadProducto.getGarantiaMeses());
             ps.setString(12, unidadProducto.getCodigoAdjunto());
+            ps.setInt(13, unidadProducto.getCantidad());
+            ps.setInt(14, unidadProducto.getDescuento());
             
             int n = ps.executeUpdate();
             if (n != 0) {
@@ -152,7 +155,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
                 + "set id_unidad_medida = ?, unidad_principal = ?, stock_minimo = ?, "
                 + "precio_venta = ?, precio_venta_rebaja = ?, "
                 + "precio_venta_aumento = ?, precio_compra = ?, usuario = ?, "
-                + "garantia_meses = ?, codigo_adjunto = ? "
+                + "garantia_meses = ?, codigo_adjunto = ? , cantidad = ?, descuento = ? "
                 + "where id = ?";
         
         try {
@@ -167,7 +170,9 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setString(8, unidadProducto.getUsuario());
             ps.setInt(9, unidadProducto.getGarantiaMeses());
             ps.setString(10, unidadProducto.getCodigoAdjunto());
-            ps.setInt(11, unidadProducto.getId());            
+            ps.setInt(11, unidadProducto.getCantidad());
+            ps.setInt(12, unidadProducto.getDescuento());
+            ps.setInt(13, unidadProducto.getId());            
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UnidadProductoDAOImlp.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,6 +200,30 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
         }
         
         return up;
+    }
+
+    @Override
+    public Double getValorUnitarioDescuento(int idProducto, int idUnidadMedida, double cantidad) {
+        double valorUnitario = 0;
+        String sql = "SELECT (precio_venta * descuento / 100) as precio_descuento " +
+                        "FROM unidad_producto " +
+                        "WHERE id_producto = ? and id_unidad_medida = ? and cantidad >= ?";
+        
+        System.out.println(sql);
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idProducto);
+            ps.setInt(2, idUnidadMedida);
+            ps.setDouble(3, cantidad);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                valorUnitario = rs.getDouble("precio_descuento");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return valorUnitario;
     }
     
 }

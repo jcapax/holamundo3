@@ -20,5 +20,6 @@ public interface UnidadProductoDAO {
     public void actualizarUnidadProducto(UnidadProducto unidadProducto);
     public void editarUnidadProducto(UnidadProducto unidadProducto);
     public UnidadProducto getProductoCodigoBarras(String codigoAdjunto);
+    public Double getValorUnitarioDescuento(int idProducto, int idUnidadMedida, double cantidad);
     
 }
