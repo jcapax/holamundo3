@@ -21,6 +21,7 @@ public interface FacturaVentaDAO {
     public Date getFechaLimiteEmision(String nroAutorizacion);
     public String getRazonSocialFactura(String ni);
     public String getCadenaCodigoQr(int idTransaccion);
+    public String getCadenaCodigoQrFacturaFacil(int idFactura);
     public int getIdSucursal(int idLugar);
     public int getIdDosificacion(int idSucursal);
 }

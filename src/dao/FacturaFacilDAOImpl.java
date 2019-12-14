@@ -54,7 +54,8 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
         PreparedStatement ps;
         ResultSet rs;
         for(int i=0; i<facil.size(); i++){
-            sql = "INSERT INTO detalle_factura_facil (id_factura_facil, detalle, cantidad, valor_unitario, valor_total) "
+            sql = "INSERT INTO detalle_factura_facil (id_factura_facil, detalle, cantidad, "
+                    + "valor_unitario, valor_total) "
                         + "VALUES ("+idFacturaFacil
                         +", '"+facil.get(i).getDetalle()
                         +"', "+facil.get(i).getCantidad()

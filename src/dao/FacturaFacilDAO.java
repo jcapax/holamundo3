@@ -16,5 +16,5 @@ import java.util.List;
 public interface FacturaFacilDAO {
     public List<String> getListaProductosAutocompletado();
     public void insertarDetalleFacturaFacil(ArrayList<DetalleFacturaFacil> facil, int idFacturaFacil);
-    public int getIdFacturaUltima();    
+    public int getIdFacturaUltima();        
 }

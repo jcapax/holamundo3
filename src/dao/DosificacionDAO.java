@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public interface DosificacionDAO {
     public int insertarDosificacion(Dosificacion dosificacion);
+    public void bajaDosificacionSucursal(int idSucursal);
     public void actualizarEstadoCeroDosificacion();
     public ArrayList<Dosificacion> getListDosificacion();
     

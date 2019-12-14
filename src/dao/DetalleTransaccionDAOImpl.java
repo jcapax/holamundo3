@@ -32,8 +32,9 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
     @Override
     public void insertarDetalleTransaccion(ArrayList<DetalleTransaccion> detTrans) {
         String sql = "insert into detalle_transaccion("
-                + "id_transaccion, id_producto, id_unidad_medida, cantidad, valor_unitario, valor_total, tipo_valor) "
-                + "values(?, ?, ?, ?, ?, ?, ?)";
+                + "id_transaccion, id_producto, id_unidad_medida, cantidad, "
+                + "valor_unitario, valor_sub_total, descuento, valor_total, tipo_valor) "
+                + "values(?, ?, ?, ?, ?, ?, ?, ? , ?)";
         
         for(int i = 0; i< detTrans.size(); i++){
             try {
@@ -43,8 +44,10 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
                 ps.setInt(3, detTrans.get(i).getIdUnidadMedida());
                 ps.setDouble(4, detTrans.get(i).getCantidad());
                 ps.setDouble(5, detTrans.get(i).getValorUnitario());
-                ps.setDouble(6, detTrans.get(i).getValorTotal());
-                ps.setString(7, detTrans.get(i).getTipoValor());
+                ps.setDouble(6, detTrans.get(i).getValorSubTotal());
+                ps.setDouble(7, detTrans.get(i).getDescuento());
+                ps.setDouble(8, detTrans.get(i).getValorTotal());
+                ps.setString(9, detTrans.get(i).getTipoValor());
                 ps.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(DetalleTransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,7 +71,9 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
                 dt.setCantidad(rs.getDouble("cantidad"));
                 dt.setNombreProducto(rs.getString("descripcion"));
                 dt.setSimbolo(rs.getString("simbolo"));
-                dt.setValorTotal(rs.getDouble("valor_total"));
+                dt.setValorTotal(rs.getDouble("valor_sub_total"));
+                dt.setValorTotal(rs.getDouble("descuento"));
+                dt.setValorTotal(rs.getDouble("valor_total"));                
                 
                 detTransaccion.add(dt);                        
             }

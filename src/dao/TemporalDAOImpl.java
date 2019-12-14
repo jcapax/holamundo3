@@ -12,10 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,8 +35,8 @@ public class TemporalDAOImpl implements TemporalDAO{
         
         String sql = "INSERT INTO detalle_transaccion_temp("
                 + "id_producto, nombre_producto, id_unidad_medida, simbolo, "
-                + "cantidad, valor_unitario, valor_total, tipo_valor) "
-                + "values(?, ?, ?, ?, ?, ?, ?, ?)";
+                + "cantidad, valor_unitario, valor_sub_total, descuento, valor_total, tipo_valor) "
+                + "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = sqlite.prepareStatement(sql);
@@ -49,8 +46,10 @@ public class TemporalDAOImpl implements TemporalDAO{
             ps.setString(4, detTransTemp.getSimbolo());
             ps.setDouble(5, detTransTemp.getCantidad());
             ps.setDouble(6, detTransTemp.getValorUnitario());
-            ps.setDouble(7, detTransTemp.getValorTotal());
-            ps.setString(8, detTransTemp.getTipoValor());
+            ps.setDouble(7, detTransTemp.getValorSubTotal());
+            ps.setDouble(8, detTransTemp.getDescuento());
+            ps.setDouble(9, detTransTemp.getValorTotal());
+            ps.setString(10, detTransTemp.getTipoValor());
             
             int n = ps.executeUpdate();
             if(n!=0){
@@ -146,6 +145,8 @@ public class TemporalDAOImpl implements TemporalDAO{
                 temporal.setNombreProducto(rs.getString("nombre_producto"));
                 temporal.setSimbolo(rs.getString("simbolo"));
                 temporal.setTipoValor(rs.getString("tipo_valor"));
+                temporal.setValorSubTotal(rs.getDouble("valor_sub_total"));
+                temporal.setDescuento(rs.getDouble("descuento"));
                 temporal.setValorTotal(rs.getDouble("valor_total"));
                 temporal.setValorUnitario(rs.getDouble("valor_unitario"));
                 temporal.setFecha_vencimiento(rs.getString("fecha_vencimiento"));
@@ -270,6 +271,22 @@ public class TemporalDAOImpl implements TemporalDAO{
         } catch (SQLException ex) {
             Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public Double totalTemporal() {        
+        Double total = 0.0;
+        String sql = "Select sum(valor_total) as total From detalle_factura_facil_temp";
+        try {
+            PreparedStatement ps = sqlite.prepareStatement(sql);            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                total = rs.getDouble("total");
+            }        
+        } catch (SQLException ex) {
+            Logger.getLogger(SucursalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        return total;    
     }
     
 }

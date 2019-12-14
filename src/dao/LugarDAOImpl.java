@@ -159,4 +159,28 @@ public class LugarDAOImpl implements LugarDAO{
         }
         return idLugar;        
     }
+
+    @Override
+    public byte getIdLugarFactura(int idFactura) {
+        byte idLugar = 0;
+        String sql = "SELECT a.id,a.id_dosificacion, l.id as id_lugar \n" +
+                    "FROM factura_venta a \n" +
+                    "	join dosificacion b on a.id_dosificacion = b.id \n" +
+                    "    join sucursal s on b.id_sucursal = s.id \n" +
+                    "    join lugar l on l.id = s.id_lugar \n" +
+                    "WHERE a.id = "+String.valueOf(idFactura);
+            PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                idLugar = rs.getByte("id_lugar");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(LugarDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idLugar;
+    }
 }

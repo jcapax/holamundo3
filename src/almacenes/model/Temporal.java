@@ -20,9 +20,27 @@ public class Temporal {
     private String simbolo;
     private double cantidad;
     private double valorUnitario;
+    private double valorSubTotal;
+    private double descuento;    
     private double valorTotal;
     private String tipoValor;
     private String fecha_vencimiento;
+
+    public double getValorSubTotal() {
+        return valorSubTotal;
+    }
+
+    public void setValorSubTotal(double valorSubTotal) {
+        this.valorSubTotal = valorSubTotal;
+    }
+
+    public double getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
+    }
 
     public String getFecha_vencimiento() {
         return fecha_vencimiento;

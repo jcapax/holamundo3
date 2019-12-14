@@ -25,5 +25,6 @@ public interface TemporalDAO {
     public ArrayList<DetalleFacturaFacil> getListaDetalleFacturaFacilTemporal();
     public double totalProductosTemp();
     public void reducir10();
+    public Double totalTemporal();
     
 }

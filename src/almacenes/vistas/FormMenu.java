@@ -115,6 +115,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuProcesos = new javax.swing.JMenu();
         jMenuFacturaFacil = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
         jMenuVentas = new javax.swing.JMenuItem();
         jMenuCompras = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -129,6 +130,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jmenuReimpresion = new javax.swing.JMenuItem();
+        jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jmenuDesempaque = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
         jMenuMarcas = new javax.swing.JMenuItem();
@@ -263,6 +265,7 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jMenuFacturaFacil);
+        jMenuProcesos.add(jSeparator8);
 
         jMenuVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/venta.png"))); // NOI18N
         jMenuVentas.setText("Ventas");
@@ -358,6 +361,7 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmenuReimpresion);
+        jMenuProcesos.add(jSeparator9);
 
         jmenuDesempaque.setText("Desempaque");
         jmenuDesempaque.addActionListener(new java.awt.event.ActionListener() {
@@ -626,7 +630,7 @@ public class FormMenu extends javax.swing.JFrame {
 //        procesosVentas.setVisible(true);
         int idTipoTransaccion = 2;
         int idTipoTransaccionEntrega = 8;
-        
+/*        
         SucursalDAO suc = new SucursalDAOImpl(connectionDB);
         byte idSucursal = suc.getIdSucursal(idLugar);
         
@@ -641,6 +645,10 @@ public class FormMenu extends javax.swing.JFrame {
         }
         
         FormTransaccion formTrans = new FormTransaccion(connectionDB, 
+                                            idTipoTransaccion, idTipoTransaccionEntrega, 
+                                            idUsuario, idLugar, idTerminal);
+*/
+        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
                                             idTipoTransaccion, idTipoTransaccionEntrega, 
                                             idUsuario, idLugar, idTerminal);
         formTrans.setVisible(true);
@@ -727,20 +735,23 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmAnularTransActionPerformed
 
     private void jmenuIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuIngresosActionPerformed
+        /*
         String tipoCuenta = "I";
         int idTipoTransaccion = 5;
         FormIngresosEgresos fie = new FormIngresosEgresos(connectionDB, tipoCuenta, 
                 idLugar, idUsuario, idTipoTransaccion, idTerminal);
         fie.setVisible(true);
-        
+        */
     }//GEN-LAST:event_jmenuIngresosActionPerformed
 
     private void jmenuEgresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuEgresosActionPerformed
+        /*
         String tipoCuenta = "E";
         int idTipoTransaccion = 4;
         FormIngresosEgresos fie = new FormIngresosEgresos(connectionDB, tipoCuenta, 
                 idLugar, idUsuario, idTipoTransaccion, idTerminal);
         fie.setVisible(true);
+        */
     }//GEN-LAST:event_jmenuEgresosActionPerformed
 
     private void jMenuBackupDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuBackupDBActionPerformed
@@ -878,8 +889,10 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuSucursalActionPerformed
 
     private void jMenuFacturaFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFacturaFacilActionPerformed
+        /*
         FormFacturaFacil facturaFacil = new FormFacturaFacil(connectionDB, idLugar, config);
         facturaFacil.setVisible(true);
+        */
     }//GEN-LAST:event_jMenuFacturaFacilActionPerformed
 
     private void jmenuDesempaqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuDesempaqueActionPerformed
@@ -1024,6 +1037,8 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel jlTerminal;
     private javax.swing.JLabel jlUsuario;

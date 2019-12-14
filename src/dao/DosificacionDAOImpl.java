@@ -33,16 +33,11 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
 
     @Override
     public int insertarDosificacion(Dosificacion dosificacion) {
-        
-            String sql_upd = "UPDATE dosificacion SET estado = 0";
-        
             int aux = 0;
             String sql = "INSERT INTO dosificacion(llave_dosificacion, fecha, id_sucursal, nro_autorizacion, "
                     + "nro_inicio_factura, fecha_limite_emision, pie_factura, estado) "
                     + "values(?,?,?,?,?,?,?,1)";
-        try {
-            PreparedStatement ps_upd = connectionDB.prepareStatement(sql_upd);
-            ps_upd.executeUpdate();
+        try {          
             
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setString(1, dosificacion.getLlaveDosificacion());
@@ -103,6 +98,21 @@ public class DosificacionDAOImpl  implements DosificacionDAO{
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DosificacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void bajaDosificacionSucursal(int idSucursal) {
+        String sql_upd = "UPDATE dosificacion "
+                    + "SET estado = 0 "
+                    + "WHERE id_sucursal = "+String.valueOf(idSucursal);
+        
+        PreparedStatement ps_upd;
+        try {
+            ps_upd = connectionDB.prepareStatement(sql_upd);
+            ps_upd.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DosificacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

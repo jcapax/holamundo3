@@ -22,4 +22,5 @@ public interface LugarDAO {
     public boolean existsLugar();
     public byte getIdLugar(byte idTerminal);
     public byte getIdLugarTransaccion(int idTransaccion);
+    public byte getIdLugarFactura(int idFactura);
 }

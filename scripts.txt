@@ -48,3 +48,20 @@ select up.id AS id_unidad_producto,p.id AS id_producto,p.id_rubro_producto AS id
 ALTER TABLE `unidad_producto` 
 	ADD `cantidad` INT NULL DEFAULT '0' AFTER `actualizacion`, 
 	ADD `descuento` INT NULL DEFAULT '0' AFTER `cantidad`;
+
+ALTER TABLE `detalle_transaccion` 
+	ADD `valor_sub_total` DECIMAL(13,4) NOT NULL DEFAULT '0' AFTER `valor_unitario`, 
+	ADD `descuento` DECIMAL(13,4) NOT NULL DEFAULT '0' AFTER `valor_sub_total`;
+
+
+
+
+drop view v_detalle_transaccion;
+
+create view v_detalle_transaccion
+as
+select d.id AS id,d.id_transaccion AS id_transaccion,d.id_producto AS id_producto,p.descripcion AS descripcion,
+	d.id_unidad_medida AS id_unidad_medida,u.descripcion AS descripcion_medida,u.simbolo AS simbolo,
+	d.cantidad AS cantidad,d.valor_unitario AS valor_unitario,d.valor_total AS valor_total,d.tipo_valor AS tipo_valor,
+	p.recargo AS recargo, d.fecha_vencimiento, d.valor_sub_total, d.descuento
+from ((detalle_transaccion d join producto p on((d.id_producto = p.id))) left join unidad_medida u on((d.id_unidad_medida = u.id)))

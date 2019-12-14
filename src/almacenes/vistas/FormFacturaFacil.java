@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,6 +82,8 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         
         ac = new TextAutoCompleter(jtxtDetalle);
         
+        llenarComboSucursal();
+        jlNroSucursal.setVisible(false);        
     }
     
     public void abrirConexionTemp() {
@@ -152,6 +155,8 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         }
         
         jtDetalleFacturaFacil.setModel(dtm);
+        
+        totalTemporal();
     }
     
     public void agregarDetalleFacturaFacil(){
@@ -198,6 +203,11 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jlRazonSocial = new javax.swing.JLabel();
         jtxtRazonSocial = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jcSucursal = new javax.swing.JComboBox<String>();
+        jlNroSucursal = new javax.swing.JLabel();
+        jtxttotalTemp = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -434,7 +444,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlnit)
                     .addComponent(jlRazonSocial))
@@ -442,8 +452,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbFacturar))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(jbFacturar)))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -451,29 +460,92 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Factura");
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel5.setText("Nro Sucursal");
+
+        jcSucursal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jcSucursal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcSucursalActionPerformed(evt);
+            }
+        });
+
+        jlNroSucursal.setText("0");
+
+        jtxttotalTemp.setEditable(false);
+        jtxttotalTemp.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtxttotalTemp.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxttotalTemp.setFocusable(false);
+        jtxttotalTemp.setName(""); // NOI18N
+        jtxttotalTemp.setNextFocusableComponent(jtDetalleFacturaFacil);
+        jtxttotalTemp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxttotalTempActionPerformed(evt);
+            }
+        });
+        jtxttotalTemp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxttotalTempKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtxttotalTempKeyReleased(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel7.setText("Total");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(23, 23, 23)
+                                .addComponent(jlNroSucursal))
+                            .addComponent(jcSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtxttotalTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jlNroSucursal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jtxttotalTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -625,18 +697,18 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_SHIFT){
             
             SucursalDAO suc = new SucursalDAOImpl(connectionDB);
-            byte idSucursal = suc.getIdSucursal(idLugar);
+            byte idSucursal = Byte.valueOf(jlNroSucursal.getText().trim());                    
 
             FacturaDAO fac = new FacturaDAOImpl(connectionDB);
             int nroIdFactura = 0;
             try {
-                nroIdFactura = registrarFactura();
+                nroIdFactura = registrarFactura(idSucursal);
                 facilDAO.insertarDetalleFacturaFacil(tempDAOImpl.getListaDetalleFacturaFacilTemporal(), nroIdFactura);
 
                 ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, "XXX");
 
                 //repFactura.VistaPreviaFacturaVenta(nroIdFactura, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
-                repFactura.VistaPreviaFacturaFacil(nroIdFactura, "matias", 120);
+                repFactura.VistaPreviaFacturaFacil(nroIdFactura, "matias", tempDAOImpl.totalTemporal());
 
                 System.err.println("nroIdFactura:"+nroIdFactura);
             } catch (ParseException ex) {
@@ -645,6 +717,22 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             limpiarComponentes();
         }
     }//GEN-LAST:event_jbFacturarKeyPressed
+
+    private void jcSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcSucursalActionPerformed
+        seleccionarElementoSucursal();
+    }//GEN-LAST:event_jcSucursalActionPerformed
+
+    private void jtxttotalTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxttotalTempActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxttotalTempActionPerformed
+
+    private void jtxttotalTempKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxttotalTempKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxttotalTempKeyPressed
+
+    private void jtxttotalTempKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxttotalTempKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxttotalTempKeyReleased
 
     /**
      * @param args the command line arguments
@@ -689,12 +777,16 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAgregarDetalle;
     private javax.swing.JButton jbFacturar;
+    private javax.swing.JComboBox<String> jcSucursal;
+    private javax.swing.JLabel jlNroSucursal;
     private javax.swing.JLabel jlRazonSocial;
     private javax.swing.JLabel jlnit;
     private javax.swing.JTable jtDetalleFacturaFacil;
@@ -704,9 +796,10 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     private javax.swing.JTextField jtxtRazonSocial;
     private javax.swing.JTextField jtxtValorTotal;
     private javax.swing.JTextField jtxtValorUnitario;
+    private javax.swing.JTextField jtxttotalTemp;
     // End of variables declaration//GEN-END:variables
 
-    private int registrarFactura() throws ParseException {
+    private int registrarFactura(byte idSucursal) throws ParseException {
         FacturaVentaDAOImpl facDaoImpl = new FacturaVentaDAOImpl(connectionDB);
         UtilsDAO utilsDAO = new UtilsDAOImpl(connectionDB);
         
@@ -723,7 +816,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
         int especificacion = 1;
         String estado = "V";
-        int idSucursal = sucursalDAO.getIdSucursal(idLugar);
+        
         String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
         
         GregorianCalendar calendar = new GregorianCalendar();
@@ -750,7 +843,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         int nroFactura = facDaoImpl.getNewNroFactura(nroAutorizacion);
         String llaveDosf = facDaoImpl.getLlaveDosificacion(nroAutorizacion);
         
-        double importeTotal = 1;
+        double importeTotal = tempDAOImpl.totalTemporal();
         double importeExportaciones = 0;
         double importeIce = 0;
         double importeRebajas = 0;
@@ -795,9 +888,9 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         FacturaVentaDAOImpl factDaoImpl = new FacturaVentaDAOImpl(connectionDB);
         factDaoImpl.insertarFacturaVenta(fact);
 
-        //ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, estado);
+//        ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, estado);
 
-        //repFactura.VistaPreviaFacturaVenta(idTransaccion, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
+//        repFactura.VistaPreviaFacturaFacil(, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
         return facilDAO.getIdFacturaUltima();        
     }
     
@@ -808,5 +901,52 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         } catch(NumberFormatException e){  
           return false;  
         }  
+    }
+    
+    public void llenarComboSucursal(){        
+        String sel = "Sel";
+        
+        jcSucursal.removeAllItems();
+        jcSucursal.addItem(sel);
+        
+        SucursalDAOImpl sucursalDAOImpl = new SucursalDAOImpl(connectionDB);
+        
+        HashMap<String, Integer> map = sucursalDAOImpl.sucursalClaveValor();
+
+        for (String s : map.keySet()) {
+            jcSucursal.addItem(s.toString());
+        }
+            
+            
+    }
+    
+    public void totalTemporal(){
+        Double totalTemp = tempDAOImpl.totalTemporal();
+        jtxttotalTemp.setText(String.valueOf(totalTemp));
+    }
+    
+    private void seleccionarElementoSucursal() {
+        String sel = null;
+        
+        String comp = "Sel";
+        
+        SucursalDAOImpl sucursalDAOImpl = new SucursalDAOImpl(connectionDB);
+        
+        HashMap<String, Integer> map = sucursalDAOImpl.sucursalClaveValor();
+            
+        try {
+            sel = jcSucursal.getSelectedItem().toString();
+
+//            System.out.println("elemento seleccionado "+ sel);
+
+            if(sel.equals(comp)){
+                jlNroSucursal.setText("0");
+            }
+            else{
+                jlNroSucursal.setText(map.get(sel).toString());
+            }
+        } catch (Exception e) {
+        }
+        
     }
 }

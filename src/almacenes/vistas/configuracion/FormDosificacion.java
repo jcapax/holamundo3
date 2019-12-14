@@ -74,7 +74,7 @@ public class FormDosificacion extends javax.swing.JFrame {
         jtxtPieFactura = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jchEstado = new javax.swing.JCheckBox();
-        jcSucursal = new javax.swing.JComboBox<>();
+        jcSucursal = new javax.swing.JComboBox<String>();
         jlNroSucursal = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jbNuevo = new javax.swing.JButton();
@@ -145,7 +145,7 @@ public class FormDosificacion extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(153, 0, 51));
         jLabel10.setText("Estado");
 
-        jcSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcSucursal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcSucursal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcSucursalActionPerformed(evt);
@@ -464,8 +464,8 @@ public class FormDosificacion extends javax.swing.JFrame {
         
         for(int i=0; i< d.size(); i++){
             fila[0] = d.get(i).getId();
-            fila[1] = d.get(i).getFecha();
-            fila[2] = d.get(i).getLlaveDosificacion();
+            fila[1] = d.get(i).getLlaveDosificacion();
+            fila[2] = d.get(i).getFecha();
             fila[3] = d.get(i).getNombreSucursal();
             fila[4] = d.get(i).getNroAutorizacion();
             fila[5] = d.get(i).getNroInicioFactura();
@@ -606,7 +606,7 @@ public class FormDosificacion extends javax.swing.JFrame {
         d.setPieFactura(pieFactura);
         
         DosificacionDAOImpl dosificacionDAO = new DosificacionDAOImpl(connectionDB);
-        dosificacionDAO.actualizarEstadoCeroDosificacion();
+        dosificacionDAO.bajaDosificacionSucursal(idSucursal);
         dosificacionDAO.insertarDosificacion(d);
         
         llenarTablaDosificacion();

@@ -278,5 +278,56 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
         
         return idDosificacion;
     }
+
+    @Override
+    public String getCadenaCodigoQrFacturaFacil(int idFactura) {
+        String cadenaQR = "";
+        
+        String sql = "select * from factura_venta where id = ?";
+        
+        LugarDAO lug = new LugarDAOImpl(connectionDB);
+        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
+        
+        byte idLugar = lug.getIdLugarFactura(idFactura);
+        String nitSucursal = suc.getNitSucursal(idLugar);
+               
+        String nitLocal = nitSucursal;
+        String nroFactura = null, nroAutorizacion = null;
+        String fechaFactura = null, importeTotal = null, importeBaseDebitoFiscal = null;
+        String codigoControl = null, nit = null;
+        String ice = null, importeVentasTasaCero = null, importeRebajas = null;
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idFactura);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                
+                Date fechaFactDate = rs.getDate("fecha_factura");
+                java.util.Date fechaFactUtil = new Date(fechaFactDate.getTime());
+                Format formatDate = new SimpleDateFormat("yyyyMMdd");
+                fechaFactura = formatDate.format(fechaFactUtil).trim();
+                
+//                nitLocal = String.valueOf(rs.getInt("nit_sucursal"));
+                nroFactura = String.valueOf(rs.getInt("nro_factura"));
+                nroAutorizacion = rs.getString("nro_autorizacion");
+                importeTotal = String.valueOf(rs.getDouble("importe_total"));
+                importeBaseDebitoFiscal = String.valueOf(rs.getDouble("importe_base_debito_fiscal"));
+                codigoControl = rs.getString("codigo_control");
+                nit = rs.getString("nit");
+                ice = String.valueOf(rs.getDouble("importe_ice"));
+                importeVentasTasaCero = String.valueOf(rs.getDouble("importe_ventas_tasa_cero"));
+                importeRebajas = String.valueOf(rs.getDouble("importe_rebajas"));
+            }
+            
+            cadenaQR = nitLocal+"|"+nroFactura+"|"+nroAutorizacion+"|"+fechaFactura+"|"+importeTotal+
+                    "|"+importeBaseDebitoFiscal+"|"+codigoControl+"|"+nit+"|"+ice+"|"+importeVentasTasaCero+
+                    "|"+importeRebajas;
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaVentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return cadenaQR;
+    }
     
 }
