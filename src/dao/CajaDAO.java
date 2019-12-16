@@ -16,5 +16,6 @@ import java.util.ArrayList;
 public interface CajaDAO {
     public void insertarCaja(Caja caja);
     public ArrayList<ListaCaja> getListaCaja(int idArqueo);
-    
+    public int getIdCaja();
+    public void registrarCajaDetalle(int idCaja, String detalle);
 }

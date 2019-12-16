@@ -132,8 +132,8 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuReimpresion = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jmenuDesempaque = new javax.swing.JMenuItem();
-        jmlistaTrnasacciones = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
+        jmlistaTrnasacciones = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
         jMenuMarcas = new javax.swing.JMenuItem();
         jMenuProcedencia = new javax.swing.JMenuItem();
@@ -372,6 +372,7 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmenuDesempaque);
+        jMenuProcesos.add(jSeparator10);
 
         jmlistaTrnasacciones.setText("Lista Transacciones");
         jmlistaTrnasacciones.addActionListener(new java.awt.event.ActionListener() {
@@ -380,7 +381,6 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmlistaTrnasacciones);
-        jMenuProcesos.add(jSeparator10);
 
         jMenuBar1.add(jMenuProcesos);
 
@@ -830,7 +830,7 @@ public class FormMenu extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         int idTipoTransaccion = 3; //pedidos
         int idTipoTransaccionEntrega = 8; //entrega
-        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
+        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
                                             idTipoTransaccion, idTipoTransaccionEntrega, 
                                             idUsuario, idLugar, idTerminal);
         formTrans.setVisible(true);

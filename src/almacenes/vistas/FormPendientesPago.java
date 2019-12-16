@@ -241,6 +241,10 @@ public class FormPendientesPago extends javax.swing.JFrame {
 
         cajaDaoImpl.insertarCaja(caja);
         
+        if(jtxtDetalle.getText().length()>0){
+            cajaDaoImpl.registrarCajaDetalle(cajaDaoImpl.getIdCaja(), jtxtDetalle.getText().trim());
+        }
+        
         llenarTablaPendientesPago();
         llenarHistorialCaja(0);
         llenarDetalleTransaccion(0);
@@ -262,11 +266,9 @@ public class FormPendientesPago extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtHistorialCaja = new javax.swing.JTable();
         jpanelPago = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jtxtImporte = new javax.swing.JTextField();
-        jbPagar = new javax.swing.JButton();
-        Total1 = new javax.swing.JLabel();
-        jtxtSaldo = new javax.swing.JTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jtxtDetalle = new javax.swing.JTextArea();
+        Total2 = new javax.swing.JLabel();
         Total = new javax.swing.JLabel();
         jtxtImporteTotalEnCaja = new javax.swing.JTextField();
         jbSalir = new javax.swing.JButton();
@@ -275,6 +277,11 @@ public class FormPendientesPago extends javax.swing.JFrame {
         jtDetalleTransaccion = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         jtxtTotalTransaccion = new javax.swing.JTextField();
+        Total1 = new javax.swing.JLabel();
+        jtxtSaldo = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jtxtImporte = new javax.swing.JTextField();
+        jbPagar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setFont(new java.awt.Font("Agency FB", 1, 12)); // NOI18N
@@ -364,56 +371,31 @@ public class FormPendientesPago extends javax.swing.JFrame {
         jpanelPago.setForeground(new java.awt.Color(255, 255, 204));
         jpanelPago.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 0, 51));
-        jLabel1.setText("Importe Pago");
+        jtxtDetalle.setColumns(20);
+        jtxtDetalle.setRows(5);
+        jScrollPane4.setViewportView(jtxtDetalle);
 
-        jtxtImporte.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jtxtImporte.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-        jbPagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/carrar_caja.png"))); // NOI18N
-        jbPagar.setText("Pagar");
-        jbPagar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbPagarActionPerformed(evt);
-            }
-        });
-
-        Total1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        Total1.setForeground(new java.awt.Color(153, 0, 51));
-        Total1.setText("Saldo");
-
-        jtxtSaldo.setEditable(false);
-        jtxtSaldo.setBackground(new java.awt.Color(255, 255, 51));
+        Total2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Total2.setForeground(new java.awt.Color(153, 0, 51));
+        Total2.setText("Observaciones Pago");
 
         javax.swing.GroupLayout jpanelPagoLayout = new javax.swing.GroupLayout(jpanelPago);
         jpanelPago.setLayout(jpanelPagoLayout);
         jpanelPagoLayout.setHorizontalGroup(
             jpanelPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpanelPagoLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addGroup(jpanelPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtxtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Total1)
-                    .addGroup(jpanelPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jtxtImporte, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbPagar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Total2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpanelPagoLayout.setVerticalGroup(
             jpanelPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpanelPagoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Total1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtxtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbPagar)
+                .addComponent(Total2)
+                .addGap(5, 5, 5)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -461,6 +443,28 @@ public class FormPendientesPago extends javax.swing.JFrame {
         jtxtTotalTransaccion.setEditable(false);
         jtxtTotalTransaccion.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        Total1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Total1.setForeground(new java.awt.Color(153, 0, 51));
+        Total1.setText("Saldo");
+
+        jtxtSaldo.setEditable(false);
+        jtxtSaldo.setBackground(new java.awt.Color(255, 255, 51));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel1.setText("Importe Pago");
+
+        jtxtImporte.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtxtImporte.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jbPagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/carrar_caja.png"))); // NOI18N
+        jbPagar.setText("Pagar");
+        jbPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPagarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -487,11 +491,23 @@ public class FormPendientesPago extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jtxtImporteTotalEnCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addComponent(jpanelPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jpanelPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtxtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Total1)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jtxtImporte, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jbPagar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(22, 22, 22))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -500,7 +516,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1046, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -513,24 +529,30 @@ public class FormPendientesPago extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlTituloFormulario1)
                     .addComponent(jlTituloFormulario2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jpanelPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(Total1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jpanelPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtxtTotalTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(Total)
-                            .addComponent(jtxtImporteTotalEnCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbSalir)
-                        .addGap(22, 22, 22))))
+                        .addComponent(jtxtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbPagar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtTotalTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(Total)
+                    .addComponent(jtxtImporteTotalEnCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbSalir))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jpanelPago.getAccessibleContext().setAccessibleName("");
@@ -598,9 +620,9 @@ public class FormPendientesPago extends javax.swing.JFrame {
 
         if(aux){
             int idTransaccion = getIdTransaccionSeleccion();
-            registrarCaja(idTransaccion);
+            registrarCaja(idTransaccion);            
             ReporteCreditoDAO rep = new ReporteCreditoDAOImpl(connectionDB, usuario);
-            rep.vistaPreviaPagoCredito(idTransaccion);
+            rep.vistaPreviaPagoCredito(idTransaccion, jtxtDetalle.getText().trim());
         }
         
         jtxtImporte.setText("");
@@ -654,11 +676,13 @@ public class FormPendientesPago extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Total;
     private javax.swing.JLabel Total1;
+    private javax.swing.JLabel Total2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jbPagar;
     private javax.swing.JButton jbSalir;
     private javax.swing.JLabel jlTituloFormulario;
@@ -668,6 +692,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
     private javax.swing.JTable jtDetalleTransaccion;
     private javax.swing.JTable jtHistorialCaja;
     private javax.swing.JTable jtPendientePago;
+    private javax.swing.JTextArea jtxtDetalle;
     private javax.swing.JTextField jtxtImporte;
     private javax.swing.JTextField jtxtImporteTotalEnCaja;
     private javax.swing.JTextField jtxtSaldo;

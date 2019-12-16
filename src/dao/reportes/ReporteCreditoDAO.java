@@ -10,6 +10,6 @@ package dao.reportes;
  * @author jcarlos.porcel
  */
 public interface ReporteCreditoDAO {
-    public void vistaPreviaPagoCredito(int idTransaccion);
+    public void vistaPreviaPagoCredito(int idTransaccion, String detalle);
     public void vistaPreviaCredito(int idTransaccion);
 }

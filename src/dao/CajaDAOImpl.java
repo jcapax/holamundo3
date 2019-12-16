@@ -79,5 +79,36 @@ public class CajaDAOImpl implements CajaDAO{
        
        return listaCaja;
     }
+
+    @Override
+    public int getIdCaja() {
+        int id = 0;
+        String sql = "select id from caja order by id desc limit 1";       
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                id = rs.getInt("id");                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CajaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }          
+        return id;
+    }
+
+    @Override
+    public void registrarCajaDetalle(int idCaja, String detalle) {
+        String sql = "insert into caja_detalle(id_caja, detalle) "
+                + "values(?, ?)";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idCaja);
+            ps.setString(2, detalle);
+            ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(CajaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }
     
 }

@@ -65,3 +65,27 @@ select d.id AS id,d.id_transaccion AS id_transaccion,d.id_producto AS id_product
 	d.cantidad AS cantidad,d.valor_unitario AS valor_unitario,d.valor_total AS valor_total,d.tipo_valor AS tipo_valor,
 	p.recargo AS recargo, d.fecha_vencimiento, d.valor_sub_total, d.descuento
 from ((detalle_transaccion d join producto p on((d.id_producto = p.id))) left join unidad_medida u on((d.id_unidad_medida = u.id)))
+
+
+CREATE TABLE `sucre_db_almacenes`.`caja_detalle` ( 
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`id_caja` INT NOT NULL , 
+	`detalle` VARCHAR(200) NOT NULL , 
+	PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+
+drop view v_credito;
+
+create view v_credito 
+as
+select t.id AS id_transaccion,t.fecha AS fecha,t.nro_tipo_transaccion AS nro_tipo_transaccion,
+	t.valor_total AS valor_total_transaccion,t.fecha_hora_registro AS fecha_hora_registro,
+	t.usuario AS usuario,d.descripcion AS descripcion,d.simbolo AS simbolo,d.cantidad AS cantidad,
+	d.valor_unitario AS valor_unitario,d.valor_total AS valor_total,c.detalle AS detalle,
+	cp.cedula_identidad AS cedula_identidad,cp.nit AS nit,cp.nombre_completo AS nombre_completo,
+	cp.razon_social AS razon_social, d.descuento, d.valor_sub_total
+from v_transaccion t 
+	join v_detalle_transaccion d on t.id = d.id_transaccion 
+	join credito c on t.id = c.id_transaccion 
+	join cliente_proveedor cp on c.id_cliente_proveedor = cp.id

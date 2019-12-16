@@ -9,6 +9,8 @@ import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.ListaTransaccion;
 import dao.TransaccionDAO;
 import dao.TransaccionDAOImpl;
+import dao.reportes.ReporteVentasDAO;
+import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -41,11 +43,13 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         this.connectionDB = connectionDB;
         this.usuario = usuario;
         this.setLocationRelativeTo(null);
+        
+        headerTabla();
 
     }
     
     public void headerTabla(){
-        Font f = new Font("Times New Roman", Font.BOLD, 13);
+        Font f = new Font("Times New Roman", Font.BOLD, 18);
         
         jtListaTransacciones.getTableHeader().setFont(f);
         jtListaTransacciones.getTableHeader().setBackground(Color.orange);
@@ -110,8 +114,9 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jbBuscar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -131,6 +136,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtListaTransacciones.setRowHeight(20);
         jScrollPane1.setViewportView(jtListaTransacciones);
         if (jtListaTransacciones.getColumnModel().getColumnCount() > 0) {
             jtListaTransacciones.getColumnModel().getColumn(0).setMinWidth(0);
@@ -176,19 +182,18 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSalir))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jbBuscar))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 885, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbBuscar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 885, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -216,7 +221,14 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        try{
+            int filSel = jtListaTransacciones.getSelectedRow();            
+            int id = (int) jtListaTransacciones.getValueAt(filSel, 0);
+        
+            vistaPreviaReciboVenta(id);
+        }catch(Exception e){
+            
+        }        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
@@ -226,6 +238,12 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jbBuscarActionPerformed
 
+    private void vistaPreviaReciboVenta(int idTransaccion) {
+        ReporteVentasDAO reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, usuario);
+        reporteVentasDAO.vistaPreviaReciboVenta(idTransaccion);
+        
+    }
+    
     /**
      * @param args the command line arguments
      */

@@ -28,10 +28,11 @@ public class ReporteCreditoDAOImpl implements ReporteCreditoDAO{
 
 
     @Override
-    public void vistaPreviaPagoCredito(int idTransaccion) {
+    public void vistaPreviaPagoCredito(int idTransaccion, String detalle) {
         Map parametros = new HashMap<>();
         
         parametros.put("id_transaccion", idTransaccion);
+        parametros.put("detalle", detalle);
         
         this.imprimir.vistaPreviaReporte("Reporte Pago Credito", "reporte_pago_credito.jrxml", parametros);
     }
