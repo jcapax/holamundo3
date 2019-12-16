@@ -1,0 +1,62 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package almacenes.model;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author juanito
+ */
+public class ListaTransaccion {
+    private int id;
+    private String descripcion;
+    private Date fecha;
+    private int nroTransaccion;
+    private double valorTotal;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getNroTransaccion() {
+        return nroTransaccion;
+    }
+
+    public void setNroTransaccion(int nroTransaccion) {
+        this.nroTransaccion = nroTransaccion;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+    
+    
+}

@@ -6,12 +6,15 @@
 package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.ListaTransaccion;
 import almacenes.model.Transaccion;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -168,6 +171,39 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         }
         
         return fecha;
+    }
+
+    @Override
+    public ArrayList<ListaTransaccion> getlistaTransacciones(Date fecha, String usuario) {
+        
+        ArrayList<ListaTransaccion> lista = new ArrayList<>();
+        
+        String sql = "SELECT id, descripcion_tipo_transaccion, fecha, "
+                        + "nro_tipo_transaccion, valor_total, fecha_hora_registro \n" +
+                     "FROM v_transaccion \n" +
+                     "WHERE id_tipo_transaccion in (1, 2, 3, 6) "
+                        + "and usuario = '"+usuario+"'"
+                        + "and fecha = '"+String.valueOf(fecha)+"'";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                ListaTransaccion lt = new ListaTransaccion();
+                
+                lt.setDescripcion(rs.getString("descripcion_tipo_transaccion"));
+                lt.setFecha(rs.getDate("fecha"));
+                lt.setId(rs.getInt("id"));
+                lt.setNroTransaccion(rs.getInt("nro_tipo_transaccion"));
+                lt.setValorTotal(rs.getDouble("valor_total"));
+                
+                lista.add(lt);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return lista;
     }
 
     

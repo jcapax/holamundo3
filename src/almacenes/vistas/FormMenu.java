@@ -132,6 +132,8 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuReimpresion = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jmenuDesempaque = new javax.swing.JMenuItem();
+        jmlistaTrnasacciones = new javax.swing.JMenuItem();
+        jSeparator10 = new javax.swing.JPopupMenu.Separator();
         jMenuConfiguracion = new javax.swing.JMenu();
         jMenuMarcas = new javax.swing.JMenuItem();
         jMenuProcedencia = new javax.swing.JMenuItem();
@@ -370,6 +372,15 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmenuDesempaque);
+
+        jmlistaTrnasacciones.setText("Lista Transacciones");
+        jmlistaTrnasacciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmlistaTrnasaccionesActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jmlistaTrnasacciones);
+        jMenuProcesos.add(jSeparator10);
 
         jMenuBar1.add(jMenuProcesos);
 
@@ -901,6 +912,11 @@ public class FormMenu extends javax.swing.JFrame {
         desempaque.setVisible(true);
     }//GEN-LAST:event_jmenuDesempaqueActionPerformed
 
+    private void jmlistaTrnasaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmlistaTrnasaccionesActionPerformed
+        FormListaTransacciones flt = new FormListaTransacciones(connectionDB, idUsuario);
+        flt.setVisible(true);
+    }//GEN-LAST:event_jmlistaTrnasaccionesActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -1031,6 +1047,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuVentas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
@@ -1059,6 +1076,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenuProveedor;
     private javax.swing.JMenuItem jmenuReimpresion;
     private javax.swing.JMenuItem jmenuUsers;
+    private javax.swing.JMenuItem jmlistaTrnasacciones;
     // End of variables declaration//GEN-END:variables
 
     private void datosTerminal() {
