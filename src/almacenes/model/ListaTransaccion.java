@@ -17,7 +17,16 @@ public class ListaTransaccion {
     private Date fecha;
     private int nroTransaccion;
     private double valorTotal;
+    private int idTipoTransaccion;
 
+    public int getIdTipoTransaccion() {
+        return idTipoTransaccion;
+    }
+
+    public void setIdTipoTransaccion(int idTipoTransaccion) {
+        this.idTipoTransaccion = idTipoTransaccion;
+    }
+    
     public int getId() {
         return id;
     }

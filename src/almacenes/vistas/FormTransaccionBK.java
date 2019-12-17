@@ -1496,7 +1496,7 @@ public class FormTransaccionBK extends javax.swing.JFrame {
             return;
         }
 
-        if (idTipoTransaccion == 2) { // solo para ventas
+        if ((idTipoTransaccion == 2)||(idTipoTransaccion == 3)) { // solo para ventas y creditos
             ProductoDAOImpl prod = new ProductoDAOImpl(connectionDB);
             byte controlStock = prod.getControlStock(Integer.parseInt(jlIdProducto.getText()));
 

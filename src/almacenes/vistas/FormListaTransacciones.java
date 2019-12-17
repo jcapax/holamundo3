@@ -9,6 +9,10 @@ import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.ListaTransaccion;
 import dao.TransaccionDAO;
 import dao.TransaccionDAOImpl;
+import dao.reportes.ReporteComprasDAO;
+import dao.reportes.ReporteComprasDAOImpl;
+import dao.reportes.ReporteCreditoDAO;
+import dao.reportes.ReporteCreditoDAOImpl;
 import dao.reportes.ReporteVentasDAO;
 import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
@@ -16,7 +20,6 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
-import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -74,7 +77,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
         jtListaTransacciones.setModel(dtm);
 
-        Object[] fila = new Object[5];
+        Object[] fila = new Object[6];
 
         for (int i = 0; i < l.size(); i++) {
             fila[0] = l.get(i).getId();
@@ -82,6 +85,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             fila[2] = l.get(i).getFecha();
             fila[3] = l.get(i).getDescripcion();
             fila[4] = l.get(i).getValorTotal();
+            fila[5] = l.get(i).getIdTipoTransaccion();
             
             dtm.addRow(fila);
         }
@@ -119,18 +123,25 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "id", "Nro Trans", "Fecha", "Descripcion", "Valor Total"
+                "id", "Nro Trans", "Fecha", "Descripcion", "Valor Total", "idTipotransaccion"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -142,6 +153,9 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             jtListaTransacciones.getColumnModel().getColumn(0).setMinWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(0).setPreferredWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(5).setMinWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(5).setPreferredWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(5).setMaxWidth(0);
         }
 
         fecha.setDateFormatString("dd/MM/yyyy");
@@ -224,8 +238,25 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         try{
             int filSel = jtListaTransacciones.getSelectedRow();            
             int id = (int) jtListaTransacciones.getValueAt(filSel, 0);
-        
-            vistaPreviaReciboVenta(id);
+            int idTipoTransaccion = (int) jtListaTransacciones.getValueAt(filSel, 5);
+            switch(idTipoTransaccion){
+                case 1: // compra
+                    ReporteComprasDAO reporte = new ReporteComprasDAOImpl(connectionDB, usuario);
+                    reporte.vistaPreviaCompras(id);
+                    break;
+                case 2: // venta
+                    vistaPreviaReciboVenta(id);
+                    break;
+                case 3: // pedido
+                    ReporteCreditoDAO rep = new ReporteCreditoDAOImpl(connectionDB, usuario);
+                    rep.vistaPreviaCredito(id);
+                    break;
+                case 6: // ajuste
+                    ReporteComprasDAO reporteComprasDAO = new ReporteComprasDAOImpl(connectionDB, usuario);
+                    reporteComprasDAO.vistaPreviaAjusteStock(id);
+                    break;
+            }
+            
         }catch(Exception e){
             
         }        

@@ -179,7 +179,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         ArrayList<ListaTransaccion> lista = new ArrayList<>();
         
         String sql = "SELECT id, descripcion_tipo_transaccion, fecha, "
-                        + "nro_tipo_transaccion, valor_total, fecha_hora_registro \n" +
+                        + "nro_tipo_transaccion, valor_total, fecha_hora_registro, id_tipo_transaccion \n" +
                      "FROM v_transaccion \n" +
                      "WHERE id_tipo_transaccion in (1, 2, 3, 6) "
                         + "and usuario = '"+usuario+"'"
@@ -196,6 +196,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                 lt.setId(rs.getInt("id"));
                 lt.setNroTransaccion(rs.getInt("nro_tipo_transaccion"));
                 lt.setValorTotal(rs.getDouble("valor_total"));
+                lt.setIdTipoTransaccion(rs.getInt("id_tipo_transaccion"));
                 
                 lista.add(lt);
             }
