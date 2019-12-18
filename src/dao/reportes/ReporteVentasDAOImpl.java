@@ -143,7 +143,10 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     public void vistaPreviaReciboVenta(int idTransaccion) {
         Map parametros = new HashMap<>();
         
+        String logo = "//reportes//img//logo_bk.jpg";
+        
         parametros.put("id_transaccion", idTransaccion);
+        parametros.put("logo", this.getClass().getResourceAsStream(logo));
         
         this.imprimir.vistaPreviaReporte("Report Recibo de Ventas", "reporte_recibo_venta.jrxml", parametros);
     }

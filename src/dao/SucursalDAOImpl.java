@@ -161,7 +161,10 @@ public class SucursalDAOImpl implements SucursalDAO{
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         String sql = null;
         
-         sql = "SELECT id, nombre_sucursal FROM sucursal ORDER BY nombre_sucursal";
+         sql = "SELECT s.id, s.nombre_sucursal \n" +
+                "FROM sucursal s join dosificacion d on s.id = d.id_sucursal \n" +
+                "WHERE d.estado = 1 and d.fecha_limite_emision > now() \n" +
+                "ORDER BY s.nombre_sucursal";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

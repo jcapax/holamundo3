@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="almacenes"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
 	<parameter name="id_transaccion" class="java.lang.String"/>
+	<parameter name="logo" class="java.io.InputStream"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT t.id, t.id_lugar, l.descripcion as nombre_lugar, t.descripcion_transaccion, t.nro_tipo_transaccion,
 t.fecha, d.descripcion as nombre_producto, d.simbolo, d.cantidad, 
@@ -83,7 +84,7 @@ Where t.id = $P{id_transaccion}]]>
 	<title>
 		<band height="125" splitType="Stretch">
 			<textField>
-				<reportElement x="65" y="75" width="354" height="16" uuid="332c37eb-1349-4fe3-bf13-a312a75656ec"/>
+				<reportElement x="112" y="80" width="354" height="16" uuid="332c37eb-1349-4fe3-bf13-a312a75656ec"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -106,14 +107,14 @@ Where t.id = $P{id_transaccion}]]>
 				<text><![CDATA[RECIBO]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="94" y="92" width="100" height="16" uuid="d0b76e1e-5381-41c6-a7e6-eecd63dc4267"/>
+				<reportElement x="178" y="97" width="100" height="16" uuid="d0b76e1e-5381-41c6-a7e6-eecd63dc4267"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="13" y="75" width="45" height="20" forecolor="#054A82" uuid="ab152ac5-9c1b-405c-8cb8-cad93a5b234a">
+				<reportElement x="60" y="80" width="45" height="20" forecolor="#054A82" uuid="ab152ac5-9c1b-405c-8cb8-cad93a5b234a">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement>
@@ -122,7 +123,7 @@ Where t.id = $P{id_transaccion}]]>
 				<text><![CDATA[Señores: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="13" y="92" width="45" height="16" forecolor="#054A82" uuid="79b2e507-dcf3-418b-a5ad-efdf74713295">
+				<reportElement x="60" y="97" width="45" height="16" forecolor="#054A82" uuid="79b2e507-dcf3-418b-a5ad-efdf74713295">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement>
@@ -131,7 +132,7 @@ Where t.id = $P{id_transaccion}]]>
 				<text><![CDATA[Fecha Emisión:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="65" y="92" width="30" height="16" forecolor="#000000" uuid="31421146-c6c4-4d9d-987d-8d6b1f0ca4d5"/>
+				<reportElement x="112" y="97" width="30" height="16" forecolor="#000000" uuid="31421146-c6c4-4d9d-987d-8d6b1f0ca4d5"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -142,8 +143,8 @@ Where t.id = $P{id_transaccion}]]>
 				<textFieldExpression><![CDATA[$F{nro_tipo_transaccion}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="0" y="0" width="50" height="50" uuid="e6f478cf-5824-411a-a2b2-c3fd3eb51d85"/>
-				<imageExpression><![CDATA["C:\\Intel\\Almacenes\\reportes\\img\\logo.png"]]></imageExpression>
+				<reportElement x="164" y="0" width="50" height="50" uuid="cec1893f-f013-414d-bd10-8064333caef8"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 		</band>
 	</title>
