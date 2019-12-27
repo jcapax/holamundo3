@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -82,12 +83,29 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         listaDetalleFF = new ArrayList<DetalleFacturaFacil>();
         facilDAO = new FacturaFacilDAOImpl(connectionDB);
         
-        generarAutocompletado();
-        
-        ac = new TextAutoCompleter(jtxtDetalle);
+        //generarAutocompletado();
+        llenarCombo();        
+        //ac = new TextAutoCompleter(jtxtDetalle);
         
         llenarComboSucursal();
+        AutoCompleteDecorator.decorate(jcomboDetalle);
+        limpiarComponentes();
+        
+        
+        
         jlNroSucursal.setVisible(false);        
+    }
+    
+    public void llenarCombo(){
+        List<String> list = new ArrayList<>();
+        
+        list = facilDAO.getListaProductosAutocompletado();
+        String aux = null;
+                
+        for(int i=0; i<list.size(); i++){
+            aux = list.get(i);
+            jcomboDetalle.addItem(aux);
+        }  
     }
     
     public void abrirConexionTemp() {
@@ -112,25 +130,27 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }
     
     public void generarAutocompletado(){
+        /*
         List<String> list = new ArrayList<>();
         
         list = facilDAO.getListaProductosAutocompletado();
         String aux = null;
-        ac = new TextAutoCompleter(jtxtDetalle);
+        ac = new TextAutoCompleter(jcomboDetalle);
         ac.removeAllItems();
                 
         for(int i=0; i<list.size(); i++){
             aux = list.get(i);
             ac.addItem(aux);
-        }         
+        } 
+        */
     }
     
     public void limpiarComponentes(){
         jtxtCantidad.setText("");
-        jtxtDetalle.setText("");
+        jcomboDetalle.setSelectedIndex(-1);
         jtxtValorTotal.setText("");
         jtxtValorUnitario.setText("");
-        jtxtDetalle.setFocusable(true);
+        jcomboDetalle.setFocusable(true);
         jtxtNit.setText("");
         jtxtRazonSocial.setText("");
     }
@@ -167,7 +187,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         DetalleFacturaFacil facil = new DetalleFacturaFacil();
         
         facil.setId(1);
-        facil.setDetalle(jtxtDetalle.getText().toString().trim());
+        facil.setDetalle(jcomboDetalle.getSelectedItem().toString().trim());
         facil.setCantidad(Double.valueOf(jtxtCantidad.getText().toString()));
         facil.setValorUnitario(Double.valueOf(jtxtValorUnitario.getText().toString()));
         facil.setValorTotal(Double.valueOf(jtxtValorTotal.getText().toString()));
@@ -199,7 +219,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jtxtCantidad = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jtxtDetalle = new javax.swing.JTextField();
+        jcomboDetalle = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jbFacturar = new javax.swing.JButton();
         jlnit = new javax.swing.JLabel();
@@ -326,18 +346,10 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Detalle");
 
-        jtxtDetalle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jtxtDetalle.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jtxtDetalle.setName(""); // NOI18N
-        jtxtDetalle.setNextFocusableComponent(jtxtDetalle);
-        jtxtDetalle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtDetalleActionPerformed(evt);
-            }
-        });
-        jtxtDetalle.addKeyListener(new java.awt.event.KeyAdapter() {
+        jcomboDetalle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jcomboDetalle.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtxtDetalleKeyReleased(evt);
+                jcomboDetalleKeyReleased(evt);
             }
         });
 
@@ -349,12 +361,12 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jtxtDetalle))
-                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(0, 351, Short.MAX_VALUE))
+                    .addComponent(jcomboDetalle, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -370,9 +382,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbAgregarDetalle)))
+                    .addComponent(jbAgregarDetalle, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -385,12 +395,13 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcomboDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jbAgregarDetalle)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -558,10 +569,6 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtxtDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDetalleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtDetalleActionPerformed
-
     private void jtxtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtValorTotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtValorTotalActionPerformed
@@ -572,7 +579,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
     private void jtxtValorTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorTotalKeyReleased
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            jtxtDetalle.requestFocus();
+            jcomboDetalle.requestFocus();
             agregarDetalleFacturaFacil();
             limpiarComponentes();
         }else{         
@@ -647,25 +654,6 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbFacturarActionPerformed
 
-    private void jtxtDetalleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtDetalleKeyReleased
-        System.out.println(evt.getKeyCode());
-        
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            boolean aux = false;
-        
-            aux = isNumeric(jtxtCantidad.getText());
-            if((!aux)&&(jtxtCantidad.getText().length()>0)){
-                JOptionPane.showMessageDialog(this, "Registro inválido!!!");
-                jtxtCantidad.requestFocus();
-            }else{            
-                jtxtCantidad.requestFocus();            
-            }
-        }
-        if((evt.getKeyCode() == KeyEvent.VK_SHIFT)&&(evt.getKeyCode() == KeyEvent.VK_ENTER)){
-            jtDetalleFacturaFacil.requestFocus();
-        }
-    }//GEN-LAST:event_jtxtDetalleKeyReleased
-
     private void jtxtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyReleased
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             
@@ -721,7 +709,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
                 tempDAOImpl.eliminarProductoDetalleFacturaFacil(id);
                 llenarTablaDetalleFacturaFacil();
-                jtxtDetalle.requestFocus();
+                jcomboDetalle.requestFocus();
             }
         }
     }//GEN-LAST:event_jtDetalleFacturaFacilKeyPressed
@@ -745,6 +733,23 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     private void jtxttotalTempKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxttotalTempKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxttotalTempKeyReleased
+
+    private void jcomboDetalleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jcomboDetalleKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            boolean aux = false;
+        
+            aux = isNumeric(jtxtCantidad.getText());
+            if((!aux)&&(jtxtCantidad.getText().length()>0)){
+                JOptionPane.showMessageDialog(this, "Registro inválido!!!");
+                jtxtCantidad.requestFocus();
+            }else{            
+                jtxtCantidad.requestFocus();            
+            }
+        }
+        if((evt.getKeyCode() == KeyEvent.VK_SHIFT)&&(evt.getKeyCode() == KeyEvent.VK_ENTER)){
+            jtDetalleFacturaFacil.requestFocus();
+        }
+    }//GEN-LAST:event_jcomboDetalleKeyReleased
 
     /**
      * @param args the command line arguments
@@ -798,12 +803,12 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     private javax.swing.JButton jbAgregarDetalle;
     private javax.swing.JButton jbFacturar;
     private javax.swing.JComboBox<String> jcSucursal;
+    private javax.swing.JComboBox jcomboDetalle;
     private javax.swing.JLabel jlNroSucursal;
     private javax.swing.JLabel jlRazonSocial;
     private javax.swing.JLabel jlnit;
     private javax.swing.JTable jtDetalleFacturaFacil;
     private javax.swing.JTextField jtxtCantidad;
-    private javax.swing.JTextField jtxtDetalle;
     private javax.swing.JTextField jtxtNit;
     private javax.swing.JTextField jtxtRazonSocial;
     private javax.swing.JTextField jtxtValorTotal;
@@ -927,9 +932,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
         for (String s : map.keySet()) {
             jcSucursal.addItem(s.toString());
-        }
-            
-            
+        }   
     }
     
     public void totalTemporal(){
@@ -953,12 +956,13 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
             if(sel.equals(comp)){
                 jlNroSucursal.setText("0");
+                jbFacturar.setEnabled(false);
             }
             else{
                 jlNroSucursal.setText(map.get(sel).toString());
+                jbFacturar.setEnabled(true);
             }
         } catch (Exception e) {
         }
-        
     }
 }
