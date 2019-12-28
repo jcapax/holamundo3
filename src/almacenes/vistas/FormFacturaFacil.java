@@ -90,6 +90,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         llenarComboSucursal();
         AutoCompleteDecorator.decorate(jcomboDetalle);
         limpiarComponentes();
+        jbFacturar.setEnabled(false);
         
         
         
@@ -623,8 +624,22 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
     private void jbFacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFacturarActionPerformed
         boolean shift = false;
+        boolean aux = true;
         if((evt.getModifiers() & InputEvent.SHIFT_MASK)!=0){
             shift = true;
+        }
+        
+        if((jtxtNit.getText().trim().length() == 0) && aux){
+            aux = false;
+            shift = false;
+            JOptionPane.showMessageDialog(null, "Registrar NIT o CI!!!");
+            jtxtNit.requestFocus();
+        }
+        
+        if((jtxtRazonSocial.getText().trim().length() == 0)&& aux){
+            shift = false;
+            JOptionPane.showMessageDialog(null, "Registrar Razon Social!!!");
+            jtxtRazonSocial.requestFocus();
         }
         
         if(shift){            
@@ -703,7 +718,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
     private void jtDetalleFacturaFacilKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDetalleFacturaFacilKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_DELETE){
-            if(listaDetalleFF.size()>0){
+            if(tempDAOImpl.getListaDetalleFacturaFacilTemporal().size()>0){
                 int filSel = jtDetalleFacturaFacil.getSelectedRow();            
                 int id = (int) jtDetalleFacturaFacil.getValueAt(filSel, 0);
 
