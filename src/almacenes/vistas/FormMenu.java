@@ -260,6 +260,7 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuProcesos.setText("Procesos");
 
+        jMenuFacturaFacil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/factura_facil.png"))); // NOI18N
         jMenuFacturaFacil.setText("Factura Facil");
         jMenuFacturaFacil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -365,6 +366,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jmenuReimpresion);
         jMenuProcesos.add(jSeparator9);
 
+        jmenuDesempaque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/desempacar.png"))); // NOI18N
         jmenuDesempaque.setText("Desempaque");
         jmenuDesempaque.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -374,6 +376,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jmenuDesempaque);
         jMenuProcesos.add(jSeparator10);
 
+        jmlistaTrnasacciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/listas.jpg"))); // NOI18N
         jmlistaTrnasacciones.setText("Lista Transacciones");
         jmlistaTrnasacciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -32,6 +32,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuFacturaFacil">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/factura_facil.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Factura Facil"/>
               </Properties>
               <Events>
@@ -163,6 +166,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmenuDesempaque">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/desempacar.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Desempaque"/>
               </Properties>
               <Events>
@@ -173,6 +179,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmlistaTrnasacciones">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/listas.jpg"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Lista Transacciones"/>
               </Properties>
               <Events>
