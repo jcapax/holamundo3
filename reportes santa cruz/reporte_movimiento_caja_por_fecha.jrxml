@@ -79,25 +79,10 @@ where fecha_caja BETWEEN $P{fecha_inicio} AND $P{fecha_final}]]>
 				</textElement>
 				<text><![CDATA[MOVIMIENTO GENERAL CAJA]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="d76c013b-a03f-4fef-a0ad-12f6edce0fa6">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[MATIAS]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="20" width="200" height="11" forecolor="#054A82" uuid="f36bda64-830c-49ea-946d-1029a76e1b9d">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="5" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Prensado de Mangueras y Chicotillos]]></text>
-			</staticText>
+			<image>
+				<reportElement x="10" y="0" width="40" height="59" uuid="7d0a9d0f-f899-476b-8298-9aa4b4c23886"/>
+				<imageExpression><![CDATA["C:\\Users\\jcarlos.porcel\\Documents\\NetBeansProjects\\holamundo3\\reportes\\img\\logo.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

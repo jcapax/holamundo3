@@ -132,25 +132,10 @@ from arqueo where id = $P{id}]]>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 			</line>
-			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="d1be96bc-4138-4c2b-9fc8-fab06ba4638f">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[MATIAS]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="20" width="200" height="11" forecolor="#054A82" uuid="38e049da-46bd-4efc-bd5a-094f0e5c6fd7">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="5" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Prensado de Mangueras y Chicotillos]]></text>
-			</staticText>
+			<image>
+				<reportElement x="10" y="0" width="40" height="59" uuid="dddb5e29-4898-46dc-830d-2605ea274cd1"/>
+				<imageExpression><![CDATA["C:\\Users\\jcarlos.porcel\\Documents\\NetBeansProjects\\holamundo3\\reportes\\img\\logo.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

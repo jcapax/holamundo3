@@ -292,7 +292,8 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
         jtxtValorUnitario.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jtxtValorUnitario.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtValorUnitario.setNextFocusableComponent(jtxtValorUnitario);
+        jtxtValorUnitario.setNextFocusableComponent(jtxtValorTotal);
+        jtxtValorUnitario.setOpaque(false);
         jtxtValorUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtxtValorUnitarioKeyReleased(evt);
@@ -326,7 +327,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel6.setText("Cantidad");
 
         jtxtCantidad.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jtxtCantidad.setNextFocusableComponent(jtxtCantidad);
+        jtxtCantidad.setNextFocusableComponent(jtxtValorUnitario);
         jtxtCantidad.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtxtCantidadFocusLost(evt);
@@ -347,7 +348,9 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Detalle");
 
+        jcomboDetalle.setEditable(true);
         jcomboDetalle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jcomboDetalle.setNextFocusableComponent(jtxtCantidad);
         jcomboDetalle.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jcomboDetalleKeyReleased(evt);
@@ -522,18 +525,20 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(23, 23, 23)
-                                .addComponent(jlNroSucursal))
-                            .addComponent(jcSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jcSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(23, 23, 23)
+                        .addComponent(jlNroSucursal)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
@@ -916,6 +921,8 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         fact.setNroAutorizacion(nroAutorizacion);
         fact.setNroFactura(nroFactura);
         fact.setRazonSocial(razonSocial);
+        
+        System.out.println("id dosificacion: "+fact.getIdDosificacion());
 
         FacturaVentaDAOImpl factDaoImpl = new FacturaVentaDAOImpl(connectionDB);
         factDaoImpl.insertarFacturaVenta(fact);
