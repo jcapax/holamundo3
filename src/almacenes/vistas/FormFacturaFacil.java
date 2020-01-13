@@ -666,7 +666,10 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                         facturaVentaDAO.getCadenaCodigoQrFacturaFacil(nroIdFactura), 
                         tempDAOImpl.totalTemporal());
 
-                System.err.println("nroIdFactura:"+nroIdFactura);
+                tempDAOImpl.vaciarDetalleFacturaFacilTemp();
+                llenarTablaDetalleFacturaFacil();  
+                jcSucursal.setRequestFocusEnabled(true);
+                
             } catch (ParseException ex) {
                 Logger.getLogger(FormFacturaFacil.class.getName()).log(Level.SEVERE, null, ex);
             }
