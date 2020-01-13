@@ -162,7 +162,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
-        jlTituloFormulario.setText("Lista Arqueos Mensuales");
+        jlTituloFormulario.setText("Lista Transacciones");
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
         btnSalir.setText("Cerrar");
