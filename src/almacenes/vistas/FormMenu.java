@@ -459,6 +459,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuConfiguracion.add(jmenuProveedor);
         jMenuConfiguracion.add(jSeparator7);
 
+        jMenuILugar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lugar.png"))); // NOI18N
         jMenuILugar.setText("Lugar");
         jMenuILugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -467,6 +468,7 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenuConfiguracion.add(jMenuILugar);
 
+        jMenuTerminal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/terminal.png"))); // NOI18N
         jMenuTerminal.setText("Terminal");
         jMenuTerminal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -475,6 +477,7 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenuConfiguracion.add(jMenuTerminal);
 
+        jMenuSucursal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/sucursal.png"))); // NOI18N
         jMenuSucursal.setText("Sucursal");
         jMenuSucursal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -88,5 +88,34 @@ public class ReporteFacturacionDAOImpl implements ReporteFacturacionDAO{
             //this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura_copia.jrxml", parametros, false);
         }
     }
+
+    @Override
+    public void VistaPreviaFacturaFacilCopia(int idFacturaFacil, String cadenaQr, double valorTotal) {
+        SistemaDAO sistemaDAO = new SistemaDAOImpl(connectionDB);
+        Configuracion conf = new Configuracion();
+        
+        int imp = 0;
+        imp = conf.getImpresionDirectaFactura();
+        
+        HashMap parametros = new HashMap<>();
+        
+        Numero_a_Letra lit = new Numero_a_Letra();
+        
+        String valorTotalLiteral = "0";
+        
+        valorTotalLiteral = lit.Convertir(String.valueOf(valorTotal), true);
+       
+        parametros.put("id_factura_facil", idFacturaFacil);
+        parametros.put("cadena_qr", cadenaQr);
+        parametros.put("valor_total_literal", valorTotalLiteral);
+        
+        if(imp==0){
+            this.imprimir.vistaPreviaReporte("Factura de Venta", "reporte_factura_facil_copia.jrxml", parametros);
+        }
+        else{
+            this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura_facil_copia.jrxml", parametros, false);
+            //this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura_copia.jrxml", parametros, false);
+        }
+    }
     
 }

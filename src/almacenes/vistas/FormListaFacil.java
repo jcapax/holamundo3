@@ -6,9 +6,16 @@
 package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.FacturaFacil;
 import dao.FacturaFacilDAO;
 import dao.FacturaFacilDAOImpl;
+import dao.FacturaVentaDAO;
+import dao.FacturaVentaDAOImpl;
+import dao.reportes.ReporteFacturacionDAOImpl;
+import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,6 +28,7 @@ public class FormListaFacil extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     DefaultTableModel dtm;
+    FacturaFacilDAO ff;
     
     public FormListaFacil() {
         initComponents();
@@ -33,12 +41,23 @@ public class FormListaFacil extends javax.swing.JFrame {
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
         
-        //headerTabla();
+        headerTabla();
 
-        //iniciarComponentes();
+        iniciarComponentes();
         llenarAnnos();
         llenarMeses();
 
+    }
+    
+    public void iniciarComponentes(){
+        ff = new FacturaFacilDAOImpl(connectionDB);
+    }
+    
+    public void headerTabla(){
+        Font f = new Font("Times New Roman", Font.BOLD, 13);
+        
+        jtListaFacturaFacil.getTableHeader().setFont(f);
+        jtListaFacturaFacil.getTableHeader().setBackground(Color.orange);
     }
     
     private void llenarMeses() {
@@ -67,13 +86,62 @@ public class FormListaFacil extends javax.swing.JFrame {
     private void llenarAnnos() {
         jcAnno.removeAllItems();
 
-        FacturaFacilDAO fact = new FacturaFacilDAOImpl(connectionDB);
-        ArrayList<Integer> lanno = fact.getListaAnnosFacturaFacil();
+        ArrayList<Integer> lanno = ff.getListaAnnosFacturaFacil();
         for (byte i = 0; i < lanno.size(); i++) {
             jcAnno.addItem(lanno.get(i).toString());
         }
     }
+    
+    private void llenarListaFacturas(){
+        double importeTotal = 0;
 
+        DecimalFormat df = new DecimalFormat("###,##0.00");
+
+        ArrayList<FacturaFacil> lista = new ArrayList<FacturaFacil>();
+
+        byte mes = 0;
+        int anno = 0;
+
+        mes = (byte) (jcMes.getSelectedIndex() + 1);
+        anno = Integer.parseInt(jcAnno.getSelectedItem().toString());
+
+        lista = ff.getlistaFacturaFacil(anno, mes);
+
+        dtm = (DefaultTableModel) this.jtListaFacturaFacil.getModel();
+        dtm.setRowCount(0);
+
+        jtListaFacturaFacil.setModel(dtm);
+
+        Object[] fila = new Object[9];
+
+        for (int i = 0; i < lista.size(); i++) {
+            fila[0] = lista.get(i).getId();
+            fila[1] = lista.get(i).getNombreSucursal();
+            fila[2] = lista.get(i).getFechaFactura();
+            fila[3] = lista.get(i).getNroFactura();
+            fila[4] = lista.get(i).getNroAutorizacion();
+            fila[5] = lista.get(i).getEstado();
+            fila[6] = lista.get(i).getNit();
+            fila[7] = lista.get(i).getRazonSocial();
+            fila[8] = lista.get(i).getImporteTotal();
+            
+            dtm.addRow(fila);
+        }
+        
+
+//        TableColumnModel columnModel = jtArqueos.getColumnModel();
+        
+//        TableColumn colImpApertura = columnModel.getColumn(3);
+//        TableColumn colImpCierre = columnModel.getColumn(4);
+//        TableColumn colImpTotal = columnModel.getColumn(5);
+        
+//        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+//        renderer.setHorizontalAlignment(jLabel1.RIGHT);
+        
+        
+//        jtArqueos.setModel(dtm);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,24 +152,24 @@ public class FormListaFacil extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jcMes = new javax.swing.JComboBox<>();
-        jcAnno = new javax.swing.JComboBox<>();
+        jcMes = new javax.swing.JComboBox<String>();
+        jcAnno = new javax.swing.JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
         jlTituloFormulario = new javax.swing.JLabel();
         jbBuscar = new javax.swing.JButton();
         bImprimir = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtArqueos = new javax.swing.JTable();
+        jtListaFacturaFacil = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Mes");
 
-        jcMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jcAnno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcAnno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Año");
@@ -134,12 +202,12 @@ public class FormListaFacil extends javax.swing.JFrame {
             }
         });
 
-        jtArqueos.setModel(new javax.swing.table.DefaultTableModel(
+        jtListaFacturaFacil.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Sucursal", "Fecha", "nroFactura", "nroAutorizacion", "Estado", "Nit", "Razon Social", "Importe Total"
+                "id", "Sucursal", "Fecha", "nroFactura", "nroAutorizacion", "Est.", "Nit", "Razon Social", "Importe Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -150,21 +218,33 @@ public class FormListaFacil extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtArqueos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtListaFacturaFacil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtArqueosMouseClicked(evt);
+                jtListaFacturaFacilMouseClicked(evt);
             }
         });
-        jtArqueos.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtListaFacturaFacil.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtArqueosKeyReleased(evt);
+                jtListaFacturaFacilKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(jtArqueos);
-        if (jtArqueos.getColumnModel().getColumnCount() > 0) {
-            jtArqueos.getColumnModel().getColumn(0).setMinWidth(0);
-            jtArqueos.getColumnModel().getColumn(0).setPreferredWidth(0);
-            jtArqueos.getColumnModel().getColumn(0).setMaxWidth(0);
+        jScrollPane1.setViewportView(jtListaFacturaFacil);
+        if (jtListaFacturaFacil.getColumnModel().getColumnCount() > 0) {
+            jtListaFacturaFacil.getColumnModel().getColumn(0).setMinWidth(0);
+            jtListaFacturaFacil.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jtListaFacturaFacil.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtListaFacturaFacil.getColumnModel().getColumn(2).setMinWidth(65);
+            jtListaFacturaFacil.getColumnModel().getColumn(2).setPreferredWidth(65);
+            jtListaFacturaFacil.getColumnModel().getColumn(2).setMaxWidth(65);
+            jtListaFacturaFacil.getColumnModel().getColumn(3).setMinWidth(100);
+            jtListaFacturaFacil.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jtListaFacturaFacil.getColumnModel().getColumn(3).setMaxWidth(100);
+            jtListaFacturaFacil.getColumnModel().getColumn(5).setMinWidth(45);
+            jtListaFacturaFacil.getColumnModel().getColumn(5).setPreferredWidth(45);
+            jtListaFacturaFacil.getColumnModel().getColumn(5).setMaxWidth(45);
+            jtListaFacturaFacil.getColumnModel().getColumn(7).setMinWidth(311);
+            jtListaFacturaFacil.getColumnModel().getColumn(7).setPreferredWidth(311);
+            jtListaFacturaFacil.getColumnModel().getColumn(7).setMaxWidth(311);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -185,11 +265,11 @@ public class FormListaFacil extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(27, 27, 27)
                         .addComponent(jbBuscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(bImprimir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 447, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 421, Short.MAX_VALUE)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -203,19 +283,18 @@ public class FormListaFacil extends javax.swing.JFrame {
                 .addComponent(jlTituloFormulario)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcMes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbBuscar)
+                            .addComponent(bImprimir)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSalir)
-                            .addComponent(jbBuscar)
-                            .addComponent(bImprimir))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addComponent(btnSalir)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -225,24 +304,35 @@ public class FormListaFacil extends javax.swing.JFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
 //        vaciarTotales();
-//        llenarTablaArqueos();
+        llenarListaFacturas();
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void bImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bImprimirActionPerformed
+        int filSel = jtListaFacturaFacil.getSelectedRow();
+        int id = (int) jtListaFacturaFacil.getValueAt(filSel, 0);
+        double importeTotal = (double) jtListaFacturaFacil.getValueAt(filSel, 8);
         
+        FacturaVentaDAO fv = new FacturaVentaDAOImpl(connectionDB);
+        
+        ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, "XXX");
+
+                //repFactura.VistaPreviaFacturaVenta(nroIdFactura, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
+                repFactura.VistaPreviaFacturaFacilCopia(id, 
+                fv.getCadenaCodigoQrFacturaFacil(id), 
+                importeTotal);
     }//GEN-LAST:event_bImprimirActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jtArqueosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtArqueosMouseClicked
+    private void jtListaFacturaFacilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtListaFacturaFacilMouseClicked
 //        seleccionarArqueo();
-    }//GEN-LAST:event_jtArqueosMouseClicked
+    }//GEN-LAST:event_jtListaFacturaFacilMouseClicked
 
-    private void jtArqueosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtArqueosKeyReleased
+    private void jtListaFacturaFacilKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtListaFacturaFacilKeyReleased
 //        seleccionarArqueo();
-    }//GEN-LAST:event_jtArqueosKeyReleased
+    }//GEN-LAST:event_jtListaFacturaFacilKeyReleased
 
     /**
      * @param args the command line arguments
@@ -289,6 +379,6 @@ public class FormListaFacil extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcAnno;
     private javax.swing.JComboBox<String> jcMes;
     private javax.swing.JLabel jlTituloFormulario;
-    private javax.swing.JTable jtArqueos;
+    private javax.swing.JTable jtListaFacturaFacil;
     // End of variables declaration//GEN-END:variables
 }

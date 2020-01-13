@@ -283,6 +283,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuILugar">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/lugar.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Lugar"/>
               </Properties>
               <Events>
@@ -291,6 +294,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuTerminal">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/terminal.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Terminal"/>
               </Properties>
               <Events>
@@ -299,6 +305,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuSucursal">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/sucursal.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Sucursal"/>
               </Properties>
               <Events>

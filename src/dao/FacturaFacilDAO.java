@@ -6,6 +6,7 @@
 package dao;
 
 import almacenes.model.DetalleFacturaFacil;
+import almacenes.model.FacturaFacil;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface FacturaFacilDAO {
     public void insertarDetalleFacturaFacil(ArrayList<DetalleFacturaFacil> facil, int idFacturaFacil);
     public int getIdFacturaUltima();  
     public ArrayList<Integer> getListaAnnosFacturaFacil();
+    public ArrayList<FacturaFacil> getlistaFacturaFacil(int anno, int mes);
 }

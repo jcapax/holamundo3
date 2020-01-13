@@ -7,6 +7,7 @@ package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.DetalleFacturaFacil;
+import almacenes.model.FacturaFacil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -90,11 +91,6 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
 
     @Override
     public ArrayList<Integer> getListaAnnosFacturaFacil() {
-            /*"SELECT f.id, f.id_sucursal, s.nombre_sucursal, f.fecha_factura, f.nro_factura, f.nro_autorizacion, f.estado, f.nit, f.razon_social, f.importe_total, f.codigo_control \n" +
-    "FROM factura_venta f\n" +
-    "	JOIN sucursal s on s.id = f.id_sucursal\n" +
-    "WHERE f.id IN (Select id_factura_facil From detalle_factura_facil)"*/
-        
         ArrayList<Integer> anno = new ArrayList<>();
         String sql = "select year(fecha_factura) anno "
                 + "from factura_venta "
@@ -114,6 +110,47 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
         }
         
         return anno;        
+    }
+
+    @Override
+    public ArrayList<FacturaFacil> getlistaFacturaFacil(int anno, int mes) {
+        String sql = "SELECT f.id, f.id_sucursal, s.nombre_sucursal, f.fecha_factura, "
+                + " f.nro_factura, f.nro_autorizacion, f.estado, f.nit, "
+                + " f.razon_social, f.importe_total, f.codigo_control"
+                + " FROM factura_venta f "
+                + " JOIN sucursal s on s.id = f.id_sucursal "
+                + "WHERE f.id IN (Select id_factura_facil From detalle_factura_facil) "
+                + "AND year(fecha_factura) = "+String.valueOf(anno)+" "
+                + "AND month(fecha_factura) = "+ String.valueOf(mes);
+        
+        ArrayList<FacturaFacil> lista = new ArrayList<>();
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                FacturaFacil ff = new FacturaFacil();
+                
+                ff.setId(rs.getInt("id"));
+                ff.setIdSucursal(rs.getInt("id_sucursal"));
+                ff.setNombreSucursal(rs.getString("nombre_sucursal"));
+                ff.setFechaFactura(rs.getDate("fecha_factura"));
+                ff.setNroFactura(rs.getInt("nro_factura"));
+                ff.setNroAutorizacion(rs.getString("nro_autorizacion"));
+                ff.setEstado(rs.getString("estado"));
+                ff.setNit(rs.getString("nit"));
+                ff.setRazonSocial(rs.getString("razon_social"));
+                ff.setImporteTotal(rs.getDouble("importe_total"));
+                ff.setCodigoControl(rs.getString("codigo_control"));
+                
+                lista.add(ff);
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(SucursalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return lista;
     }
     
 }

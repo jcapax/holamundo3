@@ -663,8 +663,8 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
                 //repFactura.VistaPreviaFacturaVenta(nroIdFactura, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
                 repFactura.VistaPreviaFacturaFacil(nroIdFactura, 
-                        facturaVentaDAO.getCadenaCodigoQrFacturaFacil(nroIdFactura), 
-                        tempDAOImpl.totalTemporal());
+                facturaVentaDAO.getCadenaCodigoQrFacturaFacil(nroIdFactura), 
+                tempDAOImpl.totalTemporal());
 
                 tempDAOImpl.vaciarDetalleFacturaFacilTemp();
                 llenarTablaDetalleFacturaFacil();  
