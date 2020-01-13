@@ -87,5 +87,33 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
         }
         return id;
     }
+
+    @Override
+    public ArrayList<Integer> getListaAnnosFacturaFacil() {
+        /*"SELECT f.id, f.id_sucursal, s.nombre_sucursal, f.fecha_factura, f.nro_factura, f.nro_autorizacion, f.estado, f.nit, f.razon_social, f.importe_total, f.codigo_control \n" +
+"FROM factura_venta f\n" +
+"	JOIN sucursal s on s.id = f.id_sucursal\n" +
+"WHERE f.id IN (Select id_factura_facil From detalle_factura_facil)"*/
+        
+        ArrayList<Integer> anno = new ArrayList<>();
+        String sql = "select year(fecha_factura) anno "
+                + "from factura_venta "
+                + "where id IN (Select id_factura_facil From detalle_factura_facil)"
+                + "group by year(fecha_factura) "
+                + "order by year(fecha_factura)";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int a = rs.getInt("anno");
+                anno.add(a);
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(SucursalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return anno;        
+    }
     
 }

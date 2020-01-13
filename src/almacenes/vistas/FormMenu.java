@@ -113,8 +113,10 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuProcesos = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
         jMenuFacturaFacil = new javax.swing.JMenuItem();
+        jMenuListasFacturaFacil = new javax.swing.JMenuItem();
+        jMenuProcesos = new javax.swing.JMenu();
         jSeparator8 = new javax.swing.JPopupMenu.Separator();
         jMenuVentas = new javax.swing.JMenuItem();
         jMenuCompras = new javax.swing.JMenuItem();
@@ -258,7 +260,7 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuArchivo);
 
-        jMenuProcesos.setText("Procesos");
+        jMenu1.setText("Factura Facil");
 
         jMenuFacturaFacil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/factura_facil.png"))); // NOI18N
         jMenuFacturaFacil.setText("Factura Facil");
@@ -267,7 +269,20 @@ public class FormMenu extends javax.swing.JFrame {
                 jMenuFacturaFacilActionPerformed(evt);
             }
         });
-        jMenuProcesos.add(jMenuFacturaFacil);
+        jMenu1.add(jMenuFacturaFacil);
+
+        jMenuListasFacturaFacil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/listas.jpg"))); // NOI18N
+        jMenuListasFacturaFacil.setText("Listas");
+        jMenuListasFacturaFacil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuListasFacturaFacilActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuListasFacturaFacil);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenuProcesos.setText("Procesos");
         jMenuProcesos.add(jSeparator8);
 
         jMenuVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/venta.png"))); // NOI18N
@@ -918,6 +933,11 @@ public class FormMenu extends javax.swing.JFrame {
         flt.setVisible(true);
     }//GEN-LAST:event_jmlistaTrnasaccionesActionPerformed
 
+    private void jMenuListasFacturaFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuListasFacturaFacilActionPerformed
+        FormListaFacturaFacil listaFacturas = new FormListaFacturaFacil(connectionDB);
+        listaFacturas.setVisible(true);
+    }//GEN-LAST:event_jMenuListasFacturaFacilActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -1020,6 +1040,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenuAdministracion;
     private javax.swing.JMenu jMenuArchivo;
     private javax.swing.JMenu jMenuAyuda;
@@ -1034,6 +1055,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuListasFacturaFacil;
     private javax.swing.JMenuItem jMenuMarcas;
     private javax.swing.JMenuItem jMenuProcedencia;
     private javax.swing.JMenu jMenuProcesos;
