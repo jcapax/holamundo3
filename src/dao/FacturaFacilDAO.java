@@ -20,4 +20,7 @@ public interface FacturaFacilDAO {
     public int getIdFacturaUltima();  
     public ArrayList<Integer> getListaAnnosFacturaFacil();
     public ArrayList<FacturaFacil> getlistaFacturaFacil(int anno, int mes);
+    public double getUltimoValorProductoFacturaFacil(String nombreProducto);
+    public void anularFacturaFacil(int id);
+    public void anularDetalleFacturaFacil(int id);
 }

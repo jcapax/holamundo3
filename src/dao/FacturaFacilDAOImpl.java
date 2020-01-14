@@ -152,5 +152,56 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
         
         return lista;
     }
+
+    @Override
+    public double getUltimoValorProductoFacturaFacil(String nombreProducto) {
+        double valorUnitario = 0.0;
+        
+        String sql = "SELECT valor_unitario FROM detalle_factura_facil "
+                + "WHERE detalle = '"+nombreProducto+"' ORDER BY id DESC LIMIT 1 ";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                valorUnitario = rs.getDouble("valor_unitario");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return valorUnitario;
+    }
+
+    @Override
+    public void anularFacturaFacil(int id) {
+        String sql = "UPDATE factura_venta "
+                + "SET estado = 'A', nit = 0, razon_social = 'ANULADA', importe_total = 0, "
+                + "importe_sub_total = 0, importe_rebajas = 0, importe_base_debito_fiscal = 0, "
+                + "debito_fiscal = 0, codigo_control = '0' "
+                + "WHERE id = "+String.valueOf(id);
+        
+        PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+            ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    @Override
+    public void anularDetalleFacturaFacil(int id) {
+        String sql = "DELETE detalle_factura_facil "
+                + "WHERE id_factura_facil = "+String.valueOf(id);
+        
+        PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+            ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }
