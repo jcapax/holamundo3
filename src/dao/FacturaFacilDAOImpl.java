@@ -186,7 +186,7 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
     @Override
     public int getIdFacturaVentaControl() {
         int id = 1;
-        String sql = "Select id From factura_venta Order by id Desc Limit 1";
+        String sql = "Select id From factura_venta_control Order by id Desc Limit 1";
 
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

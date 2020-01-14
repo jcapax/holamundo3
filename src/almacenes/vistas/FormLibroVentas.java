@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -47,6 +48,8 @@ public class FormLibroVentas extends javax.swing.JFrame {
 
     DefaultTableModel dtm;
     private String usuario;
+    FacturaFacilDAO ff;
+    DecimalFormat df;
 
     public FormLibroVentas() {
         initComponents();
@@ -97,11 +100,11 @@ public class FormLibroVentas extends javax.swing.JFrame {
         jtxtSumImporteBaseDebitoFiscal = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jtxtSumDebitoFiscal = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        jbBloquearFacturas = new javax.swing.JButton();
         jbBuscar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbImprimir = new javax.swing.JButton();
         jlTituloFormulario = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbExcel = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -173,11 +176,11 @@ public class FormLibroVentas extends javax.swing.JFrame {
 
         jtxtSumDebitoFiscal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrar_facturacion.png"))); // NOI18N
-        jButton3.setText("Cerrar Facturacion Mensual");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jbBloquearFacturas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrar_facturacion.png"))); // NOI18N
+        jbBloquearFacturas.setText("Cerrar Facturacion Mensual");
+        jbBloquearFacturas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jbBloquearFacturasActionPerformed(evt);
             }
         });
 
@@ -192,7 +195,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1146, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbBloquearFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -216,7 +219,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
+                    .addComponent(jbBloquearFacturas)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtxtSumDebitoFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,23 +241,24 @@ public class FormLibroVentas extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/print.png"))); // NOI18N
-        jButton2.setText("Imprimir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jbImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/print.png"))); // NOI18N
+        jbImprimir.setText("Imprimir");
+        jbImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jbImprimirActionPerformed(evt);
             }
         });
 
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
+        jlTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlTituloFormulario.setText("Libro de Ventas");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel_logo.png"))); // NOI18N
-        jButton1.setText("Exportar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel_logo.png"))); // NOI18N
+        jbExcel.setText("Exportar");
+        jbExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbExcelActionPerformed(evt);
             }
         });
 
@@ -270,10 +274,6 @@ public class FormLibroVentas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jlTituloFormulario)
-                .addGap(444, 444, 444))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -291,12 +291,16 @@ public class FormLibroVentas extends javax.swing.JFrame {
                         .addGap(107, 107, 107)
                         .addComponent(jbBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)
+                        .addComponent(jbImprimir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
+                        .addComponent(jbExcel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalir)))
                 .addGap(24, 24, 24))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,8 +314,8 @@ public class FormLibroVentas extends javax.swing.JFrame {
                     .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbBuscar)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
+                    .addComponent(jbImprimir)
+                    .addComponent(jbExcel)
                     .addComponent(btnSalir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,16 +327,16 @@ public class FormLibroVentas extends javax.swing.JFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         vaciarTotales();
-        llenarTablaFactura();
+        llenarTablaFactura();        
     }//GEN-LAST:event_jbBuscarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImprimirActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jbImprimirActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcelActionPerformed
         FacturaDAOImpl rub = new FacturaDAOImpl(connectionDB);
-        DecimalFormat df = new DecimalFormat("###,##0.00");
+        
 
         ArrayList<FacturaVenta> r = new ArrayList<FacturaVenta>();
 
@@ -345,15 +349,25 @@ public class FormLibroVentas extends javax.swing.JFrame {
         r = rub.getListaFacturasLibroVenta(mes, anno);
 
         exportarExcel(r, anno, mes);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        JOptionPane.showMessageDialog(null, "Exportacion Completa", 
+                "Mensaje",
+                JOptionPane.INFORMATION_MESSAGE);
+        
+    }//GEN-LAST:event_jbExcelActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        bloquearFacturacionMensual();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jbBloquearFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBloquearFacturasActionPerformed
+        int resp=JOptionPane.showConfirmDialog(null,"Una vez cerradas las facturas, no podrá anular ningun registro?");
+      
+        if (JOptionPane.OK_OPTION == resp){
+           bloquearFacturacionMensual();
+        }
+        else{            
+        }        
+    }//GEN-LAST:event_jbBloquearFacturasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -392,9 +406,6 @@ public class FormLibroVentas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -402,7 +413,10 @@ public class FormLibroVentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbBloquearFacturas;
     private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbExcel;
+    private javax.swing.JButton jbImprimir;
     private javax.swing.JComboBox<String> jcAnno;
     private javax.swing.JComboBox<String> jcMes;
     private javax.swing.JLabel jlTituloFormulario;
@@ -413,10 +427,12 @@ public class FormLibroVentas extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void iniciarComponentes() {
-
         llenarMeses();
         llenarAnnos();
         vaciarTotales();
+        jbBloquearFacturas.setVisible(false);
+        ff = new FacturaFacilDAOImpl(connectionDB);
+        df = new DecimalFormat("###,##0.00");
     }
 
     public void vaciarTotales() {
@@ -464,7 +480,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
         double importeTotal = 0, baseDebitoFiscal = 0, debitoFiscal = 0;
 
         FacturaDAOImpl rub = new FacturaDAOImpl(connectionDB);
-        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
 
         ArrayList<FacturaVenta> r = new ArrayList<FacturaVenta>();
 
@@ -475,6 +491,13 @@ public class FormLibroVentas extends javax.swing.JFrame {
         anno = Integer.parseInt(jcAnno.getSelectedItem().toString());
 
         r = rub.getListaFacturasLibroVenta(mes, anno);
+        
+        if(ff.isFacturasAbiertas(anno, mes)){
+            jbBloquearFacturas.setVisible(true);
+        }else{
+            jbBloquearFacturas.setVisible(false);
+        }
+
 
         dtm = (DefaultTableModel) this.jtFactura.getModel();
         dtm.setRowCount(0);
@@ -613,10 +636,16 @@ public class FormLibroVentas extends javax.swing.JFrame {
                 for (int x = 0; x < fact.size(); x++) {
 
                     i = x + 1;
+                    
+                    String fecha_completa = fact.get(x).getFechaFactura().toString();
+                    String fecha_anno = fecha_completa.substring(0,4);
+                    String fecha_mes = fecha_completa.substring(5,7);
+                    String fecha_dia = fecha_completa.substring(8,10);
+                    String fecha_format = fecha_dia+"/"+fecha_mes+"/"+fecha_anno;
 
                     especificacion = new Number(0, i, 3);
                     nro = new Number(1, i, i);
-                    fechaFactura = new Label(2, i, fact.get(x).getFechaFactura().toString());
+                    fechaFactura = new Label(2, i, fecha_format);
 
                     getNroFactura = fact.get(x).getNroFactura();
                     nroFactura = new Number(3, i, getNroFactura);
@@ -686,5 +715,6 @@ public class FormLibroVentas extends javax.swing.JFrame {
         ff.registroFacturaVentaControl(usuario);
         ff.cerrarFacturacionMensual(anno, mes, ff.getIdFacturaVentaControl());
         
+        jbBloquearFacturas.setVisible(false);        
     }            
 }

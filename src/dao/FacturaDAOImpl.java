@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class FacturaDAOImpl implements FacturaDAO{
     
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
-        
+    
     public FacturaDAOImpl(Connection _connectionDB) {
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = _connectionDB;
@@ -56,8 +57,18 @@ public class FacturaDAOImpl implements FacturaDAO{
     public ArrayList<FacturaVenta> getListaFacturasLibroVenta(byte mes, int anno) {
         ArrayList<FacturaVenta> lFactura = new ArrayList<FacturaVenta>();
         
-        String sql = "select * from factura_venta "
-                + "where year(fecha_factura) = ? and month(fecha_factura) = ?";
+        String sql = "Select id, id_sucursal, especificacion, correlativo_sucursal, fecha_factura, "
+                + "nro_factura, nro_autorizacion, estado, nit, razon_social, "
+                + "round(importe_total,2) importe_total, round(importe_ice, 2) importe_ice, "
+                + "round(importe_exportaciones, 2) importe_exportaciones, "
+                + "round(importe_ventas_tasa_cero, 2)importe_ventas_tasa_cero, "
+                + "round(importe_sub_total, 2) importe_sub_total, "
+                + "round(importe_rebajas, 2) importe_rebajas, "
+                + "round(importe_base_debito_fiscal, 2) importe_base_debito_fiscal, "
+                + "round(debito_fiscal, 2) debito_fiscal, codigo_control, "
+                + "id_transaccion, fecha_limite_emision, codigo_qr, id_dosificacion, id_factura_control "
+                + "From factura_venta "
+                + "Where year(fecha_factura) = ? and month(fecha_factura) = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

@@ -17,6 +17,7 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -100,7 +101,14 @@ public class FormListaFacil extends javax.swing.JFrame {
             ff.anularFacturaFacil(id);
             ff.anularDetalleFacturaFacil(id);
             llenarListaFacturas();
-        }        
+            JOptionPane.showMessageDialog(null, "Anulacion Correcta", 
+                "Mensaje",
+                JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "No es posible anular, la factura se encuentra en un periodo declarado", 
+                "Mensaje",
+                JOptionPane.ERROR_MESSAGE);
+        }       
     }
     
     private void llenarListaFacturas(){
@@ -357,7 +365,13 @@ public class FormListaFacil extends javax.swing.JFrame {
     }//GEN-LAST:event_jtListaFacturaFacilKeyReleased
 
     private void btnAnularFacturaFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularFacturaFacilActionPerformed
-        anularFactura();
+        int resp=JOptionPane.showConfirmDialog(null,"Desea anular la factura seleccionada?");
+      
+        if (JOptionPane.OK_OPTION == resp){
+           anularFactura();           
+        }
+        else{            
+        }
     }//GEN-LAST:event_btnAnularFacturaFacilActionPerformed
 
     /**
