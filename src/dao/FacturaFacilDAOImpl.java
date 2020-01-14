@@ -220,7 +220,7 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
     public boolean isFacturasAbiertas(int anno, int mes) {
         boolean aux = false;
         String sql = "Select id From factura_venta "
-                + "Where id_factura_venta_control = 0"
+                + "Where id_factura_control = 0"
                 + " and year(fecha_factura) = "+String.valueOf(anno)
                 + " and month(fecha_factura) = "+String.valueOf(mes);
         
@@ -259,7 +259,7 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
     public boolean isFacturaAbierta(int id) {
         boolean aux = false;
         String sql = "Select id From factura_venta "
-                + "Where id_factura_venta_control = 0"
+                + "Where id_factura_control = 0"
                 + " and id = "+String.valueOf(id);
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -276,7 +276,8 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
 
     @Override
     public void anularDetalleFacturaFacil(int id) {
-        String sql = "DELETE detalle_factura_facil "
+        String sql = "UPDATE detalle_factura_facil "
+                + "SET cantidad = 0, valor_unitario = 0, valor_total = 0 "
                 + "WHERE id_factura_facil = "+String.valueOf(id);
         
         try {

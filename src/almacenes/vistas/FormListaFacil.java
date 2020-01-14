@@ -97,9 +97,10 @@ public class FormListaFacil extends javax.swing.JFrame {
         int id = (int) jtListaFacturaFacil.getValueAt(filSel, 0);
         
         if(ff.isFacturaAbierta(id)){
-//            ff.
-        }
-        
+            ff.anularFacturaFacil(id);
+            ff.anularDetalleFacturaFacil(id);
+            llenarListaFacturas();
+        }        
     }
     
     private void llenarListaFacturas(){
