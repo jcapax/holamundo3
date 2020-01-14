@@ -152,5 +152,87 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
         
         return lista;
     }
+
+    @Override
+    public void registroFacturaVentaControl(String usuario) {
+        String sql = "Insert Into factura_venta_control(usuario) Values('"+usuario+"')";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }
+
+    @Override
+    public int getIdFacturaVentaControl() {
+        int id = 1;
+        String sql = "Select id From factura_venta Order by id Desc Limit 1";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                id = rs.getInt("id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    @Override
+    public void cerrarFacturacionMensual(int anno, int mes, int idFacturaVentaControl) {
+        String sql = "Update factura_venta "
+                + "Set id_factura_control = "+String.valueOf(idFacturaVentaControl) +" "
+                + "Where year(fecha_factura) = "+String.valueOf(anno)
+                + " and month(fecha_factura) = "+String.valueOf(mes)
+                + " and id_factura_control = 0";
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+
+    @Override
+    public boolean isFacturasAbiertas(int anno, int mes) {
+        boolean aux = false;
+        String sql = "Select id From factura_venta "
+                + "Where id_factura_venta_control = 0"
+                + " and year(fecha_factura) = "+String.valueOf(anno)
+                + " and month(fecha_factura) = "+String.valueOf(mes);
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                aux = true;
+                rs.last();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return aux;
+    }
+
+    @Override
+    public boolean isFacturaAbierta(int id) {
+        boolean aux = false;
+        String sql = "Select id From factura_venta "
+                + "Where id_factura_venta_control = 0"
+                + " and id = "+String.valueOf(id);
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                aux = true;                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return aux;
+    }
     
 }

@@ -20,4 +20,9 @@ public interface FacturaFacilDAO {
     public int getIdFacturaUltima();  
     public ArrayList<Integer> getListaAnnosFacturaFacil();
     public ArrayList<FacturaFacil> getlistaFacturaFacil(int anno, int mes);
+    public void registroFacturaVentaControl(String usuario);
+    public int getIdFacturaVentaControl();
+    public void cerrarFacturacionMensual(int anno, int mes, int idFacturaVentaControl);
+    public boolean isFacturasAbiertas(int anno, int mes);
+    public boolean isFacturaAbierta(int id);
 }

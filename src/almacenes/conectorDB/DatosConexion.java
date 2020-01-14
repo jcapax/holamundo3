@@ -10,8 +10,6 @@ package almacenes.conectorDB;
  * @author georgeguitar
  */
 
-
-
 public class DatosConexion {
     
     public static final String DEFAULT_DRIVER = "org.mariadb.jdbc.Driver";

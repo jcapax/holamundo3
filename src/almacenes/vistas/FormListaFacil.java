@@ -92,6 +92,16 @@ public class FormListaFacil extends javax.swing.JFrame {
         }
     }
     
+    public void anularFactura(){
+        int filSel = jtListaFacturaFacil.getSelectedRow();
+        int id = (int) jtListaFacturaFacil.getValueAt(filSel, 0);
+        
+        if(ff.isFacturaAbierta(id)){
+//            ff.
+        }
+        
+    }
+    
     private void llenarListaFacturas(){
         double importeTotal = 0;
 
@@ -161,6 +171,7 @@ public class FormListaFacil extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtListaFacturaFacil = new javax.swing.JTable();
+        btnAnularFacturaFacil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -247,6 +258,14 @@ public class FormListaFacil extends javax.swing.JFrame {
             jtListaFacturaFacil.getColumnModel().getColumn(7).setMaxWidth(311);
         }
 
+        btnAnularFacturaFacil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
+        btnAnularFacturaFacil.setText("Anular");
+        btnAnularFacturaFacil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnularFacturaFacilActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -275,27 +294,29 @@ public class FormListaFacil extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAnularFacturaFacil)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(jlTituloFormulario)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcMes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbBuscar)
-                            .addComponent(bImprimir)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSalir)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcMes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar)
+                    .addComponent(bImprimir)
+                    .addComponent(btnSalir))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAnularFacturaFacil)
                 .addContainerGap())
         );
 
@@ -334,6 +355,10 @@ public class FormListaFacil extends javax.swing.JFrame {
 //        seleccionarArqueo();
     }//GEN-LAST:event_jtListaFacturaFacilKeyReleased
 
+    private void btnAnularFacturaFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularFacturaFacilActionPerformed
+        anularFactura();
+    }//GEN-LAST:event_btnAnularFacturaFacilActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -371,6 +396,10 @@ public class FormListaFacil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bImprimir;
+    private javax.swing.JButton btnAnularFacturaFacil;
+    private javax.swing.JButton btnEliminar1;
+    private javax.swing.JButton btnEliminar2;
+    private javax.swing.JButton btnEliminar3;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

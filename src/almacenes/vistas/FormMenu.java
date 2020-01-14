@@ -813,7 +813,7 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuConfiguracionesActionPerformed
 
     private void jmenuLibroVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuLibroVentasActionPerformed
-        FormLibroVentas fLibroVentas = new FormLibroVentas(connectionDB);
+        FormLibroVentas fLibroVentas = new FormLibroVentas(connectionDB, idUsuario);
         fLibroVentas.setVisible(true);
     }//GEN-LAST:event_jmenuLibroVentasActionPerformed
 

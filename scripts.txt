@@ -89,3 +89,18 @@ from v_transaccion t
 	join v_detalle_transaccion d on t.id = d.id_transaccion 
 	join credito c on t.id = c.id_transaccion 
 	join cliente_proveedor cp on c.id_cliente_proveedor = cp.id
+****************************************************************************************************************************
+****************************************************************************************************************************
+****************************************************************************************************************************
+****************************************************************************************************************************
+****************************************************************************************************************************
+****************************************************************************************************************************
+
+CREATE TABLE `sucre_db_almacenes`.`factura_venta_control` 
+	( `id` INT NOT NULL AUTO_INCREMENT , 
+		`fecha_hora_cierre` TIMESTAMP NOT NULL , 
+		`usuario` VARCHAR(10) NOT NULL , 
+		PRIMARY KEY (`id`)
+	) ENGINE = InnoDB;
+
+ALTER TABLE `factura_venta` ADD `id_factura_control` INT NOT NULL DEFAULT '0' AFTER `id_dosificacion`;
