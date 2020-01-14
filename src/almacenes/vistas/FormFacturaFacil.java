@@ -229,7 +229,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jtxtRazonSocial = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jcSucursal = new javax.swing.JComboBox<String>();
+        jcSucursal = new javax.swing.JComboBox<>();
         jlNroSucursal = new javax.swing.JLabel();
         jtxttotalTemp = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -293,7 +293,6 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jtxtValorUnitario.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jtxtValorUnitario.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jtxtValorUnitario.setNextFocusableComponent(jtxtValorTotal);
-        jtxtValorUnitario.setOpaque(false);
         jtxtValorUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtxtValorUnitarioKeyReleased(evt);
@@ -484,7 +483,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel5.setText("Nro Sucursal");
 
         jcSucursal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jcSucursal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcSucursal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcSucursalActionPerformed(evt);
@@ -525,20 +524,18 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jcSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jcSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(23, 23, 23)
-                        .addComponent(jlNroSucursal)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jLabel5)
+                                .addGap(23, 23, 23)
+                                .addComponent(jlNroSucursal)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
@@ -681,6 +678,12 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             
             jtxtValorUnitario.requestFocus();
+                        
+//            double valorUnitario = 0.0;
+//            
+//            valorUnitario = facilDAO.getUltimoValorProductoFacturaFacil(jcomboDetalle.getSelectedItem().toString().trim());
+//        
+//            jtxtValorUnitario.setText(String.valueOf(valorUnitario));
             
            /* 
             boolean aux = false;
@@ -758,16 +761,23 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxttotalTempKeyReleased
 
     private void jcomboDetalleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jcomboDetalleKeyReleased
+        System.err.println("released: "+evt.getKeyCode());
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             boolean aux = false;
+            double valorUnitario = 0.0;
+            
+            valorUnitario = facilDAO.getUltimoValorProductoFacturaFacil(jcomboDetalle.getSelectedItem().toString().trim());
         
-            aux = isNumeric(jtxtCantidad.getText());
-            if((!aux)&&(jtxtCantidad.getText().length()>0)){
-                JOptionPane.showMessageDialog(this, "Registro inválido!!!");
-                jtxtCantidad.requestFocus();
-            }else{            
-                jtxtCantidad.requestFocus();            
-            }
+            jtxtCantidad.requestFocus();
+            jtxtValorUnitario.setText(String.valueOf(valorUnitario));
+            
+//            aux = isNumeric(jtxtCantidad.getText());
+//            if((!aux)&&(jtxtCantidad.getText().length()>0)){
+//                JOptionPane.showMessageDialog(this, "Registro inválido!!!");
+//                jtxtCantidad.requestFocus();
+//            }else{            
+//                jtxtCantidad.requestFocus();            
+//            }
         }
         if((evt.getKeyCode() == KeyEvent.VK_SHIFT)&&(evt.getKeyCode() == KeyEvent.VK_ENTER)){
             jtDetalleFacturaFacil.requestFocus();
@@ -953,7 +963,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         
         SucursalDAOImpl sucursalDAOImpl = new SucursalDAOImpl(connectionDB);
         
-        HashMap<String, Integer> map = sucursalDAOImpl.sucursalClaveValor();
+        HashMap<String, Integer> map = sucursalDAOImpl.sucursalClaveValorActiva();
 
         for (String s : map.keySet()) {
             jcSucursal.addItem(s.toString());

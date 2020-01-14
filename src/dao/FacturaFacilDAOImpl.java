@@ -154,6 +154,7 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
     }
 
     @Override
+
     public void registroFacturaVentaControl(String usuario) {
         String sql = "Insert Into factura_venta_control(usuario) Values('"+usuario+"')";
         try {
@@ -164,19 +165,39 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
         }        
     }
 
-    @Override
-    public int getIdFacturaVentaControl() {
-        int id = 1;
-        String sql = "Select id From factura_venta Order by id Desc Limit 1";
+    public double getUltimoValorProductoFacturaFacil(String nombreProducto) {
+        double valorUnitario = 0.0;
+        
+        String sql = "SELECT valor_unitario FROM detalle_factura_facil "
+                + "WHERE detalle = '"+nombreProducto+"' ORDER BY id DESC LIMIT 1 ";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                id = rs.getInt("id");
+            while(rs.next()){                
+                valorUnitario = rs.getDouble("valor_unitario");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return valorUnitario;
+    }
+    
+    @Override
+    public int getIdFacturaVentaControl() {
+        int id = 1;
+        String sql = "Select id From factura_venta Order by id Desc Limit 1";
+
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                id = rs.getInt("id");                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         return id;
     }
 
@@ -202,6 +223,7 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
                 + "Where id_factura_venta_control = 0"
                 + " and year(fecha_factura) = "+String.valueOf(anno)
                 + " and month(fecha_factura) = "+String.valueOf(mes);
+        
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -211,9 +233,26 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
             }
         } catch (SQLException ex) {
             Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }                    
         return aux;
+    }
+
+    @Override
+    public void anularFacturaFacil(int id) {
+        String sql = "UPDATE factura_venta "
+                + "SET estado = 'A', nit = 0, razon_social = 'ANULADA', importe_total = 0, "
+                + "importe_sub_total = 0, importe_rebajas = 0, importe_base_debito_fiscal = 0, "
+                + "debito_fiscal = 0, codigo_control = '0' "
+                + "WHERE id = "+String.valueOf(id);
+        
+        PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+            ps.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -233,6 +272,20 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
         }
         
         return aux;
+    }
+
+    @Override
+    public void anularDetalleFacturaFacil(int id) {
+        String sql = "DELETE detalle_factura_facil "
+                + "WHERE id_factura_facil = "+String.valueOf(id);
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaFacilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     
 }

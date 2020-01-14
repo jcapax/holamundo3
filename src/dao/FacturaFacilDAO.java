@@ -25,4 +25,8 @@ public interface FacturaFacilDAO {
     public void cerrarFacturacionMensual(int anno, int mes, int idFacturaVentaControl);
     public boolean isFacturasAbiertas(int anno, int mes);
     public boolean isFacturaAbierta(int id);
+    public double getUltimoValorProductoFacturaFacil(String nombreProducto);
+    public void anularFacturaFacil(int id);
+    public void anularDetalleFacturaFacil(int id);
+
 }
