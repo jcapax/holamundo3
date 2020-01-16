@@ -104,3 +104,5 @@ CREATE TABLE `sucre_db_almacenes`.`factura_venta_control`
 	) ENGINE = InnoDB;
 
 ALTER TABLE `factura_venta` ADD `id_factura_control` INT NOT NULL DEFAULT '0' AFTER `id_dosificacion`;
+
+ALTER TABLE `configuraciones` ADD `carpeta_reportes` VARCHAR(70) NOT NULL AFTER `ruta_excel`;
