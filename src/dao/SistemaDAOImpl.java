@@ -65,8 +65,10 @@ public class SistemaDAOImpl implements SistemaDAO {
                             "ruta_destino_archivos_pdf, " +
                             "solo_guadar_archivos_pdf, " +
                             "ruta_programas_pg," +
-                            "ruta_excel, tiempo_anulacion_transaccion, impresion_directa_factura " +
-                            "FROM configuraciones;";
+                            "ruta_excel, carpeta_reportes, " +
+                            "tiempo_anulacion_transaccion, " +
+                            "impresion_directa_factura " +
+                       "FROM configuraciones;";
         
         ResultSet rs = stmt.executeQuery(query);
 
@@ -105,6 +107,7 @@ public class SistemaDAOImpl implements SistemaDAO {
                         "solo_guadar_archivos_pdf = "+ configuracion.getSoloGuadarArchivosPDF() + ", " +
                         "ruta_programas_pg = \"" + configuracion.getRutaProgramasPG() + "\", " +
                         "ruta_excel = \"" + configuracion.getRutaExcel() + "\" ," +
+                        "carpeta_reportes = \"" + configuracion.getCarpetaReportes() + "\" ," +
                         "tiempo_anulacion_transaccion = \"" + configuracion.getTiempoAnulacionTransaccion() + "\", " +
                         "impresion_directa_factura = \"" + configuracion.getImpresionDirectaFactura() + "\" " +
                     
@@ -118,6 +121,7 @@ public class SistemaDAOImpl implements SistemaDAO {
                         "solo_guadar_archivos_pdf, " +
                         "ruta_programas_pg, " +
                         "ruta_excel, " +
+                        "carpeta_reportes, " +
                         "tiempo_anulacion_transaccion, " +
                         "impresion_directa_factura) " +
                     "VALUES (\"" + configuracion.getRutaVisorPdf() + "\", " +
@@ -125,6 +129,7 @@ public class SistemaDAOImpl implements SistemaDAO {
                             configuracion.getSoloGuadarArchivosPDF() + ","+
                             "\"" + configuracion.getRutaProgramasPG() + "\", " +
                             "\"" + configuracion.getRutaExcel() + "\", " +
+                            "\"" + configuracion.getCarpetaReportes() + "\", " +
                             "\"" + configuracion.getTiempoAnulacionTransaccion() + "\", " +
                             "\"" + configuracion.getImpresionDirectaFactura() + "\")";
             ps = connectionDB.prepareStatement(sql);

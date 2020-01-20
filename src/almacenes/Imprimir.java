@@ -5,8 +5,12 @@
  */
 package almacenes;
 
+import almacenes.model.Configuracion;
 import com.jgoodies.common.base.SystemUtils;
+import dao.SistemaDAO;
+import dao.SistemaDAOImpl;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -31,11 +35,26 @@ public class Imprimir {
     private String idUsuario;
     
     private static String DECIMALES = "%.2f";  // Dos decimales
-    private static String RUTA_REPORTES = "reportes";
+    private String RUTA_REPORTES;
+//    private static String RUTA_REPORTES = "reportes";
     
     public Imprimir(Connection _connectionDB, String _idUsuario) {
         this.connectionDB = _connectionDB;
         this.idUsuario = _idUsuario;
+        
+        iniciarRutareportes();        
+    }
+    
+    private void iniciarRutareportes(){
+        RUTA_REPORTES = "reportes";
+        SistemaDAO sistemaDAO = new SistemaDAOImpl(connectionDB);
+        Configuracion configuracion = new Configuracion();
+        try {
+            configuracion = sistemaDAO.getGestionConfiguraciones();
+            RUTA_REPORTES = configuracion.getCarpetaReportes();
+        } catch (SQLException ex) {
+            Logger.getLogger(Imprimir.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private JasperPrint prepararReporte(String tituloReporte, String nombreReporte, Map<String, Object> parametros) {

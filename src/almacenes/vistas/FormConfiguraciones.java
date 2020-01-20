@@ -6,7 +6,6 @@
 package almacenes.vistas;
 
 import almacenes.Utiles;
-import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Configuracion;
 import dao.SistemaDAO;
 import dao.SistemaDAOImpl;
@@ -45,6 +44,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         comandoPDF.setText(this.configuracion.getRutaVisorPdf());
         rutaDestinoPDF.setText(this.configuracion.getRutaDestinoArchivosPDF());
         jtxtRutaExcel.setText(this.configuracion.getRutaExcel());
+        jtxtCarpetaReportes.setText(this.configuracion.getCarpetaReportes());
         jspinnerTiempoAnulacionTransaccion.setValue(Integer.valueOf(this.configuracion.getTiempoAnulacionTransaccion()));
         if(this.configuracion.getImpresionDirectaFactura() == 1){
             jcheckImpresionDirectaFacturas.setSelected(true);
@@ -93,6 +93,8 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jcheckImpresionDirectaFacturas = new javax.swing.JCheckBox();
         jspinnerTiempoAnulacionTransaccion = new javax.swing.JSpinner();
+        jLabel7 = new javax.swing.JLabel();
+        jtxtCarpetaReportes = new javax.swing.JTextField();
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Archivos PDF"));
 
@@ -284,23 +286,27 @@ public class FormConfiguraciones extends javax.swing.JFrame {
 
         jcheckImpresionDirectaFacturas.setText("Impresion Directa Facturas");
 
+        jLabel7.setText("Carpeta Reportes");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtxtCarpetaReportes)
                     .addComponent(jtxtRutaExcel, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jspinnerTiempoAnulacionTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(77, 77, 77)
                         .addComponent(jcheckImpresionDirectaFacturas)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 281, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(buscarRutaExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -318,7 +324,11 @@ public class FormConfiguraciones extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jcheckImpresionDirectaFacturas)
                     .addComponent(jspinnerTiempoAnulacionTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jtxtCarpetaReportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -338,7 +348,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -478,6 +488,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         configuracion.setSoloGuadarArchivosPDF(soloGuardarArchivoPDF.isSelected());
         configuracion.setRutaProgramasPG(rutaDestinoPG.getText());
         configuracion.setRutaExcel(jtxtRutaExcel.getText());
+        configuracion.setCarpetaReportes(jtxtCarpetaReportes.getText().trim());
         configuracion.setTiempoAnulacionTransaccion((Integer) jspinnerTiempoAnulacionTransaccion.getValue());
         if(jcheckImpresionDirectaFacturas.isSelected()){
             configuracion.setImpresionDirectaFactura(1);
@@ -551,6 +562,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -559,6 +571,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JCheckBox jcheckImpresionDirectaFacturas;
     private javax.swing.JSpinner jspinnerTiempoAnulacionTransaccion;
+    private javax.swing.JTextField jtxtCarpetaReportes;
     private javax.swing.JTextField jtxtRutaExcel;
     private javax.swing.JTextField rutaDestinoPDF;
     private javax.swing.JTextField rutaDestinoPG;

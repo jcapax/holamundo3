@@ -16,8 +16,17 @@ public class Configuracion {
   private Boolean soloGuadarArchivosPDF;
   private String rutaProgramasPG;
   private String rutaExcel;
+  private String carpetaReportes;
   private int tiempoAnulacionTransaccion;
   private int impresionDirectaFactura;
+
+    public String getCarpetaReportes() {
+        return carpetaReportes;
+    }
+
+    public void setCarpetaReportes(String carpetaReportes) {
+        this.carpetaReportes = carpetaReportes;
+    }
 
     public String getRutaExcel() {
         return rutaExcel;
