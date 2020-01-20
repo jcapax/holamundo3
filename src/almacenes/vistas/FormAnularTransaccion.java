@@ -8,6 +8,7 @@ package almacenes.vistas;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.AnularTransaccion;
 import almacenes.model.DetalleTransaccion;
+import dao.AnularTransaccionDAO;
 import dao.AnularTransaccionDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
 import java.awt.Color;
@@ -81,7 +82,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
     }
 
     public void llenarTablaAnularTransaccion() {
-        AnularTransaccionDAOImpl rub = new AnularTransaccionDAOImpl(connectionDB);
+        AnularTransaccionDAO rub = new AnularTransaccionDAOImpl(connectionDB);
 
         ArrayList<AnularTransaccion> r = new ArrayList<AnularTransaccion>();
 
