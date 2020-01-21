@@ -80,6 +80,7 @@ public class SistemaDAOImpl implements SistemaDAO {
            configuracion.setSoloGuadarArchivosPDF(rs.getBoolean("solo_guadar_archivos_pdf"));
            configuracion.setRutaProgramasPG(rs.getString("ruta_programas_pg"));
            configuracion.setRutaExcel(rs.getString("ruta_excel"));
+           configuracion.setCarpetaReportes(rs.getString("carpeta_reportes"));
            configuracion.setTiempoAnulacionTransaccion(rs.getInt("tiempo_anulacion_transaccion"));
            configuracion.setImpresionDirectaFactura(rs.getInt("impresion_directa_factura"));
         }
