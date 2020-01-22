@@ -219,29 +219,60 @@ public class FormUnidadProducto extends javax.swing.JFrame {
     public void guardarUnidadProdcto() {
 
         int idProducto = Integer.valueOf(jlIdProducto.getText());
+        
         int idUnidadMedida = Integer.valueOf(jlIdUnidadMedida.getText().trim());
 //        int idUnidadMedidaPrincipal = Integer.valueOf(jlIdUnidadMedidaPrincipal.getText());
         int idUnidadMedidaPrincipal = 0;
-        double stockMinimo = Double.valueOf(jtxtStockMinimo.getText());
-        double precioVenta = Double.valueOf(jtxtPrecioVenta.getText());
+        
+        double stockMinimo;
+        if(jtxtStockMinimo.getText().trim().equals("")){
+            stockMinimo = 0;
+        }else{
+            stockMinimo = Double.valueOf(jtxtStockMinimo.getText());
+        }
+        
+        double precioVenta;
+        if(jtxtPrecioVenta.getText().trim().equals("")){
+            precioVenta = 0;
+        }else{
+            precioVenta = Double.valueOf(jtxtPrecioVenta.getText());
+        }
 //        double precioVentaRebaja = Double.valueOf(jtxtPrecioVentaRebaja.getText());
 //        double precioVentaAumento = Double.valueOf(jtxtPrecioVentaAumento.getText());
         double precioVentaRebaja = 0;
         double precioVentaAumento = 0;
-        double precioCompra = Double.valueOf(jtxtPrecioCompra.getText());
-        String codigoAdjunto = jtxtCodigoAdjunto.getText().trim();
-        codigoAdjunto = codigoAdjunto.replace("'", "-");
         
-        int cantidad = Integer.valueOf(jtxtCantidad.getText().toString().trim());
-        int descuento = Integer.valueOf(jtxtDescuento.getText().toString().trim());
-        
+        double precioCompra;
+        if(jtxtPrecioVenta.getText().trim().equals("")){
+            precioCompra = 0;
+        }else{
+            precioCompra = Double.valueOf(jtxtPrecioCompra.getText());
+        }        
+                
         int garantiaMeses;
-        if(jtxtGarantiaMses.getText().length()==0){
+        if(jtxtGarantiaMses.getText().trim().equals("")){
            garantiaMeses = 0;
         }else{
            garantiaMeses = Integer.valueOf(jtxtGarantiaMses.getText());
         }
-         
+        
+        String codigoAdjunto = jtxtCodigoAdjunto.getText().trim();
+        codigoAdjunto = codigoAdjunto.replace("'", "-");
+        
+        int cantidad;
+        if(jtxtCantidad.getText().trim().equals("")){
+           cantidad = 0;
+        }else{
+           cantidad = Integer.valueOf(jtxtCantidad.getText().toString().trim());
+        }
+        
+        int descuento;
+        if(jtxtCantidad.getText().trim().equals("")){
+           descuento = 0;
+        }else{
+           descuento = Integer.valueOf(jtxtDescuento.getText().toString().trim());
+        }
+        
         int actualizacion = 1;
         String usuario = "";
         
@@ -265,12 +296,12 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         
         String aux = "0";
         
-        if (jlEdicion.getText().toString().trim().equals(aux)) {    
+        if (jlEdicion.getText().trim().equals(aux)) {    
             uProdDAOImpl.insertarUnidadProducto(unidadProducto);
         } else {
             int idUnidadProducto = 0;
             
-            idUnidadProducto = Integer.valueOf(jlIdUnidadProducto.getText().toString().trim());
+            idUnidadProducto = Integer.valueOf(jlIdUnidadProducto.getText().trim());
             unidadProducto.setId(idUnidadProducto);
             
             uProdDAOImpl.editarUnidadProducto(unidadProducto);
