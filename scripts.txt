@@ -1,108 +1,47 @@
-CREATE TABLE `sucre_db_almacenes`.`detalle_factura_facil` 
-	( `id` INT NOT NULL AUTO_INCREMENT , `id_factura_facil` INT NOT NULL , `detalle` VARCHAR(150) NOT NULL , `cantidad` DOUBLE NOT NULL , `valor_unitario` DOUBLE NOT NULL , `valor_total` DOUBLE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-
-
-
-CREATE VIEW v_factura_facil
+CREATE VIEW v_entrega_productos
 AS
-
-select f.id as id_factura_facil, 
-	d.detalle AS nombre_producto, d.cantidad AS cantidad,
-	d.valor_unitario AS valor_unitario,d.valor_total AS valor_total,
-	f.id_sucursal AS id_sucursal,
-	f.especificacion AS especificacion,f.correlativo_sucursal AS correlativo_sucursal,
-	f.fecha_factura AS fecha_factura,f.nro_factura AS nro_factura,
-	f.nro_autorizacion AS nro_autorizacion,f.estado AS estado,
-	f.nit AS nit,f.razon_social AS razon_social,f.importe_total AS importe_total,
-	f.importe_ice AS importe_ice,f.importe_exportaciones AS importe_exportaciones,
-	f.importe_ventas_tasa_cero AS importe_ventas_tasa_cero,f.importe_sub_total AS importe_sub_total,
-	f.importe_rebajas AS importe_rebajas,f.importe_base_debito_fiscal AS importe_base_debito_fiscal,
-	f.debito_fiscal AS debito_fiscal,f.codigo_control AS codigo_control,f.fecha_limite_emision AS fecha_limite_emision,
-	f.id_dosificacion AS id_dosificacion,o.pie_factura AS pie_factura,s.nombre_sucursal AS nombre_sucursal,
-	s.actividad_economica AS actividad_economica,s.nit_sucursal AS nit_sucursal 
-from detalle_factura_facil d 
-	join factura_venta f on d.id_factura_facil = f.id
-	join dosificacion o on o.id = f.id_dosificacion 
-	join sucursal s on s.id = o.id_sucursal
+SELECT tr.id as id_transaccion, tr.fecha, tr.usuario, 
+    dt.id_producto, pr.descripcion as nombre_producto,
+    um.id as id_unidad_medida, um.descripcion as nombre_unidad_mendida, dt.cantidad,
+    nro_entrega, e.id_transaccion as  id_transaccion_entrega
+FROM transaccion tr
+    join detalle_transaccion dt on tr.id = dt.id_transaccion
+    join producto pr ON dt.id_producto = pr.id
+    join unidad_producto up ON up.id_producto = pr.id
+    join unidad_medida um ON um.id = up.id_unidad_medida
+    join entrega_transaccion e ON tr.id = e.id_entrega_transaccion
+WHERE tr.id_tipo_transaccion = 8 and tr.estado <> 'N'
+ORDER BY tr.id
 
 
-drop view v_productos;
-
-create view v_productos
+create view v_creditos
 as
-
-select up.id AS id_unidad_producto,p.id AS id_producto,p.id_rubro_producto AS id_rubro_producto,
-		r.descripcion AS rubro,p.id_marca AS id_marca,m.descripcion AS marca,p.id_procedencia AS id_procedencia,
-		pr.descripcion AS procedencia,p.descripcion AS descripcion,p.estado AS estado,p.control_stock AS control_stock,
-		up.id_unidad_medida AS id_unidad_medida,f_nombre_unidad_medida(up.id_unidad_medida) AS nombre_unidad_medida,
-		up.unidad_principal AS unidad_principal,f_nombre_unidad_medida(up.unidad_principal) AS nombre_unidad_principal,
-		up.stock_minimo AS stock_minimo,up.precio_venta AS precio_venta,up.precio_venta_rebaja AS precio_venta_rebaja,
-		up.precio_venta_aumento AS precio_venta_aumento,up.precio_compra AS precio_compra,
-		up.actualizacion AS actualizacion,up.garantia_meses AS garantia_meses, p.caducidad, up.codigo_adjunto, up.cantidad, up.descuento
-	from ((((producto p join rubro_producto r on((p.id_rubro_producto = r.id))) 
-		join marca m on((p.id_marca = m.id))) 
-		join procedencia pr on((pr.id = p.id_procedencia))) 
-		left join unidad_producto up on((p.id = up.id_producto))) 
+select tr.id as id_transaccion, dt.id_producto, dt.descripcion as nombre_producto,
+    dt.id_unidad_medida, dt.descripcion_medida as nombre_unidad_medida, dt.cantidad,
+    c.nombre_completo, c.direccion, tr.fecha, tr.nro_tipo_transaccion,
+    c.telefonos 
+ from transaccion tr
+    join v_detalle_transaccion dt on tr.id = dt.id_transaccion
+    join credito p ON tr.id = p.id_transaccion
+    join cliente_proveedor c on c.id = p.id_cliente_proveedor
+where tr.id_tipo_transaccion = 3
 
 
-ALTER TABLE `unidad_producto` 
-	ADD `cantidad` INT NULL DEFAULT '0' AFTER `actualizacion`, 
-	ADD `descuento` INT NULL DEFAULT '0' AFTER `cantidad`;
-
-ALTER TABLE `detalle_transaccion` 
-	ADD `valor_sub_total` DECIMAL(13,4) NOT NULL DEFAULT '0' AFTER `valor_unitario`, 
-	ADD `descuento` DECIMAL(13,4) NOT NULL DEFAULT '0' AFTER `valor_sub_total`;
-
-
-
-
-drop view v_detalle_transaccion;
-
-create view v_detalle_transaccion
+create view v_entregas_pendientes
 as
-select d.id AS id,d.id_transaccion AS id_transaccion,d.id_producto AS id_producto,p.descripcion AS descripcion,
-	d.id_unidad_medida AS id_unidad_medida,u.descripcion AS descripcion_medida,u.simbolo AS simbolo,
-	d.cantidad AS cantidad,d.valor_unitario AS valor_unitario,d.valor_total AS valor_total,d.tipo_valor AS tipo_valor,
-	p.recargo AS recargo, d.fecha_vencimiento, d.valor_sub_total, d.descuento
-from ((detalle_transaccion d join producto p on((d.id_producto = p.id))) left join unidad_medida u on((d.id_unidad_medida = u.id)))
+SELECT vp.id_transaccion as id_transaccion_credito, vp.id_producto, vp.nombre_completo, 
+    vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion,     
+    vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad as cant_credido, 
+    SUM(coalesce(ve.cantidad,0)) as Cant_Entrega,
+    (vp.cantidad - SUM(coalesce(ve.cantidad,0))) AS diferencia
+FROM v_creditos vp
+    LEFT JOIN v_entrega_productos ve on vp.id_transaccion=ve.id_transaccion_entrega
+         AND vp.id_unidad_medida = ve.id_unidad_medida
+         AND vp.id_producto = ve.id_producto
+GROUP BY vp.id_transaccion, vp.id_producto, vp.nombre_completo, 
+    vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion,     
+    vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad 
+HAVING (vp.cantidad - SUM(coalesce(ve.cantidad,0))) <> 0
+ORDER BY vp.fecha DESC
 
 
-CREATE TABLE `sucre_db_almacenes`.`caja_detalle` ( 
-	`id` INT NOT NULL AUTO_INCREMENT , 
-	`id_caja` INT NOT NULL , 
-	`detalle` VARCHAR(200) NOT NULL , 
-	PRIMARY KEY (`id`)
-) ENGINE = InnoDB;
-
-
-drop view v_credito;
-
-create view v_credito 
-as
-select t.id AS id_transaccion,t.fecha AS fecha,t.nro_tipo_transaccion AS nro_tipo_transaccion,
-	t.valor_total AS valor_total_transaccion,t.fecha_hora_registro AS fecha_hora_registro,
-	t.usuario AS usuario,d.descripcion AS descripcion,d.simbolo AS simbolo,d.cantidad AS cantidad,
-	d.valor_unitario AS valor_unitario,d.valor_total AS valor_total,c.detalle AS detalle,
-	cp.cedula_identidad AS cedula_identidad,cp.nit AS nit,cp.nombre_completo AS nombre_completo,
-	cp.razon_social AS razon_social, d.descuento, d.valor_sub_total
-from v_transaccion t 
-	join v_detalle_transaccion d on t.id = d.id_transaccion 
-	join credito c on t.id = c.id_transaccion 
-	join cliente_proveedor cp on c.id_cliente_proveedor = cp.id
-****************************************************************************************************************************
-****************************************************************************************************************************
-****************************************************************************************************************************
-****************************************************************************************************************************
-****************************************************************************************************************************
-****************************************************************************************************************************
-
-CREATE TABLE `sucre_db_almacenes`.`factura_venta_control` 
-	( `id` INT NOT NULL AUTO_INCREMENT , 
-		`fecha_hora_cierre` TIMESTAMP NOT NULL , 
-		`usuario` VARCHAR(10) NOT NULL , 
-		PRIMARY KEY (`id`)
-	) ENGINE = InnoDB;
-
-ALTER TABLE `factura_venta` ADD `id_factura_control` INT NOT NULL DEFAULT '0' AFTER `id_dosificacion`;
-
-ALTER TABLE `configuraciones` ADD `carpeta_reportes` VARCHAR(70) NOT NULL AFTER `ruta_excel`;
