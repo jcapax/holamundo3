@@ -407,6 +407,7 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenu2.setText("Entregas");
 
+        jMenuEntregasChange.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Entregas-Credito.png"))); // NOI18N
         jMenuEntregasChange.setText("Creditos");
         jMenuEntregasChange.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -415,7 +416,13 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuEntregasChange);
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/EntregaPendiente.png"))); // NOI18N
         jMenuItem4.setText("Pendientes");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuBar1.add(jMenu2);
@@ -967,6 +974,15 @@ public class FormMenu extends javax.swing.JFrame {
                                             idUsuario, idLugar, idTerminal);
         credito.setVisible(true);
     }//GEN-LAST:event_jMenuEntregasChangeActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        int idTipoTransaccionEntrega = 8;
+
+        FormEntregasPendientes formPendientes = new FormEntregasPendientes(connectionDB, 
+                                            idTipoTransaccionEntrega, 
+                                            idLugar, idTerminal, idUsuario);
+        formPendientes.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void salir() {
         this.databaseUtils.close(connectionDB);

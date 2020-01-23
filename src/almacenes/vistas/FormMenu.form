@@ -215,6 +215,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuEntregasChange">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/Entregas-Credito.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Creditos"/>
               </Properties>
               <Events>
@@ -223,8 +226,14 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/EntregaPendiente.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Pendientes"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

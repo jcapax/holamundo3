@@ -74,7 +74,6 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     private Connection connectionDB, connectionTemp;
     private DefaultTableModel dtm;
     private int idTipoTransaccion; // tipo de proceso q se ejecutara
-    private int idTipoTransaccionEntrega;  // tipo de entrega q se ejecutara
     private byte idLugar;
     private byte idTerminal;
     private String usuario;
@@ -94,8 +93,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
-        this.idTipoTransaccion = idTipoTransaccion;
-        this.idTipoTransaccionEntrega = idTipoTransaccionEntrega;
+        this.idTipoTransaccion = idTipoTransaccion;        
         this.usuario = usuario;
         this.idLugar = idLugar;
         this.idTerminal = idTerminal;
