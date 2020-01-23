@@ -31,8 +31,8 @@ create view v_entregas_pendientes
 as
 SELECT vp.id_transaccion as id_transaccion_credito, vp.id_producto, vp.nombre_completo, 
     vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion,     
-    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad as cant_credido, 
-    SUM(coalesce(ve.cantidad,0)) as Cant_Entrega,
+    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad as cant_credito, 
+    SUM(coalesce(ve.cantidad,0)) as cant_entrega,
     (vp.cantidad - SUM(coalesce(ve.cantidad,0))) AS diferencia
 FROM v_creditos vp
     LEFT JOIN v_entrega_productos ve on vp.id_transaccion=ve.id_transaccion_entrega

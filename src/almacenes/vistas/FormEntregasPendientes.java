@@ -7,7 +7,6 @@ package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.EntregaPendiente;
-import almacenes.model.PendientePago;
 import dao.EntregasDAO;
 import dao.EntregasDAOImpl;
 import java.awt.Color;
@@ -56,8 +55,8 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         jtPendientes.getTableHeader().setFont(f);
         jtPendientes.getTableHeader().setBackground(Color.orange);
         
-        jtPorEntregar.getTableHeader().setFont(f);
-        jtPorEntregar.getTableHeader().setBackground(Color.orange);
+        jtProductosPendientes.getTableHeader().setFont(f);
+        jtProductosPendientes.getTableHeader().setBackground(Color.orange);
     }
     
     private void iniciarVariables(){
@@ -98,7 +97,7 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         dtm = (DefaultTableModel) this.jtPorEntregar.getModel();
         dtm.setRowCount(0);
         
-        jtPorEntregar.setModel(dtm);
+        jtProductosPendientes.setModel(dtm);
         
         Object[] fila = new Object[8];
         
@@ -114,7 +113,7 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
             
             dtm.addRow(fila);
         }        
-        jtPorEntregar.setModel(dtm);
+        jtProductosPendientes.setModel(dtm);
     }
     
     public void seleccionarPendiente(){
@@ -151,7 +150,7 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         jbPorEntregar = new javax.swing.JButton();
         txtCantidad = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jtProductosPendientes1 = new javax.swing.JTable();
+        jtProductosPendientes = new javax.swing.JTable();
         jlTituloFormulario2 = new javax.swing.JLabel();
         jbTransaccion = new javax.swing.JButton();
         jbSalir = new javax.swing.JToggleButton();
@@ -222,7 +221,7 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jtProductosPendientes1.setModel(new javax.swing.table.DefaultTableModel(
+        jtProductosPendientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -230,19 +229,19 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
                 "idTransaccion", "idProducto", "idUnidadMedida", "Nombre Producto", "Unidad Medida", "Cantidad", "Entregado", "Diferencia"
             }
         ));
-        jScrollPane3.setViewportView(jtProductosPendientes1);
-        if (jtProductosPendientes1.getColumnModel().getColumnCount() > 0) {
-            jtProductosPendientes1.getColumnModel().getColumn(0).setMinWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(0).setPreferredWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(0).setMaxWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(1).setMinWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(1).setPreferredWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(1).setMaxWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(2).setMinWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(2).setPreferredWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(2).setMaxWidth(0);
-            jtProductosPendientes1.getColumnModel().getColumn(6).setHeaderValue("Entregado");
-            jtProductosPendientes1.getColumnModel().getColumn(7).setHeaderValue("Diferencia");
+        jScrollPane3.setViewportView(jtProductosPendientes);
+        if (jtProductosPendientes.getColumnModel().getColumnCount() > 0) {
+            jtProductosPendientes.getColumnModel().getColumn(0).setMinWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(1).setMinWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(1).setPreferredWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(1).setMaxWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(2).setMinWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(2).setPreferredWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(2).setMaxWidth(0);
+            jtProductosPendientes.getColumnModel().getColumn(6).setHeaderValue("Entregado");
+            jtProductosPendientes.getColumnModel().getColumn(7).setHeaderValue("Diferencia");
         }
 
         jlTituloFormulario2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -405,7 +404,7 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
     private javax.swing.JLabel jlTituloFormulario2;
     private javax.swing.JTable jtPendientes;
     private javax.swing.JTable jtPorEntregar;
-    private javax.swing.JTable jtProductosPendientes1;
+    private javax.swing.JTable jtProductosPendientes;
     private javax.swing.JTextField txtCantidad;
     // End of variables declaration//GEN-END:variables
 }
