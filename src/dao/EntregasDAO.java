@@ -14,6 +14,6 @@ import java.util.ArrayList;
  */
 public interface EntregasDAO {
     public ArrayList<EntregaPendiente> getListaEntregasPendientes();
-    public ArrayList<EntregaPendiente> getProductosPendientes();
+    public ArrayList<EntregaPendiente> getProductosPendientes(int idtransaccion);
     public void abonoProducto(EntregaPendiente entregaPendiente);
 }

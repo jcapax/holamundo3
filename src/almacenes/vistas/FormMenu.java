@@ -977,7 +977,7 @@ public class FormMenu extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         int idTipoTransaccionEntrega = 8;
-
+        
         FormEntregasPendientes formPendientes = new FormEntregasPendientes(connectionDB, 
                                             idTipoTransaccionEntrega, 
                                             idLugar, idTerminal, idUsuario);

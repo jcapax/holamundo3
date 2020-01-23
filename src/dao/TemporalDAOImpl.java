@@ -288,5 +288,82 @@ public class TemporalDAOImpl implements TemporalDAO{
         }        
         return total;    
     }
+
+    @Override
+    public ArrayList<Temporal> getListEntregaTemporal() {
+        String sql = "SELECT * FROM entrega_temp";
+        
+        ArrayList<Temporal> lTemporal = new ArrayList<Temporal>();
+        
+        try {
+            PreparedStatement pst = sqlite.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                Temporal temporal = new Temporal();
+                
+                temporal.setIdTransaccion(rs.getInt("id_transaccion"));
+                temporal.setIdProducto(rs.getInt("id_producto"));
+                temporal.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
+                temporal.setNombreProducto(rs.getString("nombre_producto"));
+                temporal.setSimbolo(rs.getString("nombre_unidad_medida"));
+                temporal.setCantidad(rs.getDouble("cantidad"));           
+                
+                lTemporal.add(temporal);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RubroDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        return lTemporal;
+    }
+
+    @Override
+    public void saveEntregaTemporal(Temporal temporal) {
+        String sql = "INSERT INTO entrega_temp("
+                + "id_transaccion, id_producto, id_unidad_medida, nombre_producto, nombre_unidad_medida, cantidad) "
+                + "values(?, ?, ?, ?, ?, ?)";        
+        try {
+            PreparedStatement ps = sqlite.prepareStatement(sql);
+            ps.setInt(1, temporal.getIdTransaccion());
+            ps.setInt(2, temporal.getIdProducto());
+            ps.setInt(3, temporal.getIdUnidadMedida());
+            ps.setString(4, temporal.getNombreProducto());
+            ps.setString(4, temporal.getSimbolo());
+            ps.setDouble(4, temporal.getCantidad());
+            
+            int n = ps.executeUpdate();
+            if(n!=0){
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void deleteEntregaTemporal(Temporal temporal) {
+        String sql = "delete from entrega_temp "
+                + "where id_transaccion = "+String.valueOf(temporal.getIdTransaccion())+" and "
+                + "id_producto = "+String.valueOf(temporal.getIdProducto())+" and "
+                + "id_unidad_medida = "+String.valueOf(temporal.getIdUnidadMedida());
+        
+        try {
+            PreparedStatement ps = sqlite.prepareStatement(sql);
+            ps.executeUpdate();                        
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void emptyEntregaTemporal() {
+        String sql = "delete from entrega_temp";                
+        try {
+            PreparedStatement ps = sqlite.prepareStatement(sql);
+            ps.executeUpdate();                        
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

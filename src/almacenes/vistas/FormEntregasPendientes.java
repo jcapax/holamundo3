@@ -36,13 +36,16 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
 
     public FormEntregasPendientes(Connection connectionDB, 
             int idTipoTransaccionEntrega, byte idLugar, 
-            byte idTerminal, String usuario) {
+            byte idTerminal, String usuario) {        
+        initComponents();
+        
         this.connectionDB = connectionDB;        
         this.idTipoTransaccionEntrega = idTipoTransaccionEntrega;
         this.idLugar = idLugar;
         this.idTerminal = idTerminal;
         this.usuario = usuario;
-//        headerTabla();
+        
+        headerTabla();
         iniciarVariables();
         llenarPendientesEntrega();
     }
@@ -52,6 +55,9 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
 
         jtPendientes.getTableHeader().setFont(f);
         jtPendientes.getTableHeader().setBackground(Color.orange);
+        
+        jtPorEntregar.getTableHeader().setFont(f);
+        jtPorEntregar.getTableHeader().setBackground(Color.orange);
     }
     
     private void iniciarVariables(){
@@ -71,8 +77,6 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         
         Object[] fila = new Object[6];
         
-//        System.out.println("nro de registros en pila: " + r.size());
-        
         for(int i=0; i< lista.size(); i++){
             fila[0] = lista.get(i).getIdTransaccionCredito();
             fila[1] = lista.get(i).getNroTipoTransaccion();
@@ -83,8 +87,43 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
             
             dtm.addRow(fila);
         }
-        
         jtPendientes.setModel(dtm);
+    }
+    
+    public void llenarProductosPendientes(int idTransaccion){
+        ArrayList<EntregaPendiente> lista = new ArrayList<EntregaPendiente>();
+        
+        lista = entregasDAO.getProductosPendientes(idTransaccion);
+        
+        dtm = (DefaultTableModel) this.jtPorEntregar.getModel();
+        dtm.setRowCount(0);
+        
+        jtPorEntregar.setModel(dtm);
+        
+        Object[] fila = new Object[8];
+        
+        for(int i=0; i< lista.size(); i++){
+            fila[0] = lista.get(i).getIdTransaccionCredito();
+            fila[1] = lista.get(i).getIdProducto();
+            fila[2] = lista.get(i).getIdUnidadMedida();
+            fila[3] = lista.get(i).getNombreProducto();
+            fila[4] = lista.get(i).getNombreUnidadMedida();
+            fila[5] = lista.get(i).getCantidadCredido();
+            fila[6] = lista.get(i).getCantidadEntrega();
+            fila[7] = lista.get(i).getDiferencia();
+            
+            dtm.addRow(fila);
+        }        
+        jtPorEntregar.setModel(dtm);
+    }
+    
+    public void seleccionarPendiente(){
+        
+        int filSel = jtPendientes.getSelectedRow();
+        int idTransaccion = (int) jtPendientes.getValueAt(filSel, 0);
+        
+        llenarProductosPendientes(idTransaccion);
+        
     }
 
     
@@ -105,20 +144,38 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtPendientes = new javax.swing.JTable();
         jlTituloFormulario = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtPorEntregar = new javax.swing.JTable();
+        jlTituloFormulario1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jbPorEntregar = new javax.swing.JButton();
+        txtCantidad = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jtProductosPendientes1 = new javax.swing.JTable();
+        jlTituloFormulario2 = new javax.swing.JLabel();
+        jbTransaccion = new javax.swing.JButton();
+        jbSalir = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jtPendientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "idTransaccion", "Nro Trans.", "Fecha", "Nombre Cliente", "Direccion", "Telefonos"
             }
         ));
+        jtPendientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtPendientesMouseClicked(evt);
+            }
+        });
+        jtPendientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtPendientesKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtPendientes);
         if (jtPendientes.getColumnModel().getColumnCount() > 0) {
             jtPendientes.getColumnModel().getColumn(0).setMinWidth(0);
@@ -129,7 +186,86 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
         jlTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlTituloFormulario.setText("Entregas Pendientes");
+        jlTituloFormulario.setText("Productos Pendientes");
+
+        jtPorEntregar.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "idTransaccion", "idProducto", "idUnidadMedida", "Nombre Producto", "Unidad Medida", "A Entregar"
+            }
+        ));
+        jScrollPane2.setViewportView(jtPorEntregar);
+        if (jtPorEntregar.getColumnModel().getColumnCount() > 0) {
+            jtPorEntregar.getColumnModel().getColumn(0).setMinWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(1).setMinWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(1).setPreferredWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(1).setMaxWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(2).setMinWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(2).setPreferredWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(2).setMaxWidth(0);
+        }
+
+        jlTituloFormulario1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jlTituloFormulario1.setForeground(new java.awt.Color(153, 0, 51));
+        jlTituloFormulario1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlTituloFormulario1.setText("Entregas Pendientes");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel1.setText("A Entregar");
+
+        jbPorEntregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/flecha.png"))); // NOI18N
+
+        txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+
+        jtProductosPendientes1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "idTransaccion", "idProducto", "idUnidadMedida", "Nombre Producto", "Unidad Medida", "Cantidad", "Entregado", "Diferencia"
+            }
+        ));
+        jScrollPane3.setViewportView(jtProductosPendientes1);
+        if (jtProductosPendientes1.getColumnModel().getColumnCount() > 0) {
+            jtProductosPendientes1.getColumnModel().getColumn(0).setMinWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(1).setMinWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(1).setPreferredWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(1).setMaxWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(2).setMinWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(2).setPreferredWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(2).setMaxWidth(0);
+            jtProductosPendientes1.getColumnModel().getColumn(6).setHeaderValue("Entregado");
+            jtProductosPendientes1.getColumnModel().getColumn(7).setHeaderValue("Diferencia");
+        }
+
+        jlTituloFormulario2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jlTituloFormulario2.setForeground(new java.awt.Color(153, 0, 51));
+        jlTituloFormulario2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlTituloFormulario2.setText("Por Entregar");
+
+        jbTransaccion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Configurar.png"))); // NOI18N
+        jbTransaccion.setText("Transaccion");
+        jbTransaccion.setAlignmentY(0.7F);
+        jbTransaccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbTransaccionActionPerformed(evt);
+            }
+        });
+
+        jbSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
+        jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,29 +273,89 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlTituloFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jlTituloFormulario2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(81, 81, 81)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCantidad)
+                            .addComponent(jbPorEntregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbTransaccion)
+                                .addGap(236, 236, 236)
+                                .addComponent(jbSalir))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(28, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(39, 39, 39)
-                    .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(40, 40, 40)))
+                    .addGap(49, 49, 49)
+                    .addComponent(jlTituloFormulario1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(30, 30, 30)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(77, 77, 77)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(374, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlTituloFormulario)
+                    .addComponent(jlTituloFormulario2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbPorEntregar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbSalir)
+                    .addComponent(jbTransaccion))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(24, 24, 24)
-                    .addComponent(jlTituloFormulario)
-                    .addContainerGap(609, Short.MAX_VALUE)))
+                    .addGap(34, 34, 34)
+                    .addComponent(jlTituloFormulario1)
+                    .addContainerGap(606, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jtPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPendientesMouseClicked
+        seleccionarPendiente();
+    }//GEN-LAST:event_jtPendientesMouseClicked
+
+    private void jtPendientesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtPendientesKeyPressed
+        seleccionarPendiente();
+    }//GEN-LAST:event_jtPendientesKeyPressed
+
+    private void jbTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransaccionActionPerformed
+        jbTransaccion.setEnabled(false);
+
+
+        jbTransaccion.setEnabled(true);
+    }//GEN-LAST:event_jbTransaccionActionPerformed
+
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,8 +393,19 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton jbPorEntregar;
+    private javax.swing.JToggleButton jbSalir;
+    private javax.swing.JButton jbTransaccion;
     private javax.swing.JLabel jlTituloFormulario;
+    private javax.swing.JLabel jlTituloFormulario1;
+    private javax.swing.JLabel jlTituloFormulario2;
     private javax.swing.JTable jtPendientes;
+    private javax.swing.JTable jtPorEntregar;
+    private javax.swing.JTable jtProductosPendientes1;
+    private javax.swing.JTextField txtCantidad;
     // End of variables declaration//GEN-END:variables
 }

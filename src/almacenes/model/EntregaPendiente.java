@@ -19,7 +19,7 @@ public class EntregaPendiente {
     private String telefonos;
     private Date fecha;
     private int nroTipoTransaccion;
-    private String nombre_producto;
+    private String nombreProducto;
     private int idUnidadMedida;
     private String nombreUnidadMedida;
     private double cantidadCredido;
@@ -82,12 +82,12 @@ public class EntregaPendiente {
         this.nroTipoTransaccion = nroTipoTransaccion;
     }
 
-    public String getNombre_producto() {
-        return nombre_producto;
+    public String getNombreProducto() {
+        return nombreProducto;
     }
 
-    public void setNombre_producto(String nombre_producto) {
-        this.nombre_producto = nombre_producto;
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
 
     public int getIdUnidadMedida() {

@@ -59,13 +59,38 @@ public class EntregasDAOImpl implements EntregasDAO{
     }
 
     @Override
-    public ArrayList<EntregaPendiente> getProductosPendientes() {
+    public void abonoProducto(EntregaPendiente entregaPendiente) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void abonoProducto(EntregaPendiente entregaPendiente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<EntregaPendiente> getProductosPendientes(int idtransaccion) {
+        ArrayList<EntregaPendiente> listProductosPendientes = new ArrayList<>();
+        String sql = "SELECT id_transaccion_credito, id_producto, nombre_producto, id_unidad_medida, "
+                + "nombre_unidad_medida, cant_credito, cant_entrega, diferencia " +
+            "FROM v_entregas_pendientes " +
+            "WHERE id_transaccion_credito = "+String.valueOf(idtransaccion);
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                EntregaPendiente pendiente = new EntregaPendiente();
+                
+                pendiente.setIdTransaccionCredito(rs.getInt("id_transaccion_credito"));
+                pendiente.setIdProducto(rs.getInt("id_producto"));
+                pendiente.setNombreProducto(rs.getString("nombre_producto"));
+                pendiente.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
+                pendiente.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
+                pendiente.setCantidadCredido(rs.getDouble("cant_credito"));
+                pendiente.setCantidadEntrega(rs.getDouble("cant_entrega"));
+                pendiente.setDiferencia(rs.getDouble("diferencia"));
+                
+                listProductosPendientes.add(pendiente);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DosificacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listProductosPendientes;
     }
     
 }

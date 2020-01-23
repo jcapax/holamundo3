@@ -25,6 +25,15 @@ public class Temporal {
     private double valorTotal;
     private String tipoValor;
     private String fecha_vencimiento;
+    private int idTransaccion;
+
+    public int getIdTransaccion() {
+        return idTransaccion;
+    }
+
+    public void setIdTransaccion(int idTransaccion) {
+        this.idTransaccion = idTransaccion;
+    }
 
     public double getValorSubTotal() {
         return valorSubTotal;

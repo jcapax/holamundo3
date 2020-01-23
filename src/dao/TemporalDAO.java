@@ -27,4 +27,9 @@ public interface TemporalDAO {
     public void reducir10();
     public Double totalTemporal();
     
+    public ArrayList<Temporal> getListEntregaTemporal();
+    public void saveEntregaTemporal(Temporal temporal);
+    public void deleteEntregaTemporal(Temporal temporal);
+    public void emptyEntregaTemporal();
+    
 }
