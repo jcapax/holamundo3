@@ -216,20 +216,20 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         insertarCredito(idTransaccion, idClienteProveedor, detalle);
         
         ReporteCreditoDAO rep = new ReporteCreditoDAOImpl(connectionDB, usuario);
-        rep.vistaPreviaCredito(idTransaccion);
+        
+        rep.vistaPreviaEntregaPendiente(idTransaccion);
 
         limpiar();
 
-//        JOptionPane.showMessageDialog(this, "Credito generado con exito");        
         vaciarProductosTemporales();
         iniciarComponentes();
         
     }
 
     public void insertarCredito(int idTransaccion, int idClienteProveedor, String detalle){
+        byte entregaPendiente = 1;
         CreditoDAO cred = new CreditoDAOImpl(connectionDB);
-        cred.insertarCredito(idTransaccion, idClienteProveedor, detalle);
-        
+        cred.insertarCredito(idTransaccion, idClienteProveedor, detalle, entregaPendiente);        
     }
     
     public void registrarFactura(int idTransaccion) {

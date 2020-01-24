@@ -328,8 +328,8 @@ public class TemporalDAOImpl implements TemporalDAO{
             ps.setInt(2, temporal.getIdProducto());
             ps.setInt(3, temporal.getIdUnidadMedida());
             ps.setString(4, temporal.getNombreProducto());
-            ps.setString(4, temporal.getSimbolo());
-            ps.setDouble(4, temporal.getCantidad());
+            ps.setString(5, temporal.getSimbolo());
+            ps.setDouble(6, temporal.getCantidad());
             
             int n = ps.executeUpdate();
             if(n!=0){
@@ -365,5 +365,6 @@ public class TemporalDAOImpl implements TemporalDAO{
             Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     
 }

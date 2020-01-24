@@ -39,6 +39,8 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     
     private String usuario;
     DefaultTableModel dtm;
+    
+    TransaccionDAO transaccionDAO;
 
     public FormListaTransacciones(Connection connectionDB, String usuario) {
         initComponents();
@@ -66,7 +68,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     public void llenarTablaTransacciones(){
         double importeTotal = 0;
         
-        TransaccionDAO transaccionDAO = new TransaccionDAOImpl(connectionDB);
+        transaccionDAO = new TransaccionDAOImpl(connectionDB);
         
         ArrayList<ListaTransaccion> l = new ArrayList<>();
 
@@ -83,7 +85,12 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             fila[0] = l.get(i).getId();
             fila[1] = l.get(i).getNroTransaccion();
             fila[2] = l.get(i).getFecha();
-            fila[3] = l.get(i).getDescripcion();
+            if(transaccionDAO.isCreditoEntrega(l.get(i).getId())){
+                fila[3] = "Entrega Pendiente";
+            }else{
+                fila[3] = fila[3] = l.get(i).getDescripcion();
+            }
+            
             fila[4] = l.get(i).getValorTotal();
             fila[5] = l.get(i).getIdTipoTransaccion();
             
@@ -218,9 +225,9 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(btnSalir))
@@ -249,7 +256,11 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                     break;
                 case 3: // pedido
                     ReporteCreditoDAO rep = new ReporteCreditoDAOImpl(connectionDB, usuario);
-                    rep.vistaPreviaCredito(id);
+                    if(transaccionDAO.isCreditoEntrega(id)){
+                        rep.vistaPreviaEntregaPendiente(id);
+                    }else{                        
+                        rep.vistaPreviaCredito(id);
+                    }
                     break;
                 case 6: // ajuste
                     ReporteComprasDAO reporteComprasDAO = new ReporteComprasDAOImpl(connectionDB, usuario);
@@ -263,10 +274,8 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-    
         llenarTablaTransacciones();
         new Date(fecha.getDate().getTime());
-        
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void vistaPreviaReciboVenta(int idTransaccion) {

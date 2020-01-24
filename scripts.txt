@@ -45,3 +45,5 @@ HAVING (vp.cantidad - SUM(coalesce(ve.cantidad,0))) <> 0
 ORDER BY vp.fecha DESC
 
 
+
+ALTER TABLE `credito` ADD `entrega_pendiente` TINYINT NOT NULL DEFAULT '0' AFTER `detalle`;

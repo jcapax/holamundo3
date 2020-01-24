@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 public interface CreditoDAO {
     public void insertarCredito(int idTransaccion, int idClienteProveedor, String detalle);
+    public void insertarCredito(int idTransaccion, int idClienteProveedor, String detalle, int entregaPendiente);
     public ArrayList<PendientePago> getListaPendientesPago(int idTipoTransaccion);
     public ArrayList<Caja> getHistorialPagos(int idTransaccion);
     public double getSaldoTransaccion(int idtransaccion);

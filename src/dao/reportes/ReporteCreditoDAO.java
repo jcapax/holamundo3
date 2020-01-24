@@ -12,4 +12,5 @@ package dao.reportes;
 public interface ReporteCreditoDAO {
     public void vistaPreviaPagoCredito(int idTransaccion, String detalle);
     public void vistaPreviaCredito(int idTransaccion);
+    public void vistaPreviaEntregaPendiente(int idTransaccion);
 }

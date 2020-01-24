@@ -5,22 +5,31 @@
  */
 package almacenes.vistas;
 
+import almacenes.conectorDB.DataBaseSqlite;
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.DetalleTransaccion;
 import almacenes.model.EntregaPendiente;
+import almacenes.model.Temporal;
+import almacenes.model.Transaccion;
+import dao.DetalleTransaccionDAOImpl;
 import dao.EntregasDAO;
 import dao.EntregasDAOImpl;
+import dao.TemporalDAO;
+import dao.TemporalDAOImpl;
+import dao.TransaccionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author jcarlos.porcel
  */
-public class FormEntregasPendientes extends javax.swing.JFrame {
+public final class FormEntregasPendientes extends javax.swing.JFrame {
 
     private DatabaseUtils databaseUtils;
     private Connection connectionDB, connectionTemp;
@@ -32,11 +41,15 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
     private DecimalFormat df;
     
     EntregasDAO entregasDAO;
+    TemporalDAO temporalDAO;
+    Temporal productoTemporal;
 
     public FormEntregasPendientes(Connection connectionDB, 
             int idTipoTransaccionEntrega, byte idLugar, 
             byte idTerminal, String usuario) {        
         initComponents();
+        
+        this.setLocationRelativeTo(null);
         
         this.connectionDB = connectionDB;        
         this.idTipoTransaccionEntrega = idTipoTransaccionEntrega;
@@ -45,27 +58,102 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         this.usuario = usuario;
         
         headerTabla();
+        abrirConexionTemp();
         iniciarVariables();
-        llenarPendientesEntrega();
+        llenarPendientesEntrega();        
     }
     
+    public void abrirConexionTemp() {
+        DataBaseSqlite sqLite = new DataBaseSqlite();
+        connectionTemp = sqLite.conexion();
+    }
     public void headerTabla() {
-        Font f = new Font("Times New Roman", Font.BOLD, 13);
+        Font f = new Font("Times New Roman", Font.BOLD, 14);
 
         jtPendientes.getTableHeader().setFont(f);
         jtPendientes.getTableHeader().setBackground(Color.orange);
         
         jtProductosPendientes.getTableHeader().setFont(f);
         jtProductosPendientes.getTableHeader().setBackground(Color.orange);
+        
+        jtPorEntregar.getTableHeader().setFont(f);
+        jtPorEntregar.getTableHeader().setBackground(Color.orange);
     }
     
     private void iniciarVariables(){
-        entregasDAO = new EntregasDAOImpl(connectionDB);
+        entregasDAO = new EntregasDAOImpl(connectionDB); 
+        temporalDAO = new TemporalDAOImpl(connectionTemp);
+        
+        temporalDAO.emptyEntregaTemporal();
+    }
+    
+    public int resgistrarTransaccion(int idTipoTransaccion) {
+        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
+
+        int nroTipoTransaccion = 0;
+        int tipoMovimineto = transDaoImpl.getTipoMovimiento(idTipoTransaccion);
+
+        int idTransaccion = 0;
+        String estado = "A";
+        String descripcion = "Entrega de Productos";
+
+        java.util.Date hoy = new java.util.Date();
+        java.sql.Date fecha = new java.sql.Date(hoy.getTime());
+
+        nroTipoTransaccion = transDaoImpl.getNroTipoTransaccion(idTipoTransaccion);
+
+        Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion,
+                idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion);
+
+        idTransaccion = transDaoImpl.insertarTransaccion(trans);
+
+        return idTransaccion;
+    }
+    
+    public void registrarDetalleTransaccion(int idTransaccion) {
+
+        DetalleTransaccionDAOImpl detTranDAOImpl = new DetalleTransaccionDAOImpl(connectionDB);
+        ArrayList<DetalleTransaccion> detTrans = new ArrayList<DetalleTransaccion>();
+
+        int idProducto = 0;
+        int idUnidadMedida = 0;
+        double cantidad = 0;
+        double valorUnitario = 0;
+        double valorSubTotal = 0.0;
+        double descuento = 0.0;
+        double valorTotal = 0;
+        String tipoValor = "N";
+        
+        for(Temporal lista : temporalDAO.getListEntregaTemporal()){
+            DetalleTransaccion dt = new DetalleTransaccion();
+            
+            idProducto = lista.getIdProducto();
+            idUnidadMedida = lista.getIdUnidadMedida();
+            cantidad = lista.getCantidad();
+            
+            dt.setIdTransaccion(idTransaccion);
+            dt.setIdProducto(idProducto);
+            dt.setIdUnidadMedida(idUnidadMedida);
+            dt.setCantidad(cantidad);
+            dt.setValorUnitario(valorUnitario);
+            dt.setValorSubTotal(valorSubTotal);
+            dt.setDescuento(descuento);
+            dt.setValorTotal(valorTotal);
+            dt.setTipoValor(tipoValor);
+
+            detTrans.add(dt);
+        }
+        detTranDAOImpl.insertarDetalleTransaccion(detTrans);
+    }
+    
+    public void registrarEntregaTransaccion(int idEntregaTransaccion, int idTransaccion) {
+        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
+        transDaoImpl.insertarEntregaTransaccion(idTransaccion, idEntregaTransaccion);
     }
     
     public void llenarPendientesEntrega(){
         
-        ArrayList<EntregaPendiente> lista = new ArrayList<EntregaPendiente>();
+        ArrayList<EntregaPendiente> lista = new ArrayList<>();
         
         lista = entregasDAO.getListaEntregasPendientes();
         
@@ -76,56 +164,69 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         
         Object[] fila = new Object[6];
         
-        for(int i=0; i< lista.size(); i++){
-            fila[0] = lista.get(i).getIdTransaccionCredito();
-            fila[1] = lista.get(i).getNroTipoTransaccion();
-            fila[2] = lista.get(i).getFecha();
-            fila[3] = lista.get(i).getNombreCompleto();
-            fila[4] = lista.get(i).getDireccion();
-            fila[5] = lista.get(i).getTelefonos();
-            
+        for (EntregaPendiente lista1 : lista) {
+            fila[0] = lista1.getIdTransaccionCredito();
+            fila[1] = lista1.getNroTipoTransaccion();
+            fila[2] = lista1.getFecha();
+            fila[3] = lista1.getNombreCompleto();
+            fila[4] = lista1.getDireccion();
+            fila[5] = lista1.getTelefonos();
             dtm.addRow(fila);
         }
         jtPendientes.setModel(dtm);
     }
     
     public void llenarProductosPendientes(int idTransaccion){
-        ArrayList<EntregaPendiente> lista = new ArrayList<EntregaPendiente>();
+        ArrayList<EntregaPendiente> lista = new ArrayList<>();
         
         lista = entregasDAO.getProductosPendientes(idTransaccion);
         
-        dtm = (DefaultTableModel) this.jtPorEntregar.getModel();
+        dtm = (DefaultTableModel) this.jtProductosPendientes.getModel();
         dtm.setRowCount(0);
         
         jtProductosPendientes.setModel(dtm);
         
         Object[] fila = new Object[8];
         
-        for(int i=0; i< lista.size(); i++){
-            fila[0] = lista.get(i).getIdTransaccionCredito();
-            fila[1] = lista.get(i).getIdProducto();
-            fila[2] = lista.get(i).getIdUnidadMedida();
-            fila[3] = lista.get(i).getNombreProducto();
-            fila[4] = lista.get(i).getNombreUnidadMedida();
-            fila[5] = lista.get(i).getCantidadCredido();
-            fila[6] = lista.get(i).getCantidadEntrega();
-            fila[7] = lista.get(i).getDiferencia();
-            
+        for (EntregaPendiente lista1 : lista) {
+            fila[0] = lista1.getIdTransaccionCredito();
+            fila[1] = lista1.getIdProducto();
+            fila[2] = lista1.getIdUnidadMedida();
+            fila[3] = lista1.getNombreProducto();
+            fila[4] = lista1.getNombreUnidadMedida();
+            fila[5] = lista1.getCantidadCredido();
+            fila[6] = lista1.getCantidadEntrega();
+            fila[7] = lista1.getDiferencia();
             dtm.addRow(fila);
         }        
         jtProductosPendientes.setModel(dtm);
     }
     
-    public void seleccionarPendiente(){
+    public void llenarProductosPorEntregar(){
+        dtm = (DefaultTableModel) this.jtPorEntregar.getModel();
+        dtm.setRowCount(0);
         
-        int filSel = jtPendientes.getSelectedRow();
-        int idTransaccion = (int) jtPendientes.getValueAt(filSel, 0);
+        jtPorEntregar.setModel(dtm);
         
-        llenarProductosPendientes(idTransaccion);
+        Object[] fila = new Object[3];
+        
+        for (Temporal lista : temporalDAO.getListEntregaTemporal()) {
+            fila[0] = lista.getNombreProducto();
+            fila[1] = lista.getSimbolo();
+            fila[2] = lista.getCantidad();
+            dtm.addRow(fila);
+        }        
+        jtPorEntregar.setModel(dtm);
+    }
+    
+    public void seleccionarPendiente(int idTransaccion){        
+        llenarProductosPendientes(idTransaccion); 
+        temporalDAO.emptyEntregaTemporal();
+    }
+    
+    private void seleccionarProductoPendiente(){
         
     }
-
-    
     
     public FormEntregasPendientes() {
         initComponents();
@@ -157,6 +258,7 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jtPendientes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtPendientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -180,6 +282,15 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
             jtPendientes.getColumnModel().getColumn(0).setMinWidth(0);
             jtPendientes.getColumnModel().getColumn(0).setPreferredWidth(0);
             jtPendientes.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtPendientes.getColumnModel().getColumn(1).setMinWidth(75);
+            jtPendientes.getColumnModel().getColumn(1).setPreferredWidth(75);
+            jtPendientes.getColumnModel().getColumn(1).setMaxWidth(75);
+            jtPendientes.getColumnModel().getColumn(2).setMinWidth(80);
+            jtPendientes.getColumnModel().getColumn(2).setPreferredWidth(80);
+            jtPendientes.getColumnModel().getColumn(2).setMaxWidth(80);
+            jtPendientes.getColumnModel().getColumn(5).setMinWidth(150);
+            jtPendientes.getColumnModel().getColumn(5).setPreferredWidth(150);
+            jtPendientes.getColumnModel().getColumn(5).setMaxWidth(150);
         }
 
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -187,25 +298,20 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         jlTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlTituloFormulario.setText("Productos Pendientes");
 
+        jtPorEntregar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtPorEntregar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "idTransaccion", "idProducto", "idUnidadMedida", "Nombre Producto", "Unidad Medida", "A Entregar"
+                "Nombre Producto", "Unidad Medida", "A Entregar"
             }
         ));
         jScrollPane2.setViewportView(jtPorEntregar);
         if (jtPorEntregar.getColumnModel().getColumnCount() > 0) {
-            jtPorEntregar.getColumnModel().getColumn(0).setMinWidth(0);
-            jtPorEntregar.getColumnModel().getColumn(0).setPreferredWidth(0);
-            jtPorEntregar.getColumnModel().getColumn(0).setMaxWidth(0);
-            jtPorEntregar.getColumnModel().getColumn(1).setMinWidth(0);
-            jtPorEntregar.getColumnModel().getColumn(1).setPreferredWidth(0);
-            jtPorEntregar.getColumnModel().getColumn(1).setMaxWidth(0);
-            jtPorEntregar.getColumnModel().getColumn(2).setMinWidth(0);
-            jtPorEntregar.getColumnModel().getColumn(2).setPreferredWidth(0);
-            jtPorEntregar.getColumnModel().getColumn(2).setMaxWidth(0);
+            jtPorEntregar.getColumnModel().getColumn(2).setMinWidth(80);
+            jtPorEntregar.getColumnModel().getColumn(2).setPreferredWidth(80);
+            jtPorEntregar.getColumnModel().getColumn(2).setMaxWidth(80);
         }
 
         jlTituloFormulario1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -218,9 +324,15 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
         jLabel1.setText("A Entregar");
 
         jbPorEntregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/flecha.png"))); // NOI18N
+        jbPorEntregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPorEntregarActionPerformed(evt);
+            }
+        });
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
+        jtProductosPendientes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtProductosPendientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -229,6 +341,11 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
                 "idTransaccion", "idProducto", "idUnidadMedida", "Nombre Producto", "Unidad Medida", "Cantidad", "Entregado", "Diferencia"
             }
         ));
+        jtProductosPendientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtProductosPendientesKeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(jtProductosPendientes);
         if (jtProductosPendientes.getColumnModel().getColumnCount() > 0) {
             jtProductosPendientes.getColumnModel().getColumn(0).setMinWidth(0);
@@ -240,8 +357,18 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
             jtProductosPendientes.getColumnModel().getColumn(2).setMinWidth(0);
             jtProductosPendientes.getColumnModel().getColumn(2).setPreferredWidth(0);
             jtProductosPendientes.getColumnModel().getColumn(2).setMaxWidth(0);
-            jtProductosPendientes.getColumnModel().getColumn(6).setHeaderValue("Entregado");
-            jtProductosPendientes.getColumnModel().getColumn(7).setHeaderValue("Diferencia");
+            jtProductosPendientes.getColumnModel().getColumn(4).setMinWidth(100);
+            jtProductosPendientes.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jtProductosPendientes.getColumnModel().getColumn(4).setMaxWidth(100);
+            jtProductosPendientes.getColumnModel().getColumn(5).setMinWidth(75);
+            jtProductosPendientes.getColumnModel().getColumn(5).setPreferredWidth(75);
+            jtProductosPendientes.getColumnModel().getColumn(5).setMaxWidth(75);
+            jtProductosPendientes.getColumnModel().getColumn(6).setMinWidth(75);
+            jtProductosPendientes.getColumnModel().getColumn(6).setPreferredWidth(75);
+            jtProductosPendientes.getColumnModel().getColumn(6).setMaxWidth(75);
+            jtProductosPendientes.getColumnModel().getColumn(7).setMinWidth(75);
+            jtProductosPendientes.getColumnModel().getColumn(7).setPreferredWidth(75);
+            jtProductosPendientes.getColumnModel().getColumn(7).setMaxWidth(75);
         }
 
         jlTituloFormulario2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -338,23 +465,69 @@ public class FormEntregasPendientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPendientesMouseClicked
-        seleccionarPendiente();
+        int filSel = jtPendientes.getSelectedRow();
+        int idTransaccion = (int) jtPendientes.getValueAt(filSel, 0);
+        seleccionarPendiente(idTransaccion);
     }//GEN-LAST:event_jtPendientesMouseClicked
 
     private void jtPendientesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtPendientesKeyPressed
-        seleccionarPendiente();
+        int filSel = jtPendientes.getSelectedRow();
+        int idTransaccion = (int) jtPendientes.getValueAt(filSel, 0);
+        seleccionarPendiente(idTransaccion);
     }//GEN-LAST:event_jtPendientesKeyPressed
 
     private void jbTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransaccionActionPerformed
         jbTransaccion.setEnabled(false);
-
+        
+        int idTransaccion = resgistrarTransaccion(idTipoTransaccionEntrega);
+        registrarDetalleTransaccion(idTransaccion);
+        registrarEntregaTransaccion(idTransaccion, productoTemporal.getIdTransaccion());
+        
+        temporalDAO.emptyEntregaTemporal();
+        llenarPendientesEntrega();
 
         jbTransaccion.setEnabled(true);
+        JOptionPane.showMessageDialog( null, "Registro Exitoso" , "Error", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_jbTransaccionActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jtProductosPendientesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtProductosPendientesKeyPressed
+        seleccionarProductoPendiente();
+    }//GEN-LAST:event_jtProductosPendientesKeyPressed
+
+    private void jbPorEntregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPorEntregarActionPerformed
+    
+        int filSel = jtProductosPendientes.getSelectedRow();
+        int idTransaccion = (int) jtProductosPendientes.getValueAt(filSel, 0);
+        int idProducto =  (int) jtProductosPendientes.getValueAt(filSel, 1);
+        int idUnidadMedida =  (int) jtProductosPendientes.getValueAt(filSel, 2);
+        String nombreProducto = (String) jtProductosPendientes.getValueAt(filSel, 3);
+        String nombreUnidadMedida = (String) jtProductosPendientes.getValueAt(filSel, 4);
+        double diferencia =  (double) jtProductosPendientes.getValueAt(filSel, 7);
+        double cantidad = Double.valueOf(txtCantidad.getText().toString());
+        
+        productoTemporal = new Temporal();
+        
+        productoTemporal.setIdTransaccion(idTransaccion);
+        productoTemporal.setIdProducto(idProducto);
+        productoTemporal.setIdUnidadMedida(idUnidadMedida);
+        productoTemporal.setNombreProducto(nombreProducto);
+        productoTemporal.setSimbolo(nombreUnidadMedida);
+        if(cantidad > diferencia){
+            productoTemporal.setCantidad(diferencia);
+        }else{
+            productoTemporal.setCantidad(cantidad);
+        }
+        
+        temporalDAO.saveEntregaTemporal(productoTemporal);
+        llenarProductosPorEntregar();
+        llenarProductosPendientes(0);
+        
+        txtCantidad.setText("");
+    }//GEN-LAST:event_jbPorEntregarActionPerformed
 
     /**
      * @param args the command line arguments

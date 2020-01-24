@@ -207,6 +207,40 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         return lista;
     }
 
-    
+    @Override
+    public void saveCreditoTransaccionEntrega(int idTransaccion) {
+        String sql = "INSERT INTO pendiente_transaccion_entrega(id_transaccion) "
+                + "values(?)";        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idTransaccion);
+            
+            int n = ps.executeUpdate();
+            if(n!=0){
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public boolean isCreditoEntrega(int idTransaccion) {
+        boolean aux = false;
+        
+        String sql = "SELECT id_transaccion FROM credito "
+                + "WHERE entrega_pendiente = 1 and id_transaccion = "+String.valueOf(idTransaccion);        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                aux = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return aux;
+    }
     
 }

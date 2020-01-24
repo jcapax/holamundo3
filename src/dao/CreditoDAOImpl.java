@@ -33,7 +33,7 @@ public class CreditoDAOImpl implements CreditoDAO{
     @Override
     public void insertarCredito(int idTransaccion, int idClienteProveedor, String detalle) {
         try {
-            String sql = "insert into credito values(?, ?, ?)";
+            String sql = "insert into credito values(?, ?, ?, 0)";
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTransaccion);
             ps.setInt(2, idClienteProveedor);
@@ -117,5 +117,20 @@ public class CreditoDAOImpl implements CreditoDAO{
         }        
         return saldo;
     }
-    
+
+    @Override
+    public void insertarCredito(int idTransaccion, int idClienteProveedor, String detalle, int entregaPendiente) {
+        try {
+            String sql = "insert into credito values(?, ?, ?, ?)";
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idTransaccion);
+            ps.setInt(2, idClienteProveedor);
+            ps.setString(3, detalle);
+            ps.setInt(4, entregaPendiente);
+            ps.executeUpdate();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(CreditoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
