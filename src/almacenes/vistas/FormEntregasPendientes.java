@@ -485,6 +485,8 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         
         temporalDAO.emptyEntregaTemporal();
         llenarPendientesEntrega();
+        llenarProductosPorEntregar();
+        llenarProductosPendientes(0);
 
         jbTransaccion.setEnabled(true);
         JOptionPane.showMessageDialog( null, "Registro Exitoso" , "Error", JOptionPane.ERROR_MESSAGE);
@@ -524,7 +526,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         
         temporalDAO.saveEntregaTemporal(productoTemporal);
         llenarProductosPorEntregar();
-        llenarProductosPendientes(0);
+//        llenarProductosPendientes(0);
         
         txtCantidad.setText("");
     }//GEN-LAST:event_jbPorEntregarActionPerformed

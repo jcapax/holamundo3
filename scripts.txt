@@ -47,3 +47,17 @@ ORDER BY vp.fecha DESC
 
 
 ALTER TABLE `credito` ADD `entrega_pendiente` TINYINT NOT NULL DEFAULT '0' AFTER `detalle`;
+
+
+
+SELECT v.nombre_completo, v.fecha, v.nombre_producto, v.nombre_unidad_medida as unidad_medida, 
+	v.cant_credito, v.cant_entrega, v.diferencia, 
+	d.cantidad, e.id_entrega_transaccion,
+    t.nro_tipo_transaccion
+FROM v_entregas_pendientes v
+	JOIN entrega_transaccion e ON e.id_transaccion = v.id_transaccion_credito
+    	JOIN detalle_transaccion d ON d.id_transaccion = e.id_entrega_transaccion 
+    	and d.id_producto = v.id_producto
+        and d.id_unidad_medida = v.id_unidad_medida
+	JOIN transaccion t ON t.id = d.id_transaccion
+WHERE v.id_transaccion_credito = 60
