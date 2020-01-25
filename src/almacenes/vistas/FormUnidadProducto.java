@@ -243,7 +243,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         double precioVentaAumento = 0;
         
         double precioCompra;
-        if(jtxtPrecioVenta.getText().trim().equals("")){
+        if(jtxtPrecioCompra.getText().trim().equals("")){
             precioCompra = 0;
         }else{
             precioCompra = Double.valueOf(jtxtPrecioCompra.getText());

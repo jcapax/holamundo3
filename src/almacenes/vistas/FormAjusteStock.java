@@ -511,6 +511,7 @@ public class FormAjusteStock extends javax.swing.JFrame {
         jtTemporal.setModel(dtm);
 
         jtxtTotalTransaccion.setText("");
+        jtxtDetalle.setText("");
     }
 
     public int resgistrarTransaccion(int idTipoTransaccion) {
