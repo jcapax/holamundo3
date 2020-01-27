@@ -48,13 +48,35 @@ ORDER BY vp.fecha DESC
 
 ALTER TABLE `credito` ADD `entrega_pendiente` TINYINT NOT NULL DEFAULT '0' AFTER `detalle`;
 
-***************************************************************************************************************************
-SELECT t.id, t.fecha, t.nro_tipo_transaccion, t.descripcion_transaccion, t.usuario, 
-	d.descripcion nombre_producto, d.simbolo, d.cantidad, d.valor_unitario, d.valor_total
+
+drop view v_entrega_productos_pendientes
+
+create view v_entrega_productos_pendientes
+as
+SELECT t.id, e.id_transaccion, t.fecha, t.nro_tipo_transaccion, 
+	t.descripcion_transaccion, t.usuario, t.fecha_hora_registro, 
+	d.id_producto, d.id_unidad_medida, d.descripcion nombre_producto, 
+    d.simbolo, d.cantidad, d.valor_unitario, d.valor_total
 FROM transaccion t 
 	join entrega_transaccion e on t.id = e.id_entrega_transaccion
     join v_detalle_transaccion d on t.id = d.id_transaccion
 where id_tipo_transaccion = 8 
 	and e.id_transaccion in (select id_transaccion from credito where entrega_pendiente = 1)
 order by t.id
-***************************************************************************************************************************
+
+
+
+CREATE FUNCTION `f_cantidad_entrega_transaccion`
+	(`_id_transaccion` INT, `_id_producto` INT, `_id_unidad_medida` INT) 
+RETURNS DOUBLE NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER 
+BEGIN 
+	DECLARE cantidad_total DECIMAL(12,2); 
+	SET cantidad_total = 0; 
+	SET cantidad_total = (
+		SELECT cantidad 
+		FROM detalle_transaccion 
+		WHERE id_transaccion = _id_transaccion AND 
+			id_producto = _id_producto AND 
+			id_unidad_medida = _id_unidad_medida); 
+	RETURN cantidad_total; 
+END 

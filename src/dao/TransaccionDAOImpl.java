@@ -180,10 +180,17 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         
         String sql = "SELECT id, descripcion_tipo_transaccion, fecha, "
                         + "nro_tipo_transaccion, valor_total, fecha_hora_registro, id_tipo_transaccion \n" +
-                     "FROM v_transaccion \n" +
+                     "FROM v_transaccion " +
                      "WHERE id_tipo_transaccion in (1, 2, 3, 6) "
                         + "and usuario = '"+usuario+"'"
-                        + "and fecha = '"+String.valueOf(fecha)+"'";
+                        + "and fecha = '"+String.valueOf(fecha)+"' "
+                + "UNION "
+                   + "SELECT DISTINCT id, descripcion_transaccion as descripcion_tipo_transaccion, fecha, " +
+                        "nro_tipo_transaccion, valor_total, fecha_hora_registro, 0 " +
+                        "FROM v_entrega_productos_pendientes " +
+                        "WHERE fecha = '"+String.valueOf(fecha)+"' " +
+                        "and usuario = '"+usuario+"' " +
+                      "ORDER BY id";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
