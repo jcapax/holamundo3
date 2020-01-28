@@ -64,5 +64,12 @@ public class ReporteCreditoDAOImpl implements ReporteCreditoDAO{
         
         this.imprimir.vistaPreviaReporte("Reporte Entrega Pendiente", "reporte_entrega_producto.jrxml", parametros);
     }
+
+    @Override
+    public void vistaPreviaEntregaProductosCredito() {
+        Map parametros = new HashMap<>();
+        
+        this.imprimir.vistaPreviaReporte("Reporte Entrega Pendiente", "reporte_entrega_producto.jrxml", parametros);
+    }
     
 }

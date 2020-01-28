@@ -269,8 +269,13 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                 case 8: // ajuste
                     TransaccionDAO transaccionDAO = new TransaccionDAOImpl(connectionDB);
                     int idTransaccionInicial = transaccionDAO.getIdTransaccionOriginalDeEntregaPendiente(id);
+                    transaccionDAO.crearTemporalEntrega();                    
+                    transaccionDAO.insertarEntregaTemporal(idTransaccionInicial, id);
+                    
                     ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
-                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito(idTransaccionInicial, id );
+//                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito(idTransaccionInicial, id );                    
+                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito();
+                    transaccionDAO.eliminarDatosTemporalEntrega();
                     break;
             }
             

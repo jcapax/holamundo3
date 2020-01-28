@@ -14,5 +14,6 @@ public interface ReporteCreditoDAO {
     public void vistaPreviaCredito(int idTransaccion);
     public void vistaPreviaEntregaPendiente(int idTransaccion);
     public void vistaPreviaEntregaProductosCredito(int idTransaccion, int idTransaccionEntrega);
+    public void vistaPreviaEntregaProductosCredito();
             
 }

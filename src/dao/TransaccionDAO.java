@@ -23,6 +23,9 @@ public interface TransaccionDAO {
     public Date getFechaTransaccion(int idTransaccion);
     public ArrayList<ListaTransaccion> getlistaTransacciones(Date fecha, String usuario); 
     public int getIdTransaccionOriginalDeEntregaPendiente(int idTransaccion);
+    public void crearTemporalEntrega();
+    public void eliminarDatosTemporalEntrega();
+    public void insertarEntregaTemporal(int idTransaccionInicial, int idTransaccionEntrega);
     
     public void saveCreditoTransaccionEntrega(int idTransaccion);
     public boolean isCreditoEntrega(int idTransaccion);

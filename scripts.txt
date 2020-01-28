@@ -82,4 +82,11 @@ BEGIN
 END 
 
 
-CREATE FUNCTION `f_fecha_transaccion`(`_idTransaccion` INT) RETURNS DATE NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER BEGIN DECLARE _fecha Date; SET _fecha = (SELECT fecha FROM transaccion WHERE id = _idTransaccion); RETURN _fecha; END 
+CREATE FUNCTION `f_fecha_transaccion`(
+    	`_idTransaccion` INT) 
+RETURNS DATE NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER 
+BEGIN 
+	DECLARE _fecha Date; 
+    SET _fecha = (SELECT fecha FROM transaccion WHERE id = _idTransaccion); 
+    RETURN _fecha; 
+END

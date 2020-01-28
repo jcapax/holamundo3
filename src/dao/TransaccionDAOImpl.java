@@ -268,5 +268,99 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         
         return idTransaccionInicial;
     }
+
+    @Override
+    public void crearTemporalEntrega() {
+        String sql_temp = "CREATE TEMPORARY TABLE IF NOT EXISTS temp_entregas(\n" +
+                                "    id_transaccion_credito      int,\n" +
+                                "    id_producto                 int, \n" +
+                                "    nombre_completo             varchar(100),\n" +
+                                "    direccion                   varchar(100),\n" +
+                                "    telefonos                   varchar(100),\n" +
+                                "    fecha                       varchar(100),\n" +
+                                "    nro_tipo_transaccion        int,\n" +
+                                "    usuario                     varchar(100),\n" +
+                                "    nombre_producto             varchar(100),\n" +
+                                "    id_unidad_medida            int,\n" +
+                                "    nombre_unidad_medida        varchar(100),\n" +
+                                "    cant_credito                decimal(12,2),\n" +
+                                "    cant_entrega                decimal(12,2),\n" +
+                                "    diferencia                  decimal(12,2),\n" +
+                                "    cantidad_actual             decimal(12,2)\n" +
+                                ");"; 
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql_temp);
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void insertarEntregaTemporal(int idTransaccionInicial, int idTransaccionEntrega) {
+        String sql = "SELECT vp.id_transaccion as id_transaccion_credito, vp.id_producto, vp.nombre_completo, \n" +
+                    "    vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion, ve.usuario,     \n" +
+                    "    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad as cant_credito, \n" +
+                    "    SUM(coalesce(ve.cantidad,0)) as cant_entrega,\n" +
+                    "    (vp.cantidad - SUM(coalesce(ve.cantidad,0))) AS diferencia,\n" +
+                    "    f_cantidad_entrega_transaccion(?, vp.id_producto, vp.id_unidad_medida) as cantidad_actual,\n" +
+                    "    f_fecha_transaccion(?) as fecha\n" +
+                    "FROM v_creditos vp\n" +
+                    "    LEFT JOIN v_entrega_productos ve on vp.id_transaccion=ve.id_transaccion_entrega\n" +
+                    "         AND vp.id_unidad_medida = ve.id_unidad_medida\n" +
+                    "         AND vp.id_producto = ve.id_producto\n" +
+                    "WHERE vp.id_transaccion = ?         \n" +
+                    "GROUP BY vp.id_transaccion, vp.id_producto, vp.nombre_completo, \n" +
+                    "    vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion, ve.usuario,    \n" +
+                    "    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad \n" +                
+                    "ORDER BY vp.fecha DESC";   
+//        System.out.println(sql);
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idTransaccionEntrega);
+            ps.setInt(2, idTransaccionEntrega);
+            ps.setInt(3, idTransaccionInicial);
+            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                String sql_ins = "INSERT INTO temp_entregas(id_transaccion_credito, id_producto, "
+                        + "nombre_completo, direccion, telefonos, fecha, nro_tipo_transaccion, usuario, "
+                        + "nombre_producto, id_unidad_medida, nombre_unidad_medida, cant_credito, cant_entrega, "
+                        + "diferencia, cantidad_actual) "
+                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps_ins = connectionDB.prepareStatement(sql_ins);
+                ps_ins.setInt(1, rs.getInt("id_transaccion_credito"));
+                ps_ins.setInt(2, rs.getInt("id_producto"));
+                ps_ins.setString(3, rs.getString("nombre_completo"));
+                ps_ins.setString(4, rs.getString("direccion"));
+                ps_ins.setString(5, rs.getString("telefonos"));
+                ps_ins.setString(6, rs.getString("fecha"));
+                ps_ins.setInt(7, rs.getInt("nro_tipo_transaccion"));
+                ps_ins.setString(8, rs.getString("usuario"));
+                ps_ins.setString(9, rs.getString("nombre_producto"));
+                ps_ins.setInt(10, rs.getInt("id_unidad_medida"));
+                ps_ins.setString(11, rs.getString("nombre_unidad_medida"));
+                ps_ins.setDouble(12, rs.getDouble("cant_credito"));
+                ps_ins.setDouble(13, rs.getDouble("cant_entrega"));
+                ps_ins.setDouble(14, rs.getDouble("diferencia"));
+                ps_ins.setDouble(15, rs.getDouble("cantidad_actual"));
+                ps_ins.execute();
+                       
+            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void eliminarDatosTemporalEntrega() {
+        String sql_temp = "DELETE FROM  temp_entregas"; 
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql_temp);
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

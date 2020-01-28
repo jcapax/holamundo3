@@ -16,6 +16,7 @@ import dao.EntregasDAO;
 import dao.EntregasDAOImpl;
 import dao.TemporalDAO;
 import dao.TemporalDAOImpl;
+import dao.TransaccionDAO;
 import dao.TransaccionDAOImpl;
 import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
@@ -491,10 +492,14 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         llenarProductosPorEntregar();
         llenarProductosPendientes(0);
         
-        reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
-        reporteCreditoDAO.vistaPreviaEntregaProductosCredito( 
-                productoTemporal.getIdTransaccion(),
-                idTransaccion);
+        TransaccionDAO transaccionDAO = new TransaccionDAOImpl(connectionDB);
+        transaccionDAO.crearTemporalEntrega();                    
+        transaccionDAO.insertarEntregaTemporal(productoTemporal.getIdTransaccion(), idTransaccion);
+
+        ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
+//                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito(idTransaccionInicial, id );                    
+        reporteCreditoDAO.vistaPreviaEntregaProductosCredito();
+        transaccionDAO.eliminarDatosTemporalEntrega();
 
         jbTransaccion.setEnabled(true);
 //        JOptionPane.showMessageDialog( null, "Registro Exitoso" , "Error", JOptionPane.ERROR_MESSAGE);
