@@ -43,6 +43,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     private String usuario;
     private DecimalFormat df;
     
+    TransaccionDAO transaccionDAO;
     EntregasDAO entregasDAO;
     ReporteCreditoDAO reporteCreditoDAO;
     TemporalDAO temporalDAO;
@@ -85,10 +86,11 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     }
     
     private void iniciarVariables(){
+        transaccionDAO = new TransaccionDAOImpl(connectionDB);
         entregasDAO = new EntregasDAOImpl(connectionDB); 
         temporalDAO = new TemporalDAOImpl(connectionTemp);
         
-        temporalDAO.emptyEntregaTemporal();
+        temporalDAO.emptyEntregaTemporal();        
     }
     
     public int resgistrarTransaccion(int idTipoTransaccion) {
@@ -492,11 +494,10 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         llenarProductosPorEntregar();
         llenarProductosPendientes(0);
         
-        TransaccionDAO transaccionDAO = new TransaccionDAOImpl(connectionDB);
         transaccionDAO.crearTemporalEntrega();                    
         transaccionDAO.insertarEntregaTemporal(productoTemporal.getIdTransaccion(), idTransaccion);
 
-        ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
+//        ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
 //                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito(idTransaccionInicial, id );                    
         reporteCreditoDAO.vistaPreviaEntregaProductosCredito();
         transaccionDAO.eliminarDatosTemporalEntrega();
