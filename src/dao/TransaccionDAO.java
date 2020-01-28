@@ -9,7 +9,6 @@ import almacenes.model.ListaTransaccion;
 import almacenes.model.Transaccion;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -23,6 +22,7 @@ public interface TransaccionDAO {
     public double getValorTotalTransaccion(int idTransaccion);
     public Date getFechaTransaccion(int idTransaccion);
     public ArrayList<ListaTransaccion> getlistaTransacciones(Date fecha, String usuario); 
+    public int getIdTransaccionOriginalDeEntregaPendiente(int idTransaccion);
     
     public void saveCreditoTransaccionEntrega(int idTransaccion);
     public boolean isCreditoEntrega(int idTransaccion);

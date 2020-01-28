@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -186,7 +185,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                         + "and fecha = '"+String.valueOf(fecha)+"' "
                 + "UNION "
                    + "SELECT DISTINCT id, descripcion_transaccion as descripcion_tipo_transaccion, fecha, " +
-                        "nro_tipo_transaccion, valor_total, fecha_hora_registro, 0 " +
+                        "nro_tipo_transaccion, valor_total, fecha_hora_registro, 8 " +
                         "FROM v_entrega_productos_pendientes " +
                         "WHERE fecha = '"+String.valueOf(fecha)+"' " +
                         "and usuario = '"+usuario+"' " +
@@ -248,6 +247,26 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         }
         
         return aux;
+    }
+
+    @Override
+    public int getIdTransaccionOriginalDeEntregaPendiente(int idTransaccion) {
+        int idTransaccionInicial = 0;
+        String sql = "select id_transaccion from v_entrega_productos_pendientes "
+                + "where id = ?";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idTransaccion);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                idTransaccionInicial = rs.getInt("id_transaccion");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return idTransaccionInicial;
     }
     
 }

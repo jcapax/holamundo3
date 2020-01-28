@@ -17,6 +17,8 @@ import dao.EntregasDAOImpl;
 import dao.TemporalDAO;
 import dao.TemporalDAOImpl;
 import dao.TransaccionDAOImpl;
+import dao.reportes.ReporteCreditoDAO;
+import dao.reportes.ReporteCreditoDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -41,6 +43,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     private DecimalFormat df;
     
     EntregasDAO entregasDAO;
+    ReporteCreditoDAO reporteCreditoDAO;
     TemporalDAO temporalDAO;
     Temporal productoTemporal;
 
@@ -487,9 +490,14 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         llenarPendientesEntrega();
         llenarProductosPorEntregar();
         llenarProductosPendientes(0);
+        
+        reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
+        reporteCreditoDAO.vistaPreviaEntregaProductosCredito( 
+                productoTemporal.getIdTransaccion(),
+                idTransaccion);
 
         jbTransaccion.setEnabled(true);
-        JOptionPane.showMessageDialog( null, "Registro Exitoso" , "Error", JOptionPane.ERROR_MESSAGE);
+//        JOptionPane.showMessageDialog( null, "Registro Exitoso" , "Error", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_jbTransaccionActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed

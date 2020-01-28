@@ -86,9 +86,9 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             fila[1] = l.get(i).getNroTransaccion();
             fila[2] = l.get(i).getFecha();
             if(transaccionDAO.isCreditoEntrega(l.get(i).getId())){
-                fila[3] = "Entrega Pendiente";
+                fila[3] = "ENTREGA PENDIENTE";
             }else{
-                fila[3] = fila[3] = l.get(i).getDescripcion();
+                fila[3] = l.get(i).getDescripcion();
             }
             
             fila[4] = l.get(i).getValorTotal();
@@ -130,20 +130,17 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "id", "Nro Trans", "Fecha", "Descripcion", "Valor Total", "idTipotransaccion"
+                "id", "Nro Trans", "Fecha", "Descripcion", "Valor Total", "idTipotransaccion", "idTrans"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -163,6 +160,9 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             jtListaTransacciones.getColumnModel().getColumn(5).setMinWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(5).setPreferredWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(5).setMaxWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(6).setMinWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(6).setPreferredWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(6).setMaxWidth(0);
         }
 
         fecha.setDateFormatString("dd/MM/yyyy");
@@ -265,6 +265,12 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                 case 6: // ajuste
                     ReporteComprasDAO reporteComprasDAO = new ReporteComprasDAOImpl(connectionDB, usuario);
                     reporteComprasDAO.vistaPreviaAjusteStock(id);
+                    break;
+                case 8: // ajuste
+                    TransaccionDAO transaccionDAO = new TransaccionDAOImpl(connectionDB);
+                    int idTransaccionInicial = transaccionDAO.getIdTransaccionOriginalDeEntregaPendiente(id);
+                    ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
+                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito(idTransaccionInicial, id );
                     break;
             }
             
