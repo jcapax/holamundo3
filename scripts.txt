@@ -65,9 +65,9 @@ where id_tipo_transaccion = 8
 order by t.id
 
 
-
-CREATE FUNCTION `f_cantidad_entrega_transaccion`
-	(`_id_transaccion` INT, `_id_producto` INT, `_id_unidad_medida` INT) 
+DELIMITER $$
+CREATE FUNCTION f_cantidad_entrega_transaccion
+	(_id_transaccion INT, _id_producto INT, _id_unidad_medida INT) 
 RETURNS DOUBLE NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER 
 BEGIN 
 	DECLARE cantidad_total DECIMAL(12,2); 
@@ -79,14 +79,14 @@ BEGIN
 			id_producto = _id_producto AND 
 			id_unidad_medida = _id_unidad_medida); 
 	RETURN cantidad_total; 
-END 
+END $$;
 
-
-CREATE FUNCTION `f_fecha_transaccion`(
-    	`_idTransaccion` INT) 
+DELIMITER $$
+CREATE FUNCTION f_fecha_transaccion(
+    	_idTransaccion INT) 
 RETURNS DATE NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER 
 BEGIN 
 	DECLARE _fecha Date; 
     SET _fecha = (SELECT fecha FROM transaccion WHERE id = _idTransaccion); 
     RETURN _fecha; 
-END
+END $$;

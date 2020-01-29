@@ -693,7 +693,7 @@ public class FormMenu extends javax.swing.JFrame {
 //        procesosVentas.setVisible(true);
         int idTipoTransaccion = 2;
         int idTipoTransaccionEntrega = 8;
-/*        
+       
         SucursalDAO suc = new SucursalDAOImpl(connectionDB);
         byte idSucursal = suc.getIdSucursal(idLugar);
         
@@ -710,10 +710,10 @@ public class FormMenu extends javax.swing.JFrame {
         FormTransaccion formTrans = new FormTransaccion(connectionDB, 
                                             idTipoTransaccion, idTipoTransaccionEntrega, 
                                             idUsuario, idLugar, idTerminal);
-*/
-        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
-                                            idTipoTransaccion, idTipoTransaccionEntrega, 
-                                            idUsuario, idLugar, idTerminal);
+
+//        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
+//                                            idTipoTransaccion, idTipoTransaccionEntrega, 
+//                                            idUsuario, idLugar, idTerminal);
         formTrans.setVisible(true);
     }//GEN-LAST:event_jMenuVentasActionPerformed
 
