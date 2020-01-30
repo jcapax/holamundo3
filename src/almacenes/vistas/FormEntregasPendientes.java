@@ -497,9 +497,9 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         transaccionDAO.crearTemporalEntrega();                    
         transaccionDAO.insertarEntregaTemporal(productoTemporal.getIdTransaccion(), idTransaccion);
 
-//        ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
+        ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
 //                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito(idTransaccionInicial, id );                    
-        reporteCreditoDAO.vistaPreviaEntregaProductosCredito();
+        reporteCreditoDAO.vistaPreviaEntregaProductosCredito(productoTemporal.getIdTransaccion(), idTransaccion);
         transaccionDAO.eliminarDatosTemporalEntrega();
 
         jbTransaccion.setEnabled(true);
