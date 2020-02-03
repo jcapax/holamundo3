@@ -53,6 +53,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -134,13 +135,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         switch (idTipoTransaccion) {
             case 3:
                 jbTransaccion.setVisible(true);
-                jlTituloFormulario.setText("CREDITO VENTAS");
-
-                jlnit.setEnabled(false);
-                jtxtNit.setEnabled(false);
-
-                jlRazonSocial.setEnabled(false);
-                jtxtRazonSocial.setEnabled(false);
+                jlTituloFormulario.setText("CREDITO ENTREGA");
 
                 jtxtValorUnitario.setEnabled(false);
                 jtxtValorUnitario.setEditable(false);
@@ -173,25 +168,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         if (jtTemporal.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "No existen productos para ejectuar la transaccion!!!");
             aux = false;
-        }
-        if (idTipoTransaccion == 2) { //VENTA
-            if(jtxtNit.getText().length() == 0){jtxtNit.setText("0");}
-            if (jtxtNit.getText().length() == 0) {
-                JOptionPane.showMessageDialog(this, "El Nit o CI del cliente no pueden estar vacio!!!");
-                aux = false;
-            }
-            if(jtxtRazonSocial.getText().length() == 0){jtxtRazonSocial.setText("SIN NOMBRE");}
-            if (jtxtRazonSocial.getText().length() == 0) {
-                JOptionPane.showMessageDialog(this, "Favor registrar Razon Social del cliente!!!");
-                aux = false;
-            }
-            try {
-                Long x = Long.parseLong(jtxtNit.getText());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Nit o Ci no valido!!!");
-                aux = false;
-            }
-        }
+        }        
         if (idTipoTransaccion == 3) {
             if (jlClienteProveedor.getText().equals("0")) {
                 JOptionPane.showMessageDialog(this, "Debe seleccionar un Cliente/Proveedor!!!");
@@ -209,15 +186,18 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         int idClienteProveedor = Integer.parseInt(jlidClienteProveedor.getText());
         String detalle = jtxtDetalle.getText().toUpperCase();
         
-//        int idTipoTransaccion = 3; // credito -  plata
-        idTransaccion = resgistrarTransaccion(idTipoTransaccion);
+        idTransaccion = resgistrarTransaccion(idTipoTransaccion);        
         registrarDetalleTransaccion(idTransaccion);
+        
+        registrarCaja(idTransaccion);
 
         insertarCredito(idTransaccion, idClienteProveedor, detalle);
         
         ReporteCreditoDAO rep = new ReporteCreditoDAOImpl(connectionDB, usuario);
         
         rep.vistaPreviaEntregaPendiente(idTransaccion);
+        
+        rep.vistaPreviaPagoCredito(idTransaccion, jtxtDetalle.getText().trim());
 
         limpiar();
 
@@ -233,77 +213,77 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     }
     
     public void registrarFactura(int idTransaccion) {
-        TransaccionDAOImpl tran = new TransaccionDAOImpl(connectionDB);
-        FacturaVentaDAOImpl facDaoImpl = new FacturaVentaDAOImpl(connectionDB);
-        ControlCode controlCode = new ControlCode();
-        SucursalDAO sucursalDAO = new SucursalDAOImpl(connectionDB);
-
-        String nit = jtxtNit.getText().trim();
-        String razonSocial = jtxtRazonSocial.getText().trim().toUpperCase();
-
-        String codigoControl = "";
-        int correlativoSucursal = 1;
-
-        int especificacion = 1;
-        String estado = "V";
-        int idSucursal = sucursalDAO.getIdSucursal(idLugar);
-        String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
-        Date fechaFactura = tran.getFechaTransaccion(idTransaccion);
-        java.util.Date fechaFactura1 = new Date(fechaFactura.getTime());
-        Date fechaLimiteEmision = facDaoImpl.getFechaLimiteEmision(nroAutorizacion);
-        int idDosificacion = facDaoImpl.getIdDosificacion(idSucursal);
-        int nroFactura = facDaoImpl.getNewNroFactura(nroAutorizacion);
-        String llaveDosf = facDaoImpl.getLlaveDosificacion(nroAutorizacion);
-        double importeTotal = tran.getValorTotalTransaccion(idTransaccion);
-        double importeExportaciones = 0;
-        double importeIce = 0;
-        double importeRebajas = 0;
-        double importeSubTotal = importeTotal - importeExportaciones - importeIce;
-        double importeVentasTasaCero = 0;
-        double importeBaseDebitoFiscal = importeSubTotal;
-        double debitoFiscal = importeBaseDebitoFiscal * 0.13;
-
-        Format fd = new SimpleDateFormat("yyyyMMdd");
-
-        String auxFecha = fd.format(fechaFactura1).trim();
-
-        codigoControl = controlCode.generate(nroAutorizacion,
-                String.valueOf(nroFactura).trim(),
-                nit.trim(),
-                auxFecha.trim(),
-                String.valueOf(importeTotal).trim(),
-                llaveDosf.trim());
-
-        FacturaVenta fact = new FacturaVenta();
-
-        fact.setCodigoControl(codigoControl);
-        fact.setCorrelativoSucursal(correlativoSucursal);
-        fact.setDebitoFiscal(debitoFiscal);
-        fact.setEspecificacion(especificacion);
-        fact.setEstado(estado);
-        fact.setFechaFactura(fechaFactura);
-        fact.setFechaLimiteEmision(fechaLimiteEmision);
-        fact.setIdDosificacion(idDosificacion);
-        fact.setIdSucursal(idSucursal);
-        fact.setIdTransaccion(idTransaccion);
-        fact.setImporteBaseDebitoFiscal(importeBaseDebitoFiscal);
-        fact.setImporteExportaciones(importeExportaciones);
-        fact.setImporteIce(importeIce);
-        fact.setImporteRebajas(importeRebajas);
-        fact.setImporteSubtotal(importeSubTotal);
-        fact.setImporteTotal(importeTotal);
-        fact.setImporteVentasTasaCero(importeVentasTasaCero);
-        fact.setNit(nit);
-        fact.setNroAutorizacion(nroAutorizacion);
-        fact.setNroFactura(nroFactura);
-        fact.setRazonSocial(razonSocial);
-
-        FacturaVentaDAOImpl factDaoImpl = new FacturaVentaDAOImpl(connectionDB);
-        factDaoImpl.insertarFacturaVenta(fact);
-
-        ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, estado);
-
-        repFactura.VistaPreviaFacturaVenta(idTransaccion, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
+//        TransaccionDAOImpl tran = new TransaccionDAOImpl(connectionDB);
+//        FacturaVentaDAOImpl facDaoImpl = new FacturaVentaDAOImpl(connectionDB);
+//        ControlCode controlCode = new ControlCode();
+//        SucursalDAO sucursalDAO = new SucursalDAOImpl(connectionDB);
+//
+//        String nit = jtxtNit.getText().trim();
+//        String razonSocial = jtxtRazonSocial.getText().trim().toUpperCase();
+//
+//        String codigoControl = "";
+//        int correlativoSucursal = 1;
+//
+//        int especificacion = 1;
+//        String estado = "V";
+//        int idSucursal = sucursalDAO.getIdSucursal(idLugar);
+//        String nroAutorizacion = facDaoImpl.getNroAutorizacion(idSucursal);
+//        Date fechaFactura = tran.getFechaTransaccion(idTransaccion);
+//        java.util.Date fechaFactura1 = new Date(fechaFactura.getTime());
+//        Date fechaLimiteEmision = facDaoImpl.getFechaLimiteEmision(nroAutorizacion);
+//        int idDosificacion = facDaoImpl.getIdDosificacion(idSucursal);
+//        int nroFactura = facDaoImpl.getNewNroFactura(nroAutorizacion);
+//        String llaveDosf = facDaoImpl.getLlaveDosificacion(nroAutorizacion);
+//        double importeTotal = tran.getValorTotalTransaccion(idTransaccion);
+//        double importeExportaciones = 0;
+//        double importeIce = 0;
+//        double importeRebajas = 0;
+//        double importeSubTotal = importeTotal - importeExportaciones - importeIce;
+//        double importeVentasTasaCero = 0;
+//        double importeBaseDebitoFiscal = importeSubTotal;
+//        double debitoFiscal = importeBaseDebitoFiscal * 0.13;
+//
+//        Format fd = new SimpleDateFormat("yyyyMMdd");
+//
+//        String auxFecha = fd.format(fechaFactura1).trim();
+//
+//        codigoControl = controlCode.generate(nroAutorizacion,
+//                String.valueOf(nroFactura).trim(),
+//                nit.trim(),
+//                auxFecha.trim(),
+//                String.valueOf(importeTotal).trim(),
+//                llaveDosf.trim());
+//
+//        FacturaVenta fact = new FacturaVenta();
+//
+//        fact.setCodigoControl(codigoControl);
+//        fact.setCorrelativoSucursal(correlativoSucursal);
+//        fact.setDebitoFiscal(debitoFiscal);
+//        fact.setEspecificacion(especificacion);
+//        fact.setEstado(estado);
+//        fact.setFechaFactura(fechaFactura);
+//        fact.setFechaLimiteEmision(fechaLimiteEmision);
+//        fact.setIdDosificacion(idDosificacion);
+//        fact.setIdSucursal(idSucursal);
+//        fact.setIdTransaccion(idTransaccion);
+//        fact.setImporteBaseDebitoFiscal(importeBaseDebitoFiscal);
+//        fact.setImporteExportaciones(importeExportaciones);
+//        fact.setImporteIce(importeIce);
+//        fact.setImporteRebajas(importeRebajas);
+//        fact.setImporteSubtotal(importeSubTotal);
+//        fact.setImporteTotal(importeTotal);
+//        fact.setImporteVentasTasaCero(importeVentasTasaCero);
+//        fact.setNit(nit);
+//        fact.setNroAutorizacion(nroAutorizacion);
+//        fact.setNroFactura(nroFactura);
+//        fact.setRazonSocial(razonSocial);
+//
+//        FacturaVentaDAOImpl factDaoImpl = new FacturaVentaDAOImpl(connectionDB);
+//        factDaoImpl.insertarFacturaVenta(fact);
+//
+//        ReporteFacturacionDAOImpl repFactura = new ReporteFacturacionDAOImpl(connectionDB, estado);
+//
+//        repFactura.VistaPreviaFacturaVenta(idTransaccion, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
     }
 
     public void abrirConexionTemp() {
@@ -553,32 +533,32 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         }
     }
 
-    public void registrarCaja(int idTransaccion) {
-        String estado = "A";
-//        String usuario = "SYS";
-        Date fecha = null;
-        int nroCobro = 0, nroPago = 0;
-        double importe = 0;
-
-        TransaccionDAOImpl trans = new TransaccionDAOImpl(connectionDB);
-        fecha = trans.getFechaTransaccion(idTransaccion);
-        importe = trans.getValorTotalTransaccion(idTransaccion);
-
-        CajaDAOImpl cajaDaoImpl = new CajaDAOImpl(connectionDB);
-
-        Caja caja = new Caja();
-        caja.setEstado(estado);
-        caja.setFecha(fecha);
-        caja.setIdTransaccion(idTransaccion);
-        caja.setImporte(importe);
-        caja.setNroCobro(nroCobro);
-        caja.setNroPago(nroPago);
-        caja.setUsuario(usuario);
-
-        cajaDaoImpl.insertarCaja(caja);
-
-    }
-    
+//    public void registrarCaja(int idTransaccion) {
+//        String estado = "A";
+////        String usuario = "SYS";
+//        Date fecha = null;
+//        int nroCobro = 0, nroPago = 0;
+//        double importe = 0;
+//
+//        TransaccionDAOImpl trans = new TransaccionDAOImpl(connectionDB);
+//        fecha = trans.getFechaTransaccion(idTransaccion);
+//        importe = trans.getValorTotalTransaccion(idTransaccion);
+//
+//        CajaDAOImpl cajaDaoImpl = new CajaDAOImpl(connectionDB);
+//
+//        Caja caja = new Caja();
+//        caja.setEstado(estado);
+//        caja.setFecha(fecha);
+//        caja.setIdTransaccion(idTransaccion);
+//        caja.setImporte(importe);
+//        caja.setNroCobro(nroCobro);
+//        caja.setNroPago(nroPago);
+//        caja.setUsuario(usuario);
+//
+//        cajaDaoImpl.insertarCaja(caja);
+//
+//    }
+//    
     private void rebajarRegistros(){
         TemporalDAO temp = new TemporalDAOImpl(connectionTemp);
         temp.reducir10();
@@ -632,8 +612,8 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         dtm.setRowCount(0);
         jtTemporal.setModel(dtm);
 
-        jtxtNit.setText("");
-        jtxtRazonSocial.setText("");
+//        jtxtNit.setText("");
+//        jtxtRazonSocial.setText("");
 
         jtxtTotalTransaccion.setText("");
     }
@@ -654,7 +634,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 
         nroTipoTransaccion = transDaoImpl.getNroTipoTransaccion(idTipoTransaccion);
 
-        descripcion = jtxtRazonSocial.getText().toUpperCase();
+//        descripcion = jtxtRazonSocial.getText().toUpperCase();
 
         Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion,
                 idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion);
@@ -715,16 +695,14 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jtxtCantidad = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
-        jlnit = new javax.swing.JLabel();
-        jtxtNit = new javax.swing.JTextField();
-        jlRazonSocial = new javax.swing.JLabel();
-        jtxtRazonSocial = new javax.swing.JTextField();
         jbTransaccion = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jlClienteProveedor = new javax.swing.JLabel();
         jcClienteProveedor = new javax.swing.JComboBox<String>();
         jlDetalle = new javax.swing.JLabel();
         jtxtDetalle = new javax.swing.JTextField();
+        jtxtImporte = new javax.swing.JTextField();
+        jlDetalle1 = new javax.swing.JLabel();
         jlTituloFormulario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -841,7 +819,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton3)
                     .addComponent(jbSalir))
-                .addGap(28, 28, 28))
+                .addGap(0, 0, 0))
         );
 
         jtTemporal.setModel(new javax.swing.table.DefaultTableModel(
@@ -867,7 +845,6 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtTemporal.setNextFocusableComponent(jtxtNit);
         jScrollPane2.setViewportView(jtTemporal);
         if (jtTemporal.getColumnModel().getColumnCount() > 0) {
             jtTemporal.getColumnModel().getColumn(0).setMinWidth(0);
@@ -1080,22 +1057,18 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(102, 102, 102)
                                 .addComponent(jtxtEliminar)
-                                .addGap(369, 369, 369)
+                                .addGap(459, 459, 459)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jtxtTotalTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1113,21 +1086,6 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                     .addComponent(jLabel8))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jlnit.setForeground(new java.awt.Color(153, 0, 51));
-        jlnit.setText("CI / NIT");
-
-        jtxtNit.setNextFocusableComponent(jtxtRazonSocial);
-        jtxtNit.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtxtNitKeyPressed(evt);
-            }
-        });
-
-        jlRazonSocial.setForeground(new java.awt.Color(153, 0, 51));
-        jlRazonSocial.setText("Razon Social");
-
-        jtxtRazonSocial.setNextFocusableComponent(jbTransaccion);
 
         jbTransaccion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Configurar.png"))); // NOI18N
         jbTransaccion.setText("Transaccion");
@@ -1164,15 +1122,13 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jlDetalle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtDetalle))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jlClienteProveedor)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcClienteProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jlClienteProveedor)
+                    .addComponent(jlDetalle, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtxtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcClienteProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1187,43 +1143,45 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                 .addGap(3, 3, 3))
         );
 
+        jtxtImporte.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtImporte.setText("0");
+
+        jlDetalle1.setForeground(new java.awt.Color(153, 0, 51));
+        jlDetalle1.setText("A cuenta");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlnit)
-                            .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlRazonSocial)
-                            .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                .addComponent(jbTransaccion)
+                        .addContainerGap()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 171, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jlDetalle1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbTransaccion)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbTransaccion)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jbTransaccion)
+                        .addContainerGap(29, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlnit)
-                            .addComponent(jlRazonSocial))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtxtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlDetalle1))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -1264,7 +1222,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jlidClienteProveedor)
                 .addGap(26, 26, 26))
         );
@@ -1371,6 +1329,37 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         jtxtDescuento.setText("");
         jlStockProducto.setText("...");
     }
+    
+    public void registrarCaja(int idTransaccion) {
+        String estado = "A";
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");        
+        Date fecha = new Date(Calendar.getInstance().getTime().getTime());
+        
+        int nroCobro = 0, nroPago = 0;
+        double importe = 0;
+
+        TransaccionDAOImpl trans = new TransaccionDAOImpl(connectionDB);
+        //fecha = trans.getFechaTransaccion(idTransaccion);
+        importe = Double.parseDouble(jtxtImporte.getText());
+
+        CajaDAOImpl cajaDaoImpl = new CajaDAOImpl(connectionDB);
+
+        Caja caja = new Caja();
+        caja.setEstado(estado);
+        caja.setFecha(fecha);
+        caja.setIdTransaccion(idTransaccion);
+        caja.setImporte(importe);
+        caja.setNroCobro(nroCobro);
+        caja.setNroPago(nroPago);
+        caja.setUsuario(usuario);
+
+        cajaDaoImpl.insertarCaja(caja);
+        
+        if(jtxtDetalle.getText().length()>0){
+            cajaDaoImpl.registrarCajaDetalle(cajaDaoImpl.getIdCaja(), jtxtDetalle.getText().trim());
+        }
+    }
 
     private void jtxtEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtEliminarActionPerformed
         eliminarProductoTemporal();
@@ -1389,18 +1378,6 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         
         jbTransaccion.setEnabled(true);
     }//GEN-LAST:event_jbTransaccionActionPerformed
-
-    private void jtxtNitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtNitKeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            if (jtxtNit.getText().equals("0")) {
-                jtxtRazonSocial.setText("SIN NOMBRE");
-            } else {
-                FacturaVentaDAOImpl fac = new FacturaVentaDAOImpl(connectionDB);
-                jtxtRazonSocial.setText(fac.getRazonSocialFactura(jtxtNit.getText()));
-                jtxtRazonSocial.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_jtxtNitKeyPressed
 
     private void jtProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtProductosKeyReleased
         seleccionarProducto();
@@ -1507,22 +1484,20 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcClienteProveedor;
     private javax.swing.JLabel jlClienteProveedor;
     private javax.swing.JLabel jlDetalle;
+    private javax.swing.JLabel jlDetalle1;
     private javax.swing.JLabel jlIdProducto;
     private javax.swing.JLabel jlIdUnidadMedida;
-    private javax.swing.JLabel jlRazonSocial;
     private javax.swing.JLabel jlStockProducto;
     private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JLabel jlidClienteProveedor;
-    private javax.swing.JLabel jlnit;
     private javax.swing.JTable jtProductos;
     private javax.swing.JTable jtTemporal;
     private javax.swing.JTextField jtxtCantidad;
     private javax.swing.JTextField jtxtDescuento;
     private javax.swing.JTextField jtxtDetalle;
     private javax.swing.JButton jtxtEliminar;
-    private javax.swing.JTextField jtxtNit;
+    private javax.swing.JTextField jtxtImporte;
     private javax.swing.JTextField jtxtNombreProducto;
-    private javax.swing.JTextField jtxtRazonSocial;
     private javax.swing.JTextField jtxtTotalTransaccion;
     private javax.swing.JTextField jtxtUnidad;
     private javax.swing.JTextField jtxtValorUnitario;

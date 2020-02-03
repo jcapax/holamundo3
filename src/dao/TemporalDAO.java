@@ -30,6 +30,8 @@ public interface TemporalDAO {
     public ArrayList<Temporal> getListEntregaTemporal();
     public void saveEntregaTemporal(Temporal temporal);
     public void deleteEntregaTemporal(Temporal temporal);
+    public void deleteProductoEntregaTemporal(String nombreProducto, String nombreUnidadMedida);
     public void emptyEntregaTemporal();
+    public byte getNroTemporalEntrega();
     
 }

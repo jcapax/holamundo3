@@ -366,5 +366,38 @@ public class TemporalDAOImpl implements TemporalDAO{
         }
     }
 
+    @Override
+    public byte getNroTemporalEntrega() {
+        String sql = "SELECT count() cant FROM entrega_temp";
+        
+        byte cant = 0;
+        
+        try {
+            PreparedStatement pst = sqlite.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                cant = rs.getByte("cant");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RubroDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        return cant;
+    }
+
+    @Override
+    public void deleteProductoEntregaTemporal(String nombreProducto, String nombreUnidadMedida) {
+        String sql = "delete from entrega_temp "
+                + "where nombre_producto = '"+nombreProducto+"' and "
+                + "nombre_unidad_medida = '"+nombreUnidadMedida+"'";
+        
+        try {
+            PreparedStatement ps = sqlite.prepareStatement(sql);
+            ps.executeUpdate();                        
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     
 }

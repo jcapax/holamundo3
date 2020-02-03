@@ -90,3 +90,14 @@ BEGIN
     SET _fecha = (SELECT fecha FROM transaccion WHERE id = _idTransaccion); 
     RETURN _fecha; 
 END $$;
+
+
+DELIMITER $$
+CREATE FUNCTION f_get_nro_tipo_transaccion(
+    	_idTransaccion INT) 
+RETURNS INT NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER 
+BEGIN 
+	DECLARE _nro_tipo_transaccion int; 
+    SET _nro_tipo_transaccion = (SELECT nro_tipo_transaccion FROM transaccion WHERE id = _idTransaccion); 
+    RETURN _nro_tipo_transaccion; 
+END $$

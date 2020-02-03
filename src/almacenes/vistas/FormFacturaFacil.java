@@ -229,7 +229,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jtxtRazonSocial = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jcSucursal = new javax.swing.JComboBox<>();
+        jcSucursal = new javax.swing.JComboBox<String>();
         jlNroSucursal = new javax.swing.JLabel();
         jtxttotalTemp = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -249,7 +249,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -483,7 +483,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         jLabel5.setText("Nro Sucursal");
 
         jcSucursal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jcSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcSucursal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcSucursal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcSucursalActionPerformed(evt);

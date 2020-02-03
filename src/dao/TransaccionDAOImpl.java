@@ -299,7 +299,8 @@ public class TransaccionDAOImpl implements TransaccionDAO{
     @Override
     public void insertarEntregaTemporal(int idTransaccionInicial, int idTransaccionEntrega) {
         String sql = "SELECT vp.id_transaccion as id_transaccion_credito, vp.id_producto, vp.nombre_completo, \n" +
-                    "    vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion, ve.usuario,     \n" +
+                    "    vp.direccion, vp.telefonos, f_fecha_transaccion(?) fecha, " +
+                    "    f_get_nro_tipo_transaccion(?) nro_tipo_transaccion , ve.usuario,     \n" +
                     "    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad as cant_credito, \n" +
                     "    SUM(coalesce(ve.cantidad,0)) as cant_entrega,\n" +
                     "    (vp.cantidad - SUM(coalesce(ve.cantidad,0))) AS diferencia,\n" +
@@ -311,7 +312,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                     "         AND vp.id_producto = ve.id_producto\n" +
                     "WHERE vp.id_transaccion = ?         \n" +
                     "GROUP BY vp.id_transaccion, vp.id_producto, vp.nombre_completo, \n" +
-                    "    vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion, ve.usuario,    \n" +
+                    "    vp.direccion, vp.telefonos, ve.usuario,    \n" +
                     "    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad \n" +                
                     "ORDER BY vp.fecha DESC";   
 //        System.out.println(sql);
@@ -319,7 +320,9 @@ public class TransaccionDAOImpl implements TransaccionDAO{
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTransaccionEntrega);
             ps.setInt(2, idTransaccionEntrega);
-            ps.setInt(3, idTransaccionInicial);
+            ps.setInt(3, idTransaccionEntrega);
+            ps.setInt(4, idTransaccionEntrega);
+            ps.setInt(5, idTransaccionInicial);
             
             ResultSet rs = ps.executeQuery();
             while(rs.next()){

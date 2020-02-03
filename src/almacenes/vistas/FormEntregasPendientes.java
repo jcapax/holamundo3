@@ -22,6 +22,7 @@ import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -272,7 +273,15 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             new String [] {
                 "idTransaccion", "Nro Trans.", "Fecha", "Nombre Cliente", "Direccion", "Telefonos"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jtPendientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtPendientesMouseClicked(evt);
@@ -312,7 +321,20 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             new String [] {
                 "Nombre Producto", "Unidad Medida", "A Entregar"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtPorEntregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtPorEntregarKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jtPorEntregar);
         if (jtPorEntregar.getColumnModel().getColumnCount() > 0) {
             jtPorEntregar.getColumnModel().getColumn(2).setMinWidth(80);
@@ -337,6 +359,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         });
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        txtCantidad.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jtProductosPendientes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtProductosPendientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -346,7 +369,15 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             new String [] {
                 "idTransaccion", "idProducto", "idUnidadMedida", "Nombre Producto", "Unidad Medida", "Cantidad", "Entregado", "Diferencia"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jtProductosPendientes.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtProductosPendientesKeyPressed(evt);
@@ -485,25 +516,28 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     private void jbTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransaccionActionPerformed
         jbTransaccion.setEnabled(false);
         
-        int idTransaccion = resgistrarTransaccion(idTipoTransaccionEntrega);
-        registrarDetalleTransaccion(idTransaccion);
-        registrarEntregaTransaccion(idTransaccion, productoTemporal.getIdTransaccion());
+        if(temporalDAO.getNroTemporalEntrega() > 0){
         
-        temporalDAO.emptyEntregaTemporal();
-        llenarPendientesEntrega();
-        llenarProductosPorEntregar();
-        llenarProductosPendientes(0);
-        
-        transaccionDAO.crearTemporalEntrega();                    
-        transaccionDAO.insertarEntregaTemporal(productoTemporal.getIdTransaccion(), idTransaccion);
+            int idTransaccion = resgistrarTransaccion(idTipoTransaccionEntrega);
+            registrarDetalleTransaccion(idTransaccion);
+            registrarEntregaTransaccion(idTransaccion, productoTemporal.getIdTransaccion());
 
-        ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
-//                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito(idTransaccionInicial, id );                    
-        reporteCreditoDAO.vistaPreviaEntregaProductosCredito(productoTemporal.getIdTransaccion(), idTransaccion);
-        transaccionDAO.eliminarDatosTemporalEntrega();
+            temporalDAO.emptyEntregaTemporal();
+            llenarPendientesEntrega();
+            llenarProductosPorEntregar();
+            llenarProductosPendientes(0);
 
+            transaccionDAO.crearTemporalEntrega();                    
+            transaccionDAO.insertarEntregaTemporal(productoTemporal.getIdTransaccion(), idTransaccion);
+
+            ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);    
+            reporteCreditoDAO.vistaPreviaEntregaProductosCredito(productoTemporal.getIdTransaccion(), idTransaccion);
+            transaccionDAO.eliminarDatosTemporalEntrega();
+        }else{
+            JOptionPane.showMessageDialog( null, "Debe registrar algun producto para la entrega!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+        }
         jbTransaccion.setEnabled(true);
-//        JOptionPane.showMessageDialog( null, "Registro Exitoso" , "Error", JOptionPane.ERROR_MESSAGE);
+        
     }//GEN-LAST:event_jbTransaccionActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
@@ -544,6 +578,19 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         
         txtCantidad.setText("");
     }//GEN-LAST:event_jbPorEntregarActionPerformed
+
+    private void jtPorEntregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtPorEntregarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+            if(temporalDAO.getNroTemporalEntrega()>0){
+                int filSel = jtPorEntregar.getSelectedRow();            
+                String nombreProdcuto = (String) jtPorEntregar.getValueAt(filSel, 0);
+                String nombreUnidadMedida = (String) jtPorEntregar.getValueAt(filSel, 1);
+
+                temporalDAO.deleteProductoEntregaTemporal(nombreProdcuto, nombreUnidadMedida);
+                llenarProductosPorEntregar();
+            }
+        }
+    }//GEN-LAST:event_jtPorEntregarKeyPressed
 
     /**
      * @param args the command line arguments
