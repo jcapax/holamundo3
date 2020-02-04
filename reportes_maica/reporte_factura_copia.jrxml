@@ -366,7 +366,7 @@ Telf.: 64-56616   Cel.: 7611162
 				</textElement>
 				<text><![CDATA[*ESTA FACTURA CONTRIBYUE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY 453*]]></text>
 			</staticText>
-			<textField pattern="EEEEE dd MMMMM yyyy">
+			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
 				<reportElement x="6" y="102" width="144" height="20" uuid="de0698e3-29ce-4c9f-ab5c-92fc57512dde"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>

@@ -234,7 +234,7 @@ Telf.: 64-56616   Cel.: 7611162
 	</detail>
 	<pageFooter>
 		<band height="38" splitType="Stretch">
-			<textField pattern="EEEEE dd MMMMM yyyy">
+			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
 				<reportElement x="20" y="10" width="144" height="20" uuid="f97060fa-6eba-419d-9730-e9ce4911088d"/>
 				<textElement>
 					<font fontName="Arial" size="9"/>

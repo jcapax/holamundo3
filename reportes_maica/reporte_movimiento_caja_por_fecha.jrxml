@@ -189,7 +189,7 @@ Telf.: 64-56616   Cel.: 7611162
 	</columnFooter>
 	<pageFooter>
 		<band height="30" splitType="Stretch">
-			<textField pattern="EEEEE dd MMMMM yyyy">
+			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
 				<reportElement x="10" y="10" width="144" height="20" uuid="a16a62fe-fcf7-4d02-8cd9-4dc517c14ef0"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>

@@ -578,7 +578,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         double valorTotal = 0;
         String tipoValor = "N";
 
-        ArrayList<DetalleTransaccion> detTrans = new ArrayList<DetalleTransaccion>();
+        ArrayList<DetalleTransaccion> detTrans = new ArrayList<>();
 
         for (int fila = 0; fila < jtTemporal.getRowCount(); fila++) {
             idProducto = Integer.valueOf(jtTemporal.getValueAt(fila, 0).toString());
@@ -1379,6 +1379,33 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         jbTransaccion.setEnabled(true);
     }//GEN-LAST:event_jbTransaccionActionPerformed
 
+    public boolean validarAcuenta(){
+        boolean aux = true;
+        
+        try {
+            Double.parseDouble(jtxtImporte.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "El importe registrado no es valido!!!");
+            aux = false;         
+        }
+
+        if(aux){
+            if(Double.valueOf(jtxtImporte.getText()) < 0.0){
+                JOptionPane.showMessageDialog(this, "El importe registrado debe ser mayor o igual a 1!!!");
+                aux = false;
+            }
+        }
+        
+        if(aux){
+            if(Double.valueOf(jtxtImporte.getText()) > Double.valueOf(jtxtTotalTransaccion.getText())){
+                JOptionPane.showMessageDialog(this, "El importe registrado debe ser menor o igual al total de la transaccion!!!");
+                aux = false;
+            }
+        }
+                
+        return aux;
+    }
+    
     private void jtProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtProductosKeyReleased
         seleccionarProducto();
 

@@ -707,13 +707,13 @@ public class FormMenu extends javax.swing.JFrame {
             }
         }
         
-        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
-                                            idTipoTransaccion, idTipoTransaccionEntrega, 
-                                            idUsuario, idLugar, idTerminal);
-
-//        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
+//        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
 //                                            idTipoTransaccion, idTipoTransaccionEntrega, 
 //                                            idUsuario, idLugar, idTerminal);
+
+        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
+                                            idTipoTransaccion, idTipoTransaccionEntrega, 
+                                            idUsuario, idLugar, idTerminal);
         formTrans.setVisible(true);
     }//GEN-LAST:event_jMenuVentasActionPerformed
 

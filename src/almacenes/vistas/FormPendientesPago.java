@@ -596,7 +596,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
         }
 
         if (jtxtImporte.getText().equals("0")) {
-            JOptionPane.showMessageDialog(this, "El importe registrado no es valido!!!");
+            JOptionPane.showMessageDialog(this, "El importe registrado debe ser superior a 1!!!");
             jtxtImporte.setText("");
             jtxtImporte.requestFocus();
             aux = false;
