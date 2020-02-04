@@ -67,7 +67,8 @@ public class SistemaDAOImpl implements SistemaDAO {
                             "ruta_programas_pg," +
                             "ruta_excel, carpeta_reportes, " +
                             "tiempo_anulacion_transaccion, " +
-                            "impresion_directa_factura " +
+                            "impresion_directa_factura, " +
+                            "descuento_por_unidad_producto " +
                        "FROM configuraciones;";
         
         ResultSet rs = stmt.executeQuery(query);
@@ -83,6 +84,7 @@ public class SistemaDAOImpl implements SistemaDAO {
            configuracion.setCarpetaReportes(rs.getString("carpeta_reportes"));
            configuracion.setTiempoAnulacionTransaccion(rs.getInt("tiempo_anulacion_transaccion"));
            configuracion.setImpresionDirectaFactura(rs.getInt("impresion_directa_factura"));
+           configuracion.setDescuentoPorUnidadProducto(rs.getInt("descuento_por_unidad_producto"));
         }
         rs.close();
 
@@ -110,7 +112,8 @@ public class SistemaDAOImpl implements SistemaDAO {
                         "ruta_excel = \"" + configuracion.getRutaExcel() + "\" ," +
                         "carpeta_reportes = \"" + configuracion.getCarpetaReportes() + "\" ," +
                         "tiempo_anulacion_transaccion = \"" + configuracion.getTiempoAnulacionTransaccion() + "\", " +
-                        "impresion_directa_factura = \"" + configuracion.getImpresionDirectaFactura() + "\" " +
+                        "impresion_directa_factura = \"" + configuracion.getImpresionDirectaFactura() + "\", " +
+                        "descuento_por_unidad_producto = \"" + configuracion.getDescuentoPorUnidadProducto()+ "\" " +
                     
                     "WHERE id_configuracion = " + configuracion.getIdConfiguracion();
             ps = connectionDB.prepareStatement(sql);
@@ -124,7 +127,8 @@ public class SistemaDAOImpl implements SistemaDAO {
                         "ruta_excel, " +
                         "carpeta_reportes, " +
                         "tiempo_anulacion_transaccion, " +
-                        "impresion_directa_factura) " +
+                        "impresion_directa_factura, " +
+                        "descuento_por_unidad_producto) " +
                     "VALUES (\"" + configuracion.getRutaVisorPdf() + "\", " +
                             "\"" + configuracion.getRutaDestinoArchivosPDF() + "\", " +
                             configuracion.getSoloGuadarArchivosPDF() + ","+
@@ -132,7 +136,8 @@ public class SistemaDAOImpl implements SistemaDAO {
                             "\"" + configuracion.getRutaExcel() + "\", " +
                             "\"" + configuracion.getCarpetaReportes() + "\", " +
                             "\"" + configuracion.getTiempoAnulacionTransaccion() + "\", " +
-                            "\"" + configuracion.getImpresionDirectaFactura() + "\")";
+                            "\"" + configuracion.getImpresionDirectaFactura() + "\", " +
+                            "\"" + configuracion.getDescuentoPorUnidadProducto()+ "\")";
             ps = connectionDB.prepareStatement(sql);
             ps.execute();
         }

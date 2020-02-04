@@ -19,6 +19,7 @@ import dao.UnidadProductoDAOImlp;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -283,7 +284,29 @@ public class FormDesempaque extends javax.swing.JFrame {
     }//GEN-LAST:event_jcProductoActionPerformed
 
     private void jbDesempacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesempacarActionPerformed
-        desempacar();
+        boolean aux = true;
+        
+        if(jlIdUnidadMedidaFinal.getText().equals("0")){
+            JOptionPane.showMessageDialog( null, "Registrar las unidades del prodcuto!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+            aux = false;
+        }
+        
+        if(jtxtCantidadInicial.getText().trim().length() == 0){
+            JOptionPane.showMessageDialog( null, "Registrar cantidad producto a desempacar!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+            jtxtCantidadInicial.requestFocus();
+            aux = false;
+        }
+        
+        if(jtxtCantidadFinal.getText().trim().length() == 0){
+            JOptionPane.showMessageDialog( null, "Registrar cantidad desempaque!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+            jtxtCantidadFinal.requestFocus();
+            aux = false;
+        }
+        
+        if(aux){
+            desempacar();
+        }
+        
     }//GEN-LAST:event_jbDesempacarActionPerformed
 
     /**
@@ -419,7 +442,7 @@ public class FormDesempaque extends javax.swing.JFrame {
                         jlIdProducto.getText()), 
                         Integer.valueOf(jlIdUnidadMedidaInicio.getText()), 
                         idLugar)));
-                
+                jlIdUnidadMedidaFinal.setText("0");
             }
         } catch (Exception e) {
         }

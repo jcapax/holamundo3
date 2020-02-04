@@ -32,7 +32,7 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
     @Override
     public ArrayList<ConfiguracionGeneral> getConfiguracionGeneral() {
         ArrayList<ConfiguracionGeneral> listaConf = new ArrayList<ConfiguracionGeneral>();
-        String sql = "select * from configuracion";
+        String sql = "select * from configuraciones";
 
         PreparedStatement ps;
         try {
@@ -56,7 +56,7 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
     @Override
     public String getRutaExcelLibroVentas() {
         String ruta = null;
-        String sql = "select ruta_excel from configuracion";
+        String sql = "select ruta_excel from configuraciones";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
@@ -73,7 +73,7 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
     @Override
     public int getNroDiasNullTransaccion() {
         int nro = 0;
-        String sql = "select tiempo_anulacion_transaccion from configuracion";
+        String sql = "select tiempo_anulacion_transaccion from configuraciones";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
@@ -90,7 +90,7 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
     @Override
     public int getImpresionDirectaFactura() {
         int impDirec= 0;
-        String sql = "select impresion_directa_factura from configuracion";
+        String sql = "select impresion_directa_factura from configuraciones";
         PreparedStatement ps;
         try {
             ps = connectionDB.prepareStatement(sql);
@@ -102,6 +102,23 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
             Logger.getLogger(ConfiguracionGeneralDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return impDirec;
+    }
+
+    @Override
+    public byte getDescuentoPorUnidadProducto() {
+        byte desc = 0;
+        String sql = "select descuento_por_unidad_producto  from configuraciones";
+        PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                desc = rs.getByte("descuento_por_unidad_producto");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionGeneralDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return desc;
     }
 
 }

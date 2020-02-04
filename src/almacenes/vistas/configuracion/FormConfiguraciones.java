@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package almacenes.vistas;
+package almacenes.vistas.configuracion;
 
 import almacenes.Utiles;
 import almacenes.model.Configuracion;
@@ -46,10 +46,17 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         jtxtRutaExcel.setText(this.configuracion.getRutaExcel());
         jtxtCarpetaReportes.setText(this.configuracion.getCarpetaReportes());
         jspinnerTiempoAnulacionTransaccion.setValue(Integer.valueOf(this.configuracion.getTiempoAnulacionTransaccion()));
+        
         if(this.configuracion.getImpresionDirectaFactura() == 1){
             jcheckImpresionDirectaFacturas.setSelected(true);
         }else{
             jcheckImpresionDirectaFacturas.setSelected(false);
+        }
+        
+        if(this.configuracion.getDescuentoPorUnidadProducto()== 1){
+            jcheckDescuentoPorUnidadProducto.setSelected(true);
+        }else{
+            jcheckDescuentoPorUnidadProducto.setSelected(false);
         }
         
         if (this.configuracion.getSoloGuadarArchivosPDF() != null) {
@@ -95,6 +102,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
         jspinnerTiempoAnulacionTransaccion = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
         jtxtCarpetaReportes = new javax.swing.JTextField();
+        jcheckDescuentoPorUnidadProducto = new javax.swing.JCheckBox();
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Archivos PDF"));
 
@@ -288,6 +296,8 @@ public class FormConfiguraciones extends javax.swing.JFrame {
 
         jLabel7.setText("Carpeta Reportes");
 
+        jcheckDescuentoPorUnidadProducto.setText("Descuento por Unidad Producto");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -306,7 +316,9 @@ public class FormConfiguraciones extends javax.swing.JFrame {
                         .addComponent(jspinnerTiempoAnulacionTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(77, 77, 77)
                         .addComponent(jcheckImpresionDirectaFacturas)
-                        .addGap(0, 281, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jcheckDescuentoPorUnidadProducto)
+                        .addGap(47, 47, 47)))
                 .addGap(18, 18, 18)
                 .addComponent(buscarRutaExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -323,7 +335,8 @@ public class FormConfiguraciones extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jcheckImpresionDirectaFacturas)
-                    .addComponent(jspinnerTiempoAnulacionTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jspinnerTiempoAnulacionTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcheckDescuentoPorUnidadProducto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -496,6 +509,12 @@ public class FormConfiguraciones extends javax.swing.JFrame {
             configuracion.setImpresionDirectaFactura(0);
         }
         
+        if(jcheckDescuentoPorUnidadProducto.isSelected()){
+            configuracion.setDescuentoPorUnidadProducto(1);
+        }else{
+            configuracion.setDescuentoPorUnidadProducto(0);
+        }
+        
         return configuracion;
     }
     
@@ -569,6 +588,7 @@ public class FormConfiguraciones extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JCheckBox jcheckDescuentoPorUnidadProducto;
     private javax.swing.JCheckBox jcheckImpresionDirectaFacturas;
     private javax.swing.JSpinner jspinnerTiempoAnulacionTransaccion;
     private javax.swing.JTextField jtxtCarpetaReportes;
