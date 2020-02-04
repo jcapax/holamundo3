@@ -68,7 +68,7 @@ public class FacturaDAOImpl implements FacturaDAO{
                 + "round(debito_fiscal, 2) debito_fiscal, codigo_control, "
                 + "id_transaccion, fecha_limite_emision, codigo_qr, id_dosificacion, id_factura_control "
                 + "From factura_venta "
-                + "Where year(fecha_factura) = ? and month(fecha_factura) = ?";
+                + "Where year(fecha_factura) = ? and month(fecha_factura) = ? ";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

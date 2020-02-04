@@ -310,7 +310,7 @@ Telf.: 64-56616   Cel.: 7611162
 				</graphicElement>
 			</line>
 			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
-				<reportElement x="6" y="75" width="144" height="20" uuid="30a6bb79-5a5b-4e28-bcf9-146721e1396e"/>
+				<reportElement x="6" y="75" width="230" height="20" uuid="30a6bb79-5a5b-4e28-bcf9-146721e1396e"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

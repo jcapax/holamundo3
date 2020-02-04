@@ -2,14 +2,14 @@
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dismebol"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="almacenes"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
 	<parameter name="id_transaccion" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT t.id, t.id_lugar, l.descripcion as nombre_lugar, t.descripcion_transaccion, t.nro_tipo_transaccion,
 t.fecha, d.descripcion as nombre_producto, d.simbolo, d.cantidad, 
-d.valor_unitario, d.valor_total, v.fecha_vencimiento 
+d.valor_unitario, d.valor_total, v.fecha_vencimiento, d.descuento 
 FROM `v_transaccion` t 
 	join v_detalle_transaccion d on t.id = d.id_transaccion 
 	join lugar l on t.id_lugar = l.id 
@@ -65,6 +65,10 @@ Where t.id = $P{id_transaccion}]]>
 	<field name="fecha_vencimiento" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.label" value="fecha_vencimiento"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="vencimiento"/>
+	</field>
+	<field name="descuento" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="d"/>
 	</field>
 	<variable name="sumValorTotal" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{valor_total}]]></variableExpression>
@@ -179,7 +183,7 @@ Telf.: 64-56616   Cel.: 7611162
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="331" y="5" width="100" height="14" forecolor="#054A82" uuid="9bed46ae-2172-4026-9b93-5272f68687d8"/>
+				<reportElement x="311" y="5" width="70" height="14" forecolor="#054A82" uuid="9bed46ae-2172-4026-9b93-5272f68687d8"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -198,6 +202,13 @@ Telf.: 64-56616   Cel.: 7611162
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 			</line>
+			<staticText>
+				<reportElement x="390" y="5" width="70" height="14" forecolor="#054A82" uuid="72822945-30e3-47a9-9ce6-4c3c33dfb95e"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descuento]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -217,25 +228,32 @@ Telf.: 64-56616   Cel.: 7611162
 				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{cantidad})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="361" y="0" width="70" height="12" uuid="4b652972-da8f-4480-99a6-8625753fb472"/>
+				<reportElement x="311" y="0" width="70" height="12" uuid="4b652972-da8f-4480-99a6-8625753fb472"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valor_unitario})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="467" y="0" width="70" height="12" uuid="7dc7da2c-8811-44ab-b979-23587f760110"/>
+				<reportElement x="475" y="0" width="62" height="12" uuid="7dc7da2c-8811-44ab-b979-23587f760110"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valor_total})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="0" width="70" height="12" uuid="d5466e0b-89c0-46c4-9cfa-54327ff2bd3b"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{descuento})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="38" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
-				<reportElement x="20" y="10" width="144" height="20" uuid="f97060fa-6eba-419d-9730-e9ce4911088d"/>
+				<reportElement x="20" y="10" width="210" height="20" uuid="f97060fa-6eba-419d-9730-e9ce4911088d"/>
 				<textElement>
 					<font fontName="Arial" size="9"/>
 				</textElement>
@@ -253,7 +271,7 @@ Telf.: 64-56616   Cel.: 7611162
 				</reportElement>
 			</line>
 			<textField>
-				<reportElement x="462" y="5" width="75" height="14" uuid="aa82de6f-0127-4d81-989b-ad57f1ffeda3"/>
+				<reportElement x="475" y="5" width="62" height="14" uuid="aa82de6f-0127-4d81-989b-ad57f1ffeda3"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>

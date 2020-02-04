@@ -2,9 +2,9 @@
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="almacenes"/>
 	<parameter name="id_transaccion" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select *
@@ -73,6 +73,14 @@ where id_transaccion = $P{id_transaccion}]]>
 	</field>
 	<field name="razon_social" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="razon_social"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="descuento" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
+	</field>
+	<field name="valor_sub_total" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor_sub_total"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_credito"/>
 	</field>
 	<variable name="valortotal1" class="java.lang.Double" calculation="Sum">
@@ -207,7 +215,7 @@ Telf.: 64-56616   Cel.: 7611162
 				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="260" y="5" width="91" height="14" forecolor="#054A82" uuid="7ef278f5-f406-433f-ab9e-da91be2739b4">
+				<reportElement x="229" y="5" width="91" height="14" forecolor="#054A82" uuid="7ef278f5-f406-433f-ab9e-da91be2739b4">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -216,7 +224,7 @@ Telf.: 64-56616   Cel.: 7611162
 				<text><![CDATA[Saldos Cantidad ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="383" y="5" width="60" height="14" forecolor="#054A82" uuid="9bed46ae-2172-4026-9b93-5272f68687d8"/>
+				<reportElement x="339" y="5" width="60" height="14" forecolor="#054A82" uuid="9bed46ae-2172-4026-9b93-5272f68687d8"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -235,6 +243,13 @@ Telf.: 64-56616   Cel.: 7611162
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 			</line>
+			<staticText>
+				<reportElement x="410" y="5" width="60" height="14" forecolor="#054A82" uuid="54efaa3a-3e3f-437c-811e-b813b2ef1d40"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descuento]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -247,14 +262,14 @@ Telf.: 64-56616   Cel.: 7611162
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="301" y="0" width="50" height="15" uuid="fe36f7b6-7ad9-4591-b16b-e4ea58559b12"/>
+				<reportElement x="270" y="0" width="50" height="15" uuid="fe36f7b6-7ad9-4591-b16b-e4ea58559b12"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{cantidad})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="383" y="0" width="60" height="15" uuid="05c33c9b-a946-4211-be87-3fc31041b7a7">
+				<reportElement x="339" y="0" width="60" height="15" uuid="05c33c9b-a946-4211-be87-3fc31041b7a7">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -270,6 +285,15 @@ Telf.: 64-56616   Cel.: 7611162
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valor_total})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="0" width="60" height="15" uuid="c77a97df-20fd-4045-bc3a-5cc1348df5d2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{descuento})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -310,7 +334,7 @@ Telf.: 64-56616   Cel.: 7611162
 				</graphicElement>
 			</line>
 			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
-				<reportElement x="6" y="75" width="144" height="20" uuid="30a6bb79-5a5b-4e28-bcf9-146721e1396e"/>
+				<reportElement x="6" y="75" width="230" height="20" uuid="30a6bb79-5a5b-4e28-bcf9-146721e1396e"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

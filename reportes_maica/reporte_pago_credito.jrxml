@@ -194,7 +194,7 @@ where id_transaccion = $P{id_transaccion}]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
-				<reportElement x="0" y="226" width="144" height="20" uuid="7f9eb553-58a1-44e9-bf76-6f043b586e74"/>
+				<reportElement x="0" y="226" width="200" height="20" uuid="7f9eb553-58a1-44e9-bf76-6f043b586e74"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
