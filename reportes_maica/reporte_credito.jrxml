@@ -193,12 +193,23 @@ Zona Barrio la Hoyada
 Telf.: 64-56616   Cel.: 7611162
 ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="130" width="80" height="16" forecolor="#054A82" uuid="88a04d22-e265-4d30-a4f8-715d294a4dd2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="130" width="482" height="16" uuid="76ba51a9-1141-44d2-bf5e-178969997c94"/>
+				<textFieldExpression><![CDATA[$F{detalle}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="24" splitType="Stretch">
+		<band height="36" splitType="Stretch">
 			<staticText>
-				<reportElement x="20" y="5" width="100" height="14" forecolor="#054A82" uuid="cd7b5373-1aaf-4a79-aebc-072ffbacdce6">
+				<reportElement x="20" y="9" width="100" height="14" forecolor="#054A82" uuid="cd7b5373-1aaf-4a79-aebc-072ffbacdce6">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement>
@@ -207,7 +218,7 @@ Telf.: 64-56616   Cel.: 7611162
 				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="261" y="5" width="50" height="14" forecolor="#054A82" uuid="7ef278f5-f406-433f-ab9e-da91be2739b4">
+				<reportElement x="261" y="9" width="50" height="14" forecolor="#054A82" uuid="7ef278f5-f406-433f-ab9e-da91be2739b4">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -216,14 +227,14 @@ Telf.: 64-56616   Cel.: 7611162
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="5" width="60" height="14" forecolor="#054A82" uuid="9bed46ae-2172-4026-9b93-5272f68687d8"/>
+				<reportElement x="370" y="9" width="60" height="14" forecolor="#054A82" uuid="9bed46ae-2172-4026-9b93-5272f68687d8"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Prec. Unit.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="475" y="5" width="61" height="14" forecolor="#054A82" uuid="9ae7700c-9e6a-431b-bf2f-aa822fc98a8c"/>
+				<reportElement x="475" y="9" width="61" height="14" forecolor="#054A82" uuid="9ae7700c-9e6a-431b-bf2f-aa822fc98a8c"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>

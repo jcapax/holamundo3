@@ -18,7 +18,25 @@ public class ListaTransaccion {
     private int nroTransaccion;
     private double valorTotal;
     private int idTipoTransaccion;
+    private String detalle;
+    private String usuario;
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+    
+    public String getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+    
     public int getIdTipoTransaccion() {
         return idTipoTransaccion;
     }

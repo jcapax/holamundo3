@@ -377,6 +377,7 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/credito.png"))); // NOI18N
         jMenuItem3.setText("Credito Ventas");
+        jMenuItem3.setEnabled(false);
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
