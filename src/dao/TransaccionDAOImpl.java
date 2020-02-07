@@ -178,18 +178,21 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         ArrayList<ListaTransaccion> lista = new ArrayList<>();
         
         String sql = "SELECT id, descripcion_tipo_transaccion, fecha, "
-                        + "nro_tipo_transaccion, valor_total, fecha_hora_registro, id_tipo_transaccion \n" +
+                        + "nro_tipo_transaccion, valor_total, fecha_hora_registro, "
+                        + "id_tipo_transaccion, descripcion_transaccion, usuario \n" +
                      "FROM v_transaccion " +
                      "WHERE id_tipo_transaccion in (1, 2, 3, 6) "
-                        + "and usuario = '"+usuario+"'"
+                        + "and usuario = '"+usuario+"' "
                         + "and fecha = '"+String.valueOf(fecha)+"' "
                 + "UNION "
                    + "SELECT DISTINCT id, descripcion_transaccion as descripcion_tipo_transaccion, fecha, " +
-                        "nro_tipo_transaccion, valor_total, fecha_hora_registro, 8 " +
+                        "nro_tipo_transaccion, valor_total, fecha_hora_registro, 8, 'XXX' as descripcion_transaccion, usuario " +
                         "FROM v_entrega_productos_pendientes " +
                         "WHERE fecha = '"+String.valueOf(fecha)+"' " +
                         "and usuario = '"+usuario+"' " +
                       "ORDER BY id";
+        
+        System.out.println(sql);
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -203,6 +206,8 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                 lt.setNroTransaccion(rs.getInt("nro_tipo_transaccion"));
                 lt.setValorTotal(rs.getDouble("valor_total"));
                 lt.setIdTipoTransaccion(rs.getInt("id_tipo_transaccion"));
+                lt.setDetalle(rs.getString("descripcion_transaccion"));
+                lt.setUsuario(rs.getString("usuario"));
                 
                 lista.add(lt);
             }

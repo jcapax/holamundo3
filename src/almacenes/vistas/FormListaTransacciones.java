@@ -133,14 +133,14 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "Nro Trans", "Fecha", "Descripcion", "Valor Total", "idTipotransaccion", "idTrans"
+                "id", "Nro Trans", "Fecha", "Descripcion", "Valor Total", "idTipotransaccion", "idTrans", "Usuario"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -157,12 +157,24 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             jtListaTransacciones.getColumnModel().getColumn(0).setMinWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(0).setPreferredWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(1).setMinWidth(75);
+            jtListaTransacciones.getColumnModel().getColumn(1).setPreferredWidth(75);
+            jtListaTransacciones.getColumnModel().getColumn(1).setMaxWidth(75);
+            jtListaTransacciones.getColumnModel().getColumn(2).setMinWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(2).setMaxWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(4).setMinWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(4).setMaxWidth(100);
             jtListaTransacciones.getColumnModel().getColumn(5).setMinWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(5).setPreferredWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(5).setMaxWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(6).setMinWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(6).setPreferredWidth(0);
             jtListaTransacciones.getColumnModel().getColumn(6).setMaxWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(7).setMinWidth(120);
+            jtListaTransacciones.getColumnModel().getColumn(7).setPreferredWidth(120);
+            jtListaTransacciones.getColumnModel().getColumn(7).setMaxWidth(120);
         }
 
         fecha.setDateFormatString("dd/MM/yyyy");

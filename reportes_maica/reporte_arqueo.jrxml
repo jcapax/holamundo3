@@ -115,7 +115,7 @@ from arqueo where id = $P{id}]]>
 				<text><![CDATA[ARQUEO DE CAJA]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM  h:mm a yyyy">
-				<reportElement x="10" y="250" width="144" height="20" uuid="b7ad1c35-8d57-4185-87b8-8a07cb9057fe"/>
+				<reportElement x="10" y="250" width="180" height="20" uuid="b7ad1c35-8d57-4185-87b8-8a07cb9057fe"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<line>

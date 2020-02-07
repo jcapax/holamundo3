@@ -19,6 +19,8 @@ import dao.ArqueoDAOImpl;
 import dao.CajaDAOImpl;
 import dao.ClienteProveedorDAO;
 import dao.ClienteProveedorDAOImpl;
+import dao.ConfiguracionGeneralDAO;
+import dao.ConfiguracionGeneralDAOImpl;
 import dao.CreditoDAO;
 import dao.CreditoDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
@@ -75,11 +77,14 @@ public class FormTransaccionBK extends javax.swing.JFrame {
     private DefaultTableModel dtm;
     private int idTipoTransaccion; // tipo de proceso q se ejecutara
     private int idTipoTransaccionEntrega;  // tipo de entrega q se ejecutara
+    private byte descuentoPorUnidadProducto;
     private byte idLugar;
     private byte idTerminal;
     private String usuario;
     private DecimalFormat df;
     private VencimientoDAO vencimientoDAO;
+    private ConfiguracionGeneralDAO configuracionGeneralDAO;
+    private ArqueoDAOImpl arq;
 
 //    DefaultTableModel dtm;
     public FormTransaccionBK(Connection connectionDB,
@@ -122,7 +127,8 @@ public class FormTransaccionBK extends javax.swing.JFrame {
     public void iniciarComponentes() {
 //        byte idTerminal = 1;
         
-        ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
+        arq = new ArqueoDAOImpl(connectionDB);
+        configuracionGeneralDAO = new ConfiguracionGeneralDAOImpl(connectionDB);
 
         llenarTablaProductos("");
         jtxtDetalle.setText("");
@@ -545,7 +551,7 @@ public class FormTransaccionBK extends javax.swing.JFrame {
         double cantidad = Double.valueOf(jtxtCantidad.getText());
         double descuento = 0.0;
         double valorSubTotal = 0.0;
-        if(jtxtDescuento.getText().trim().length()>0){
+        if(jtxtDescuento.getText().trim().length()>0){            
             descuento = Double.valueOf(jtxtDescuento.getText());
         }         
         
@@ -558,6 +564,12 @@ public class FormTransaccionBK extends javax.swing.JFrame {
         }
         
         valorSubTotal = cantidad * valorUnitario;
+
+        byte descuentoProUnidadProducto;
+        descuentoProUnidadProducto = configuracionGeneralDAO.getDescuentoPorUnidadProducto();
+        if(descuentoProUnidadProducto == 1){
+            descuento = descuento * cantidad;
+        }
                 
         double valorTotal = valorSubTotal - descuento;
         

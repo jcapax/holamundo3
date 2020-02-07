@@ -19,6 +19,15 @@ public class Configuracion {
   private String carpetaReportes;
   private int tiempoAnulacionTransaccion;
   private int impresionDirectaFactura;
+  private int descuentoPorUnidadProducto;
+
+    public int getDescuentoPorUnidadProducto() {
+        return descuentoPorUnidadProducto;
+    }
+
+    public void setDescuentoPorUnidadProducto(int descuentoPorUnidadProducto) {
+        this.descuentoPorUnidadProducto = descuentoPorUnidadProducto;
+    }
 
     public String getCarpetaReportes() {
         return carpetaReportes;

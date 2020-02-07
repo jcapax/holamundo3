@@ -101,3 +101,5 @@ BEGIN
     SET _nro_tipo_transaccion = (SELECT nro_tipo_transaccion FROM transaccion WHERE id = _idTransaccion); 
     RETURN _nro_tipo_transaccion; 
 END $$
+
+ALTER TABLE `configuraciones` ADD `descuento_por_unidad_producto` TINYINT NOT NULL DEFAULT '0' AFTER `impresion_directa_factura`;

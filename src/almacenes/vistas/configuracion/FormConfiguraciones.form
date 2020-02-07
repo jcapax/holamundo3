@@ -369,7 +369,9 @@
                               <Component id="jspinnerTiempoAnulacionTransaccion" min="-2" pref="56" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
                               <Component id="jcheckImpresionDirectaFacturas" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="281" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jcheckDescuentoPorUnidadProducto" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -392,6 +394,7 @@
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jcheckImpresionDirectaFacturas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jspinnerTiempoAnulacionTransaccion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jcheckDescuentoPorUnidadProducto" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="11" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -440,6 +443,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jtxtCarpetaReportes">
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jcheckDescuentoPorUnidadProducto">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Descuento por Unidad Producto"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

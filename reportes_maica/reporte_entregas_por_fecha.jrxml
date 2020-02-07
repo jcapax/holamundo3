@@ -178,7 +178,7 @@ Telf.: 64-56616   Cel.: 7611162
 	<pageFooter>
 		<band height="30" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
-				<reportElement x="0" y="10" width="144" height="20" uuid="8edc4cdb-2606-417f-b0ee-96d5518ca163"/>
+				<reportElement x="0" y="10" width="210" height="20" uuid="8edc4cdb-2606-417f-b0ee-96d5518ca163"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

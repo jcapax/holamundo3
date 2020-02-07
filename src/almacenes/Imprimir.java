@@ -64,6 +64,7 @@ public class Imprimir {
             String rutaLogo = "";
             
             if (SystemUtils.IS_OS_WINDOWS) {
+//                rutaReporte = RUTA_REPORTES + "\\" + nombreReporte;
                 rutaReporte = RUTA_REPORTES + "\\" + nombreReporte;
                 if (parametros.get("nombreLogo") != null) {
                     rutaLogo = RUTA_REPORTES + "\\" + parametros.get("nombreLogo").toString();
@@ -74,8 +75,12 @@ public class Imprimir {
                     rutaLogo = RUTA_REPORTES + "/" + parametros.get("nombreLogo").toString();
                 }
             }
-
+            
+            
             JasperReport report = JasperCompileManager.compileReport(rutaReporte);
+            
+//            String rr = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+//            JasperReport report = JasperCompileManager.compileReport(getClass().getResource(""));
             
             Map parameters = new HashMap();
             parameters = parametros;

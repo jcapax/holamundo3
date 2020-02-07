@@ -126,6 +126,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
         parametros.put("id_lugar", idLugar);
         
         this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_lugar.jrxml", parametros);
+//        this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_lugar.jasper", parametros);
     }
 
     @Override

@@ -19,6 +19,8 @@ import dao.ArqueoDAOImpl;
 import dao.CajaDAOImpl;
 import dao.ClienteProveedorDAO;
 import dao.ClienteProveedorDAOImpl;
+import dao.ConfiguracionGeneralDAO;
+import dao.ConfiguracionGeneralDAOImpl;
 import dao.CreditoDAO;
 import dao.CreditoDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
@@ -80,6 +82,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     private String usuario;
     private DecimalFormat df;
     private VencimientoDAO vencimientoDAO;
+    private ConfiguracionGeneralDAO configuracionGeneralDAO;
 
 //    DefaultTableModel dtm;
     public FormTransaccionEntregasCredito(Connection connectionDB,
@@ -122,6 +125,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 //        byte idTerminal = 1;
         
         ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
+        configuracionGeneralDAO = new ConfiguracionGeneralDAOImpl(connectionDB);
 
         llenarTablaProductos("");
         jtxtDetalle.setText("");
@@ -389,6 +393,12 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         }
         
         valorSubTotal = cantidad * valorUnitario;
+        
+        byte descuentoProUnidadProducto;
+        descuentoProUnidadProducto = configuracionGeneralDAO.getDescuentoPorUnidadProducto();
+        if(descuentoProUnidadProducto == 1){
+            descuento = descuento * cantidad;
+        }
                 
         double valorTotal = valorSubTotal - descuento;
         
@@ -1304,6 +1314,8 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
             aux = false;
             return;
         }
+        
+        /*
 
         if ((idTipoTransaccion == 2)||(idTipoTransaccion == 3)) { // solo para ventas y creditos
             ProductoDAOImpl prod = new ProductoDAOImpl(connectionDB);
@@ -1319,6 +1331,8 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                 }
             }
         }
+                
+        */
 
         if (aux) {
             insertarTemp();
