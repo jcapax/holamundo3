@@ -14,10 +14,14 @@ import almacenes.model.Transaccion;
 import dao.DetalleTransaccionDAOImpl;
 import dao.EntregasDAO;
 import dao.EntregasDAOImpl;
+import dao.ProductoDAO;
+import dao.ProductoDAOImpl;
 import dao.TemporalDAO;
 import dao.TemporalDAOImpl;
 import dao.TransaccionDAO;
 import dao.TransaccionDAOImpl;
+import dao.UnidadProductoDAO;
+import dao.UnidadProductoDAOImlp;
 import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
 import java.awt.Color;
@@ -49,6 +53,8 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     ReporteCreditoDAO reporteCreditoDAO;
     TemporalDAO temporalDAO;
     Temporal productoTemporal;
+    UnidadProductoDAO unidadProductoDAO;
+    ProductoDAO productoDAO;
 
     public FormEntregasPendientes(Connection connectionDB, 
             int idTipoTransaccionEntrega, byte idLugar, 
@@ -90,6 +96,8 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         transaccionDAO = new TransaccionDAOImpl(connectionDB);
         entregasDAO = new EntregasDAOImpl(connectionDB); 
         temporalDAO = new TemporalDAOImpl(connectionTemp);
+        unidadProductoDAO = new UnidadProductoDAOImlp(connectionDB);
+        productoDAO = new ProductoDAOImpl(connectionDB);
         
         temporalDAO.emptyEntregaTemporal();        
     }
@@ -229,10 +237,21 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     public void seleccionarPendiente(int idTransaccion){        
         llenarProductosPendientes(idTransaccion); 
         temporalDAO.emptyEntregaTemporal();
+        
+        temporalDAO.deleteProductoEntregaTemporal();
+        llenarProductosPorEntregar();
+        jlStockProducto.setText("");
     }
     
     private void seleccionarProductoPendiente(){
+
+        int filSel = jtProductosPendientes.getSelectedRow();        
+        int idProducto =  (int) jtProductosPendientes.getValueAt(filSel, 1);
+        int idUnidadMedida =  (int) jtProductosPendientes.getValueAt(filSel, 2);
         
+        double stock = unidadProductoDAO.getStockProducto(idProducto, idUnidadMedida, idLugar);
+
+        jlStockProducto.setText(String.valueOf(stock));
     }
     
     public FormEntregasPendientes() {
@@ -262,6 +281,8 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         jlTituloFormulario2 = new javax.swing.JLabel();
         jbTransaccion = new javax.swing.JButton();
         jbSalir = new javax.swing.JToggleButton();
+        jLabel2 = new javax.swing.JLabel();
+        jlStockProducto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -378,6 +399,11 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtProductosPendientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtProductosPendientesMouseClicked(evt);
+            }
+        });
         jtProductosPendientes.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtProductosPendientesKeyPressed(evt);
@@ -430,6 +456,12 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel2.setText("Stock");
+
+        jlStockProducto.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -444,11 +476,14 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1203, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(81, 81, 81)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtCantidad)
-                            .addComponent(jbPorEntregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(75, 75, 75)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtCantidad)
+                                .addComponent(jbPorEntregar)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jlStockProducto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -472,21 +507,21 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jlTituloFormulario)
                     .addComponent(jlTituloFormulario2))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlStockProducto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbPorEntregar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 34, Short.MAX_VALUE)
+                        .addComponent(jbPorEntregar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbSalir)
                     .addComponent(jbTransaccion))
@@ -549,34 +584,50 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     }//GEN-LAST:event_jtProductosPendientesKeyPressed
 
     private void jbPorEntregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPorEntregarActionPerformed
-    
+
+        boolean aux = true;
+        
         int filSel = jtProductosPendientes.getSelectedRow();
         int idTransaccion = (int) jtProductosPendientes.getValueAt(filSel, 0);
         int idProducto =  (int) jtProductosPendientes.getValueAt(filSel, 1);
         int idUnidadMedida =  (int) jtProductosPendientes.getValueAt(filSel, 2);
-        String nombreProducto = (String) jtProductosPendientes.getValueAt(filSel, 3);
-        String nombreUnidadMedida = (String) jtProductosPendientes.getValueAt(filSel, 4);
-        double diferencia =  (double) jtProductosPendientes.getValueAt(filSel, 7);
         double cantidad = Double.valueOf(txtCantidad.getText().toString());
         
-        productoTemporal = new Temporal();
-        
-        productoTemporal.setIdTransaccion(idTransaccion);
-        productoTemporal.setIdProducto(idProducto);
-        productoTemporal.setIdUnidadMedida(idUnidadMedida);
-        productoTemporal.setNombreProducto(nombreProducto);
-        productoTemporal.setSimbolo(nombreUnidadMedida);
-        if(cantidad > diferencia){
-            productoTemporal.setCantidad(diferencia);
-        }else{
-            productoTemporal.setCantidad(cantidad);
+        byte controlStock = productoDAO.getControlStock(idProducto);
+        if (controlStock == 1) {
+            double stock = Double.valueOf(jlStockProducto.getText());
+            if(cantidad > stock){
+                JOptionPane.showMessageDialog( null, "No se puede entregar la cantidad registrada!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+                aux = false;
+            }
         }
         
-        temporalDAO.saveEntregaTemporal(productoTemporal);
-        llenarProductosPorEntregar();
-//        llenarProductosPendientes(0);
-        
-        txtCantidad.setText("");
+        if(aux){
+            String nombreProducto = (String) jtProductosPendientes.getValueAt(filSel, 3);
+            String nombreUnidadMedida = (String) jtProductosPendientes.getValueAt(filSel, 4);
+            double diferencia =  (double) jtProductosPendientes.getValueAt(filSel, 7);
+            
+
+            productoTemporal = new Temporal();
+
+            productoTemporal.setIdTransaccion(idTransaccion);
+            productoTemporal.setIdProducto(idProducto);
+            productoTemporal.setIdUnidadMedida(idUnidadMedida);
+            productoTemporal.setNombreProducto(nombreProducto);
+            productoTemporal.setSimbolo(nombreUnidadMedida);
+            if(cantidad > diferencia){
+                productoTemporal.setCantidad(diferencia);
+            }else{
+                productoTemporal.setCantidad(cantidad);
+            }
+
+            temporalDAO.saveEntregaTemporal(productoTemporal);
+            llenarProductosPorEntregar();
+    //        llenarProductosPendientes(0);
+
+            txtCantidad.setText("");
+            jlStockProducto.setText("");
+        }
     }//GEN-LAST:event_jbPorEntregarActionPerformed
 
     private void jtPorEntregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtPorEntregarKeyPressed
@@ -591,6 +642,10 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jtPorEntregarKeyPressed
+
+    private void jtProductosPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProductosPendientesMouseClicked
+        seleccionarProductoPendiente();
+    }//GEN-LAST:event_jtProductosPendientesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -629,12 +684,14 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton jbPorEntregar;
     private javax.swing.JToggleButton jbSalir;
     private javax.swing.JButton jbTransaccion;
+    private javax.swing.JLabel jlStockProducto;
     private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JLabel jlTituloFormulario1;
     private javax.swing.JLabel jlTituloFormulario2;

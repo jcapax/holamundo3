@@ -399,5 +399,17 @@ public class TemporalDAOImpl implements TemporalDAO{
         }
     }
 
+    @Override
+    public void deleteProductoEntregaTemporal() {
+        String sql = "delete from entrega_temp ";
+        
+        try {
+            PreparedStatement ps = sqlite.prepareStatement(sql);
+            ps.executeUpdate();                        
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     
 }

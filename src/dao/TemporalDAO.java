@@ -31,6 +31,7 @@ public interface TemporalDAO {
     public void saveEntregaTemporal(Temporal temporal);
     public void deleteEntregaTemporal(Temporal temporal);
     public void deleteProductoEntregaTemporal(String nombreProducto, String nombreUnidadMedida);
+    public void deleteProductoEntregaTemporal();
     public void emptyEntregaTemporal();
     public byte getNroTemporalEntrega();
     

@@ -1314,6 +1314,8 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
             aux = false;
             return;
         }
+        
+        /*
 
         if ((idTipoTransaccion == 2)||(idTipoTransaccion == 3)) { // solo para ventas y creditos
             ProductoDAOImpl prod = new ProductoDAOImpl(connectionDB);
@@ -1329,6 +1331,8 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                 }
             }
         }
+                
+        */
 
         if (aux) {
             insertarTemp();
