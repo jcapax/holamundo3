@@ -197,7 +197,8 @@ public class FormFacturaFacil extends javax.swing.JFrame {
         TemporalDAOImpl temp = new TemporalDAOImpl(connectionTemp);
         temp.insertarDetalleFacturaFacilTemp(facil);
         
-        llenarTablaDetalleFacturaFacil();              
+        llenarTablaDetalleFacturaFacil();       
+        
     }
     
     /**
@@ -660,13 +661,14 @@ public class FormFacturaFacil extends javax.swing.JFrame {
 
                 //repFactura.VistaPreviaFacturaVenta(nroIdFactura, facDaoImpl.getCadenaCodigoQr(idTransaccion), fact.getImporteTotal());
                 repFactura.VistaPreviaFacturaFacil(nroIdFactura, 
-                facturaVentaDAO.getCadenaCodigoQrFacturaFacil(nroIdFactura), 
-                tempDAOImpl.totalTemporal());
+                            facturaVentaDAO.getCadenaCodigoQrFacturaFacil(nroIdFactura), 
+                            tempDAOImpl.totalTemporal());
 
                 tempDAOImpl.vaciarDetalleFacturaFacilTemp();
                 llenarTablaDetalleFacturaFacil();  
                 jcSucursal.setRequestFocusEnabled(true);
                 
+                llenarCombo();
             } catch (ParseException ex) {
                 Logger.getLogger(FormFacturaFacil.class.getName()).log(Level.SEVERE, null, ex);
             }

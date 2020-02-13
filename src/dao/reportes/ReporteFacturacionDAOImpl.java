@@ -85,7 +85,7 @@ public class ReporteFacturacionDAOImpl implements ReporteFacturacionDAO{
         }
         else{
             this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura_facil.jrxml", parametros, false);
-            //this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura_copia.jrxml", parametros, false);
+            this.imprimir.impresionDirecta("Factura de Venta", "reporte_factura_copia.jrxml", parametros, false);
         }
     }
 

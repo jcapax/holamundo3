@@ -192,7 +192,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                         "and usuario = '"+usuario+"' " +
                       "ORDER BY id";
         
-        System.out.println(sql);
+//        System.out.println(sql);
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
