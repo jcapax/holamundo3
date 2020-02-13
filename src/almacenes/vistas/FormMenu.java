@@ -119,6 +119,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuListasFacturaFacil = new javax.swing.JMenuItem();
         jMenuProcesos = new javax.swing.JMenu();
         jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        jmenuCotizacion = new javax.swing.JMenuItem();
         jMenuVentas = new javax.swing.JMenuItem();
         jMenuCompras = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -291,6 +292,14 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuProcesos.setText("Procesos");
         jMenuProcesos.add(jSeparator8);
+
+        jmenuCotizacion.setText("Cotizacion");
+        jmenuCotizacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuCotizacionActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jmenuCotizacion);
 
         jMenuVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/venta.png"))); // NOI18N
         jMenuVentas.setText("Ventas");
@@ -992,6 +1001,15 @@ public class FormMenu extends javax.swing.JFrame {
         formPendientes.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jmenuCotizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuCotizacionActionPerformed
+        int idTipoTransaccion = 10; //cotizacion
+        
+        FormCotizacion cotizacion = new FormCotizacion(connectionDB, 
+                                            idTipoTransaccion, 
+                                            idUsuario, idLugar, idTerminal);
+        cotizacion.setVisible(true);
+    }//GEN-LAST:event_jmenuCotizacionActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -1148,6 +1166,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenuCerrarCaja;
     private javax.swing.JMenuItem jmenuCliente;
     private javax.swing.JMenuItem jmenuCodigoControl;
+    private javax.swing.JMenuItem jmenuCotizacion;
     private javax.swing.JMenuItem jmenuDesempaque;
     private javax.swing.JMenuItem jmenuDosificacion;
     private javax.swing.JMenuItem jmenuEgresos;
