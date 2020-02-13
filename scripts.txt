@@ -103,3 +103,6 @@ BEGIN
 END $$
 
 ALTER TABLE `configuraciones` ADD `descuento_por_unidad_producto` TINYINT NOT NULL DEFAULT '0' AFTER `impresion_directa_factura`;
+
+
+ALTER TABLE `transaccion` CHANGE `descripcion_transaccion` `descripcion_transaccion` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci NULL DEFAULT NULL;

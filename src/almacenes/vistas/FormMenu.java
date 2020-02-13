@@ -119,6 +119,8 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuListasFacturaFacil = new javax.swing.JMenuItem();
         jMenuProcesos = new javax.swing.JMenu();
         jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        jmenuCotizacion = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuVentas = new javax.swing.JMenuItem();
         jMenuCompras = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -126,18 +128,18 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuCerrarCaja = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jmAnularTrans = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jmenuReimpresion = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jmenuDesempaque = new javax.swing.JMenuItem();
-        jSeparator10 = new javax.swing.JPopupMenu.Separator();
+        jSeparator14 = new javax.swing.JPopupMenu.Separator();
         jmlistaTrnasacciones = new javax.swing.JMenuItem();
+        jSeparator10 = new javax.swing.JPopupMenu.Separator();
         jMenu2 = new javax.swing.JMenu();
+        jMenuEntregasChange = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jmenuPendientesCobro = new javax.swing.JMenuItem();
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
-        jMenuEntregasChange = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -292,6 +294,16 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.setText("Procesos");
         jMenuProcesos.add(jSeparator8);
 
+        jmenuCotizacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calculadora.jpg"))); // NOI18N
+        jmenuCotizacion.setText("Cotizacion");
+        jmenuCotizacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuCotizacionActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jmenuCotizacion);
+        jMenuProcesos.add(jSeparator4);
+
         jMenuVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/venta.png"))); // NOI18N
         jMenuVentas.setText("Ventas");
         jMenuVentas.addActionListener(new java.awt.event.ActionListener() {
@@ -339,7 +351,6 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmAnularTrans);
-        jMenuProcesos.add(jSeparator4);
         jMenuProcesos.add(jSeparator5);
 
         jmenuReimpresion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reimprimir.png"))); // NOI18N
@@ -360,7 +371,7 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmenuDesempaque);
-        jMenuProcesos.add(jSeparator10);
+        jMenuProcesos.add(jSeparator14);
 
         jmlistaTrnasacciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/listas.jpg"))); // NOI18N
         jmlistaTrnasacciones.setText("Lista Transacciones");
@@ -370,14 +381,23 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jmlistaTrnasacciones);
+        jMenuProcesos.add(jSeparator10);
 
         jMenuBar1.add(jMenuProcesos);
 
         jMenu2.setText("Creditos");
 
+        jMenuEntregasChange.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Entregas-Credito.png"))); // NOI18N
+        jMenuEntregasChange.setText("Pedidos");
+        jMenuEntregasChange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuEntregasChangeActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuEntregasChange);
+
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/credito.png"))); // NOI18N
         jMenuItem3.setText("Credito Ventas");
-        jMenuItem3.setEnabled(false);
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -394,15 +414,6 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenu2.add(jmenuPendientesCobro);
         jMenu2.add(jSeparator11);
-
-        jMenuEntregasChange.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Entregas-Credito.png"))); // NOI18N
-        jMenuEntregasChange.setText("Creditos Entregas");
-        jMenuEntregasChange.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuEntregasChangeActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuEntregasChange);
 
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/EntregaPendiente.png"))); // NOI18N
         jMenuItem4.setText("Entregas Pendientes");
@@ -992,6 +1003,15 @@ public class FormMenu extends javax.swing.JFrame {
         formPendientes.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jmenuCotizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuCotizacionActionPerformed
+        int idTipoTransaccion = 10; //cotizacion
+        
+        FormCotizacion cotizacion = new FormCotizacion(connectionDB, 
+                                            idTipoTransaccion, 
+                                            idUsuario, idLugar, idTerminal);
+        cotizacion.setVisible(true);
+    }//GEN-LAST:event_jmenuCotizacionActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -1131,6 +1151,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator13;
+    private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
@@ -1148,6 +1169,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenuCerrarCaja;
     private javax.swing.JMenuItem jmenuCliente;
     private javax.swing.JMenuItem jmenuCodigoControl;
+    private javax.swing.JMenuItem jmenuCotizacion;
     private javax.swing.JMenuItem jmenuDesempaque;
     private javax.swing.JMenuItem jmenuDosificacion;
     private javax.swing.JMenuItem jmenuEgresos;

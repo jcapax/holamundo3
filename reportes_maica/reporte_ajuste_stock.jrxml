@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_compra" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ec2a521-2bf7-4a8c-a2f6-dbff6cb1b47f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_compra" pageWidth="612" pageHeight="254" orientation="Landscape" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ec2a521-2bf7-4a8c-a2f6-dbff6cb1b47f">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dismebol"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="maicaAdapter.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
 	<parameter name="id_transaccion" class="java.lang.Integer"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT t.id, t.id_lugar, l.descripcion as nombre_lugar, 
+		<![CDATA[SELECT t.id, t.id_lugar, l.descripcion as nombre_lugar, t.nro_tipo_transaccion, 
 t.fecha, t.descripcion_transaccion, d.descripcion as nombre_producto, d.simbolo, d.cantidad, 
 d.valor_unitario, d.valor_total, v.fecha_vencimiento 
 FROM `v_transaccion` t 
@@ -27,6 +28,10 @@ Where t.id = $P{id_transaccion}]]>
 	<field name="nombre_lugar" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nombre_lugar"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="lugar"/>
+	</field>
+	<field name="nro_tipo_transaccion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_tipo_transaccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="transaccion"/>
 	</field>
 	<field name="fecha" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
@@ -67,7 +72,7 @@ Where t.id = $P{id_transaccion}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="119" splitType="Stretch">
+		<band height="100" splitType="Stretch">
 			<staticText>
 				<reportElement x="168" y="3" width="237" height="30" forecolor="#054A82" uuid="82b38a35-498c-44f5-a0de-0df955c59d57"/>
 				<textElement textAlignment="Center">
@@ -76,7 +81,7 @@ Where t.id = $P{id_transaccion}]]>
 				<text><![CDATA[AJUSTE STOCK]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="172" y="70" width="136" height="18" uuid="5192bdd5-b139-4a1e-874d-15706ffcea99">
+				<reportElement x="170" y="50" width="136" height="18" uuid="5192bdd5-b139-4a1e-874d-15706ffcea99">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
@@ -85,7 +90,7 @@ Where t.id = $P{id_transaccion}]]>
 				<textFieldExpression><![CDATA[$F{nombre_lugar}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="366" y="70" width="134" height="18" uuid="d583aebc-8ca8-451a-8d72-f1ce13c4dced">
+				<reportElement x="364" y="50" width="134" height="18" uuid="d583aebc-8ca8-451a-8d72-f1ce13c4dced">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -94,28 +99,28 @@ Where t.id = $P{id_transaccion}]]>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="112" y="70" width="60" height="18" forecolor="#054A82" uuid="16fb38f1-3aca-4b41-a588-a849004e8b53"/>
+				<reportElement x="110" y="50" width="60" height="18" forecolor="#054A82" uuid="16fb38f1-3aca-4b41-a588-a849004e8b53"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[LUGAR: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="310" y="70" width="56" height="18" forecolor="#054A82" uuid="77116a53-5290-4084-b9cd-b47f9a453973"/>
+				<reportElement x="308" y="50" width="56" height="18" forecolor="#054A82" uuid="77116a53-5290-4084-b9cd-b47f9a453973"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FECHA: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="101" width="60" height="18" forecolor="#054A82" uuid="d8118094-c562-49e7-82ef-e79bad5a1743"/>
+				<reportElement x="28" y="73" width="60" height="18" forecolor="#054A82" uuid="d8118094-c562-49e7-82ef-e79bad5a1743"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DETALLE: ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="90" y="101" width="448" height="18" uuid="551b9317-b10d-4a6f-8d64-315b05bedf23">
+				<reportElement x="88" y="73" width="448" height="18" uuid="551b9317-b10d-4a6f-8d64-315b05bedf23">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
@@ -146,11 +151,24 @@ Zona Barrio la Hoyada
 Telf.: 64-56616   Cel.: 7611162
 ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="442" y="20" width="56" height="18" forecolor="#054A82" uuid="a9cf4469-654d-4e74-805b-a37a471fd378"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="498" y="20" width="38" height="18" uuid="d7567309-7ad6-47d9-880f-c85855f49042">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro_tipo_transaccion}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
-	<pageHeader>
-		<band height="21" splitType="Stretch"/>
-	</pageHeader>
 	<columnHeader>
 		<band height="24" splitType="Stretch">
 			<staticText>
@@ -224,7 +242,7 @@ Telf.: 64-56616   Cel.: 7611162
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch">
@@ -244,15 +262,4 @@ Telf.: 64-56616   Cel.: 7611162
 			</line>
 		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch">
-			<line>
-				<reportElement x="20" y="6" width="520" height="1" uuid="1879c4fc-904e-437d-acaf-cbf59b9add81">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-			</line>
-		</band>
-	</summary>
 </jasperReport>

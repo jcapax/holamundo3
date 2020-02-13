@@ -74,7 +74,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="150" splitType="Stretch">
+		<band height="117" splitType="Stretch">
 			<staticText>
 				<reportElement x="6" y="20" width="556" height="30" forecolor="#054A82" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
 				<textElement textAlignment="Center">
@@ -83,7 +83,7 @@
 				<text><![CDATA[ENTREGA PRODUCTOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="70" width="60" height="16" forecolor="#054A82" uuid="79b2e507-dcf3-418b-a5ad-efdf74713295"/>
+				<reportElement x="424" y="70" width="36" height="16" forecolor="#054A82" uuid="79b2e507-dcf3-418b-a5ad-efdf74713295"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -108,18 +108,18 @@
 				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="94" width="60" height="16" forecolor="#054A82" uuid="6bd4cfde-c876-4d62-9fd7-bf78a2196f63"/>
+				<reportElement x="-1" y="70" width="40" height="16" forecolor="#054A82" uuid="6bd4cfde-c876-4d62-9fd7-bf78a2196f63"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre Completo:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="60" y="70" width="100" height="16" uuid="6b9be1e2-d3ec-4eb5-b1e6-91b6604d90d7"/>
+				<reportElement x="460" y="70" width="100" height="16" uuid="6b9be1e2-d3ec-4eb5-b1e6-91b6604d90d7"/>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="61" y="94" width="480" height="16" uuid="bd02a746-bfdd-4d18-b20a-e62944ef5301"/>
+				<reportElement x="40" y="70" width="382" height="16" uuid="bd02a746-bfdd-4d18-b20a-e62944ef5301"/>
 				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
 			</textField>
 			<textField>

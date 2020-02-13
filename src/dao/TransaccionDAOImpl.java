@@ -181,7 +181,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                         + "nro_tipo_transaccion, valor_total, fecha_hora_registro, "
                         + "id_tipo_transaccion, descripcion_transaccion, usuario \n" +
                      "FROM v_transaccion " +
-                     "WHERE id_tipo_transaccion in (1, 2, 3, 6) "
+                     "WHERE id_tipo_transaccion in (1, 2, 3, 6, 10) "
                         + "and usuario = '"+usuario+"' "
                         + "and fecha = '"+String.valueOf(fecha)+"' "
                 + "UNION "
@@ -192,7 +192,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                         "and usuario = '"+usuario+"' " +
                       "ORDER BY id";
         
-        System.out.println(sql);
+        //System.out.println(sql);
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -281,6 +281,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                                 "    id_producto                 int, \n" +
                                 "    nombre_completo             varchar(100),\n" +
                                 "    direccion                   varchar(100),\n" +
+                                "    descripcion_credito         varchar(200),\n" +
                                 "    telefonos                   varchar(100),\n" +
                                 "    fecha                       varchar(100),\n" +
                                 "    nro_tipo_transaccion        int,\n" +

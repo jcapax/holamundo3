@@ -85,12 +85,13 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             fila[0] = l.get(i).getId();
             fila[1] = l.get(i).getNroTransaccion();
             fila[2] = l.get(i).getFecha();
+            /*
             if(transaccionDAO.isCreditoEntrega(l.get(i).getId())){
                 fila[3] = "ENTREGA PENDIENTE";
             }else{
                 fila[3] = l.get(i).getDescripcion();
-            }
-            
+            }*/
+            fila[3] = l.get(i).getDescripcion();
             fila[4] = l.get(i).getValorTotal();
             fila[5] = l.get(i).getIdTipoTransaccion();
             
@@ -255,6 +256,8 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try{
+            ReporteCreditoDAO reporteCreditoDAO;
+            
             int filSel = jtListaTransacciones.getSelectedRow();            
             int id = (int) jtListaTransacciones.getValueAt(filSel, 0);
             int idTipoTransaccion = (int) jtListaTransacciones.getValueAt(filSel, 5);
@@ -284,10 +287,14 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                     transaccionDAO.crearTemporalEntrega();                    
                     transaccionDAO.insertarEntregaTemporal(idTransaccionInicial, id);
                     
-                    ReporteCreditoDAO reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
+                    reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);
 //                    reporteCreditoDAO.vistaPreviaEntregaProductosCredito(idTransaccionInicial, id );                    
                     reporteCreditoDAO.vistaPreviaEntregaProductosCredito();
                     transaccionDAO.eliminarDatosTemporalEntrega();
+                    break;
+                case 10: // cotizacion
+                    reporteCreditoDAO = new ReporteCreditoDAOImpl(connectionDB, usuario);//                  
+                    reporteCreditoDAO.vistaPreviaCotizacion(id);                    
                     break;
             }
             
