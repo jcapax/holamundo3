@@ -645,7 +645,8 @@ public class FormFacturaFacil extends javax.swing.JFrame {
             jtxtRazonSocial.requestFocus();
         }
         
-        if(shift){            
+        if(shift){       
+            jbFacturar.setEnabled(false);
             SucursalDAO suc = new SucursalDAOImpl(connectionDB);
             byte idSucursal = Byte.valueOf(jlNroSucursal.getText().trim());                    
 
@@ -673,6 +674,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
                 Logger.getLogger(FormFacturaFacil.class.getName()).log(Level.SEVERE, null, ex);
             }
             limpiarComponentes();
+            jbFacturar.setEnabled(true);
         }
     }//GEN-LAST:event_jbFacturarActionPerformed
 

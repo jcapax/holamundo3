@@ -13,8 +13,6 @@ import almacenes.model.Configuracion;
 import almacenes.model.Permiso;
 import almacenes.vistas.configuracion.FormSucursal;
 import almacenes.vistas.configuracion.FormTerminal;
-import dao.DosificacionDAO;
-import dao.DosificacionDAOImpl;
 import dao.FacturaDAO;
 import dao.FacturaDAOImpl;
 import dao.SistemaDAO;
@@ -23,7 +21,6 @@ import dao.SucursalDAO;
 import dao.SucursalDAOImpl;
 import dao.TerminalDAO;
 import dao.TerminalDAOImpl;
-import java.awt.event.InputEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -119,7 +116,6 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuListasFacturaFacil = new javax.swing.JMenuItem();
         jMenuProcesos = new javax.swing.JMenu();
         jSeparator8 = new javax.swing.JPopupMenu.Separator();
-        jmenuCotizacion = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuVentas = new javax.swing.JMenuItem();
         jMenuCompras = new javax.swing.JMenuItem();
@@ -135,6 +131,8 @@ public class FormMenu extends javax.swing.JFrame {
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
         jmlistaTrnasacciones = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
+        jmenuCotizacion = new javax.swing.JMenuItem();
+        jMenuCotizacionesPendientes = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuEntregasChange = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -293,15 +291,6 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuProcesos.setText("Procesos");
         jMenuProcesos.add(jSeparator8);
-
-        jmenuCotizacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calculadora.jpg"))); // NOI18N
-        jmenuCotizacion.setText("Cotizacion");
-        jmenuCotizacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuCotizacionActionPerformed(evt);
-            }
-        });
-        jMenuProcesos.add(jmenuCotizacion);
         jMenuProcesos.add(jSeparator4);
 
         jMenuVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/venta.png"))); // NOI18N
@@ -382,6 +371,24 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenuProcesos.add(jmlistaTrnasacciones);
         jMenuProcesos.add(jSeparator10);
+
+        jmenuCotizacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calculadora.jpg"))); // NOI18N
+        jmenuCotizacion.setText("Cotizacion");
+        jmenuCotizacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuCotizacionActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jmenuCotizacion);
+
+        jMenuCotizacionesPendientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cotiizacion_pendiente.png"))); // NOI18N
+        jMenuCotizacionesPendientes.setText("Cotizaciones Pendientes");
+        jMenuCotizacionesPendientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCotizacionesPendientesActionPerformed(evt);
+            }
+        });
+        jMenuProcesos.add(jMenuCotizacionesPendientes);
 
         jMenuBar1.add(jMenuProcesos);
 
@@ -706,6 +713,7 @@ public class FormMenu extends javax.swing.JFrame {
 //        procesosVentas.setVisible(true);
         int idTipoTransaccion = 2;
         int idTipoTransaccionEntrega = 8;
+        int idTransaccionCotizacion = 0;
        
         SucursalDAO suc = new SucursalDAOImpl(connectionDB);
         byte idSucursal = suc.getIdSucursal(idLugar);
@@ -726,7 +734,8 @@ public class FormMenu extends javax.swing.JFrame {
 
         FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
                                             idTipoTransaccion, idTipoTransaccionEntrega, 
-                                            idUsuario, idLugar, idTerminal);
+                                            idUsuario, idLugar, idTerminal,
+                                            idTransaccionCotizacion);
         formTrans.setVisible(true);
     }//GEN-LAST:event_jMenuVentasActionPerformed
 
@@ -895,9 +904,11 @@ public class FormMenu extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         int idTipoTransaccion = 3; //pedidos
         int idTipoTransaccionEntrega = 8; //entrega
+        int idTransaccionCotizacion = 0;
         FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
                                             idTipoTransaccion, idTipoTransaccionEntrega, 
-                                            idUsuario, idLugar, idTerminal);
+                                            idUsuario, idLugar, idTerminal, 
+                                            idTransaccionCotizacion);
         formTrans.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
@@ -987,10 +998,12 @@ public class FormMenu extends javax.swing.JFrame {
 
     private void jMenuEntregasChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEntregasChangeActionPerformed
         int idTipoTransaccion = 3; //pedidos
+        int idTransaccionCotizacion = 0;
         
         FormTransaccionEntregasCredito credito = new FormTransaccionEntregasCredito(connectionDB, 
                                             idTipoTransaccion, 
-                                            idUsuario, idLugar, idTerminal);
+                                            idUsuario, idLugar, idTerminal, 
+                                            idTransaccionCotizacion);
         credito.setVisible(true);
     }//GEN-LAST:event_jMenuEntregasChangeActionPerformed
 
@@ -1011,6 +1024,11 @@ public class FormMenu extends javax.swing.JFrame {
                                             idUsuario, idLugar, idTerminal);
         cotizacion.setVisible(true);
     }//GEN-LAST:event_jmenuCotizacionActionPerformed
+
+    private void jMenuCotizacionesPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCotizacionesPendientesActionPerformed
+        FormListaCotizaciones flc = new FormListaCotizaciones(connectionDB, idUsuario, idLugar, idTerminal);
+        flc.setVisible(true);
+    }//GEN-LAST:event_jMenuCotizacionesPendientesActionPerformed
 
     private void salir() {
         this.databaseUtils.close(connectionDB);
@@ -1124,6 +1142,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuCompras;
     private javax.swing.JMenu jMenuConfiguracion;
     private javax.swing.JMenuItem jMenuConfiguraciones;
+    private javax.swing.JMenuItem jMenuCotizacionesPendientes;
     private javax.swing.JMenuItem jMenuEntregasChange;
     private javax.swing.JMenuItem jMenuFacturaFacil;
     private javax.swing.JMenuItem jMenuILugar;

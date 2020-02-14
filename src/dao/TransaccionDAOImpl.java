@@ -374,5 +374,38 @@ public class TransaccionDAOImpl implements TransaccionDAO{
             Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public ArrayList<ListaTransaccion> getlistaCotizacionesPendientes(int idLugar) {
+       ArrayList<ListaTransaccion> lista = new ArrayList<>();
+        
+        String sql = "SELECT id, fecha, nro_tipo_transaccion, valor_total, usuario, descripcion_transaccion " +
+                    "FROM v_transaccion " +
+                    "WHERE id_tipo_transaccion = 10 " +
+                    "	AND id NOT IN (SELECT id_transaccion_cotizacion FROM atencion_cotizacion) " +
+                    "   AND id_lugar = "+String.valueOf(idLugar) +
+                    " ORDER BY id";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                ListaTransaccion lt = new ListaTransaccion();
+                
+                lt.setFecha(rs.getDate("fecha"));
+                lt.setId(rs.getInt("id"));
+                lt.setNroTransaccion(rs.getInt("nro_tipo_transaccion"));
+                lt.setValorTotal(rs.getDouble("valor_total"));                
+                lt.setDetalle(rs.getString("descripcion_transaccion"));
+                lt.setUsuario(rs.getString("usuario"));
+                
+                lista.add(lt);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return lista;
+    }
     
 }

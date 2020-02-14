@@ -127,7 +127,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtAnularComprobante = new javax.swing.JTable();
-        btnEliminar1 = new javax.swing.JButton();
+        btnAnular = new javax.swing.JButton();
         jlTituloFormulario = new javax.swing.JLabel();
         jbSalir = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -205,11 +205,11 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             jtAnularComprobante.getColumnModel().getColumn(10).setMaxWidth(250);
         }
 
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
-        btnEliminar1.setText("Anular");
-        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+        btnAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
+        btnAnular.setText("Anular");
+        btnAnular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar1ActionPerformed(evt);
+                btnAnularActionPerformed(evt);
             }
         });
 
@@ -259,7 +259,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEliminar1)
+                        .addComponent(btnAnular)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
@@ -283,7 +283,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnEliminar1)
+                        .addComponent(btnAnular)
                         .addComponent(jbSalir))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
@@ -301,9 +301,11 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
+    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+        btnAnular.setEnabled(false);
         anularTransaccion();
-    }//GEN-LAST:event_btnEliminar1ActionPerformed
+        btnAnular.setEnabled(true);
+    }//GEN-LAST:event_btnAnularActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         dispose();
@@ -399,8 +401,8 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnEliminar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton jbSalir;

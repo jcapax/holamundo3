@@ -142,3 +142,7 @@ GROUP BY vp.id_transaccion, vp.id_producto, vp.nombre_completo,
     vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad, vp.detalle 
 HAVING (vp.cantidad - SUM(coalesce(ve.cantidad,0))) <> 0
 ORDER BY vp.fecha DESC
+
+******************************************************************
+
+CREATE TABLE `sucre_db_almacenes`.`atencion_cotizacion` ( `id_transaccion_cotizacion` INT NOT NULL , `id_transaccion_atencion` INT NOT NULL ) ENGINE = InnoDB;

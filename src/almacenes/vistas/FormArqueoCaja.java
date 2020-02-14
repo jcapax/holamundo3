@@ -223,9 +223,11 @@ public class FormArqueoCaja extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        btnGuardar.setEnabled(false);
         cerrarCaja();
         JOptionPane.showMessageDialog(this, "Caja Finalizada con exito!!!");
         dispose();
+        btnGuardar.setEnabled(true);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

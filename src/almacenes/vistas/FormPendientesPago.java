@@ -620,10 +620,12 @@ public class FormPendientesPago extends javax.swing.JFrame {
         }
 
         if(aux){
+            jbPagar.setEnabled(false);
             int idTransaccion = getIdTransaccionSeleccion();
             registrarCaja(idTransaccion);            
             ReporteCreditoDAO rep = new ReporteCreditoDAOImpl(connectionDB, usuario);
             rep.vistaPreviaPagoCredito(idTransaccion, jtxtDetalle.getText().trim());
+            jbPagar.setEnabled(true);
         }
         
         jtxtImporte.setText("");

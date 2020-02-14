@@ -22,6 +22,7 @@ public interface TransaccionDAO {
     public double getValorTotalTransaccion(int idTransaccion);
     public Date getFechaTransaccion(int idTransaccion);
     public ArrayList<ListaTransaccion> getlistaTransacciones(Date fecha, String usuario); 
+    public ArrayList<ListaTransaccion> getlistaCotizacionesPendientes(int idLugar);
     public int getIdTransaccionOriginalDeEntregaPendiente(int idTransaccion);
     public void crearTemporalEntrega();
     public void eliminarDatosTemporalEntrega();

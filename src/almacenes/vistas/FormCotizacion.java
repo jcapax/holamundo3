@@ -15,16 +15,9 @@ import almacenes.model.Transaccion;
 import almacenes.model.UnidadProducto;
 import dao.ArqueoDAOImpl;
 import dao.CajaDAOImpl;
-import dao.ClienteProveedorDAO;
-import dao.ClienteProveedorDAOImpl;
 import dao.ConfiguracionGeneralDAO;
 import dao.ConfiguracionGeneralDAOImpl;
-import dao.CreditoDAO;
-import dao.CreditoDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
-import dao.FacturaDAO;
-import dao.FacturaDAOImpl;
-import dao.FacturaVentaDAOImpl;
 import dao.TemporalDAOImpl;
 import dao.ProductoDAOImpl;
 import dao.SucursalDAO;
@@ -36,25 +29,20 @@ import dao.UnidadMedidaDAOImpl;
 import dao.UnidadProductoDAO;
 import dao.UnidadProductoDAOImlp;
 import dao.VencimientoDAO;
-import dao.VencimientoDAOImpl;
 import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
-import dao.reportes.ReporteFacturacionDAOImpl;
 import dao.reportes.ReporteVentasDAO;
 import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.Date;
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -95,7 +83,7 @@ public class FormCotizacion extends javax.swing.JFrame {
 
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
-        this.idTipoTransaccion = idTipoTransaccion;        
+        this.idTipoTransaccion = idTipoTransaccion;
         this.usuario = usuario;
         this.idLugar = idLugar;
         this.idTerminal = idTerminal;
@@ -120,13 +108,13 @@ public class FormCotizacion extends javax.swing.JFrame {
     }
 
     public void iniciarComponentes() {
-        
+
         ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
         configuracionGeneralDAO = new ConfiguracionGeneralDAOImpl(connectionDB);
 
         llenarTablaProductos("");
         jtxtDetalle.setText("");
-        
+
         jlIdProducto.setVisible(false);
         jlIdUnidadMedida.setVisible(false);
         jlidClienteProveedor.setText("0");
@@ -149,7 +137,7 @@ public class FormCotizacion extends javax.swing.JFrame {
         }
 
         jbTransaccion.setEnabled(true);
-        
+
     }
 
     public boolean validarRegistros() {
@@ -157,28 +145,28 @@ public class FormCotizacion extends javax.swing.JFrame {
         if (jtTemporal.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "No existen productos para ejectuar la transaccion!!!");
             aux = false;
-        }        
-        
+        }
+
         return aux;
     }
 
     public void registrarCotizacion() {
 
-        int idTransaccion = 0;        
+        int idTransaccion = 0;
         int idClienteProveedor = Integer.parseInt(jlidClienteProveedor.getText());
-        
-        idTransaccion = resgistrarTransaccion(idTipoTransaccion);        
+
+        idTransaccion = resgistrarTransaccion(idTipoTransaccion);
         registrarDetalleTransaccion(idTransaccion);
-        
+
         ReporteCreditoDAO rep = new ReporteCreditoDAOImpl(connectionDB, usuario);
-        
+
         rep.vistaPreviaCotizacion(idTransaccion);
-        
+
         limpiar();
 
         vaciarProductosTemporales();
         iniciarComponentes();
-        
+
     }
 
     public void abrirConexionTemp() {
@@ -232,18 +220,18 @@ public class FormCotizacion extends javax.swing.JFrame {
             fila[4] = t.get(i).getCantidad();
             fila[5] = t.get(i).getValorUnitario();
             fila[6] = t.get(i).getValorSubTotal();
-            fila[7] = t.get(i).getDescuento();            
+            fila[7] = t.get(i).getDescuento();
             fila[8] = t.get(i).getValorTotal();
 
             dtm.addRow(fila);
         }
-        
+
         TableColumnModel columnModel = jtTemporal.getColumnModel();
 
         TableColumn colCantidad = columnModel.getColumn(4);
         TableColumn colPrecioUnitario = columnModel.getColumn(5);
         TableColumn colPrecioTotal = columnModel.getColumn(6);
-        
+
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(jLabel1.RIGHT);
@@ -261,7 +249,7 @@ public class FormCotizacion extends javax.swing.JFrame {
 
         UnidadMedidaDAO unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
         UnidadProductoDAO unidadProductoDAO = new UnidadProductoDAOImlp(connectionDB);
-        
+
         Temporal temp = new Temporal();
 
         int idProducto = Integer.valueOf(jlIdProducto.getText());
@@ -273,8 +261,8 @@ public class FormCotizacion extends javax.swing.JFrame {
         double valorSubTotal = 0.0;
         if(jtxtDescuento.getText().trim().length()>0){
             descuento = Double.valueOf(jtxtDescuento.getText());
-        }         
-        
+        }
+
         double valorUnitario = 0.0;
         if(idTipoTransaccion == 2){
             valorUnitario = unidadProductoDAO.getValorUnitarioDescuento(idProducto, idUnidadMedida, cantidad);
@@ -282,17 +270,17 @@ public class FormCotizacion extends javax.swing.JFrame {
         if(valorUnitario == 0){
             valorUnitario = Double.valueOf(jtxtValorUnitario.getText());
         }
-        
+
         valorSubTotal = cantidad * valorUnitario;
-        
+
         byte descuentoProUnidadProducto;
         descuentoProUnidadProducto = configuracionGeneralDAO.getDescuentoPorUnidadProducto();
         if(descuentoProUnidadProducto == 1){
             descuento = descuento * cantidad;
         }
-                
+
         double valorTotal = valorSubTotal - descuento;
-        
+
         String tipoValor = "N";// normal
 
         temp.setCantidad(cantidad);
@@ -313,7 +301,7 @@ public class FormCotizacion extends javax.swing.JFrame {
     }
 
     public void seleccionarProducto() {
-        
+
         UnidadMedidaDAO unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
 
         UnidadProductoDAOImlp up = new UnidadProductoDAOImlp(connectionDB);
@@ -331,15 +319,15 @@ public class FormCotizacion extends javax.swing.JFrame {
         jtxtValorUnitario.setText(valorUnitario.toString());
         jlIdProducto.setText(String.valueOf(idProducto));
         jlIdUnidadMedida.setText(String.valueOf(idUnidadMedida));
-        
+
         jtxtUnidad.setText(unidadMedidaDAO.getSimboloUnidadMedida(idUnidadMedida));
 
         jlStockProducto.setText(String.valueOf(stock));
 
     }
-    
+
     public void seleccionarProductoCodigoAdjunto() {
-        
+
         UnidadMedidaDAO unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
 
         UnidadProductoDAOImlp up = new UnidadProductoDAOImlp(connectionDB);
@@ -348,8 +336,8 @@ public class FormCotizacion extends javax.swing.JFrame {
         codigoAdjunto = codigoAdjunto.replace("'", "-");
         UnidadProducto producto = new UnidadProducto();
         producto = up.getProductoCodigoBarras(codigoAdjunto);
-        
-        
+
+
 
         int idProducto = producto.getIdProdcuto();
         int idUnidadMedida = producto.getIdUnidadMedida();
@@ -362,7 +350,7 @@ public class FormCotizacion extends javax.swing.JFrame {
         jtxtValorUnitario.setText(valorUnitario.toString());
         jlIdProducto.setText(String.valueOf(idProducto));
         jlIdUnidadMedida.setText(String.valueOf(idUnidadMedida));
-        
+
         jtxtUnidad.setText(unidadMedidaDAO.getSimboloUnidadMedida(idUnidadMedida));
 
         jlStockProducto.setText(String.valueOf(stock));
@@ -1038,7 +1026,7 @@ public class FormCotizacion extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtNombreProductoActionPerformed
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-//        TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);  
+//        TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
 //        tempDAOImpl.vaciarProductoTemp();
         limpiar();
     }//GEN-LAST:event_jToggleButton3ActionPerformed
@@ -1066,7 +1054,7 @@ public class FormCotizacion extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void agregar(){
         boolean aux = true;
         if (jtxtCantidad.getText().length() == 0) {
@@ -1103,7 +1091,7 @@ public class FormCotizacion extends javax.swing.JFrame {
             aux = false;
             return;
         }
-        
+
         /*
 
         if ((idTipoTransaccion == 2)||(idTipoTransaccion == 3)) { // solo para ventas y creditos
@@ -1120,7 +1108,7 @@ public class FormCotizacion extends javax.swing.JFrame {
                 }
             }
         }
-                
+
         */
 
         if (aux) {
@@ -1132,13 +1120,13 @@ public class FormCotizacion extends javax.swing.JFrame {
         jtxtDescuento.setText("");
         jlStockProducto.setText("...");
     }
-    
+
     public void registrarCaja(int idTransaccion) {
         String estado = "A";
-        
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");        
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date fecha = new Date(Calendar.getInstance().getTime().getTime());
-        
+
         int nroCobro = 0, nroPago = 0;
         double importe = 0;
 
@@ -1157,7 +1145,7 @@ public class FormCotizacion extends javax.swing.JFrame {
         caja.setUsuario(usuario);
 
         cajaDaoImpl.insertarCaja(caja);
-        
+
         if(jtxtDetalle.getText().length()>0){
             cajaDaoImpl.registrarCajaDetalle(cajaDaoImpl.getIdCaja(), jtxtDetalle.getText().trim());
         }
@@ -1168,18 +1156,14 @@ public class FormCotizacion extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtEliminarActionPerformed
 
     private void jbTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransaccionActionPerformed
-    
+        jbTransaccion.setEnabled(false);
         SucursalDAO suc = new SucursalDAOImpl(connectionDB);
         byte idSucursal = suc.getIdSucursal(idLugar);
-        
-        jbTransaccion.setEnabled(false);
-        
         registrarCotizacion();
-        
         jbTransaccion.setEnabled(true);
     }//GEN-LAST:event_jbTransaccionActionPerformed
 
-    
+
     private void jtProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtProductosKeyReleased
         seleccionarProducto();
 
@@ -1201,7 +1185,7 @@ public class FormCotizacion extends javax.swing.JFrame {
         String criterio = "";
         if (jtxtxCriterio.getText().length() != 0) {
 
-            criterio = jtxtxCriterio.getText();            
+            criterio = jtxtxCriterio.getText();
         } else {
             criterio = "";
         }
@@ -1212,11 +1196,11 @@ public class FormCotizacion extends javax.swing.JFrame {
         boolean aux = false;
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             aux = true;
-            seleccionarProductoCodigoAdjunto();  
+            seleccionarProductoCodigoAdjunto();
             evt.setKeyCode(KeyEvent.VK_ESCAPE);
-            
+
         }
-        if(aux){           
+        if(aux){
            jtxtCantidad.requestFocus();
            jtxtxCriterio.setText("");
            llenarTablaProductos("");
@@ -1224,7 +1208,7 @@ public class FormCotizacion extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtxCriterioKeyPressed
 
     private void jtxtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyPressed
-        
+
     }//GEN-LAST:event_jtxtCantidadKeyPressed
 
     private void jtxtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyReleased
@@ -1305,6 +1289,6 @@ public class FormCotizacion extends javax.swing.JFrame {
     private void vistaPreviaReciboVenta(int idTransaccion) {
         ReporteVentasDAO reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, usuario);
         reporteVentasDAO.vistaPreviaReciboVenta(idTransaccion);
-        
+
     }
 }

@@ -61,17 +61,6 @@
           <SubComponents>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator8">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmenuCotizacion">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Imagenes/calculadora.jpg"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Cotizacion"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmenuCotizacionActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator4">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuVentas">
@@ -174,6 +163,28 @@
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator10">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmenuCotizacion">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/calculadora.jpg"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Cotizacion"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmenuCotizacionActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuCotizacionesPendientes">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/cotiizacion_pendiente.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Cotizaciones Pendientes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuCotizacionesPendientesActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

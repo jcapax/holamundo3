@@ -79,6 +79,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     private int idTipoTransaccion; // tipo de proceso q se ejecutara
     private byte idLugar;
     private byte idTerminal;
+    private int idTransaccionCotizacion;
     private String usuario;
     private DecimalFormat df;
     private VencimientoDAO vencimientoDAO;
@@ -87,7 +88,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 //    DefaultTableModel dtm;
     public FormTransaccionEntregasCredito(Connection connectionDB,
             int idTipoTransaccion,
-            String usuario, byte idLugar, byte idTerminal) {
+            String usuario, byte idLugar, byte idTerminal, int idTransaccionCotizacion) {
 
         initComponents();
 
@@ -101,6 +102,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         this.usuario = usuario;
         this.idLugar = idLugar;
         this.idTerminal = idTerminal;
+        this.idTransaccionCotizacion = idTransaccionCotizacion;
 
         headerTabla();
 

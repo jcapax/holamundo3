@@ -147,9 +147,11 @@ public class FormCajaInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        btnGuardar.setEnabled(false);
         registrarCajaInicial();
         JOptionPane.showMessageDialog(this, "Caja Iniciada con exito");
         cajaInicial();
+        btnGuardar.setEnabled(true);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

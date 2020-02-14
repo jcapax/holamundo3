@@ -47,7 +47,7 @@
                   <Group type="102" attributes="0">
                       <Component id="jScrollPane3" min="-2" pref="420" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnEliminar1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAnular" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jbSalir" min="-2" pref="106" max="-2" attributes="0"/>
                   </Group>
@@ -78,7 +78,7 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="btnEliminar1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAnular" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbSalir" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane3" alignment="1" min="-2" pref="139" max="-2" attributes="0"/>
@@ -190,7 +190,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnEliminar1">
+    <Component class="javax.swing.JButton" name="btnAnular">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Imagenes/exit.png"/>
@@ -198,7 +198,7 @@
         <Property name="text" type="java.lang.String" value="Anular"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminar1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnularActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jlTituloFormulario">

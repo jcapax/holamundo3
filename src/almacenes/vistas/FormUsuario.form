@@ -44,9 +44,9 @@
                                       <Component id="jLabel4" alignment="0" min="-2" pref="119" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jpassContrasena2" min="-2" pref="119" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jchAdministrador" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="jchAdministrador" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="jchEstado" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>

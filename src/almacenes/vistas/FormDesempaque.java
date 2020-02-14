@@ -304,7 +304,9 @@ public class FormDesempaque extends javax.swing.JFrame {
         }
         
         if(aux){
+            jbDesempacar.setEnabled(false);
             desempacar();
+            jbDesempacar.setEnabled(true);
         }
         
     }//GEN-LAST:event_jbDesempacarActionPerformed
@@ -505,8 +507,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         registrarDetalleTransaccion(idEntregaTransaccionDesembalaje, idProducto, idUnidadMedidaFinal, cantidadFinal);
         registrarEntregaTransaccion(idEntregaTransaccionDesembalaje, idTransaccion);
         
-        System.err.println("Concluido");
-        
+        JOptionPane.showMessageDialog( null, "Desempaque concluido, revisar Stock!!!" , "Advertencia", JOptionPane.WARNING_MESSAGE);
         
     }
     
