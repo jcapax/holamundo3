@@ -356,7 +356,7 @@ public class FormListaCotizaciones extends javax.swing.JFrame {
     private void jbVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVentaActionPerformed
         int idTipoTransaccion = 2;
         int idTipoTransaccionEntrega = 8;
-        int idTransaccionCotizacion = 0;
+        int idTransaccionCotizacion = getIdTransaccionSeleccion();
        
         SucursalDAO suc = new SucursalDAOImpl(connectionDB);
         byte idSucursal = suc.getIdSucursal(idLugar);
@@ -394,7 +394,7 @@ public class FormListaCotizaciones extends javax.swing.JFrame {
         int idTipoTransaccion = 3; //pedidos
         int idTransaccionCotizacion = getIdTransaccionSeleccion();
         
-        FormTransaccionEntregasCredito credito = new FormTransaccionEntregasCredito(connectionDB, 
+        FormTransaccionPedidos credito = new FormTransaccionPedidos(connectionDB, 
                                             idTipoTransaccion, 
                                             usuario, idLugar, idTerminal, 
                                             idTransaccionCotizacion);

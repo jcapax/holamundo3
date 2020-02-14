@@ -5,17 +5,17 @@
  */
 package almacenes.vistas;
 
-import CodigoControl.ControlCode;
 import almacenes.conectorDB.DataBaseSqlite;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Caja;
 import almacenes.model.DetalleTransaccion;
-import almacenes.model.FacturaVenta;
 import almacenes.model.Temporal;
 import almacenes.model.ListaProductos;
 import almacenes.model.Transaccion;
 import almacenes.model.UnidadProducto;
+import dao.ArqueoDAO;
 import dao.ArqueoDAOImpl;
+import dao.CajaDAO;
 import dao.CajaDAOImpl;
 import dao.ClienteProveedorDAO;
 import dao.ClienteProveedorDAOImpl;
@@ -23,15 +23,17 @@ import dao.ConfiguracionGeneralDAO;
 import dao.ConfiguracionGeneralDAOImpl;
 import dao.CreditoDAO;
 import dao.CreditoDAOImpl;
+import dao.DetalleTransaccionDAO;
 import dao.DetalleTransaccionDAOImpl;
 import dao.FacturaDAO;
 import dao.FacturaDAOImpl;
-import dao.FacturaVentaDAOImpl;
+import dao.ProductoDAO;
 import dao.TemporalDAOImpl;
 import dao.ProductoDAOImpl;
 import dao.SucursalDAO;
 import dao.SucursalDAOImpl;
 import dao.TemporalDAO;
+import dao.TransaccionDAO;
 import dao.TransaccionDAOImpl;
 import dao.UnidadMedidaDAO;
 import dao.UnidadMedidaDAOImpl;
@@ -41,18 +43,15 @@ import dao.VencimientoDAO;
 import dao.VencimientoDAOImpl;
 import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
-import dao.reportes.ReporteFacturacionDAOImpl;
 import dao.reportes.ReporteVentasDAO;
 import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.Date;
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,7 +70,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author jcapax
  */
-public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
+public class FormTransaccionPedidos extends javax.swing.JFrame {
 
     private DatabaseUtils databaseUtils;
     private Connection connectionDB, connectionTemp;
@@ -82,11 +81,21 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     private int idTransaccionCotizacion;
     private String usuario;
     private DecimalFormat df;
+    
     private VencimientoDAO vencimientoDAO;
     private ConfiguracionGeneralDAO configuracionGeneralDAO;
+    private TemporalDAO temporalDAO;
+    private UnidadMedidaDAO unidadMedidaDAO;
+    private UnidadProductoDAO unidadProductoDAO;
+    private ProductoDAO productoDAO;
+    private ArqueoDAO arqueoDAO;
+    private DetalleTransaccionDAO detalleTransaccionDAO;
+    private CajaDAO cajaDAO;
+    private SucursalDAO sucursalDAO;
+    private TransaccionDAO transaccionDAO;
 
 //    DefaultTableModel dtm;
-    public FormTransaccionEntregasCredito(Connection connectionDB,
+    public FormTransaccionPedidos(Connection connectionDB,
             int idTipoTransaccion,
             String usuario, byte idLugar, byte idTerminal, int idTransaccionCotizacion) {
 
@@ -106,11 +115,14 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 
         headerTabla();
 
-        iniciarComponentes();
-
         abrirConexionTemp();
+        iniciarComponentes();       
 
         createEnterKeybindings(jtProductos);
+        
+        if(idTransaccionCotizacion > 0){
+            cargarCotizacion();
+        }
     }
 
     public void headerTabla() {
@@ -126,9 +138,18 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     public void iniciarComponentes() {
 //        byte idTerminal = 1;
         
-        ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
+        vencimientoDAO = new VencimientoDAOImpl(connectionDB);
         configuracionGeneralDAO = new ConfiguracionGeneralDAOImpl(connectionDB);
-
+        temporalDAO = new TemporalDAOImpl(connectionTemp);
+        unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
+        unidadProductoDAO = new UnidadProductoDAOImlp(connectionDB);
+        productoDAO = new ProductoDAOImpl(connectionDB);
+        arqueoDAO =  new ArqueoDAOImpl(connectionDB);
+        detalleTransaccionDAO = new DetalleTransaccionDAOImpl(connectionDB);
+        cajaDAO = new CajaDAOImpl(connectionDB);
+        sucursalDAO = new SucursalDAOImpl(connectionDB);
+        transaccionDAO = new TransaccionDAOImpl(connectionDB);
+        
         llenarTablaProductos("");
         jtxtDetalle.setText("");
         
@@ -159,14 +180,38 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                 System.err.println("nada");
         }
 
-        int idArqueo = arq.getIdArqueo(idLugar, idTerminal, usuario);
+        int idArqueo = arqueoDAO.getIdArqueo(idLugar, idTerminal, usuario);
         
-        if (!arq.getEstadoCaja(idArqueo).equals("A")) {
+        if (!arqueoDAO.getEstadoCaja(idArqueo).equals("A")) {
             JOptionPane.showMessageDialog(this, "No es posible realizar transacciones hasta que registre Caja Inicial");
             jbTransaccion.setEnabled(false);
         } else {
             jbTransaccion.setEnabled(true);
         }
+    }
+    
+    public void cargarCotizacion(){
+        ArrayList<DetalleTransaccion> listDetalle = detalleTransaccionDAO.getDetalleTransaccion(idTransaccionCotizacion);
+        
+        for(DetalleTransaccion detalle : listDetalle){
+            Temporal temp = new Temporal();
+            
+            temp.setCantidad(detalle.getCantidad());
+            temp.setIdProducto(detalle.getIdProducto());
+            temp.setIdUnidadMedida(detalle.getIdUnidadMedida());
+            temp.setNombreProducto(detalle.getNombreProducto());
+            temp.setSimbolo(detalle.getSimbolo());
+            temp.setTipoValor(detalle.getTipoValor());
+            temp.setValorTotal(detalle.getValorTotal());
+            temp.setValorUnitario(detalle.getValorUnitario());
+            temp.setValorSubTotal(detalle.getValorSubTotal());
+            temp.setDescuento(detalle.getDescuento());
+
+            temporalDAO.insertarProductoTemp(temp);            
+        }
+        
+        llenarTablaTemporal();
+        
     }
 
     public boolean validarRegistros() {
@@ -188,7 +233,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     public void registrarCredito() {
 
         int idTransaccion = 0;
-        int idEntregaTransaccion = 0;
+        
         int idClienteProveedor = Integer.parseInt(jlidClienteProveedor.getText());
         String detalle = jtxtDetalle.getText().toUpperCase();
         
@@ -197,6 +242,10 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         
         registrarCaja(idTransaccion);
 
+        if(idTransaccionCotizacion > 0){
+            transaccionDAO.insertarAtencionCotizacion(idTransaccionCotizacion, idTransaccion);
+        }
+        
         insertarCredito(idTransaccion, idClienteProveedor, detalle);
         
         ReporteCreditoDAO rep = new ReporteCreditoDAOImpl(connectionDB, usuario);
@@ -296,37 +345,32 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         DataBaseSqlite sqLite = new DataBaseSqlite();
         connectionTemp = sqLite.conexion();
 
-        TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
-        tempDAOImpl.vaciarProductoTemp();
+        temporalDAO = new TemporalDAOImpl(connectionTemp);
+        temporalDAO.vaciarProductoTemp();
 
     }
 
     public void calcularImportTotalTemp() {
-        double importeTotal = 0;
-        TemporalDAOImpl tempDAO = new TemporalDAOImpl(connectionTemp);
-        importeTotal = tempDAO.totalProductosTemp();
+        double importeTotal = 0;        
+        importeTotal = temporalDAO.totalProductosTemp();
         jtxtTotalTransaccion.setText(String.valueOf(df.format(importeTotal)));
     }
 
     public void eliminarProductoTemporal() {
-        TemporalDAOImpl tempDAO = new TemporalDAOImpl(connectionTemp);
-
         int filSel = jtTemporal.getSelectedRow();
         int idProducto = (int) jtTemporal.getValueAt(filSel, 0);
         int idUnidadMedida = (int) jtTemporal.getValueAt(filSel, 1);
 
-        tempDAO.eliminarProdcutoTemp(idProducto, idUnidadMedida);
+        temporalDAO.eliminarProdcutoTemp(idProducto, idUnidadMedida);
 
         llenarTablaTemporal();
     }
 
     public void llenarTablaTemporal() {
 
-        TemporalDAOImpl tempDAO = new TemporalDAOImpl(connectionTemp);
-
         ArrayList<Temporal> t = new ArrayList<Temporal>();
 
-        t = tempDAO.getListaTemporal();
+        t = temporalDAO.getListaTemporal();
 
         dtm = (DefaultTableModel) this.jtTemporal.getModel();
         dtm.setRowCount(0);
@@ -370,8 +414,8 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 
     public void insertarTemp() {
 
-        UnidadMedidaDAO unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
-        UnidadProductoDAO unidadProductoDAO = new UnidadProductoDAOImlp(connectionDB);
+        unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
+        unidadProductoDAO = new UnidadProductoDAOImlp(connectionDB);
         
         Temporal temp = new Temporal();
 
@@ -417,18 +461,13 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         temp.setValorSubTotal(valorSubTotal);
         temp.setDescuento(descuento);
 
-        TemporalDAO tempDAOImpl = new TemporalDAOImpl(connectionTemp);
-        tempDAOImpl.insertarProductoTemp(temp);
+        temporalDAO.insertarProductoTemp(temp);
 
         llenarTablaTemporal();
     }
 
     public void seleccionarProducto() {
         
-        UnidadMedidaDAO unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
-
-        UnidadProductoDAOImlp up = new UnidadProductoDAOImlp(connectionDB);
-
         int filSel = jtProductos.getSelectedRow();
 
         int idProducto = (int) jtProductos.getValueAt(filSel, 0);
@@ -436,7 +475,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         String nombreProducto = jtProductos.getValueAt(filSel, 2).toString();
         Double valorUnitario = (double) jtProductos.getValueAt(filSel, 5);
 
-        double stock = up.getStockProducto(idProducto, idUnidadMedida, idLugar);
+        double stock = unidadProductoDAO.getStockProducto(idProducto, idUnidadMedida, idLugar);
 
         jtxtNombreProducto.setText(nombreProducto);
         jtxtValorUnitario.setText(valorUnitario.toString());
@@ -451,14 +490,10 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     
     public void seleccionarProductoCodigoAdjunto() {
         
-        UnidadMedidaDAO unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
-
-        UnidadProductoDAOImlp up = new UnidadProductoDAOImlp(connectionDB);
-
         String codigoAdjunto = jtxtxCriterio.getText().trim();
         codigoAdjunto = codigoAdjunto.replace("'", "-");
         UnidadProducto producto = new UnidadProducto();
-        producto = up.getProductoCodigoBarras(codigoAdjunto);
+        producto = unidadProductoDAO.getProductoCodigoBarras(codigoAdjunto);
         
         
 
@@ -467,7 +502,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         String nombreProducto = producto.getNombreProducto();
         Double valorUnitario = producto.getPrecioVenta();
 
-        double stock = up.getStockProducto(idProducto, idUnidadMedida, idLugar);
+        double stock = unidadProductoDAO.getStockProducto(idProducto, idUnidadMedida, idLugar);
 
         jtxtNombreProducto.setText(nombreProducto);
         jtxtValorUnitario.setText(valorUnitario.toString());
@@ -481,11 +516,10 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     }
 
     public void llenarTablaProductos(String criterio) {
-        ProductoDAOImpl prodDAOImpl = new ProductoDAOImpl(connectionDB);
 
         ArrayList<ListaProductos> lProd = new ArrayList<ListaProductos>();
 
-        lProd = prodDAOImpl.getListaProductosVenta(criterio);
+        lProd = productoDAO.getListaProductosVenta(criterio);
 
         dtm = (DefaultTableModel) this.jtProductos.getModel();
         dtm.setRowCount(0);
@@ -514,9 +548,9 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         jcClienteProveedor.removeAllItems();
         jcClienteProveedor.addItem(sel);
 
-        ClienteProveedorDAO cp = new ClienteProveedorDAOImpl(connectionDB);
+        ClienteProveedorDAO clienteProveedorDAO = new ClienteProveedorDAOImpl(connectionDB);
 
-        TreeMap<String, Integer> map = cp.clienteProveedorClaveValor(tipo);
+        TreeMap<String, Integer> map = clienteProveedorDAO.clienteProveedorClaveValor(tipo);
 
         for (String s : map.keySet()) {
             jcClienteProveedor.addItem(s.toString());
@@ -571,15 +605,12 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 //
 //    }
 //    
-    private void rebajarRegistros(){
-        TemporalDAO temp = new TemporalDAOImpl(connectionTemp);
-        temp.reducir10();
+    private void rebajarRegistros(){        
+        temporalDAO.reducir10();
         llenarTablaTemporal();
     }
 
     public void registrarDetalleTransaccion(int idTransaccion) {
-
-        DetalleTransaccionDAOImpl detTranDAOImpl = new DetalleTransaccionDAOImpl(connectionDB);
 
         int idProducto = 0;
         int idUnidadMedida = 0;
@@ -616,7 +647,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
             detTrans.add(dt);
         }
 
-        detTranDAOImpl.insertarDetalleTransaccion(detTrans);
+        detalleTransaccionDAO.insertarDetalleTransaccion(detTrans);
     }
 
     public void limpiar() {
@@ -632,10 +663,8 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 
     public int resgistrarTransaccion(int idTipoTransaccion) {
 
-        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
-
         int nroTipoTransaccion = 0;
-        int tipoMovimineto = transDaoImpl.getTipoMovimiento(idTipoTransaccion);
+        int tipoMovimineto = transaccionDAO.getTipoMovimiento(idTipoTransaccion);
 //        int idTerminal = 1;
         int idTransaccion = 0;
         String estado = "A";
@@ -644,14 +673,14 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         java.util.Date hoy = new java.util.Date();
         java.sql.Date fecha = new java.sql.Date(hoy.getTime());
 
-        nroTipoTransaccion = transDaoImpl.getNroTipoTransaccion(idTipoTransaccion);
+        nroTipoTransaccion = transaccionDAO.getNroTipoTransaccion(idTipoTransaccion);
 
 //        descripcion = jtxtRazonSocial.getText().toUpperCase();
 
         Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion,
                 idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion);
 
-        idTransaccion = transDaoImpl.insertarTransaccion(trans);
+        idTransaccion = transaccionDAO.insertarTransaccion(trans);
 
         if (idTransaccion != 0) {
 //            System.out.println("transaccion registrada nro: " + idTransaccion);
@@ -662,9 +691,8 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         return idTransaccion;
     }
 
-    public void registrarEntregaTransaccion(int idEntregaTransaccion, int idTransaccion) {
-        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
-        transDaoImpl.insertarEntregaTransaccion(idTransaccion, idEntregaTransaccion);
+    public void registrarEntregaTransaccion(int idEntregaTransaccion, int idTransaccion) {        
+        transaccionDAO.insertarEntregaTransaccion(idTransaccion, idEntregaTransaccion);
     }
 
     /**
@@ -1135,7 +1163,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jlClienteProveedor)
-                    .addComponent(jlDetalle, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                    .addComponent(jlDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtxtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1355,11 +1383,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         int nroCobro = 0, nroPago = 0;
         double importe = 0;
 
-        TransaccionDAOImpl trans = new TransaccionDAOImpl(connectionDB);
-        //fecha = trans.getFechaTransaccion(idTransaccion);
         importe = Double.parseDouble(jtxtImporte.getText());
-
-        CajaDAOImpl cajaDaoImpl = new CajaDAOImpl(connectionDB);
 
         Caja caja = new Caja();
         caja.setEstado(estado);
@@ -1370,10 +1394,10 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
         caja.setNroPago(nroPago);
         caja.setUsuario(usuario);
 
-        cajaDaoImpl.insertarCaja(caja);
+        cajaDAO.insertarCaja(caja);
         
         if(jtxtDetalle.getText().length()>0){
-            cajaDaoImpl.registrarCajaDetalle(cajaDaoImpl.getIdCaja(), jtxtDetalle.getText().trim());
+            cajaDAO.registrarCajaDetalle(cajaDAO.getIdCaja(), jtxtDetalle.getText().trim());
         }
     }
 
@@ -1383,8 +1407,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
 
     private void jbTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransaccionActionPerformed
     
-        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
-        byte idSucursal = suc.getIdSucursal(idLugar);
+        byte idSucursal = sucursalDAO.getIdSucursal(idLugar);
         
         FacturaDAO fac = new FacturaDAOImpl(connectionDB);
         
@@ -1548,8 +1571,7 @@ public class FormTransaccionEntregasCredito extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void vaciarProductosTemporales() {
-        TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
-        tempDAOImpl.vaciarProductoTemp();
+        temporalDAO.vaciarProductoTemp();
     }
 
     private void vistaPreviaReciboVenta(int idTransaccion) {

@@ -1000,7 +1000,7 @@ public class FormMenu extends javax.swing.JFrame {
         int idTipoTransaccion = 3; //pedidos
         int idTransaccionCotizacion = 0;
         
-        FormTransaccionEntregasCredito credito = new FormTransaccionEntregasCredito(connectionDB, 
+        FormTransaccionPedidos credito = new FormTransaccionPedidos(connectionDB, 
                                             idTipoTransaccion, 
                                             idUsuario, idLugar, idTerminal, 
                                             idTransaccionCotizacion);

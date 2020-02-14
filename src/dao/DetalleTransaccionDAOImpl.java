@@ -69,10 +69,13 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
             while(rs.next()){
                 DetalleTransaccion dt = new DetalleTransaccion();
                 dt.setCantidad(rs.getDouble("cantidad"));
+                dt.setIdProducto(rs.getInt("id_producto"));
+                dt.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
                 dt.setNombreProducto(rs.getString("descripcion"));
                 dt.setSimbolo(rs.getString("simbolo"));
-                dt.setValorTotal(rs.getDouble("valor_sub_total"));
-                dt.setValorTotal(rs.getDouble("descuento"));
+                dt.setValorSubTotal(rs.getDouble("valor_sub_total"));
+                dt.setDescuento(rs.getDouble("descuento"));
+                dt.setValorUnitario(rs.getDouble("valor_unitario"));
                 dt.setValorTotal(rs.getDouble("valor_total"));                
                 
                 detTransaccion.add(dt);                        

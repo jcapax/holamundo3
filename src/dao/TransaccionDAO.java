@@ -30,4 +30,6 @@ public interface TransaccionDAO {
     
     public void saveCreditoTransaccionEntrega(int idTransaccion);
     public boolean isCreditoEntrega(int idTransaccion);
+    
+    public void insertarAtencionCotizacion(int 	idTransaccionCotizacion, int idTransaccionAtencion);
 }

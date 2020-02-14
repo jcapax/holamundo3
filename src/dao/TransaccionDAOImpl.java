@@ -407,5 +407,21 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         
         return lista;
     }
+
+    @Override
+    public void insertarAtencionCotizacion(int idTransaccionCotizacion, int idTransaccionAtencion) {
+        String sql = "insert into atencion_cotizacion(id_transaccion_cotizacion, id_transaccion_atencion)"
+                + " values(?, ?)";
+        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, idTransaccionCotizacion);
+            ps.setInt(2, idTransaccionAtencion);
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }
