@@ -19,7 +19,7 @@ as
 select tr.id as id_transaccion, dt.id_producto, dt.descripcion as nombre_producto,
     dt.id_unidad_medida, dt.descripcion_medida as nombre_unidad_medida, dt.cantidad,
     c.nombre_completo, c.direccion, tr.fecha, tr.nro_tipo_transaccion,
-    c.telefonos 
+    c.telefonos, p.detalle 
  from transaccion tr
     join v_detalle_transaccion dt on tr.id = dt.id_transaccion
     join credito p ON tr.id = p.id_transaccion
@@ -33,14 +33,14 @@ SELECT vp.id_transaccion as id_transaccion_credito, vp.id_producto, vp.nombre_co
     vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion,     
     vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad as cant_credito, 
     SUM(coalesce(ve.cantidad,0)) as cant_entrega,
-    (vp.cantidad - SUM(coalesce(ve.cantidad,0))) AS diferencia
+    (vp.cantidad - SUM(coalesce(ve.cantidad,0))) AS diferencia, vp.detalle
 FROM v_creditos vp
     LEFT JOIN v_entrega_productos ve on vp.id_transaccion=ve.id_transaccion_entrega
          AND vp.id_unidad_medida = ve.id_unidad_medida
          AND vp.id_producto = ve.id_producto
 GROUP BY vp.id_transaccion, vp.id_producto, vp.nombre_completo, 
     vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion,     
-    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad 
+    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad, vp.detalle 
 HAVING (vp.cantidad - SUM(coalesce(ve.cantidad,0))) <> 0
 ORDER BY vp.fecha DESC
 
@@ -103,6 +103,42 @@ BEGIN
 END $$
 
 ALTER TABLE `configuraciones` ADD `descuento_por_unidad_producto` TINYINT NOT NULL DEFAULT '0' AFTER `impresion_directa_factura`;
-
+***********************************************************
+***********************************************************
+***********************************************************
 
 ALTER TABLE `transaccion` CHANGE `descripcion_transaccion` `descripcion_transaccion` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci NULL DEFAULT NULL;
+***********************************************************
+drop view v_creditos
+
+create view v_creditos
+as
+select tr.id as id_transaccion, dt.id_producto, dt.descripcion as nombre_producto,
+    dt.id_unidad_medida, dt.descripcion_medida as nombre_unidad_medida, dt.cantidad,
+    c.nombre_completo, c.direccion, tr.fecha, tr.nro_tipo_transaccion,
+    c.telefonos, p.detalle 
+ from transaccion tr
+    join v_detalle_transaccion dt on tr.id = dt.id_transaccion
+    join credito p ON tr.id = p.id_transaccion
+    join cliente_proveedor c on c.id = p.id_cliente_proveedor
+where tr.id_tipo_transaccion = 3
+
+**************************************************************
+drop  view v_entregas_pendientes
+
+create view v_entregas_pendientes
+as
+SELECT vp.id_transaccion as id_transaccion_credito, vp.id_producto, vp.nombre_completo, 
+    vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion,     
+    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad as cant_credito, 
+    SUM(coalesce(ve.cantidad,0)) as cant_entrega,
+    (vp.cantidad - SUM(coalesce(ve.cantidad,0))) AS diferencia, vp.detalle
+FROM v_creditos vp
+    LEFT JOIN v_entrega_productos ve on vp.id_transaccion=ve.id_transaccion_entrega
+         AND vp.id_unidad_medida = ve.id_unidad_medida
+         AND vp.id_producto = ve.id_producto
+GROUP BY vp.id_transaccion, vp.id_producto, vp.nombre_completo, 
+    vp.direccion, vp.telefonos, vp.fecha, vp.nro_tipo_transaccion,     
+    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad, vp.detalle 
+HAVING (vp.cantidad - SUM(coalesce(ve.cantidad,0))) <> 0
+ORDER BY vp.fecha DESC

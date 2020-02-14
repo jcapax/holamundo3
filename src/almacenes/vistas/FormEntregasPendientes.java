@@ -177,7 +177,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         
         jtPendientes.setModel(dtm);
         
-        Object[] fila = new Object[6];
+        Object[] fila = new Object[7];
         
         for (EntregaPendiente lista1 : lista) {
             fila[0] = lista1.getIdTransaccionCredito();
@@ -186,6 +186,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             fila[3] = lista1.getNombreCompleto();
             fila[4] = lista1.getDireccion();
             fila[5] = lista1.getTelefonos();
+            fila[6] = lista1.getDetalle();
             dtm.addRow(fila);
         }
         jtPendientes.setModel(dtm);
@@ -292,11 +293,11 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idTransaccion", "Nro Trans.", "Fecha", "Nombre Cliente", "Direccion", "Telefonos"
+                "idTransaccion", "Nro Trans.", "Fecha", "Nombre Cliente", "Direccion", "Telefonos", "Detalle"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -324,9 +325,15 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             jtPendientes.getColumnModel().getColumn(2).setMinWidth(80);
             jtPendientes.getColumnModel().getColumn(2).setPreferredWidth(80);
             jtPendientes.getColumnModel().getColumn(2).setMaxWidth(80);
-            jtPendientes.getColumnModel().getColumn(5).setMinWidth(150);
-            jtPendientes.getColumnModel().getColumn(5).setPreferredWidth(150);
-            jtPendientes.getColumnModel().getColumn(5).setMaxWidth(150);
+            jtPendientes.getColumnModel().getColumn(3).setMinWidth(200);
+            jtPendientes.getColumnModel().getColumn(3).setPreferredWidth(200);
+            jtPendientes.getColumnModel().getColumn(3).setMaxWidth(200);
+            jtPendientes.getColumnModel().getColumn(4).setMinWidth(0);
+            jtPendientes.getColumnModel().getColumn(4).setPreferredWidth(0);
+            jtPendientes.getColumnModel().getColumn(4).setMaxWidth(0);
+            jtPendientes.getColumnModel().getColumn(5).setMinWidth(0);
+            jtPendientes.getColumnModel().getColumn(5).setPreferredWidth(0);
+            jtPendientes.getColumnModel().getColumn(5).setMaxWidth(0);
         }
 
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N

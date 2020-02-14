@@ -70,6 +70,7 @@
 		<property name="com.jaspersoft.studio.field.label" value="cantidad_actual"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="temp_entregas"/>
 	</field>
+	<field name="descripcion_credito" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -149,6 +150,17 @@ Zona Barrio la Hoyada
 Telf.: 64-56616   Cel.: 7611162
 ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="-1" y="90" width="40" height="16" forecolor="#054A82" uuid="d5ddfe43-cb2e-4a64-be25-8f299bb40369"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripcion:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="90" width="521" height="16" uuid="3f500108-3125-4483-9cab-14de60ba85fc"/>
+				<textFieldExpression><![CDATA[$F{descripcion_credito}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>

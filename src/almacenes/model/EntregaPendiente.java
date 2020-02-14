@@ -25,7 +25,16 @@ public class EntregaPendiente {
     private double cantidadCredido;
     private double cantidadEntrega;
     private double diferencia;
+    private String detalle;
 
+    public String getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+    
     public int getIdTransaccionCredito() {
         return idTransaccionCredito;
     }

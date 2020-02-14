@@ -305,7 +305,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
     @Override
     public void insertarEntregaTemporal(int idTransaccionInicial, int idTransaccionEntrega) {
         String sql = "SELECT vp.id_transaccion as id_transaccion_credito, vp.id_producto, vp.nombre_completo, \n" +
-                    "    vp.direccion, vp.telefonos, f_fecha_transaccion(?) fecha, " +
+                    "    vp.direccion, vp.detalle, vp.telefonos, f_fecha_transaccion(?) fecha, " +
                     "    f_get_nro_tipo_transaccion(?) nro_tipo_transaccion , ve.usuario,     \n" +
                     "    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad as cant_credito, \n" +
                     "    SUM(coalesce(ve.cantidad,0)) as cant_entrega,\n" +
@@ -318,10 +318,12 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                     "         AND vp.id_producto = ve.id_producto\n" +
                     "WHERE vp.id_transaccion = ?         \n" +
                     "GROUP BY vp.id_transaccion, vp.id_producto, vp.nombre_completo, \n" +
-                    "    vp.direccion, vp.telefonos, ve.usuario,    \n" +
+                    "    vp.direccion, vp.detalle, vp.telefonos, ve.usuario,    \n" +
                     "    vp.nombre_producto, vp.id_unidad_medida, vp.nombre_unidad_medida, vp.cantidad \n" +                
                     "ORDER BY vp.fecha DESC";   
-//        System.out.println(sql);
+//        System.out.println(sql);        
+//        System.out.println(idTransaccionEntrega);
+//        System.out.println(idTransaccionInicial);
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTransaccionEntrega);
@@ -333,26 +335,27 @@ public class TransaccionDAOImpl implements TransaccionDAO{
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 String sql_ins = "INSERT INTO temp_entregas(id_transaccion_credito, id_producto, "
-                        + "nombre_completo, direccion, telefonos, fecha, nro_tipo_transaccion, usuario, "
+                        + "nombre_completo, direccion, descripcion_credito, telefonos, fecha, nro_tipo_transaccion, usuario, "
                         + "nombre_producto, id_unidad_medida, nombre_unidad_medida, cant_credito, cant_entrega, "
                         + "diferencia, cantidad_actual) "
-                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement ps_ins = connectionDB.prepareStatement(sql_ins);
                 ps_ins.setInt(1, rs.getInt("id_transaccion_credito"));
                 ps_ins.setInt(2, rs.getInt("id_producto"));
                 ps_ins.setString(3, rs.getString("nombre_completo"));
                 ps_ins.setString(4, rs.getString("direccion"));
-                ps_ins.setString(5, rs.getString("telefonos"));
-                ps_ins.setString(6, rs.getString("fecha"));
-                ps_ins.setInt(7, rs.getInt("nro_tipo_transaccion"));
-                ps_ins.setString(8, rs.getString("usuario"));
-                ps_ins.setString(9, rs.getString("nombre_producto"));
-                ps_ins.setInt(10, rs.getInt("id_unidad_medida"));
-                ps_ins.setString(11, rs.getString("nombre_unidad_medida"));
-                ps_ins.setDouble(12, rs.getDouble("cant_credito"));
-                ps_ins.setDouble(13, rs.getDouble("cant_entrega"));
-                ps_ins.setDouble(14, rs.getDouble("diferencia"));
-                ps_ins.setDouble(15, rs.getDouble("cantidad_actual"));
+                ps_ins.setString(5, rs.getString("detalle"));
+                ps_ins.setString(6, rs.getString("telefonos"));
+                ps_ins.setString(7, rs.getString("fecha"));
+                ps_ins.setInt(8, rs.getInt("nro_tipo_transaccion"));
+                ps_ins.setString(9, rs.getString("usuario"));
+                ps_ins.setString(10, rs.getString("nombre_producto"));
+                ps_ins.setInt(11, rs.getInt("id_unidad_medida"));
+                ps_ins.setString(12, rs.getString("nombre_unidad_medida"));
+                ps_ins.setDouble(13, rs.getDouble("cant_credito"));
+                ps_ins.setDouble(14, rs.getDouble("cant_entrega"));
+                ps_ins.setDouble(15, rs.getDouble("diferencia"));
+                ps_ins.setDouble(16, rs.getDouble("cantidad_actual"));
                 ps_ins.execute();
                        
             }            

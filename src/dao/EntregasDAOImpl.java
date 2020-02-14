@@ -32,7 +32,7 @@ public class EntregasDAOImpl implements EntregasDAO{
     @Override
     public ArrayList<EntregaPendiente> getListaEntregasPendientes() {
         ArrayList<EntregaPendiente> listPendiente = new ArrayList<>();
-        String sql = "SELECT id_transaccion_credito, nombre_completo, direccion, telefonos, fecha, nro_tipo_transaccion " +
+        String sql = "SELECT id_transaccion_credito, nombre_completo, direccion, telefonos, fecha, nro_tipo_transaccion, detalle " +
                         "FROM v_entregas_pendientes " +
                         "GROUP BY id_transaccion_credito, nombre_completo, direccion, telefonos, fecha, nro_tipo_transaccion";
         try {
@@ -46,7 +46,8 @@ public class EntregasDAOImpl implements EntregasDAO{
                 pendiente.setNombreCompleto(rs.getString("nombre_completo"));
                 pendiente.setDireccion(rs.getString("direccion"));
                 pendiente.setTelefonos(rs.getString("telefonos"));
-                pendiente.setFecha(rs.getDate("fecha"));                
+                pendiente.setFecha(rs.getDate("fecha"));
+                pendiente.setDetalle(rs.getString("detalle"));
                 
                 listPendiente.add(pendiente);
             }
