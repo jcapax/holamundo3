@@ -65,7 +65,12 @@ public class FormDesempaque extends javax.swing.JFrame {
         jcUnidadMedidaFinal.removeAllItems();
     }
     
-    
+    public void limpiarComponentes(){
+        jcUnidadMedidaFinal.setSelectedIndex(0);
+        jcUnidadMedidaInicio.setSelectedIndex(0);
+        jtxtCantidadFinal.setText("");
+        jtxtCantidadInicial.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -307,6 +312,7 @@ public class FormDesempaque extends javax.swing.JFrame {
             jbDesempacar.setEnabled(false);
             desempacar();
             jbDesempacar.setEnabled(true);
+            limpiarComponentes();
         }
         
     }//GEN-LAST:event_jbDesempacarActionPerformed
