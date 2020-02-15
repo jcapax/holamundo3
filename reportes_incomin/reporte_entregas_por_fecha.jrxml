@@ -68,27 +68,27 @@ where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and id_tipo_transaccion
 				<text><![CDATA[VENTAS - ENTREGAS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="2e455886-7625-44bf-91d4-69abc3adc547">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[AGREGADOS SEÑOR DE MAICA]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="21" width="200" height="30" forecolor="#054A82" uuid="9fa257e5-88ca-4323-8ce1-21f26b794aee">
+				<reportElement x="0" y="20" width="200" height="48" forecolor="#054A82" uuid="04663783-47e2-43d7-b0d3-b154db179e1d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Dir. Avenida Destacamento Chuquisaca N° 258
-Zona Barrio la Hoyada
-Telf.: 64-56616   Cel.: 7611162
-]]></text>
+				<text><![CDATA[IMPORTADORA COMERCIAL MENDOZA 
+Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
+Telf.: 64-69233   Cel.: 75779259   *   75777126 
+Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="20" forecolor="#054A82" uuid="290d6d2d-d01f-414e-bb22-68d4e7ec932b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMCOMEN]]></text>
 			</staticText>
 		</band>
 	</title>

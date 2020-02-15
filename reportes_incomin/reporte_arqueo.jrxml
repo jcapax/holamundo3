@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="400" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="612" pageHeight="254" orientation="Landscape" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
@@ -57,54 +58,54 @@ from arqueo where id = $P{id}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="282" splitType="Stretch">
+		<band height="207" splitType="Stretch">
 			<staticText>
-				<reportElement x="10" y="70" width="100" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
-				<text><![CDATA[Fecha Apertura]]></text>
+				<reportElement x="10" y="60" width="80" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<text><![CDATA[Fecha Apertura:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="140" y="69" width="100" height="20" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
-				<text><![CDATA[Fecha Cierre]]></text>
+				<reportElement x="300" y="60" width="70" height="20" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
+				<text><![CDATA[Fecha Cierre:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="10" y="100" width="100" height="30" uuid="9e4a5ac3-986f-44d2-88a7-a49f4c6cb117"/>
+				<reportElement x="90" y="61" width="100" height="19" uuid="9e4a5ac3-986f-44d2-88a7-a49f4c6cb117"/>
 				<textFieldExpression><![CDATA[$F{fecha_apertura}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="140" y="100" width="100" height="30" uuid="f58b105a-99d6-4656-878e-f654153e34e5"/>
+				<reportElement x="370" y="61" width="100" height="19" uuid="f58b105a-99d6-4656-878e-f654153e34e5"/>
 				<textFieldExpression><![CDATA[$F{fecha_cierre}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="150" width="100" height="20" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0"/>
+				<reportElement x="10" y="110" width="50" height="20" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Caja Inicial]]></text>
+				<text><![CDATA[Caja Inicial:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="140" y="150" width="100" height="20" uuid="6235c9ba-88d7-466c-95f8-eff2254987b2"/>
+				<reportElement x="60" y="110" width="100" height="20" uuid="6235c9ba-88d7-466c-95f8-eff2254987b2"/>
 				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{caja_inicial})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="285" y="150" width="50" height="20" uuid="286a0036-d861-406c-b10f-390353cf8546"/>
+				<reportElement x="210" y="110" width="70" height="20" uuid="286a0036-d861-406c-b10f-390353cf8546"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Importe Cierre]]></text>
+				<text><![CDATA[Importe Cierre:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="350" y="150" width="100" height="20" uuid="2ffbd109-080a-402c-90b9-2b1f17d20ae3"/>
+				<reportElement x="280" y="110" width="100" height="20" uuid="2ffbd109-080a-402c-90b9-2b1f17d20ae3"/>
 				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{importe_cierre})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="190" width="100" height="20" uuid="27677860-54a2-4bf1-b312-4714525cb94f"/>
+				<reportElement x="10" y="136" width="50" height="20" uuid="27677860-54a2-4bf1-b312-4714525cb94f"/>
 				<textElement textAlignment="Left">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Usuario]]></text>
+				<text><![CDATA[Usuario:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="140" y="190" width="100" height="20" uuid="18b02b30-36a8-4727-b228-bdb4c55a2866"/>
+				<reportElement x="60" y="136" width="100" height="20" uuid="18b02b30-36a8-4727-b228-bdb4c55a2866"/>
 				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -115,45 +116,45 @@ from arqueo where id = $P{id}]]>
 				<text><![CDATA[ARQUEO DE CAJA]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM  h:mm a yyyy">
-				<reportElement x="10" y="250" width="180" height="20" uuid="b7ad1c35-8d57-4185-87b8-8a07cb9057fe"/>
+				<reportElement x="10" y="174" width="180" height="20" uuid="b7ad1c35-8d57-4185-87b8-8a07cb9057fe"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="17" y="140" width="520" height="1" uuid="1350b49a-b323-44da-9666-4f3f9d5a1f09">
+				<reportElement x="17" y="99" width="520" height="1" uuid="1350b49a-b323-44da-9666-4f3f9d5a1f09">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="17" y="240" width="520" height="1" uuid="d883c66a-728a-4333-b06c-b7060d496ebb">
+				<reportElement x="17" y="164" width="520" height="1" uuid="d883c66a-728a-4333-b06c-b7060d496ebb">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 			</line>
 			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="ddb5204b-8750-4399-bd02-05b957222fda">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[AGREGADOS SEÑOR DE MAICA]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="21" width="200" height="30" forecolor="#054A82" uuid="e205fb2b-825a-4b26-bf55-acceecc241ab">
+				<reportElement x="0" y="20" width="200" height="48" forecolor="#054A82" uuid="856b3f5e-755b-468e-93f2-7b236e2887a5">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Dir. Avenida Destacamento Chuquisaca N° 258
-Zona Barrio la Hoyada
-Telf.: 64-56616   Cel.: 7611162
-]]></text>
+				<text><![CDATA[IMPORTADORA COMERCIAL MENDOZA 
+Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
+Telf.: 64-69233   Cel.: 75779259   *   75777126 
+Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="20" forecolor="#054A82" uuid="5fbc6a0a-3ce8-40bb-b4c5-582649291b64">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMCOMEN]]></text>
 			</staticText>
 		</band>
 	</title>

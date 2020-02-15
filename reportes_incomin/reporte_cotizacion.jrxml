@@ -117,29 +117,6 @@ WHERE t.id = $P{id_transaccion}]]>
 				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="ce20d7b7-51b7-400a-8f04-4660edcd10e3">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[AGREGADOS SEÑOR DE MAICA]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="21" width="200" height="30" forecolor="#054A82" uuid="4fdfc643-3089-4ca5-a41c-2b62c07e1ce0">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Dir. Avenida Destacamento Chuquisaca N° 258
-Zona Barrio la Hoyada
-Telf.: 64-56616   Cel.: 7611162
-]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="0" y="110" width="60" height="16" forecolor="#054A82" uuid="9f3ec236-b901-40d2-9213-7e2cd079b248"/>
 				<textElement>
 					<font size="8" isBold="true"/>
@@ -150,6 +127,29 @@ Telf.: 64-56616   Cel.: 7611162
 				<reportElement x="60" y="110" width="502" height="40" uuid="9a9cd834-a7ee-46cb-960a-4c7df1fc20aa"/>
 				<textFieldExpression><![CDATA[$F{descripcion_transaccion}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="200" height="48" forecolor="#054A82" uuid="3a66c769-a744-4044-b1b0-29f38ce86cf2">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTADORA COMERCIAL MENDOZA 
+Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
+Telf.: 64-69233   Cel.: 75779259   *   75777126 
+Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="20" forecolor="#054A82" uuid="5ece86ed-bea3-4c5d-8d7a-0d7dd94cdd33">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMCOMEN]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>

@@ -82,7 +82,7 @@ where id_transaccion = $P{id_transaccion}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="150" splitType="Stretch">
+		<band height="131" splitType="Stretch">
 			<staticText>
 				<reportElement x="183" y="20" width="195" height="30" forecolor="#054A82" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
 				<textElement textAlignment="Center">
@@ -91,7 +91,7 @@ where id_transaccion = $P{id_transaccion}]]>
 				<text><![CDATA[NOTA DE CREDITO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="70" width="60" height="16" forecolor="#054A82" uuid="79b2e507-dcf3-418b-a5ad-efdf74713295"/>
+				<reportElement x="416" y="94" width="31" height="16" forecolor="#054A82" uuid="79b2e507-dcf3-418b-a5ad-efdf74713295"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -112,7 +112,7 @@ where id_transaccion = $P{id_transaccion}]]>
 				<text><![CDATA[Nro. Crédito:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="60" y="70" width="100" height="16" uuid="05ec3a25-2084-4284-903f-a62cb228ff78"/>
+				<reportElement x="459" y="94" width="100" height="16" uuid="05ec3a25-2084-4284-903f-a62cb228ff78"/>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha})]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -134,43 +134,43 @@ where id_transaccion = $P{id_transaccion}]]>
 				<text><![CDATA[Nombre Completo:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="80" y="94" width="200" height="16" uuid="18cb6607-44f0-451e-b1a1-979e19408360"/>
+				<reportElement x="80" y="94" width="310" height="16" uuid="18cb6607-44f0-451e-b1a1-979e19408360"/>
 				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="84507d60-ced7-49a5-b244-59df1718fbef">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[AGREGADOS SEÑOR DE MAICA]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="21" width="200" height="30" forecolor="#054A82" uuid="3e38540d-c709-4b38-b62f-660c3c80bc4d">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Dir. Avenida Destacamento Chuquisaca N° 258
-Zona Barrio la Hoyada
-Telf.: 64-56616   Cel.: 7611162
-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="130" width="80" height="16" forecolor="#054A82" uuid="88a04d22-e265-4d30-a4f8-715d294a4dd2"/>
+				<reportElement x="0" y="115" width="80" height="16" forecolor="#054A82" uuid="88a04d22-e265-4d30-a4f8-715d294a4dd2"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Detalle:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="80" y="130" width="482" height="16" uuid="76ba51a9-1141-44d2-bf5e-178969997c94"/>
+				<reportElement x="80" y="115" width="482" height="16" uuid="76ba51a9-1141-44d2-bf5e-178969997c94"/>
 				<textFieldExpression><![CDATA[$F{detalle}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="200" height="48" forecolor="#054A82" uuid="e9db9b91-ca9a-43e3-b035-40876c136d96">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTADORA COMERCIAL MENDOZA 
+Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
+Telf.: 64-69233   Cel.: 75779259   *   75777126 
+Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="20" forecolor="#054A82" uuid="f0541e07-3928-4bbb-a550-23a853890722">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMCOMEN]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>

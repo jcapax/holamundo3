@@ -221,27 +221,27 @@ where id_transaccion = $P{id_transaccion}]]>
 				<textFieldExpression><![CDATA[$F{fecha_factura}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="16029534-30c7-408b-b4f8-aeca872a57a2">
+				<reportElement x="0" y="0" width="200" height="20" forecolor="#054A82" uuid="4329189b-690c-4f63-ae9b-d5a447570aba">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="true"/>
+					<font fontName="Arial Black" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[AGREGADOS SEÑOR DE MAICA]]></text>
+				<text><![CDATA[IMCOMEN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="21" width="200" height="30" forecolor="#054A82" uuid="b807ca80-bfc4-449a-a2dc-b1b87184d8c2">
+				<reportElement x="0" y="20" width="200" height="48" forecolor="#054A82" uuid="f40cf9a7-5de2-4f68-a0e9-945fcac1839e">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Dir. Avenida Destacamento Chuquisaca N° 258
-Zona Barrio la Hoyada
-Telf.: 64-56616   Cel.: 7611162
-]]></text>
+				<text><![CDATA[IMPORTADORA COMERCIAL MENDOZA 
+Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
+Telf.: 64-69233   Cel.: 75779259   *   75777126 
+Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 			</staticText>
 		</band>
 	</title>
