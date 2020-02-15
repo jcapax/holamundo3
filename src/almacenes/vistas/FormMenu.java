@@ -820,23 +820,23 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmAnularTransActionPerformed
 
     private void jmenuIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuIngresosActionPerformed
-        /*
+        
         String tipoCuenta = "I";
         int idTipoTransaccion = 5;
         FormIngresosEgresos fie = new FormIngresosEgresos(connectionDB, tipoCuenta, 
                 idLugar, idUsuario, idTipoTransaccion, idTerminal);
         fie.setVisible(true);
-        */
+        
     }//GEN-LAST:event_jmenuIngresosActionPerformed
 
     private void jmenuEgresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuEgresosActionPerformed
-        /*
+        
         String tipoCuenta = "E";
         int idTipoTransaccion = 4;
         FormIngresosEgresos fie = new FormIngresosEgresos(connectionDB, tipoCuenta, 
                 idLugar, idUsuario, idTipoTransaccion, idTerminal);
         fie.setVisible(true);
-        */
+        
     }//GEN-LAST:event_jmenuEgresosActionPerformed
 
     private void jMenuBackupDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuBackupDBActionPerformed

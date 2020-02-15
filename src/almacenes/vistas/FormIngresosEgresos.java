@@ -10,10 +10,15 @@ import almacenes.model.Caja;
 import almacenes.model.DetalleTransaccion;
 import almacenes.model.IngresoEgreso;
 import almacenes.model.Transaccion;
+import dao.ArqueoDAO;
 import dao.ArqueoDAOImpl;
+import dao.CajaDAO;
 import dao.CajaDAOImpl;
+import dao.DetalleTransaccionDAO;
 import dao.DetalleTransaccionDAOImpl;
+import dao.IngresoEgresoDAO;
 import dao.IngresoEgresoDAOImpl;
+import dao.TransaccionDAO;
 import dao.TransaccionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
@@ -37,6 +42,11 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     private byte idTerminal;
     private String usuario;
     private int idTipoTransaccion;
+    private IngresoEgresoDAO ingresoEgresoDAO;
+    private DetalleTransaccionDAO detalleTransaccionDAO;
+    private TransaccionDAO transaccionDAO;
+    private CajaDAO cajaDAO;
+    private ArqueoDAO arqueoDAO;
     
     
     public FormIngresosEgresos() {
@@ -71,13 +81,17 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
             jlTitulo.setText("REGISTRO INGRESOS");
         }
         
+        ingresoEgresoDAO = new IngresoEgresoDAOImpl(connectionDB);
+        transaccionDAO = new TransaccionDAOImpl(connectionDB);
+        detalleTransaccionDAO = new DetalleTransaccionDAOImpl(connectionDB);
+        cajaDAO = new CajaDAOImpl(connectionDB);
+        arqueoDAO = new ArqueoDAOImpl(connectionDB);
+        
         llenarTablaCuentas();
         validarCaja();
     }
     
     public void registrarDetalleTransaccion(int idTransaccion){
-        
-        DetalleTransaccionDAOImpl detTranDAOImpl = new DetalleTransaccionDAOImpl(connectionDB);
         
         int idProducto = 0;
         int idUnidadMedida = 0;
@@ -104,15 +118,14 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
 
         detTrans.add(dt);
 
-        detTranDAOImpl.insertarDetalleTransaccion(detTrans);
+        detalleTransaccionDAO.insertarDetalleTransaccion(detTrans);
         
     }
 
     public int resgistrarTransaccion(){
-        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
         
         int nroTipoTransaccion = 0;
-        int tipoMovimineto = transDaoImpl.getTipoMovimiento(idTipoTransaccion);
+        int tipoMovimineto = transaccionDAO.getTipoMovimiento(idTipoTransaccion);
         int idTransaccion = 0;
         String estado = "A";
         String descripcion = "";
@@ -120,31 +133,23 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         java.util.Date hoy = new java.util.Date();
         java.sql.Date fecha = new java.sql.Date(hoy.getTime());
         
-        nroTipoTransaccion = transDaoImpl.getNroTipoTransaccion(idTipoTransaccion);
+        nroTipoTransaccion = transaccionDAO.getNroTipoTransaccion(idTipoTransaccion);
         
         descripcion = jtxtDescripcion.getText().toUpperCase();
         
         Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion, 
                                 idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion);
         
-        idTransaccion = transDaoImpl.insertarTransaccion(trans);
-        
-        if(idTransaccion!=0){
-//            System.out.println("transaccion registrada nro: "+idTransaccion);
-        }
-        else{
-//            System.out.println("error en el registro");
-        }
+        idTransaccion = transaccionDAO.insertarTransaccion(trans);
         
         return idTransaccion;
     }
 
     public void llenarTablaCuentas(){
-        IngresoEgresoDAOImpl rub = new IngresoEgresoDAOImpl(connectionDB);
-        
+
         ArrayList<IngresoEgreso> r = new ArrayList<>();
         
-        r = rub.getListaCuentasIngresoEgreso(tipoCuenta);
+        r = ingresoEgresoDAO.getListaCuentasIngresoEgreso(tipoCuenta);
         
         dtm = (DefaultTableModel) this.jtCuentas.getModel();
         dtm.setRowCount(0);
@@ -152,8 +157,6 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         jtCuentas.setModel(dtm);
         
         Object[] fila = new Object[2];
-        
-//        System.out.println("nro de registros en pila: " + r.size());
         
         for(int i=0; i< r.size(); i++){
             fila[0] = r.get(i).getIdProducto();
@@ -167,17 +170,14 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
 
     public void registrarCaja(int idTransaccion){
         String estado = "A";
-//        String usuario = "SYS";
+
         Date fecha = null;
         int nroCobro = 0, nroPago = 0;
         double importe = 0;
         
-        TransaccionDAOImpl trans = new TransaccionDAOImpl(connectionDB);
-        fecha = trans.getFechaTransaccion(idTransaccion);
-        importe = trans.getValorTotalTransaccion(idTransaccion);
-        
-        CajaDAOImpl cajaDaoImpl = new CajaDAOImpl(connectionDB);
-        
+
+        fecha = transaccionDAO.getFechaTransaccion(idTransaccion);
+        importe = transaccionDAO.getValorTotalTransaccion(idTransaccion);
         
         Caja caja = new Caja();
         caja.setEstado(estado);
@@ -188,11 +188,11 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         caja.setNroPago(nroPago);
         caja.setUsuario(usuario);
         
-        cajaDaoImpl.insertarCaja(caja);
+        cajaDAO.insertarCaja(caja);
                 
     }
 
-        public void registrarIngresoEgreso(){
+    public void registrarIngresoEgreso(){
         
         int idTransaccion = 0;
         
@@ -229,15 +229,19 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jtxtDescripcion = new javax.swing.JTextField();
+        jbBuscar = new javax.swing.JButton();
+        fecha = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jtxtCuenta = new javax.swing.JTextField();
+        fecha1 = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jtCuentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "idProducto", "Cuenta"
@@ -261,8 +265,6 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
             jtCuentas.getColumnModel().getColumn(1).setMaxWidth(250);
         }
 
-        jtxtImporte.setDragEnabled(false);
-
         jbGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/restore_db.png"))); // NOI18N
         jbGuardar.setText("Registrar");
         jbGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -271,8 +273,9 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
             }
         });
 
-        jlTitulo.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jlTitulo.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jlTitulo.setForeground(new java.awt.Color(153, 0, 51));
+        jlTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlTitulo.setText("titulo");
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
@@ -300,7 +303,28 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setText("Descripcion");
 
-        jtxtDescripcion.setDragEnabled(false);
+        jbBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Search-icon.png"))); // NOI18N
+        jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
+
+        fecha.setDateFormatString("dd/MM/yyyy");
+
+        jLabel4.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel4.setText("Cuenta");
+
+        jtxtCuenta.setEditable(false);
+
+        fecha1.setDateFormatString("dd/MM/yyyy");
+
+        jLabel5.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel5.setText("Entre");
+
+        jLabel6.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel6.setText("Y");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -309,62 +333,92 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jbGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jtxtImporte))
-                                    .addComponent(jLabel3)
-                                    .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(15, 15, 15))
+                    .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jbNuevaCuenta)
-                            .addComponent(jLabel1)
                             .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(0, 115, Short.MAX_VALUE))
+                                    .addComponent(jtxtCuenta))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jbGuardar, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbBuscar)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jlTitulo)
+                .addContainerGap()
+                .addComponent(jlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar)
+                    .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtxtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbGuardar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbGuardar)
-                                .addGap(121, 249, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSalir))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbNuevaCuenta)
-                .addContainerGap())
+                        .addComponent(jbNuevaCuenta)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnSalir)
+                        .addGap(20, 20, 20))))
         );
 
         pack();
@@ -381,6 +435,11 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     private void jbNuevaCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevaCuentaActionPerformed
         registrarNuevaCuenta();
     }//GEN-LAST:event_jbNuevaCuentaActionPerformed
+
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        //llenarTablaTransacciones();
+        
+    }//GEN-LAST:event_jbBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,14 +478,21 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
+    private com.toedter.calendar.JDateChooser fecha;
+    private com.toedter.calendar.JDateChooser fecha1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbBuscar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevaCuenta;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JTable jtCuentas;
+    private javax.swing.JTextField jtxtCuenta;
     private javax.swing.JTextField jtxtDescripcion;
     private javax.swing.JTextField jtxtImporte;
     private javax.swing.JTextField jtxtNombreCuenta;
@@ -441,9 +507,8 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         }
         
         if(jtxtNombreCuenta.getText().length() != 0){
-            nombreCuenta = jtxtNombreCuenta.getText().toUpperCase();
-            IngresoEgresoDAOImpl ie = new IngresoEgresoDAOImpl(connectionDB);
-            ie.registrarNuevaCuenta(nombreCuenta, tipoCuenta);
+            nombreCuenta = jtxtNombreCuenta.getText().toUpperCase();            
+            ingresoEgresoDAO.registrarNuevaCuenta(nombreCuenta, tipoCuenta);
             jtxtNombreCuenta.setText("");
             llenarTablaCuentas();
         }
@@ -451,11 +516,10 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     }
 
     private void validarCaja() {
-        ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
         
-        int idArqueo = arq.getIdArqueo(idLugar, idTerminal, usuario);
+        int idArqueo = arqueoDAO.getIdArqueo(idLugar, idTerminal, usuario);
         
-        if(!arq.getEstadoCaja(idArqueo).equals("A")){
+        if(!arqueoDAO.getEstadoCaja(idArqueo).equals("A")){
             JOptionPane.showMessageDialog(this, "No es posible realizar transacciones hasta que registre Caja Inicial");
             jbGuardar.setEnabled(false);
             jbNuevaCuenta.setEnabled(false);
