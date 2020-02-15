@@ -12,12 +12,21 @@ package almacenes.model;
 public class ListaIngresosEgresos {
     private int id;
     private String descripcionTipoTransaccion;
+    private int idTipoTransaccion;
     private String fecha;
     private int idLugar;
     private Double valorTotal;
     private String usuario;
     private String descripcionIngresoEgreso;
     private String cuenta;
+
+    public int getIdTipoTransaccion() {
+        return idTipoTransaccion;
+    }
+
+    public void setIdTipoTransaccion(int idTipoTransaccion) {
+        this.idTipoTransaccion = idTipoTransaccion;
+    }
 
     public int getId() {
         return id;

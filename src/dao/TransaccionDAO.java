@@ -5,6 +5,7 @@
  */
 package dao;
 
+import almacenes.model.ListaIngresosEgresos;
 import almacenes.model.ListaTransaccion;
 import almacenes.model.Transaccion;
 import java.sql.Date;
@@ -32,4 +33,5 @@ public interface TransaccionDAO {
     public boolean isCreditoEntrega(int idTransaccion);
     
     public void insertarAtencionCotizacion(int 	idTransaccionCotizacion, int idTransaccionAtencion);
+    
 }

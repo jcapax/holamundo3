@@ -9,6 +9,7 @@ import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Caja;
 import almacenes.model.DetalleTransaccion;
 import almacenes.model.IngresoEgreso;
+import almacenes.model.ListaIngresosEgresos;
 import almacenes.model.Transaccion;
 import dao.ArqueoDAO;
 import dao.ArqueoDAOImpl;
@@ -58,6 +59,9 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         
         jtCuentas.getTableHeader().setFont(f);
         jtCuentas.getTableHeader().setBackground(Color.orange);
+        
+        jtListaIngresosEgresos.getTableHeader().setFont(f);
+        jtListaIngresosEgresos.getTableHeader().setBackground(Color.orange);
     }
     
     public FormIngresosEgresos(Connection connectionDB, String tipoCuenta, 
@@ -167,6 +171,53 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         
         jtCuentas.setModel(dtm);
     }
+    
+    public void seleccionarCuenta(){
+        String cuenta;
+        int fila = jtCuentas.getSelectedRow();
+        
+        cuenta = jtCuentas.getValueAt(fila, 1).toString();
+        jtxtCuenta.setText(cuenta);
+        
+    }
+    
+    public int getIdTransaccionSeleccion(){
+        int idTransaccion = 0;
+        int fila = jtListaIngresosEgresos.getSelectedRow();
+        
+        idTransaccion =Integer.parseInt(jtListaIngresosEgresos.getValueAt(fila, 0).toString());
+        
+        return idTransaccion;
+    }
+
+    public void llenarIngresosEgresos(){
+
+        ArrayList<ListaIngresosEgresos> listaIE = new ArrayList<>();
+        
+        listaIE = ingresoEgresoDAO.getListIngresosEgresosFechas(
+                idTipoTransaccion, 
+                new Date(jDateFechaInicio.getDate().getTime()), 
+                new Date(jDateFechaFin.getDate().getTime()));
+        
+        dtm = (DefaultTableModel) this.jtListaIngresosEgresos.getModel();
+        dtm.setRowCount(0);
+        
+        jtListaIngresosEgresos.setModel(dtm);
+        
+        Object[] fila = new Object[5];
+        
+        for(ListaIngresosEgresos lie : listaIE){
+            fila[0] = lie.getId();
+            fila[1] = lie.getFecha();
+            fila[2] = lie.getCuenta();
+            fila[3] = lie.getDescripcionIngresoEgreso();
+            fila[4] = lie.getValorTotal();
+            
+            dtm.addRow(fila);
+        }
+        
+        jtListaIngresosEgresos.setModel(dtm);
+    }
 
     public void registrarCaja(int idTransaccion){
         String estado = "A";
@@ -230,12 +281,15 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jtxtDescripcion = new javax.swing.JTextField();
         jbBuscar = new javax.swing.JButton();
-        fecha = new com.toedter.calendar.JDateChooser();
+        jDateFechaInicio = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         jtxtCuenta = new javax.swing.JTextField();
-        fecha1 = new com.toedter.calendar.JDateChooser();
+        jDateFechaFin = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtListaIngresosEgresos = new javax.swing.JTable();
+        jbEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -248,11 +302,24 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jtCuentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtCuentasMouseClicked(evt);
+            }
+        });
+        jtCuentas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtCuentasKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtCuentasKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jtCuentas);
@@ -311,20 +378,60 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
             }
         });
 
-        fecha.setDateFormatString("dd/MM/yyyy");
+        jDateFechaInicio.setDateFormatString("dd/MM/yyyy");
 
         jLabel4.setForeground(new java.awt.Color(153, 0, 51));
         jLabel4.setText("Cuenta");
 
         jtxtCuenta.setEditable(false);
 
-        fecha1.setDateFormatString("dd/MM/yyyy");
+        jDateFechaFin.setDateFormatString("dd/MM/yyyy");
 
         jLabel5.setForeground(new java.awt.Color(153, 0, 51));
         jLabel5.setText("Entre");
 
         jLabel6.setForeground(new java.awt.Color(153, 0, 51));
         jLabel6.setText("Y");
+
+        jtListaIngresosEgresos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "Fecha", "Cuenta", "Descripcion", "Valor Total"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jtListaIngresosEgresos);
+        if (jtListaIngresosEgresos.getColumnModel().getColumnCount() > 0) {
+            jtListaIngresosEgresos.getColumnModel().getColumn(0).setMinWidth(0);
+            jtListaIngresosEgresos.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jtListaIngresosEgresos.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtListaIngresosEgresos.getColumnModel().getColumn(1).setMinWidth(85);
+            jtListaIngresosEgresos.getColumnModel().getColumn(1).setPreferredWidth(85);
+            jtListaIngresosEgresos.getColumnModel().getColumn(1).setMaxWidth(85);
+            jtListaIngresosEgresos.getColumnModel().getColumn(2).setMinWidth(170);
+            jtListaIngresosEgresos.getColumnModel().getColumn(2).setPreferredWidth(170);
+            jtListaIngresosEgresos.getColumnModel().getColumn(2).setMaxWidth(170);
+            jtListaIngresosEgresos.getColumnModel().getColumn(4).setMinWidth(100);
+            jtListaIngresosEgresos.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jtListaIngresosEgresos.getColumnModel().getColumn(4).setMaxWidth(100);
+        }
+
+        jbEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/trash_icon.png"))); // NOI18N
+        jbEliminar.setText("Eliminar");
+        jbEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -336,43 +443,49 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
                     .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbNuevaCuenta)
-                            .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDateFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbBuscar)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jbNuevaCuenta))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbEliminar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
-                                        .addGap(0, 115, Short.MAX_VALUE))
-                                    .addComponent(jtxtCuenta))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jtxtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jbGuardar, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbBuscar)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbGuardar)))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -382,43 +495,39 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
                 .addComponent(jlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbBuscar)
-                    .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtxtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbGuardar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbNuevaCuenta)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnSalir)
-                        .addGap(20, 20, 20))))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbGuardar)
+                            .addComponent(jtxtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbNuevaCuenta)
+                    .addComponent(btnSalir)
+                    .addComponent(jbEliminar))
+                .addContainerGap())
         );
 
         pack();
@@ -426,6 +535,7 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         registrarIngresoEgreso();
+        llenarIngresosEgresos();
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -437,9 +547,30 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     }//GEN-LAST:event_jbNuevaCuentaActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        //llenarTablaTransacciones();
-        
+        llenarIngresosEgresos();        
     }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+        int idTransaccion = getIdTransaccionSeleccion();
+        if(ingresoEgresoDAO.isIngresoEgresoAbierto(idTransaccion)){
+            ingresoEgresoDAO.eliminarIngresoEgreso(idTransaccion);
+            llenarIngresosEgresos();
+        }else{
+            JOptionPane.showMessageDialog(this, "El registro ya ha sido confirmado, no podrá ser eliminado!!!");
+        }
+    }//GEN-LAST:event_jbEliminarActionPerformed
+
+    private void jtCuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtCuentasMouseClicked
+        seleccionarCuenta();
+    }//GEN-LAST:event_jtCuentasMouseClicked
+
+    private void jtCuentasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtCuentasKeyPressed
+        seleccionarCuenta();
+    }//GEN-LAST:event_jtCuentasKeyPressed
+
+    private void jtCuentasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtCuentasKeyReleased
+        seleccionarCuenta();
+    }//GEN-LAST:event_jtCuentasKeyReleased
 
     /**
      * @param args the command line arguments
@@ -478,8 +609,8 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
-    private com.toedter.calendar.JDateChooser fecha;
-    private com.toedter.calendar.JDateChooser fecha1;
+    private com.toedter.calendar.JDateChooser jDateFechaFin;
+    private com.toedter.calendar.JDateChooser jDateFechaInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -487,11 +618,14 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevaCuenta;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JTable jtCuentas;
+    private javax.swing.JTable jtListaIngresosEgresos;
     private javax.swing.JTextField jtxtCuenta;
     private javax.swing.JTextField jtxtDescripcion;
     private javax.swing.JTextField jtxtImporte;

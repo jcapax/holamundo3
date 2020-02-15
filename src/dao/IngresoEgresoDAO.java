@@ -6,6 +6,8 @@
 package dao;
 
 import almacenes.model.IngresoEgreso;
+import almacenes.model.ListaIngresosEgresos;
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -15,5 +17,8 @@ import java.util.ArrayList;
 public interface IngresoEgresoDAO {
     public ArrayList<IngresoEgreso> getListaCuentasIngresoEgreso(String tipoCuenta);
     public void registrarNuevaCuenta(String nombreCuenta, String idTipoCuenta);
+    public ArrayList<ListaIngresosEgresos> getListIngresosEgresosFechas(int idTipoTransaccion, Date fechaInicio, Date fechaFin);
+    public void eliminarIngresoEgreso(int idTransaccion);
+    public boolean isIngresoEgresoAbierto(int idTransaccion);
     
 }

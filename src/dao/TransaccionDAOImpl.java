@@ -6,6 +6,7 @@
 package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.ListaIngresosEgresos;
 import almacenes.model.ListaTransaccion;
 import almacenes.model.Transaccion;
 import java.sql.Connection;
