@@ -293,7 +293,7 @@ Telf.: 64-56616   Cel.: 7611162
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="87" splitType="Stretch">
+		<band height="126" splitType="Stretch">
 			<staticText>
 				<reportElement x="35" y="55" width="87" height="14" uuid="68b883fc-8191-413e-8b76-261fa9e819da">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
