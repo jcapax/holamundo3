@@ -81,7 +81,7 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jbCerrar" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbCerrarEfectivo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -106,7 +106,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="291" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jbCerrar" min="-2" max="-2" attributes="0"/>
+              <Component id="jbCerrarEfectivo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jlTituloFormulario1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -514,12 +514,15 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbPagarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jbCerrar">
+    <Component class="javax.swing.JButton" name="jbCerrarEfectivo">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Imagenes/cerrar_pendientes.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Cerrar Pago"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCerrarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCerrarEfectivoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

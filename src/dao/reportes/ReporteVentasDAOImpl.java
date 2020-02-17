@@ -30,7 +30,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     }
     
     @Override
-    public void vistaPreviaReporte(Date fechaInicial, Date fechaFinal) {
+    public void vistaPreviaReporte(byte idLugar, Date fechaInicial, Date fechaFinal) {
         Map parametros = new HashMap<>();
         
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -40,6 +40,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
         dateFormat = new SimpleDateFormat("HH:mm:ss");
         parametros.put("hora_reporte", dateFormat.format(cal.getTime()));
         
+        parametros.put("id_lugar", idLugar);
         parametros.put("fecha_inicio", fechaInicial);
         parametros.put("fecha_final", fechaFinal);
         parametros.put("nombreLogo", "logo_reporte.png");        
@@ -48,7 +49,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     }
 
     @Override
-    public void vistaPreviaEntregas(Date fechaInicial, Date fechaFinal) {
+    public void vistaPreviaEntregas(byte idLugar, Date fechaInicial, Date fechaFinal) {
         Map parametros = new HashMap<>();
         
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -57,6 +58,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         
+        parametros.put("id_lugar", idLugar);
         parametros.put("fecha_inicio", df.format(fechaInicial));
         parametros.put("fecha_final", df.format(fechaFinal));
 //        parametros.put("nombreLogo", "logo_reporte.png");        
@@ -103,7 +105,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     }
 
     @Override
-    public void vistaPreviaMovimientoCaja(Date fechaInicial, Date fechaFinal) {
+    public void vistaPreviaMovimientoCaja(byte idLugar, Date fechaInicial, Date fechaFinal) {
         Map parametros = new HashMap<>();
         
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -112,6 +114,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         
+        parametros.put("id_lugar", idLugar);
         parametros.put("fecha_inicio", df.format(fechaInicial));
         parametros.put("fecha_final", df.format(fechaFinal));
 //        parametros.put("nombreLogo", "logo_reporte.png");        

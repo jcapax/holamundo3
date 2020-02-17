@@ -299,7 +299,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jtxtImporte = new javax.swing.JTextField();
         jbPagar = new javax.swing.JButton();
-        jbCerrar = new javax.swing.JButton();
+        jbCerrarEfectivo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setFont(new java.awt.Font("Agency FB", 1, 12)); // NOI18N
@@ -484,10 +484,11 @@ public class FormPendientesPago extends javax.swing.JFrame {
             }
         });
 
-        jbCerrar.setText("Cerrar Pago");
-        jbCerrar.addActionListener(new java.awt.event.ActionListener() {
+        jbCerrarEfectivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrar_pendientes.png"))); // NOI18N
+        jbCerrarEfectivo.setText("Cerrar Pago");
+        jbCerrarEfectivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCerrarActionPerformed(evt);
+                jbCerrarEfectivoActionPerformed(evt);
             }
         });
 
@@ -537,7 +538,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
                                         .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addContainerGap())))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbCerrar)
+                        .addComponent(jbCerrarEfectivo)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -555,7 +556,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbCerrar)
+                .addComponent(jbCerrarEfectivo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlTituloFormulario1)
@@ -672,7 +673,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
-    private void jbCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCerrarActionPerformed
+    private void jbCerrarEfectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCerrarEfectivoActionPerformed
         boolean shift = false;
         
         if((evt.getModifiers() & InputEvent.SHIFT_MASK)!=0){
@@ -686,7 +687,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
         }
         
         
-    }//GEN-LAST:event_jbCerrarActionPerformed
+    }//GEN-LAST:event_jbCerrarEfectivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -733,7 +734,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JButton jbCerrar;
+    private javax.swing.JButton jbCerrarEfectivo;
     private javax.swing.JButton jbPagar;
     private javax.swing.JButton jbSalir;
     private javax.swing.JLabel jlTituloFormulario;

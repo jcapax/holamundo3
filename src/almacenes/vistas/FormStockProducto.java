@@ -74,9 +74,9 @@ public class FormStockProducto extends javax.swing.JFrame {
         
         String comp = "Sel";
         
-        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
+        LugarDAO lugarDAO = new LugarDAOImpl(connectionDB);
         
-        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+        HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
             
         try {
             sel = jcLugar.getSelectedItem().toString();
@@ -147,7 +147,7 @@ public class FormStockProducto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jtxtxCriterio = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jcLugar = new javax.swing.JComboBox<>();
+        jcLugar = new javax.swing.JComboBox<String>();
         jlIdLugar = new javax.swing.JLabel();
         btnImprimir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -213,7 +213,7 @@ public class FormStockProducto extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("STOCK DE PRODUCTOS");
@@ -238,7 +238,7 @@ public class FormStockProducto extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setText("Lugar");
 
-        jcLugar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcLugar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcLugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcLugarActionPerformed(evt);
@@ -337,7 +337,7 @@ public class FormStockProducto extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalir)
-                        .addContainerGap(12, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();

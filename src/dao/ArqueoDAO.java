@@ -20,7 +20,7 @@ public interface ArqueoDAO {
     public String getEstadoCaja(int idArqueo);
     public double getImportePorArqueoUsuarioMaquina(ArrayList<Integer> lTrans);
     public double getImportePorArqueoUsuarioMaquina(byte idLugar, byte idTerminal, String usuario);
-    public ArrayList<Arqueo> getListaArqueos(byte mes, int anno);
+    public ArrayList<Arqueo> getListaArqueos(byte idLugar, byte mes, int anno);
     public ArrayList<Integer> getListaAnnosArqueos();
     
     public void cerrarCaja(ArrayList<Integer> lTrans, int idArqueo);

@@ -5,11 +5,14 @@
  */
 package almacenes.vistas;
 
+import dao.LugarDAO;
+import dao.LugarDAOImpl;
 import dao.reportes.ReporteVentasDAO;
 import dao.reportes.ReporteVentasDAOImpl;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,6 +40,7 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         super(_parent, _modal);
         this.parent = _parent;
         initComponents();
+        llenarComboLugar();
         this.connectionDB = _connectionDB;
         this.idUsuario = _idUsuario;
         this.modal = _modal;
@@ -68,6 +72,9 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         fechaInicio = new com.toedter.calendar.JDateChooser();
         fechaFinal = new com.toedter.calendar.JDateChooser();
+        jlIdLugar = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jcLugar = new javax.swing.JComboBox<String>();
         jPanel2 = new javax.swing.JPanel();
         cerrarBT = new javax.swing.JButton();
         imprimirReporteBT = new javax.swing.JButton();
@@ -77,10 +84,12 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Fechas de Creación del Credito para el Reporte"));
 
+        jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Fecha de Inicio:");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
+        jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Fecha Final:");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -89,25 +98,48 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
 
         fechaFinal.setDateFormatString("dd/MM/yyyy");
 
+        jlIdLugar.setText("idLugar");
+
+        jLabel3.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Lugar:");
+
+        jcLugar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcLugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcLugarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlIdLugar)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jcLugar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(fechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jlIdLugar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jcLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -169,7 +201,7 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -186,20 +218,21 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         String errores = validarCampos();
         if (errores.isEmpty()) {
             ReporteVentasDAO reporteVentas = new ReporteVentasDAOImpl(this.connectionDB, this.idUsuario);
+            byte idLugar = Byte.valueOf(jlIdLugar.getText());
             switch (this.modoOperacion) {
                 case REPORTE_UNO:
-                    reporteVentas.vistaPreviaReporte(new Date(fechaInicio.getDate().getTime()), new Date(fechaFinal.getDate().getTime()));
+                    reporteVentas.vistaPreviaReporte(idLugar, new Date(fechaInicio.getDate().getTime()), new Date(fechaFinal.getDate().getTime()));
                     break;
                 case REPORTE_DOS:
 //                    vistaPreviaEntregas
-                    reporteVentas.vistaPreviaEntregas(new Date(fechaInicio.getDate().getTime()), new Date(fechaFinal.getDate().getTime()));
+                    reporteVentas.vistaPreviaEntregas(idLugar, new Date(fechaInicio.getDate().getTime()), new Date(fechaFinal.getDate().getTime()));
 
                     break;
                 case REPORTE_TRES:
 
                     break;
                 case REPORTE_CUATRO:
-                    reporteVentas.vistaPreviaMovimientoCaja(new Date(fechaInicio.getDate().getTime()), new Date(fechaFinal.getDate().getTime()));
+                    reporteVentas.vistaPreviaMovimientoCaja(idLugar, new Date(fechaInicio.getDate().getTime()), new Date(fechaFinal.getDate().getTime()));
                     break;
             }
         } else {
@@ -208,6 +241,53 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_imprimirReporteBTActionPerformed
 
+    private void jcLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcLugarActionPerformed
+        seleccionarElementoLugar();
+    }//GEN-LAST:event_jcLugarActionPerformed
+
+    private void seleccionarElementoLugar() {
+        jlIdLugar.setVisible(false);
+        String sel = null;
+        
+        String comp = "Sel";
+        
+        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
+        
+        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+            
+        try {
+            sel = jcLugar.getSelectedItem().toString();
+
+//            System.out.println("elemento seleccionado "+ sel);
+
+            if(sel.equals(comp)){
+                jlIdLugar.setText("0");
+            }
+            else{
+                jlIdLugar.setText(map.get(sel).toString());
+            }
+        } catch (Exception e) {
+        }
+        
+    }
+    
+    public void llenarComboLugar(){
+        
+        String sel = "Sel";
+        
+        jcLugar.removeAllItems();
+        jcLugar.addItem(sel);
+        
+        LugarDAO lugarDAO = new LugarDAOImpl(connectionDB);
+        
+        HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
+
+        for (String s : map.keySet()) {
+            jcLugar.addItem(s.toString());
+        }
+        jlIdLugar.setVisible(false);
+    }
+    
     private String validarCampos() {
         String errores = "";
 
@@ -283,7 +363,10 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
     private javax.swing.JButton imprimirReporteBT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JComboBox<String> jcLugar;
+    private javax.swing.JLabel jlIdLugar;
     // End of variables declaration//GEN-END:variables
 }

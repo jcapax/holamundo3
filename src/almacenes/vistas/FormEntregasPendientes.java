@@ -26,6 +26,7 @@ import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.text.DecimalFormat;
@@ -258,6 +259,15 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     public FormEntregasPendientes() {
         initComponents();
     }
+    
+    public int getIdTransaccionSeleccion(){
+        int idTransaccion = 0;
+        int fila = jtPendientes.getSelectedRow();
+        
+        idTransaccion =Integer.parseInt(jtPendientes.getValueAt(fila, 0).toString());
+        
+        return idTransaccion;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -284,6 +294,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         jbSalir = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         jlStockProducto = new javax.swing.JLabel();
+        jbCerrarProducto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -469,35 +480,45 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
 
         jlStockProducto.setText("0");
 
+        jbCerrarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrar_pendientes.png"))); // NOI18N
+        jbCerrarProducto.setText("Cerrar Productos");
+        jbCerrarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCerrarProductoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlTituloFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jlTituloFormulario2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtCantidad)
-                                .addComponent(jbPorEntregar)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jlStockProducto))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jbTransaccion)
-                                .addGap(236, 236, 236)
-                                .addComponent(jbSalir))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbCerrarProducto)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jlTituloFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlTituloFormulario2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(75, 75, 75)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtCantidad)
+                                    .addComponent(jbPorEntregar)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jlStockProducto))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jbTransaccion)
+                                    .addGap(236, 236, 236)
+                                    .addComponent(jbSalir))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(28, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -510,7 +531,9 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(77, 77, 77)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
+                .addComponent(jbCerrarProducto)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jlTituloFormulario)
                     .addComponent(jlTituloFormulario2))
@@ -528,7 +551,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbPorEntregar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbSalir)
                     .addComponent(jbTransaccion))
@@ -537,7 +560,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(34, 34, 34)
                     .addComponent(jlTituloFormulario1)
-                    .addContainerGap(606, Short.MAX_VALUE)))
+                    .addContainerGap(651, Short.MAX_VALUE)))
         );
 
         pack();
@@ -654,6 +677,20 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         seleccionarProductoPendiente();
     }//GEN-LAST:event_jtProductosPendientesMouseClicked
 
+    private void jbCerrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCerrarProductoActionPerformed
+        boolean shift = false;
+
+        if((evt.getModifiers() & InputEvent.SHIFT_MASK)!=0){
+            shift = true;
+        }
+
+        if(shift){
+            int idTransaccion = getIdTransaccionSeleccion();
+            transaccionDAO.cerrarTransaccionProducto(idTransaccion);
+            llenarPendientesEntrega();
+        }
+    }//GEN-LAST:event_jbCerrarProductoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -695,6 +732,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton jbCerrarProducto;
     private javax.swing.JButton jbPorEntregar;
     private javax.swing.JToggleButton jbSalir;
     private javax.swing.JButton jbTransaccion;

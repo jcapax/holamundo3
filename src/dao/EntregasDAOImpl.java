@@ -34,6 +34,7 @@ public class EntregasDAOImpl implements EntregasDAO{
         ArrayList<EntregaPendiente> listPendiente = new ArrayList<>();
         String sql = "SELECT id_transaccion_credito, nombre_completo, direccion, telefonos, fecha, nro_tipo_transaccion, detalle " +
                         "FROM v_entregas_pendientes " +
+                        "WHERE id_transaccion_credito NOT IN (Select id_transaccion From transaccion_cierre Where producto = 1) " +
                         "GROUP BY id_transaccion_credito, nombre_completo, direccion, telefonos, fecha, nro_tipo_transaccion";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

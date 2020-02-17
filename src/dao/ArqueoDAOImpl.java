@@ -271,11 +271,12 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     
     
     @Override
-    public ArrayList<Arqueo> getListaArqueos(byte mes, int anno) {
+    public ArrayList<Arqueo> getListaArqueos(byte idLugar, byte mes, int anno) {
         ArrayList<Arqueo> listaArqueos = new ArrayList<Arqueo>();
 
         String sql = "select * from arqueo "
                 + "where estado = 'C' and year(fecha_cierre) = ? and month(fecha_cierre)=? "
+                + "and id_lugar = "+String.valueOf(idLugar)+" "
                 + "order by id desc";
 
         PreparedStatement ps;
