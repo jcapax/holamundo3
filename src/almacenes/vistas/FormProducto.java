@@ -286,21 +286,21 @@ public class FormProducto extends javax.swing.JFrame {
         jbGuardar = new javax.swing.JButton();
         jbEditar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbUnidadProducto = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jtxtCriterio = new javax.swing.JTextField();
         jPanelComponentes = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jcRubro = new javax.swing.JComboBox<String>();
+        jcRubro = new javax.swing.JComboBox<>();
         jtxtNombreProducto = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jchEstado = new javax.swing.JCheckBox();
         jchControlStock = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
-        jcMarca = new javax.swing.JComboBox<String>();
+        jcMarca = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jcProcedencia = new javax.swing.JComboBox<String>();
+        jcProcedencia = new javax.swing.JComboBox<>();
         jchCaducidad = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtProductos = new javax.swing.JTable();
@@ -356,11 +356,11 @@ public class FormProducto extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/unidadProducto.png"))); // NOI18N
-        jButton2.setText("Unidad Medida");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jbUnidadProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/unidadProducto.png"))); // NOI18N
+        jbUnidadProducto.setText("Unidad Medida");
+        jbUnidadProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jbUnidadProductoActionPerformed(evt);
             }
         });
 
@@ -391,7 +391,7 @@ public class FormProducto extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)
+                        .addComponent(jbUnidadProducto)
                         .addGap(18, 18, 18)
                         .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -407,7 +407,7 @@ public class FormProducto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jbNuevo)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
+                        .addComponent(jbUnidadProducto)
                         .addComponent(jbEditar)
                         .addComponent(jbCancelar)
                         .addComponent(jbGuardar)
@@ -421,7 +421,7 @@ public class FormProducto extends javax.swing.JFrame {
 
         jLabel3.setText("Rubro");
 
-        jcRubro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcRubro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcRubro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcRubroActionPerformed(evt);
@@ -445,7 +445,7 @@ public class FormProducto extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Marca");
 
-        jcMarca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcMarcaActionPerformed(evt);
@@ -455,7 +455,7 @@ public class FormProducto extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Procedencia");
 
-        jcProcedencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcProcedencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcProcedencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcProcedenciaActionPerformed(evt);
@@ -704,7 +704,7 @@ public class FormProducto extends javax.swing.JFrame {
         ljEditar.setText("0");
     }//GEN-LAST:event_jbGuardarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbUnidadProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbUnidadProductoActionPerformed
         int filSel = jtProductos.getSelectedRow();
         
         int idProducto = (int) jtProductos.getValueAt(filSel, 0);
@@ -712,7 +712,7 @@ public class FormProducto extends javax.swing.JFrame {
         
         FormUnidadProducto fUnidadProd = new FormUnidadProducto(connectionDB, idProducto, nombreProducto, usuario);
         fUnidadProd.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jbUnidadProductoActionPerformed
 
     private void jtProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtProductosKeyReleased
         seleccionarProducto();
@@ -788,7 +788,6 @@ public class FormProducto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -802,6 +801,7 @@ public class FormProducto extends javax.swing.JFrame {
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevo;
     private javax.swing.JButton jbSalir;
+    private javax.swing.JButton jbUnidadProducto;
     private javax.swing.JComboBox<String> jcMarca;
     private javax.swing.JComboBox<String> jcProcedencia;
     private javax.swing.JComboBox<String> jcRubro;

@@ -424,5 +424,55 @@ public class TransaccionDAOImpl implements TransaccionDAO{
             Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public boolean isTransaccionCierre(int idTransaccion){
+        boolean aux = false;
+        String sql = "Select id_transaccion From transaccion_cierre Where id_transaccion = "+String.valueOf(idTransaccion);
+        PreparedStatement ps;
+        try {
+            ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                aux = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return aux;
+    }
+    
+    @Override
+    public void cerrarTransaccionEfectivo(int idTransaccion) {
+        String sql;
+        
+        if(isTransaccionCierre(idTransaccion)){
+            sql = "Update transaccion_cierre Set efectivo = 1 Where id_transaccion = "+String.valueOf(idTransaccion);
+        }else{
+            sql = "Insert Into transaccion_cierre(id_transaccion, efectivo) Values("+String.valueOf(idTransaccion)+", 1)";
+        }
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void cerrarTransaccionProducto(int idTransaccion) {
+        String sql;
+        
+        if(isTransaccionCierre(idTransaccion)){
+            sql = "Update transaccion_cierre Set producto = 1 Where id_transaccion = "+String.valueOf(idTransaccion);
+        }else{
+            sql = "Insert Into transaccion_cierre(id_transaccion, producto) Values("+String.valueOf(idTransaccion)+", 1)";
+        }
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

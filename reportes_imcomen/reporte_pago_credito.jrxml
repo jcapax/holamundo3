@@ -2,7 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_factura" pageWidth="612" pageHeight="430" columnWidth="512" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aaa2197-a4c3-439d-8deb-50d8d73ed59e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="almacenes"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
 	<parameter name="id_transaccion" class="java.lang.String"/>
@@ -55,6 +55,10 @@ where id_transaccion = $P{id_transaccion}]]>
 		<property name="com.jaspersoft.studio.field.label" value="razon_social"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_pago_credito"/>
 	</field>
+	<field name="usuario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="usuario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_pago_credito"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -96,7 +100,7 @@ where id_transaccion = $P{id_transaccion}]]>
 				<text><![CDATA[Nombre Completo:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="80" y="94" width="200" height="16" uuid="18cb6607-44f0-451e-b1a1-979e19408360"/>
+				<reportElement x="82" y="94" width="200" height="16" uuid="18cb6607-44f0-451e-b1a1-979e19408360"/>
 				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -138,12 +142,12 @@ where id_transaccion = $P{id_transaccion}]]>
 			<textField>
 				<reportElement x="232" y="171" width="100" height="19" uuid="bf2470d3-54c9-4a85-a2a6-8332dad23879"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valor_total})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valor_total})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="76" y="171" width="100" height="19" uuid="a23a1832-db52-4c69-bbe8-611c2eff9823"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{importe_caja})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{importe_caja})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="252" y="150" width="80" height="16" forecolor="#054A82" uuid="4fc3d4cb-5cc7-4357-974e-48ac6db45e97"/>
@@ -169,7 +173,7 @@ where id_transaccion = $P{id_transaccion}]]>
 			<textField>
 				<reportElement x="400" y="171" width="100" height="19" uuid="e6e2341e-c9a1-4a63-8d29-4845f0c223c5"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{diferencia})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{diferencia})]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="51" y="166" width="471" height="1" uuid="452103c9-7b2c-4cc2-872a-d4490ca88ef9">
@@ -220,6 +224,20 @@ Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
 Telf.: 64-69233   Cel.: 75779259   *   75777126 
 Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="424" y="50" width="80" height="14" forecolor="#054A82" uuid="9ce9e178-b800-4d62-9847-d59889b631f0"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Usuario: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="510" y="50" width="50" height="14" uuid="67effa32-35ba-4295-9690-49cbbe83b942"/>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 </jasperReport>

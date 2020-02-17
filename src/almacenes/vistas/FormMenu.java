@@ -116,8 +116,8 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuListasFacturaFacil = new javax.swing.JMenuItem();
         jMenuProcesos = new javax.swing.JMenu();
         jSeparator8 = new javax.swing.JPopupMenu.Separator();
-        jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuVentas = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuCompras = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jmenuCajaInicial = new javax.swing.JMenuItem();
@@ -291,7 +291,6 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuProcesos.setText("Procesos");
         jMenuProcesos.add(jSeparator8);
-        jMenuProcesos.add(jSeparator4);
 
         jMenuVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/venta.png"))); // NOI18N
         jMenuVentas.setText("Ventas");
@@ -301,6 +300,7 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuProcesos.add(jMenuVentas);
+        jMenuProcesos.add(jSeparator4);
 
         jMenuCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/compras.png"))); // NOI18N
         jMenuCompras.setText("Compras");

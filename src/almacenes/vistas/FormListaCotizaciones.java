@@ -179,6 +179,18 @@ public class FormListaCotizaciones extends javax.swing.JFrame {
         jbPedido = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
@@ -400,6 +412,14 @@ public class FormListaCotizaciones extends javax.swing.JFrame {
                                             idTransaccionCotizacion);
         credito.setVisible(true);
     }//GEN-LAST:event_jbPedidoActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formFocusGained
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        llenarTablaCotizaciones();
+    }//GEN-LAST:event_formWindowGainedFocus
 
     private void vistaPreviaReciboVenta(int idTransaccion) {
         ReporteVentasDAO reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, usuario);

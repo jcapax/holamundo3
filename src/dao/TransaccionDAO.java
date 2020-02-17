@@ -34,4 +34,7 @@ public interface TransaccionDAO {
     
     public void insertarAtencionCotizacion(int 	idTransaccionCotizacion, int idTransaccionAtencion);
     
+    public void cerrarTransaccionEfectivo(int idTransaccion);
+    public void cerrarTransaccionProducto(int idTransaccion);
+    
 }

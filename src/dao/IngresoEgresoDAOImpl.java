@@ -86,8 +86,9 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
                 + "t.descripcion_transaccion as descripcion_ingreso_egreso, "
                 + "d.descripcion as cuenta " +
             "FROM v_transaccion t JOIN v_detalle_transaccion d on t.id = d.id_transaccion " +
-            "WHERE t.id_tipo_transaccion = 4 "
-                + "AND t.fecha BETWEEN '"+String.valueOf(fechaInicio)+"' and '"+String.valueOf(fechaFin)+"'";
+            "WHERE t.id_tipo_transaccion = "+String.valueOf(idTipoTransaccion)
+                + " AND t.fecha BETWEEN '"+String.valueOf(fechaInicio)+"' and '"+String.valueOf(fechaFin)+"'";
+        
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

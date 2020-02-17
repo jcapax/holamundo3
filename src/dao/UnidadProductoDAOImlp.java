@@ -184,7 +184,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     public UnidadProducto getProductoCodigoBarras(String codigoAdjunto) {
         String sql = "Select * From v_productos Where codigo_adjunto = '"+codigoAdjunto+"'";
         
-        System.out.println(sql);
+       // System.out.println(sql);
         
         UnidadProducto up = new UnidadProducto();
         
@@ -211,7 +211,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
                         "FROM unidad_producto " +
                         "WHERE id_producto = ? and id_unidad_medida = ? and ? >= cantidad";
         
-        System.out.println(sql);
+        //System.out.println(sql);
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idProducto);

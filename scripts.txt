@@ -145,4 +145,45 @@ ORDER BY vp.fecha DESC
 
 ******************************************************************
 
-CREATE TABLE `sucre_db_almacenes`.`atencion_cotizacion` ( `id_transaccion_cotizacion` INT NOT NULL , `id_transaccion_atencion` INT NOT NULL ) ENGINE = InnoDB;
+CREATE TABLE `sucre_db_almacenes`.`atencion_cotizacion` ( `id_transaccion_cotizacion` INT NOT NULL , `id_transaccion_atencion` INT NOT
+ NULL ) ENGINE = InnoDB;
+
+******************************************************************
++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++
+16.02.2020
++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++
+
+DROP  VIEW v_pago_transaccion
+
+CREATE VIEW v_pago_transaccion
+AS
+select vt.id AS id_transaccion,vt.fecha AS fecha,vt.id_tipo_transaccion AS id_tipo_transaccion,
+    vt.nro_tipo_transaccion AS nro_tipo_transaccion,sum(ifnull(c.importe,0)) AS importe_caja,
+    vt.valor_total AS valor_total,vt.valor_total - sum(ifnull(c.importe,0)) AS diferencia, vt.usuario 
+from (v_transaccion vt 
+      left join caja c on(c.id_transaccion = vt.id and vt.estado <> 'n')) 
+where vt.estado <> 'n' and vt.id_tipo_transaccion in (1,2,3,4) 
+group by vt.valor_total,vt.fecha,vt.id,vt.id_tipo_transaccion,vt.nro_tipo_transaccion order by vt.id
+
+*******************************************************************
+drop view v_pago_credito
+
+create view v_pago_credito
+as
+
+select p.id_transaccion AS id_transaccion,p.fecha AS fecha,p.nro_tipo_transaccion AS nro_tipo_transaccion,
+        p.importe_caja AS importe_caja,p.valor_total AS valor_total,p.diferencia AS diferencia,
+        c.detalle AS detalle,cp.cedula_identidad AS cedula_identidad,cp.nit AS nit,
+        cp.nombre_completo AS nombre_completo,cp.razon_social AS razon_social, p.usuario 
+from ((v_pago_transaccion p 
+    join credito c on(p.id_transaccion = c.id_transaccion)) 
+    join cliente_proveedor cp on(c.id_cliente_proveedor = cp.id))
+
+******************************************************************
+
+CREATE TABLE `sucre_db_almacenes`.`transaccion_cierre` ( `id_transaccion` INT NOT NULL , `efectivo` TINYINT NOT NULL DEFAULT '0' , `producto` TINYINT NOT NULL DEFAULT '0' , PRIMARY KEY (`id_transaccion`)) ENGINE = InnoDB;  
+
+
+

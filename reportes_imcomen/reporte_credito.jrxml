@@ -84,7 +84,7 @@ where id_transaccion = $P{id_transaccion}]]>
 	<title>
 		<band height="131" splitType="Stretch">
 			<staticText>
-				<reportElement x="183" y="20" width="195" height="30" forecolor="#054A82" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
+				<reportElement x="183" y="20" width="217" height="30" forecolor="#054A82" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
 				<textElement textAlignment="Center">
 					<font size="19" isBold="true"/>
 				</textElement>

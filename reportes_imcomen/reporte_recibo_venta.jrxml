@@ -95,11 +95,11 @@ Where t.id = $P{id_transaccion}]]>
 				<text><![CDATA[Nro:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="230" y="20" width="101" height="30" forecolor="#054A82" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
+				<reportElement x="183" y="20" width="196" height="30" forecolor="#054A82" uuid="7b219bf1-a16e-4c58-a28a-1b6f44aef45a"/>
 				<textElement textAlignment="Center">
 					<font size="19" isBold="true"/>
 				</textElement>
-				<text><![CDATA[RECIBO]]></text>
+				<text><![CDATA[NOTA DE VENTA]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="94" y="92" width="100" height="16" uuid="d0b76e1e-5381-41c6-a7e6-eecd63dc4267"/>

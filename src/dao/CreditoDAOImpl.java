@@ -48,7 +48,10 @@ public class CreditoDAOImpl implements CreditoDAO{
     @Override
     public ArrayList<PendientePago> getListaPendientesPago(int idTipoTransaccion) {
         ArrayList<PendientePago> lPendientePago = new ArrayList<PendientePago>();
-        String sql = "select * from v_pendiente_pago where id_tipo_transaccion = ? Order by id_transaccion";
+        String sql = "select * from v_pendiente_pago "
+                + "where id_tipo_transaccion = ? "
+                + "and id_transaccion not in (select id_transaccion from transaccion_cierre where efectivo = 1) "
+                + "Order by id_transaccion";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idTipoTransaccion);
