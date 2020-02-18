@@ -84,23 +84,17 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         for (int i = 0; i < l.size(); i++) {
             fila[0] = l.get(i).getId();
             fila[1] = l.get(i).getNroTransaccion();
-            fila[2] = l.get(i).getFecha();
-            /*
-            if(transaccionDAO.isCreditoEntrega(l.get(i).getId())){
-                fila[3] = "ENTREGA PENDIENTE";
-            }else{
-                fila[3] = l.get(i).getDescripcion();
-            }*/
+            fila[2] = l.get(i).getFecha();            
             fila[3] = l.get(i).getDescripcion();
-            fila[4] = l.get(i).getValorTotal();
-            fila[5] = l.get(i).getIdTipoTransaccion();
+            fila[4] = l.get(i).getDetalle();
+            fila[5] = l.get(i).getValorTotal();            
             
             dtm.addRow(fila);
         }
         
         TableColumnModel columnModel = jtListaTransacciones.getColumnModel();
         
-        TableColumn colImpCaja = columnModel.getColumn(4);
+        TableColumn colImpCaja = columnModel.getColumn(5);
         
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(jlTituloFormulario.RIGHT);
@@ -128,25 +122,18 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Nro Trans", "Fecha", "Descripcion", "Valor Total", "idTipotransaccion", "idTrans", "Usuario"
+                "id", "Nro Trans", "Fecha", "Tipo", "Detalle", "Valor Total"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -164,18 +151,12 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             jtListaTransacciones.getColumnModel().getColumn(2).setMinWidth(100);
             jtListaTransacciones.getColumnModel().getColumn(2).setPreferredWidth(100);
             jtListaTransacciones.getColumnModel().getColumn(2).setMaxWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(4).setMinWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(4).setPreferredWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(4).setMaxWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(5).setMinWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(5).setPreferredWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(5).setMaxWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(6).setMinWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(6).setPreferredWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(6).setMaxWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(7).setMinWidth(120);
-            jtListaTransacciones.getColumnModel().getColumn(7).setPreferredWidth(120);
-            jtListaTransacciones.getColumnModel().getColumn(7).setMaxWidth(120);
+            jtListaTransacciones.getColumnModel().getColumn(3).setMinWidth(150);
+            jtListaTransacciones.getColumnModel().getColumn(3).setPreferredWidth(150);
+            jtListaTransacciones.getColumnModel().getColumn(3).setMaxWidth(150);
+            jtListaTransacciones.getColumnModel().getColumn(5).setMinWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(5).setMaxWidth(100);
         }
 
         fecha.setDateFormatString("dd/MM/yyyy");
@@ -215,19 +196,17 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalir))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbBuscar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 885, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbBuscar)
+                        .addGap(0, 732, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

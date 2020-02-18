@@ -39,8 +39,28 @@ select t.id AS id_transaccion,c.fecha AS fecha_caja,c.importe * tt.tipo_movimien
 from caja c 
         join transaccion t on c.id_transaccion = t.id
         join tipo_transaccion tt on t.id_tipo_transaccion = tt.id 
-        join lugar l on l.id = t.id_lugar
+        join lugar l on l.id = t.id_lugar;
 
+*********************************************
+*********************************************
 
-
-        
+DELIMITER $$
+CREATE FUNCTION f_get_tipo_credito
+	(_id_transaccion INT) 
+RETURNS VARCHAR(40) NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER 
+BEGIN 
+	DECLARE detalle VARCHAR(40); 
+    DECLARE aux TINYINT;
+	
+	SET aux = (
+		SELECT entrega_pendiente
+		FROM credito
+		WHERE id_transaccion = _id_transaccion); 
+    
+    IF aux = 1 then
+    	SET detalle = 'PEDIDO CREDITO';
+    ELSE
+    	SET detalle = 'CREDITO EFECTIVO';
+    END IF;
+	RETURN detalle; 
+END $$

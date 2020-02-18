@@ -178,9 +178,18 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         
         ArrayList<ListaTransaccion> lista = new ArrayList<>();
         
-        String sql = "SELECT id, descripcion_tipo_transaccion, fecha, "
+        String sql = "SELECT id, " +
+                  "CASE id_tipo_transaccion " +
+                  " WHEN 3 then f_get_tipo_credito(id) " +
+                  " ELSE descripcion_tipo_transaccion " +
+                  " END AS descripcion_tipo_transaccion, fecha, "
                         + "nro_tipo_transaccion, valor_total, fecha_hora_registro, "
-                        + "id_tipo_transaccion, descripcion_transaccion, usuario \n" +
+                        + "id_tipo_transaccion, "
+                        + "CASE id_tipo_transaccion " +
+                        "   WHEN 3 then f_get_detalle_credito(id) " +
+                        "   ELSE descripcion_transaccion " +
+                        "   END AS descripcion_transaccion, "
+                        + "usuario \n" +
                      "FROM v_transaccion " +
                      "WHERE id_tipo_transaccion in (1, 2, 3, 6, 10) "
                         + "and usuario = '"+usuario+"' "

@@ -98,14 +98,17 @@
 				<text><![CDATA[Nro. Crédito: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="444" y="50" width="36" height="16" forecolor="#054A82" uuid="ce73ec85-01a6-4b83-8b80-af7c262caee0"/>
+				<reportElement x="424" y="46" width="80" height="16" forecolor="#054A82" uuid="ce73ec85-01a6-4b83-8b80-af7c262caee0"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Usuario:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="480" y="47" width="80" height="16" uuid="ceb82c1d-af81-4c6f-9ca8-c25e3a23801a"/>
+				<reportElement x="504" y="46" width="56" height="16" uuid="ceb82c1d-af81-4c6f-9ca8-c25e3a23801a"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -117,6 +120,9 @@
 			</staticText>
 			<textField>
 				<reportElement x="460" y="70" width="100" height="16" uuid="6b9be1e2-d3ec-4eb5-b1e6-91b6604d90d7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -124,7 +130,7 @@
 				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="504" y="32" width="46" height="14" uuid="c41ab18d-ec7e-4ef5-88ff-a8d92b97ab24"/>
+				<reportElement x="504" y="32" width="56" height="14" uuid="c41ab18d-ec7e-4ef5-88ff-a8d92b97ab24"/>
 				<textFieldExpression><![CDATA[$F{nro_tipo_transaccion}]]></textFieldExpression>
 			</textField>
 			<staticText>

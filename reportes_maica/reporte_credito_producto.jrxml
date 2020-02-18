@@ -96,7 +96,7 @@ where id_transaccion = $P{id_transaccion}]]>
 				<textElement textAlignment="Center">
 					<font size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PEDIDOS]]></text>
+				<text><![CDATA[PEDIDO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="317" y="65" width="38" height="12" forecolor="#054A82" uuid="79b2e507-dcf3-418b-a5ad-efdf74713295">
