@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_stock_lugar" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f4bdf3cc-08a4-4ca6-a162-43994a48b150">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_stock_lugar" pageWidth="467" pageHeight="297" columnWidth="427" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f4bdf3cc-08a4-4ca6-a162-43994a48b150">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dismebol"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="306"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="686"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="id_lugar" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT p.descripcion, p.nombre_unidad_medida, s.stock, l.descripcion nombre_lugar
@@ -33,50 +42,50 @@ ORDER BY s.stock]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="86" splitType="Stretch">
+		<band height="74" splitType="Stretch">
 			<staticText>
-				<reportElement x="130" y="20" width="340" height="30" forecolor="#054A82" uuid="d38e33c7-8751-44f5-a137-c5a9aa1e853a"/>
+				<reportElement x="44" y="25" width="340" height="18" forecolor="#054A82" uuid="d38e33c7-8751-44f5-a137-c5a9aa1e853a"/>
 				<textElement textAlignment="Center">
-					<font size="19" isBold="true"/>
+					<font size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[STOCK DE PRODUCTOS]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="61" width="230" height="15" uuid="9203829f-7b2d-4f50-a9da-f6e387ece30f">
+				<reportElement x="211" y="54" width="130" height="12" uuid="9203829f-7b2d-4f50-a9da-f6e387ece30f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre_lugar}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="216" y="61" width="60" height="15" uuid="9c819f5a-c21b-4fb6-9614-a0b153b886e5">
+				<reportElement x="150" y="54" width="60" height="12" uuid="9c819f5a-c21b-4fb6-9614-a0b153b886e5">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f46a57d2-fb51-4bde-9654-c4c972153290"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[LUGAR: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="18c3dcf5-9514-4d49-835e-2a03545bba24">
+				<reportElement x="0" y="4" width="150" height="15" forecolor="#054A82" uuid="0bb41b56-fe7f-4951-90a1-2e780073805b">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AGREGADOS SEÑOR DE MAICA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="21" width="200" height="30" forecolor="#054A82" uuid="bec056a9-c08b-4d2d-a0ea-661c8a46902d">
+				<reportElement x="0" y="19" width="150" height="23" forecolor="#054A82" uuid="8e7650a8-ef67-4273-85a8-3688239de245">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="6" isBold="true"/>
+					<font size="5" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dir. Avenida Destacamento Chuquisaca N° 258
 Zona Barrio la Hoyada
@@ -86,39 +95,42 @@ Telf.: 64-56616   Cel.: 7611162
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="10" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="24" splitType="Stretch">
+		<band height="16" splitType="Stretch">
 			<staticText>
-				<reportElement x="70" y="0" width="192" height="22" uuid="3d30faa2-07ea-47f4-ae65-4fab94d97730">
+				<reportElement x="14" y="0" width="192" height="12" uuid="3d30faa2-07ea-47f4-ae65-4fab94d97730">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ddf7ee4-833f-42ed-9331-a67ff5f6fdbd"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DESCRIPCION PRODUCTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="262" y="0" width="83" height="22" uuid="f70d542b-40a4-4ce3-8aa8-e3b90ee7d33d">
+				<reportElement x="206" y="0" width="83" height="12" uuid="f70d542b-40a4-4ce3-8aa8-e3b90ee7d33d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d2a3d7a4-9f63-4c68-a17c-7fd9a430d92d"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[UNIDAD MEDIDA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="382" y="0" width="87" height="22" uuid="e55d087f-2882-45c0-810e-b9e3b4e06df2">
+				<reportElement x="326" y="0" width="87" height="12" uuid="e55d087f-2882-45c0-810e-b9e3b4e06df2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f46a57d2-fb51-4bde-9654-c4c972153290"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[STOCK]]></text>
 			</staticText>
 			<line>
-				<reportElement x="70" y="15" width="400" height="1" uuid="5688d52c-b5e1-40c3-8139-939431233f81">
+				<reportElement x="14" y="15" width="400" height="1" uuid="5688d52c-b5e1-40c3-8139-939431233f81">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -127,34 +139,34 @@ Telf.: 64-56616   Cel.: 7611162
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="30" splitType="Stretch">
+		<band height="16" splitType="Stretch">
 			<textField>
-				<reportElement x="70" y="0" width="192" height="12" uuid="8d110f8f-aba4-413e-88f4-2e297f547ab9">
+				<reportElement x="14" y="0" width="192" height="12" uuid="8d110f8f-aba4-413e-88f4-2e297f547ab9">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ddf7ee4-833f-42ed-9331-a67ff5f6fdbd"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="262" y="0" width="83" height="12" uuid="50661c6b-4908-4084-a420-1e3ed441ee7c">
+				<reportElement x="206" y="0" width="83" height="12" uuid="50661c6b-4908-4084-a420-1e3ed441ee7c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d2a3d7a4-9f63-4c68-a17c-7fd9a430d92d"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre_unidad_medida}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="382" y="0" width="87" height="12" uuid="2112b875-f2ad-406b-8c9e-29e081c6c336">
+				<reportElement x="326" y="0" width="87" height="12" uuid="2112b875-f2ad-406b-8c9e-29e081c6c336">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f46a57d2-fb51-4bde-9654-c4c972153290"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="9"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{stock}]]></textFieldExpression>
 			</textField>
@@ -164,6 +176,9 @@ Telf.: 64-56616   Cel.: 7611162
 		<band height="40" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
 				<reportElement x="5" y="20" width="225" height="20" uuid="653839ec-58a9-40e9-8940-184acd148082"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

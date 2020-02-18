@@ -51,51 +51,60 @@ where fecha_caja BETWEEN $P{fecha_inicio} AND $P{fecha_final}]]>
 	<title>
 		<band height="122" splitType="Stretch">
 			<textField>
-				<reportElement x="40" y="102" width="80" height="17" uuid="8965b8bd-ef8a-4d4d-8b65-2967c771a95c"/>
+				<reportElement x="40" y="59" width="80" height="17" uuid="8965b8bd-ef8a-4d4d-8b65-2967c771a95c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="102" width="100" height="17" uuid="6c21a5d7-3b10-4b72-a6e6-8fe629d37f1a"/>
+				<reportElement x="190" y="59" width="100" height="17" uuid="6c21a5d7-3b10-4b72-a6e6-8fe629d37f1a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_final}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="102" width="23" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<reportElement x="10" y="59" width="23" height="17" uuid="371a0527-545a-42d0-91c7-14512988beba">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<text><![CDATA[De:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="140" y="102" width="40" height="20" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
+				<reportElement x="140" y="59" width="40" height="17" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<text><![CDATA[Hasta: ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="155" y="20" width="260" height="30" forecolor="#054A82" uuid="f9507767-2bcd-4a3f-99e9-82bccc6746c5"/>
 				<textElement textAlignment="Center">
-					<font size="19" isBold="true"/>
+					<font size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[MOVIMIENTO GENERAL CAJA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="4" width="200" height="16" forecolor="#054A82" uuid="6abae5ff-a4c7-46bb-a761-00fc65e927cf">
+				<reportElement x="0" y="4" width="150" height="15" forecolor="#054A82" uuid="b3276740-5501-40ba-8e2b-dbf27f93889a">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AGREGADOS SEÑOR DE MAICA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="21" width="200" height="30" forecolor="#054A82" uuid="31156bca-f6a1-404e-a890-746e60b0baab">
+				<reportElement x="0" y="19" width="150" height="23" forecolor="#054A82" uuid="70e924db-d583-494e-9c6f-a32993967f77">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="6" isBold="true"/>
+					<font size="5" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dir. Avenida Destacamento Chuquisaca N° 258
 Zona Barrio la Hoyada
