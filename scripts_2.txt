@@ -1,0 +1,46 @@
+DROP VIEW v_lista_movimiento;
+
+CREATE VIEW v_lista_movimiento  AS  
+
+select t.id_tipo_transaccion AS id_tipo_transaccion,t.clase_movimiento AS clase_movimiento,
+        t.descripcion_tipo_transaccion AS descripcion_tipo_transaccion,t.fecha AS fecha,t.estado AS estado,
+        t.valor_total AS valor_total,d.descripcion AS descripcion,d.simbolo AS simbolo,
+        sum(d.cantidad) AS cantidad,sum(d.valor_total) AS valor_total_producto, t.id_lugar, l.descripcion as nombre_lugar 
+from (v_transaccion t 
+        join v_detalle_transaccion d on(t.id = d.id_transaccion)) 
+        join lugar l on l.id = t.id_lugar
+group by t.id_tipo_transaccion,t.clase_movimiento,t.descripcion_tipo_transaccion,t.fecha,t.estado,t.valor_total,d.descripcion,d.simbolo ;
+
+****************************************************************
+
+DELIMITER $$
+CREATE FUNCTION f_get_detalle_credito(
+    	_idTransaccion INT) 
+RETURNS VARCHAR(150) NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER 
+BEGIN 
+	DECLARE _detalle VARCHAR(150); 
+    SET _detalle = (SELECT detalle FROM credito WHERE id_transaccion = _idTransaccion); 
+    RETURN _detalle; 
+END $$
+
+****************************************************************
+
+DROP VIEW v_caja;
+
+CREATE VIEW v_caja  AS  
+select t.id AS id_transaccion,c.fecha AS fecha_caja,c.importe * tt.tipo_movimiento AS importe_caja,
+        c.estado AS estado,tt.descripcion AS movimiento,
+        case t.id_tipo_transaccion
+        	when 3 then f_get_detalle_credito(t.id)
+            else t.descripcion_transaccion 
+            end
+        AS descripcion_transaccion,
+        c.id_arqueo AS id_arqueo, t.id_lugar, l.descripcion as nombre_lugar
+from caja c 
+        join transaccion t on c.id_transaccion = t.id
+        join tipo_transaccion tt on t.id_tipo_transaccion = tt.id 
+        join lugar l on l.id = t.id_lugar
+
+
+
+        

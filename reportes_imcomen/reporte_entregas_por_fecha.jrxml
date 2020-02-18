@@ -2,18 +2,23 @@
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="almacenes"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="272"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="717"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<parameter name="fecha_inicio" class="java.lang.String"/>
 	<parameter name="fecha_final" class="java.lang.String"/>
+	<parameter name="id_lugar" class="java.lang.Short"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT descripcion, simbolo, sum(cantidad) cantidad, sum(valor_total_producto) valor_total_producto 
+		<![CDATA[SELECT descripcion, simbolo, sum(cantidad) cantidad, sum(valor_total_producto) valor_total_producto, nombre_lugar 
 FROM v_lista_movimiento 
-where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and id_tipo_transaccion = 8
-  and estado <> 'N'
+where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} 
+	and id_tipo_transaccion = 8
+  	and estado <> 'N'
+  	and id_lugar = $P{id_lugar}
   group by  descripcion, simbolo]]>
 	</queryString>
 	<field name="descripcion" class="java.lang.String">
@@ -30,6 +35,10 @@ where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and id_tipo_transaccion
 	<field name="valor_total_producto" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="valor_total_producto"/>
 	</field>
+	<field name="nombre_lugar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lugar"/>
+	</field>
 	<variable name="valorTotalProducto1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{valor_total_producto}]]></variableExpression>
 	</variable>
@@ -39,29 +48,43 @@ where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_final} and id_tipo_transaccion
 	<title>
 		<band height="115" splitType="Stretch">
 			<textField>
-				<reportElement x="40" y="82" width="80" height="17" uuid="8965b8bd-ef8a-4d4d-8b65-2967c771a95c"/>
+				<reportElement x="50" y="80" width="80" height="12" uuid="8965b8bd-ef8a-4d4d-8b65-2967c771a95c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="82" width="100" height="17" uuid="6c21a5d7-3b10-4b72-a6e6-8fe629d37f1a"/>
+				<reportElement x="200" y="80" width="100" height="12" uuid="6c21a5d7-3b10-4b72-a6e6-8fe629d37f1a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_final}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="82" width="23" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<reportElement x="20" y="80" width="23" height="12" uuid="371a0527-545a-42d0-91c7-14512988beba">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[De:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="140" y="82" width="40" height="20" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
+				<reportElement x="150" y="80" width="40" height="12" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Hasta: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="164" y="19" width="227" height="30" forecolor="#054A82" uuid="36c45f36-079f-4a5b-928b-6b92fb12f06e"/>
+				<reportElement x="183" y="19" width="227" height="30" forecolor="#054A82" uuid="36c45f36-079f-4a5b-928b-6b92fb12f06e"/>
 				<textElement textAlignment="Center">
 					<font size="19" isBold="true"/>
 				</textElement>
@@ -90,6 +113,24 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 				</textElement>
 				<text><![CDATA[IMCOMEN]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="390" y="80" width="100" height="12" uuid="19edd3da-bd71-439a-9912-df6edd0b7e39">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_lugar}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="340" y="80" width="40" height="12" uuid="759f208d-2fc6-4c89-a0ac-1ee1486fb156">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar: ]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -98,7 +139,7 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
 			<staticText>
-				<reportElement x="20" y="0" width="100" height="15" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0">
+				<reportElement x="38" y="0" width="100" height="15" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -107,7 +148,7 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 				<text><![CDATA[Descripcion]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="260" y="0" width="100" height="15" uuid="27677860-54a2-4bf1-b312-4714525cb94f">
+				<reportElement x="278" y="0" width="100" height="15" uuid="27677860-54a2-4bf1-b312-4714525cb94f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -116,7 +157,7 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="200" y="0" width="50" height="15" uuid="286a0036-d861-406c-b10f-390353cf8546">
+				<reportElement x="218" y="0" width="50" height="15" uuid="286a0036-d861-406c-b10f-390353cf8546">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -125,7 +166,7 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 				<text><![CDATA[simbolo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="3" width="100" height="15" uuid="86316072-e767-4944-8131-f6ccafcc08bb">
+				<reportElement x="418" y="3" width="100" height="15" uuid="86316072-e767-4944-8131-f6ccafcc08bb">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -134,7 +175,7 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 				<text><![CDATA[Valor Total]]></text>
 			</staticText>
 			<line>
-				<reportElement x="10" y="15" width="500" height="1" uuid="7ede5aa5-745e-4c04-ba00-95ca928f62cf">
+				<reportElement x="28" y="15" width="500" height="1" uuid="7ede5aa5-745e-4c04-ba00-95ca928f62cf">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 			</line>
@@ -143,32 +184,32 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="20" y="0" width="170" height="20" uuid="fae567d6-af53-44f1-8def-51ccb6d17004"/>
+				<reportElement x="38" y="0" width="170" height="20" uuid="fae567d6-af53-44f1-8def-51ccb6d17004"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="260" y="0" width="100" height="20" uuid="de8f90d0-761c-4db6-a7d6-c8673d7915c7"/>
+				<reportElement x="278" y="0" width="100" height="20" uuid="de8f90d0-761c-4db6-a7d6-c8673d7915c7"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="200" y="0" width="50" height="20" uuid="79dc8161-b60e-440a-86f9-d2d5072d03fd"/>
+				<reportElement x="218" y="0" width="50" height="20" uuid="79dc8161-b60e-440a-86f9-d2d5072d03fd"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{simbolo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="400" y="0" width="100" height="20" uuid="b92a662d-2e25-4f56-a05a-c32361cd8b2a"/>
+				<reportElement x="418" y="0" width="100" height="20" uuid="b92a662d-2e25-4f56-a05a-c32361cd8b2a"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{valor_total_producto})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{valor_total_producto})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -178,7 +219,7 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 	<pageFooter>
 		<band height="30" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
-				<reportElement x="0" y="10" width="210" height="20" uuid="8edc4cdb-2606-417f-b0ee-96d5518ca163"/>
+				<reportElement x="29" y="10" width="210" height="20" uuid="8edc4cdb-2606-417f-b0ee-96d5518ca163"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
@@ -186,12 +227,12 @@ Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
 	<summary>
 		<band height="54">
 			<line>
-				<reportElement x="10" y="1" width="500" height="1" uuid="ade9cde8-eb07-4b72-af75-1a60f708556a">
+				<reportElement x="28" y="1" width="500" height="1" uuid="ade9cde8-eb07-4b72-af75-1a60f708556a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 			</line>
 			<textField>
-				<reportElement x="400" y="10" width="100" height="30" uuid="8a3af12e-eaf1-4834-b8bf-6836d4584063"/>
+				<reportElement x="418" y="10" width="100" height="30" uuid="8a3af12e-eaf1-4834-b8bf-6836d4584063"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($V{valorTotalProducto1})]]></textFieldExpression>
 			</textField>

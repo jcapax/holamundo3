@@ -2,17 +2,21 @@
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="266"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="723"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="almacenes"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<parameter name="fecha_inicio" class="java.lang.String"/>
 	<parameter name="fecha_final" class="java.lang.String"/>
+	<parameter name="id_lugar" class="java.lang.Short"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT *
 FROM v_caja
-where fecha_caja BETWEEN $P{fecha_inicio} AND $P{fecha_final}]]>
+where fecha_caja BETWEEN $P{fecha_inicio} AND $P{fecha_final}
+	AND id_lugar = $P{id_lugar}]]>
 	</queryString>
 	<field name="id_transaccion" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="id_transaccion"/>
@@ -42,6 +46,14 @@ where fecha_caja BETWEEN $P{fecha_inicio} AND $P{fecha_final}]]>
 		<property name="com.jaspersoft.studio.field.label" value="id_arqueo"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="v_caja"/>
 	</field>
+	<field name="id_lugar" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_caja"/>
+	</field>
+	<field name="nombre_lugar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_caja"/>
+	</field>
 	<variable name="importeCaja1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{importe_caja}]]></variableExpression>
 	</variable>
@@ -51,29 +63,37 @@ where fecha_caja BETWEEN $P{fecha_inicio} AND $P{fecha_final}]]>
 	<title>
 		<band height="122" splitType="Stretch">
 			<textField>
-				<reportElement x="40" y="102" width="80" height="17" uuid="8965b8bd-ef8a-4d4d-8b65-2967c771a95c"/>
+				<reportElement x="40" y="95" width="80" height="12" uuid="8965b8bd-ef8a-4d4d-8b65-2967c771a95c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="102" width="100" height="17" uuid="6c21a5d7-3b10-4b72-a6e6-8fe629d37f1a"/>
+				<reportElement x="190" y="95" width="100" height="12" uuid="6c21a5d7-3b10-4b72-a6e6-8fe629d37f1a"/>
 				<textElement>
-					<font size="8"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_final}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="102" width="23" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<reportElement x="10" y="95" width="23" height="12" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[De:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="140" y="102" width="40" height="20" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
+				<reportElement x="140" y="95" width="40" height="12" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Hasta: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="167" y="20" width="260" height="30" forecolor="#054A82" uuid="f9507767-2bcd-4a3f-99e9-82bccc6746c5"/>
+				<reportElement x="109" y="50" width="341" height="30" forecolor="#054A82" uuid="f9507767-2bcd-4a3f-99e9-82bccc6746c5"/>
 				<textElement textAlignment="Center">
 					<font size="19" isBold="true"/>
 				</textElement>
@@ -101,6 +121,24 @@ where fecha_caja BETWEEN $P{fecha_inicio} AND $P{fecha_final}]]>
 Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
 Telf.: 64-69233   Cel.: 75779259   *   75777126 
 Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="390" y="95" width="100" height="12" uuid="a84b8ab8-d4ad-493f-a60d-d6ff866b8bcf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_lugar}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="340" y="95" width="40" height="12" uuid="ced29fb1-710e-4067-9b8d-51b02edf0d32">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar: ]]></text>
 			</staticText>
 		</band>
 	</title>

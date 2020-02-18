@@ -40,7 +40,7 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         super(_parent, _modal);
         this.parent = _parent;
         initComponents();
-        llenarComboLugar();
+        
         this.connectionDB = _connectionDB;
         this.idUsuario = _idUsuario;
         this.modal = _modal;
@@ -56,6 +56,7 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
                 this.setTitle("Reporte Tres");
                 break;
         }
+        llenarComboLugar();
     }
 
     /**
