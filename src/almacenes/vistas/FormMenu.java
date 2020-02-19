@@ -143,6 +143,9 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator13 = new javax.swing.JPopupMenu.Separator();
         jmenuCliente = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jmenuIngresos = new javax.swing.JMenuItem();
+        jmenuEgresos = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
         jMenuMarcas = new javax.swing.JMenuItem();
         jMenuProcedencia = new javax.swing.JMenuItem();
@@ -156,8 +159,6 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuSucursal = new javax.swing.JMenuItem();
         jMenuAdministracion = new javax.swing.JMenu();
         jMenuStockInicial = new javax.swing.JMenuItem();
-        jmenuIngresos = new javax.swing.JMenuItem();
-        jmenuEgresos = new javax.swing.JMenuItem();
         jmenuUsers = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         jmenuDosificacion = new javax.swing.JMenuItem();
@@ -453,6 +454,28 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setText("Otros");
+
+        jmenuIngresos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ingreso.png"))); // NOI18N
+        jmenuIngresos.setText("Ingresos");
+        jmenuIngresos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuIngresosActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmenuIngresos);
+
+        jmenuEgresos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salida.png"))); // NOI18N
+        jmenuEgresos.setText("Egresos");
+        jmenuEgresos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuEgresosActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmenuEgresos);
+
+        jMenuBar1.add(jMenu3);
+
         jMenuConfiguracion.setText("Configuración");
 
         jMenuMarcas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/marca.png"))); // NOI18N
@@ -549,24 +572,6 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuAdministracion.add(jMenuStockInicial);
-
-        jmenuIngresos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ingreso.png"))); // NOI18N
-        jmenuIngresos.setText("Ingresos");
-        jmenuIngresos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuIngresosActionPerformed(evt);
-            }
-        });
-        jMenuAdministracion.add(jmenuIngresos);
-
-        jmenuEgresos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salida.png"))); // NOI18N
-        jmenuEgresos.setText("Egresos");
-        jmenuEgresos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuEgresosActionPerformed(evt);
-            }
-        });
-        jMenuAdministracion.add(jmenuEgresos);
 
         jmenuUsers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/add-user-icon.png"))); // NOI18N
         jmenuUsers.setText("Usuarios");
@@ -1134,6 +1139,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenuAdministracion;
     private javax.swing.JMenu jMenuArchivo;
     private javax.swing.JMenu jMenuAyuda;
