@@ -11,7 +11,7 @@
 	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<parameter name="fecha_inicio" class="java.lang.String"/>
 	<parameter name="fecha_final" class="java.lang.String"/>
-	<parameter name="id_lugar" class="java.lang.Short"/>
+	<parameter name="id_lugar" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT *
 FROM v_caja

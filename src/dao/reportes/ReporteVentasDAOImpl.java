@@ -40,7 +40,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
         dateFormat = new SimpleDateFormat("HH:mm:ss");
         parametros.put("hora_reporte", dateFormat.format(cal.getTime()));
         
-        parametros.put("id_lugar", idLugar);
+        parametros.put("id_lugar", Integer.valueOf(idLugar));
         parametros.put("fecha_inicio", fechaInicial);
         parametros.put("fecha_final", fechaFinal);
         parametros.put("nombreLogo", "logo_reporte.png");        
@@ -58,7 +58,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         
-        parametros.put("id_lugar", idLugar);
+        parametros.put("id_lugar", Integer.valueOf(idLugar));
         parametros.put("fecha_inicio", df.format(fechaInicial));
         parametros.put("fecha_final", df.format(fechaFinal));
 //        parametros.put("nombreLogo", "logo_reporte.png");        
@@ -114,7 +114,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         
-        parametros.put("id_lugar", idLugar);
+        parametros.put("id_lugar", Integer.valueOf(idLugar));
         parametros.put("fecha_inicio", df.format(fechaInicial));
         parametros.put("fecha_final", df.format(fechaFinal));
 //        parametros.put("nombreLogo", "logo_reporte.png");        
@@ -126,7 +126,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     public void stockProductosLugar(int idLugar) {
         Map parametros = new HashMap<>();
         
-        parametros.put("id_lugar", idLugar);
+        parametros.put("id_lugar", Integer.valueOf(idLugar));
         
         this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_lugar.jrxml", parametros);
 //        this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_lugar.jasper", parametros);
