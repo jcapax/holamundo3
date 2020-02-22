@@ -21,6 +21,8 @@ import dao.IngresoEgresoDAO;
 import dao.IngresoEgresoDAOImpl;
 import dao.TransaccionDAO;
 import dao.TransaccionDAOImpl;
+import dao.reportes.ReporteIngresosEgresosDAO;
+import dao.reportes.ReportesIngresosEgresosDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -290,6 +292,7 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtListaIngresosEgresos = new javax.swing.JTable();
         jbEliminar = new javax.swing.JButton();
+        jbImprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -433,6 +436,14 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
             }
         });
 
+        jbImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/print.png"))); // NOI18N
+        jbImprimir.setText("Imprimir");
+        jbImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -441,20 +452,6 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDateFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbBuscar)))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -485,7 +482,23 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jtxtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jbGuardar)))))))
+                                        .addComponent(jbGuardar))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDateFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbBuscar)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbImprimir)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -496,7 +509,9 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jDateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbBuscar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbBuscar)
+                        .addComponent(jbImprimir))
                     .addComponent(jDateFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
@@ -536,6 +551,7 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         registrarIngresoEgreso();
         llenarIngresosEgresos();
+        jtxtCuenta.setText("");
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -571,6 +587,18 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     private void jtCuentasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtCuentasKeyReleased
         seleccionarCuenta();
     }//GEN-LAST:event_jtCuentasKeyReleased
+
+    private void jbImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImprimirActionPerformed
+        IngresoEgresoDAO ieDAO = new IngresoEgresoDAOImpl(connectionDB);
+        ieDAO.createTemporalIngresosEgresos();
+        
+        String fechaInicio = String.valueOf(new Date(jDateFechaInicio.getDate().getTime()));
+        String fechaFinal = String.valueOf(new Date(jDateFechaFin.getDate().getTime()));
+        ieDAO.insertarIngresosEgresos(idTipoTransaccion, 
+                fechaInicio, fechaFinal, usuario);
+        ReporteIngresosEgresosDAO reporte = new ReportesIngresosEgresosDAOImpl(connectionDB, usuario);
+        reporte.vistaPreviaReporte(fechaInicio, fechaFinal);
+    }//GEN-LAST:event_jbImprimirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -622,6 +650,7 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     private javax.swing.JButton jbBuscar;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
+    private javax.swing.JButton jbImprimir;
     private javax.swing.JButton jbNuevaCuenta;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JTable jtCuentas;

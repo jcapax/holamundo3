@@ -154,5 +154,56 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
         
         return aux;
     }
+
+    @Override
+    public void createTemporalIngresosEgresos() {
+        String sql_temp = "CREATE TEMPORARY TABLE IF NOT EXISTS temp_ingresos_egresos(\n" +
+                                "    descripcion_tipo_transaccion varchar(100),\n" +
+                                "    fecha                       varchar(100),\n" +
+                                "    valor_total                 decimal(12,2),\n" +
+                                "    usuario                     varchar(100),\n" +
+                                "    descripcion_ingreso_egreso  varchar(200),\n" +                
+                                "    cuenta                      varchar(100)\n" +
+                                ");"; 
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql_temp);
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void insertarIngresosEgresos(int idTipoTransaccion, String fechaInicio, String fechaFin, String usuario) {
+        String sql = "SELECT t.descripcion_tipo_transaccion, t.fecha, \n" +
+                    "t.valor_total, t.usuario, \n" +
+                    "t.descripcion_transaccion as descripcion_ingreso_egreso, \n" +
+                    "d.descripcion as cuenta \n" +
+                "FROM v_transaccion t JOIN v_detalle_transaccion d on t.id = d.id_transaccion \n" +
+                "WHERE t.id_tipo_transaccion = " +idTipoTransaccion +
+                    " AND t.fecha BETWEEN '"+fechaInicio+"' and '"+fechaFin+"'\n" +
+                    " AND usuario = '"+usuario+"'"; 
+        System.out.println(sql);
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                String sql_ins = "INSERT INTO temp_ingresos_egresos(descripcion_tipo_transaccion, "
+                        + "fecha, valor_total, usuario, descripcion_ingreso_egreso, cuenta) "
+                        + "VALUES(?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps_ins = connectionDB.prepareStatement(sql_ins);
+                ps_ins.setString(1, rs.getString("descripcion_tipo_transaccion"));
+                ps_ins.setString(2, rs.getString("fecha"));
+                ps_ins.setDouble(3, rs.getDouble("valor_total"));
+                ps_ins.setString(4, rs.getString("usuario"));
+                ps_ins.setString(5, rs.getString("descripcion_ingreso_egreso"));
+                ps_ins.setString(6, rs.getString("cuenta"));                
+                ps_ins.execute();
+                       
+            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(TemporalDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

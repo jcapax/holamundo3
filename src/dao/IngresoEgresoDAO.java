@@ -21,4 +21,7 @@ public interface IngresoEgresoDAO {
     public void eliminarIngresoEgreso(int idTransaccion);
     public boolean isIngresoEgresoAbierto(int idTransaccion);
     
+    public void createTemporalIngresosEgresos();
+    public void insertarIngresosEgresos(int idTipoTransaccion, String fechaInicio, String fechaFin, String usuario);
+    
 }
