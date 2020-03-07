@@ -6,6 +6,7 @@
 package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
+import dao.ArqueoDAO;
 import dao.ArqueoDAOImpl;
 import dao.reportes.ReporteVentasDAO;
 import dao.reportes.ReporteVentasDAOImpl;
@@ -25,6 +26,7 @@ public class FormArqueoCaja extends javax.swing.JFrame {
     private byte idLugar;
     private byte idTerminal;
     private String usuario;
+    private ArqueoDAO arqueoDAO;
 
     
     public FormArqueoCaja(Connection connectionDB, String usuario, byte idLugar, byte idTerminal) {
@@ -50,11 +52,11 @@ public class FormArqueoCaja extends javax.swing.JFrame {
     }
     
     public void cajaInicial(){
-        ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
+        arqueoDAO = new ArqueoDAOImpl(connectionDB);
                 
-        int idArqueo = arq.getIdArqueo(idLugar, idTerminal, usuario);
+        int idArqueo = arqueoDAO.getIdArqueo(idLugar, idTerminal, usuario);
         
-        double cajaIni = arq.getCajaInicial(idArqueo);
+        double cajaIni = arqueoDAO.getCajaInicial(idArqueo);
         double impXuser = 0;
         
         double xArqueo = 0;
@@ -69,10 +71,10 @@ public class FormArqueoCaja extends javax.swing.JFrame {
         
         ArrayList<Integer> lTrans = new ArrayList<>(); 
         
-        lTrans = arq.getListaTransaccionArqueoPorUsuarioMaquina(idLugar, idTerminal, usuario);
+        lTrans = arqueoDAO.getListaTransaccionArqueoPorUsuarioMaquina(idLugar, idTerminal, usuario);
         
 //        impXuser = arq.getImportePorArqueoUsuarioMaquina(lTrans);
-        impXuser = arq.getImportePorArqueoUsuarioMaquina(idLugar, idTerminal, usuario);
+        impXuser = arqueoDAO.getImportePorArqueoUsuarioMaquina(idLugar, idTerminal, usuario);
         
         xArqueo = impXuser + cajaIni;
         
@@ -82,7 +84,6 @@ public class FormArqueoCaja extends javax.swing.JFrame {
     }
     
     public void importeArqueo(){
-        ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
         double importeA = 0;
                 
 //        ArrayList<Integer> lTrans = new ArrayList<>(); 
@@ -91,7 +92,7 @@ public class FormArqueoCaja extends javax.swing.JFrame {
         
 //        jlImporteArque.setText(String.valueOf(arq.getImportePorArqueoUsuarioMaquina(lTrans)));
 
-        importeA = arq.getImportePorArqueoUsuarioMaquina(idLugar, idTerminal, usuario);
+        importeA = arqueoDAO.getImportePorArqueoUsuarioMaquina(idLugar, idTerminal, usuario);
         jlImporteArque.setText(String.valueOf(importeA));
         
         jlImporteArque.setVisible(false);

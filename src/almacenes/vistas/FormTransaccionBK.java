@@ -1578,11 +1578,11 @@ public class FormTransaccionBK extends javax.swing.JFrame {
     private void jbTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransaccionActionPerformed
     
         boolean shift = false;
-        /*
-        if((evt.getModifiers() & InputEvent.SHIFT_MASK)!=0){
-            shift = true;
-        }
-        */
+//        
+//        if((evt.getModifiers() & InputEvent.SHIFT_MASK)!=0){
+//            shift = true;
+//        }
+        
         
         SucursalDAO suc = new SucursalDAOImpl(connectionDB);
         byte idSucursal = suc.getIdSucursal(idLugar);

@@ -47,7 +47,7 @@ public class FormCajaInicial extends javax.swing.JFrame {
         
         double cajaIni = arq.getCajaInicial(idArqueo);
         
-        if(cajaIni >= 0){
+        if(cajaIni > 0){
             jtxtCajaInicial.setText(String.valueOf(cajaIni));
             jtxtCajaInicial.setEnabled(false);
             btnGuardar.setVisible(false);
