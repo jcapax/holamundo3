@@ -82,32 +82,33 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
     }
 
     public void llenarTablaAnularTransaccion() {
-        AnularTransaccionDAO rub = new AnularTransaccionDAOImpl(connectionDB);
+        AnularTransaccionDAO anularTransaccionDAO = new AnularTransaccionDAOImpl(connectionDB);
 
-        ArrayList<AnularTransaccion> r = new ArrayList<AnularTransaccion>();
+        ArrayList<AnularTransaccion> lista = new ArrayList<>();
 
         byte idTipoTransaccion = 2;
-        r = rub.getListaTransaccionesAnular(idTipoTransaccion, usuario);
+        lista = anularTransaccionDAO.getListaTransaccionesAnular(idTipoTransaccion, usuario);
 
         dtm = (DefaultTableModel) this.jtAnularComprobante.getModel();
         dtm.setRowCount(0);
 
         jtAnularComprobante.setModel(dtm);
 
-        Object[] fila = new Object[11];
+        Object[] fila = new Object[12];
 
-        for (int i = 0; i < r.size(); i++) {
-            fila[0] = r.get(i).getIdEntregaTransaccion();
-            fila[1] = r.get(i).getIdTransaccion();
-            fila[2] = r.get(i).getNombreTransaccion();
-            fila[3] = r.get(i).getNombreLugar();
-            fila[4] = r.get(i).getNombreTerminal();
-            fila[5] = r.get(i).getUsuario();
-            fila[6] = r.get(i).getFecha();
-            fila[7] = r.get(i).getValorTotal();
-            fila[8] = r.get(i).getNroFactura();
-            fila[9] = r.get(i).getNit();
-            fila[10] = r.get(i).getRazonSocial();
+        for (int i = 0; i < lista.size(); i++) {
+            fila[0] = lista.get(i).getIdEntregaTransaccion();
+            fila[1] = lista.get(i).getIdTransaccion();
+            fila[2] = lista.get(i).getNroTipoTransaccion();
+            fila[3] = lista.get(i).getNombreTransaccion();
+            fila[4] = lista.get(i).getNombreLugar();
+            fila[5] = lista.get(i).getNombreTerminal();
+            fila[6] = lista.get(i).getUsuario();
+            fila[7] = lista.get(i).getFecha();
+            fila[8] = lista.get(i).getValorTotal();
+            fila[9] = lista.get(i).getNroFactura();
+            fila[10] = lista.get(i).getNit();
+            fila[11] = lista.get(i).getRazonSocial();
            
             dtm.addRow(fila);
         }
@@ -152,14 +153,14 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idTransaccionEntrega", "idEntrega", "Tipo", "Lugar", "Terminal", "Usuario", "Fecha", "ValorTotal", "nroFactura", "nit", "razon social"
+                "idTransaccionEntrega", "idEntrega", "NroTipoTrans.", "Tipo", "Lugar", "Terminal", "Usuario", "Fecha", "ValorTotal", "nroFactura", "nit", "razon social"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, true, false, true, true
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -188,9 +189,9 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             jtAnularComprobante.getColumnModel().getColumn(1).setMinWidth(0);
             jtAnularComprobante.getColumnModel().getColumn(1).setPreferredWidth(0);
             jtAnularComprobante.getColumnModel().getColumn(1).setMaxWidth(0);
-            jtAnularComprobante.getColumnModel().getColumn(6).setMinWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(6).setPreferredWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(6).setMaxWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(2).setMinWidth(65);
+            jtAnularComprobante.getColumnModel().getColumn(2).setPreferredWidth(65);
+            jtAnularComprobante.getColumnModel().getColumn(2).setMaxWidth(65);
             jtAnularComprobante.getColumnModel().getColumn(7).setMinWidth(100);
             jtAnularComprobante.getColumnModel().getColumn(7).setPreferredWidth(100);
             jtAnularComprobante.getColumnModel().getColumn(7).setMaxWidth(100);
@@ -200,9 +201,12 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             jtAnularComprobante.getColumnModel().getColumn(9).setMinWidth(100);
             jtAnularComprobante.getColumnModel().getColumn(9).setPreferredWidth(100);
             jtAnularComprobante.getColumnModel().getColumn(9).setMaxWidth(100);
-            jtAnularComprobante.getColumnModel().getColumn(10).setMinWidth(250);
-            jtAnularComprobante.getColumnModel().getColumn(10).setPreferredWidth(250);
-            jtAnularComprobante.getColumnModel().getColumn(10).setMaxWidth(250);
+            jtAnularComprobante.getColumnModel().getColumn(10).setMinWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(10).setPreferredWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(10).setMaxWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(11).setMinWidth(250);
+            jtAnularComprobante.getColumnModel().getColumn(11).setPreferredWidth(250);
+            jtAnularComprobante.getColumnModel().getColumn(11).setMaxWidth(250);
         }
 
         btnAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -262,7 +266,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
                         .addComponent(btnAnular)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1150, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jlTituloFormulario)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -270,7 +274,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jlTituloFormulario1, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+                    .addComponent(jlTituloFormulario1, javax.swing.GroupLayout.DEFAULT_SIZE, 1150, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(

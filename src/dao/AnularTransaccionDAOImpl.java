@@ -70,11 +70,12 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO {
             String aux = "";
             if (rol != 1) {
                 aux = "Where datediff(now(), t.fecha) <= '"+ String.valueOf(nro)+"' "
-                        + "and t.estado <> 'N' and t.usuario = '"+usuario+"' ORDER by t.id desc";
+                        + "and t.estado <> 'N' and t.usuario = '"+usuario+
+                        "' ORDER by t.nro_tipo_transaccion, t.id_tipo_transaccion";
                 sql = sql.concat(aux);
             }else{
                 aux = "Where datediff(now(), t.fecha) <= '"+ String.valueOf(nro)+"' "
-                        + "and t.estado <> 'N' ORDER by t.id desc";
+                        + "and t.estado <> 'N' ORDER by t.nro_tipo_transaccion and t.id_tipo_transaccion";
                 sql = sql.concat(aux);
             }
             
