@@ -64,3 +64,20 @@ BEGIN
     END IF;
 	RETURN detalle; 
 END $$
+
+*********************************************
+*********************************************
+drop view v_entrega_productos;
+
+create view v_entrega_productos
+AS
+
+select tr.id AS id_transaccion,tr.fecha AS fecha,tr.usuario AS usuario,dt.id_producto AS id_producto, pr.descripcion AS nombre_producto,um.id AS id_unidad_medida, um.descripcion AS nombre_unidad_mendida,dt.cantidad AS cantidad, e.nro_entrega AS nro_entrega,e.id_transaccion AS id_transaccion_entrega 
+from transaccion tr 
+    join detalle_transaccion dt on tr.id = dt.id_transaccion 
+    join producto pr on dt.id_producto = pr.id 
+    join unidad_producto up on up.id_producto = pr.id and up.id_unidad_medida = dt.id_unidad_medida
+    join unidad_medida um on um.id = up.id_unidad_medida 
+    join entrega_transaccion e on tr.id = e.id_entrega_transaccion 
+where tr.id_tipo_transaccion = 8 and tr.estado <> 'N' 
+order by tr.id

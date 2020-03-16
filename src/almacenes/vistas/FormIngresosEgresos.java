@@ -549,6 +549,8 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        jDateFechaInicio.setDate(new java.util.Date());
+        jDateFechaFin.setDate(new java.util.Date());        
         registrarIngresoEgreso();
         llenarIngresosEgresos();
         jtxtCuenta.setText("");

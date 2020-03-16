@@ -66,13 +66,18 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
         int filSel = jtAnularComprobante.getSelectedRow();
 
         if (filSel != -1) {
-
+            byte idTipoTransaccion = (byte) jtAnularComprobante.getValueAt(filSel, 12);
             idEntregaTransaccion = (int) jtAnularComprobante.getValueAt(filSel, 0);
             idTransaccion = (int) jtAnularComprobante.getValueAt(filSel, 1);
-
             anuTrans.anularCaja(idTransaccion);
             anuTrans.anularFactura(idTransaccion);
-            anuTrans.anularTrans(idTransaccion, idEntregaTransaccion);
+            if(idTipoTransaccion != 9 ){                
+                anuTrans.anularTrans(idTransaccion, idEntregaTransaccion);
+            }else{                
+                anuTrans.anularTrans(idTransaccion);
+            }
+
+            
             
             JOptionPane.showMessageDialog(this, "Transaccion Anulada");
             
@@ -94,7 +99,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
         jtAnularComprobante.setModel(dtm);
 
-        Object[] fila = new Object[12];
+        Object[] fila = new Object[13];
 
         for (int i = 0; i < lista.size(); i++) {
             fila[0] = lista.get(i).getIdEntregaTransaccion();
@@ -109,6 +114,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             fila[9] = lista.get(i).getNroFactura();
             fila[10] = lista.get(i).getNit();
             fila[11] = lista.get(i).getRazonSocial();
+            fila[12] = lista.get(i).getIdTipoTransaccion();
            
             dtm.addRow(fila);
         }
@@ -153,14 +159,14 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idTransaccionEntrega", "idEntrega", "NroTipoTrans.", "Tipo", "Lugar", "Terminal", "Usuario", "Fecha", "ValorTotal", "nroFactura", "nit", "razon social"
+                "idTransaccionEntrega", "idEntrega", "NroTipoTrans.", "Tipo", "Lugar", "Terminal", "Usuario", "Fecha", "ValorTotal", "nroFactura", "nit", "razon social", "idTipoTransaccion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -207,6 +213,9 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             jtAnularComprobante.getColumnModel().getColumn(11).setMinWidth(250);
             jtAnularComprobante.getColumnModel().getColumn(11).setPreferredWidth(250);
             jtAnularComprobante.getColumnModel().getColumn(11).setMaxWidth(250);
+            jtAnularComprobante.getColumnModel().getColumn(12).setMinWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(12).setPreferredWidth(100);
+            jtAnularComprobante.getColumnModel().getColumn(12).setMaxWidth(100);
         }
 
         btnAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N

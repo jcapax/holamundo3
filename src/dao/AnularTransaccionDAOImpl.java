@@ -162,4 +162,35 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO {
         }
     }
 
+    @Override
+    public void anularTrans(int idTransaccion) {
+        
+        String sql_entrega = "Select id_entrega_transaccion From entrega_transaccion Where id_transaccion = "+idTransaccion;
+        System.out.println(sql_entrega);
+        String sql;
+        try {
+            PreparedStatement ps_ent = connectionDB.prepareStatement(sql_entrega);
+            ResultSet rs_entr = ps_ent.executeQuery();
+            PreparedStatement ps;
+            while(rs_entr.next()){
+                sql = "update transaccion set estado = 'N' "
+                + "where id in(?)";
+
+                ps = connectionDB.prepareStatement(sql);
+                ps.setInt(1, rs_entr.getInt("id_entrega_transaccion"));            
+                ps.executeUpdate();                
+            }
+                sql = "update transaccion set estado = 'N' "
+                + "where id in(?)";
+
+                ps = connectionDB.prepareStatement(sql);
+                ps.setInt(1, idTransaccion);            
+                ps.executeUpdate();                
+        } catch (SQLException ex) {
+            Logger.getLogger(AnularTransaccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         
+    }
+
 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public interface AnularTransaccionDAO {
     public ArrayList<AnularTransaccion> getListaTransaccionesAnular(byte idTipoTransaccion, String usuario);
     public void anularTrans(int idTransaccion, int idEntregaTransaccion);
+    public void anularTrans(int idTransaccion);
     public void anularFactura(int idTransaccion);
     public void anularCaja(int idTransaccion);
     

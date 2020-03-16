@@ -308,6 +308,11 @@ public class FormDesempaque extends javax.swing.JFrame {
             aux = false;
         }
         
+        if(jlIdUnidadMedidaFinal.getText().equals(jlIdUnidadMedidaInicio.getText())){
+            JOptionPane.showMessageDialog( null, "Las unidades deben ser diferente!!!" , "Error", JOptionPane.ERROR_MESSAGE);
+            aux = false;
+        }
+        
         if(aux){
             jbDesempacar.setEnabled(false);
             desempacar();
