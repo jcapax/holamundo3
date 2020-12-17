@@ -27,19 +27,21 @@ public class FormUnidadProducto extends javax.swing.JFrame {
     DefaultTableModel dtm;
     String nombreProducto;
     String usuario;
+    private byte idLugar;
     
     public FormUnidadProducto() {
         initComponents();
 
     }
 
-    public FormUnidadProducto(Connection connectionDB, int idProducto, String nombreProducto, String usuario) {
+    public FormUnidadProducto(Connection connectionDB, int idProducto, String nombreProducto, String usuario, byte idLugar) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
         this.nombreProducto = nombreProducto;
         this.usuario = usuario;
+        this.idLugar = idLugar;
         
         headerTabla();
         
@@ -292,6 +294,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         unidadProducto.setCodigoAdjunto(codigoAdjunto);
         unidadProducto.setCantidad(cantidad);
         unidadProducto.setDescuento(descuento);
+        unidadProducto.setIdLugar(idLugar);
 
         UnidadProductoDAOImlp uProdDAOImpl = new UnidadProductoDAOImlp(connectionDB);
         

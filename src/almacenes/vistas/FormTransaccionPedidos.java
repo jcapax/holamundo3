@@ -519,7 +519,7 @@ public class FormTransaccionPedidos extends javax.swing.JFrame {
 
         ArrayList<ListaProductos> lProd = new ArrayList<ListaProductos>();
 
-        lProd = productoDAO.getListaProductosVenta(criterio);
+        lProd = productoDAO.getListaProductosVenta(criterio, idLugar);
 
         dtm = (DefaultTableModel) this.jtProductos.getModel();
         dtm.setRowCount(0);

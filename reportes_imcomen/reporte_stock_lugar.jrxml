@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_stock_lugar" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f4bdf3cc-08a4-4ca6-a162-43994a48b150">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dismebol"/>
@@ -10,7 +10,7 @@
 		<![CDATA[SELECT p.descripcion, p.nombre_unidad_medida, s.stock, l.descripcion nombre_lugar
 FROM v_stock s
 	JOIN lugar l ON s.id_lugar = l.id
-	JOIN v_productos p ON p.id_producto = s.id_producto 
+	JOIN v_productos_lugar p ON p.id_producto = s.id_producto 
 		AND p.id_unidad_medida = s.id_unidad_medida
 WHERE l.id = $P{id_lugar}
 ORDER BY s.stock]]>
@@ -79,9 +79,9 @@ ORDER BY s.stock]]>
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[IMPORTADORA COMERCIAL MENDOZA 
-Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
-Telf.: 64-69233   Cel.: 75779259   *   75777126 
-Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
+Dir. Av. Balnco Galindo Nro 1378 Km 1.5 acera norte
+Cel.: 75777126 * 69499798 * 77984932 * 78370589
+Cochabamba - Bolivia]]></text>
 			</staticText>
 		</band>
 	</title>

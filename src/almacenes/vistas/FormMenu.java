@@ -765,7 +765,7 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuUnidadMedidaActionPerformed
 
     private void jMenuProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProductosActionPerformed
-        FormProducto fprod = new FormProducto(connectionDB, idUsuario);
+        FormProducto fprod = new FormProducto(connectionDB, idUsuario, idLugar);
         fprod.setVisible(true);
     }//GEN-LAST:event_jMenuProductosActionPerformed
 

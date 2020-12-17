@@ -31,7 +31,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     
     @Override
     public ArrayList<UnidadProducto> getListaUnidadProducto(int idProducto) {
-        String sql = "SELECT * FROM v_productos WHERE id_producto = " + String.valueOf(idProducto);
+        String sql = "SELECT * FROM v_productos_lugar WHERE id_producto = " + String.valueOf(idProducto);
         
         ArrayList<UnidadProducto> lUnidadProducto = new ArrayList<UnidadProducto>();
         
@@ -56,6 +56,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
                 uProd.setCodigoAdjunto(rs.getString("codigo_adjunto"));
                 uProd.setCantidad(rs.getInt("cantidad"));                
                 uProd.setDescuento(rs.getInt("descuento"));
+                uProd.setIdLugar(rs.getByte("id_lugar"));
+                
                 
                 lUnidadProducto.add(uProd);
             }
@@ -72,8 +74,8 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
         String sql = "INSERT INTO unidad_producto"
                 + "(id_producto, id_unidad_medida, unidad_principal, stock_minimo, precio_venta, "
                 + "precio_venta_rebaja, precio_venta_aumento, precio_compra, actualizacion, "
-                + "usuario, garantia_meses, codigo_adjunto, cantidad, descuento) "
-                + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "usuario, garantia_meses, codigo_adjunto, cantidad, descuento, id_lugar) "
+                + "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -92,6 +94,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ps.setString(12, unidadProducto.getCodigoAdjunto());
             ps.setInt(13, unidadProducto.getCantidad());
             ps.setInt(14, unidadProducto.getDescuento());
+            ps.setByte(15, unidadProducto.getIdLugar());
             
             int n = ps.executeUpdate();
             if (n != 0) {
@@ -182,7 +185,7 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
 
     @Override
     public UnidadProducto getProductoCodigoBarras(String codigoAdjunto) {
-        String sql = "Select * From v_productos Where codigo_adjunto = '"+codigoAdjunto+"'";
+        String sql = "Select * From v_productos_lugar Where codigo_adjunto = '"+codigoAdjunto+"'";
         
        // System.out.println(sql);
         

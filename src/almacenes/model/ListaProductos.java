@@ -31,6 +31,15 @@ public class ListaProductos {
    private double PRECIOCOMPRA;
    private int ACTUALIZACION;
    private String codigoAdjunto;
+   private byte idLugar;
+
+    public byte getIdLugar() {
+        return idLugar;
+    }
+
+    public void setIdLugar(byte idLugar) {
+        this.idLugar = idLugar;
+    }
 
     public String getCodigoAdjunto() {
         return codigoAdjunto;

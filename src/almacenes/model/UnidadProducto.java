@@ -28,6 +28,15 @@ public class UnidadProducto {
     private String nombreProducto;
     private int cantidad;
     private int descuento;
+    private byte idLugar;
+
+    public byte getIdLugar() {
+        return idLugar;
+    }
+
+    public void setIdLugar(byte idLugar) {
+        this.idLugar = idLugar;
+    }
 
     public int getCantidad() {
         return cantidad;

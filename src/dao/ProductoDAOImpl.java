@@ -35,7 +35,7 @@ public class ProductoDAOImpl implements ProductoDAO{
     
     @Override
     public ArrayList<ListaProductos> getListaProductos() {
-        String sql = "SELECT * FROM v_productos";
+        String sql = "SELECT * FROM v_productos_lugar";
         
         ArrayList<ListaProductos> lproducto = new ArrayList<ListaProductos>();
         
@@ -109,8 +109,9 @@ public class ProductoDAOImpl implements ProductoDAO{
     }
 
     @Override
-    public ArrayList<ListaProductos> getListaProductosVenta(String criterio) {
-        String sql = "SELECT * FROM v_productos WHERE estado = 'V' and descripcion like '%"+criterio+"%' "
+    public ArrayList<ListaProductos> getListaProductosVenta(String criterio, byte idLugar) {
+        String sql = "SELECT * FROM v_productos_lugar "
+                + "WHERE estado = 'V' and id_lugar = "+idLugar+" and descripcion like '%"+criterio+"%' "
                 + "and id_unidad_producto is not null";
         
         ArrayList<ListaProductos> lproducto = new ArrayList<ListaProductos>();
@@ -141,6 +142,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 lProd.setRubro(rs.getString("rubro"));
                 lProd.setSTOCKMINIMO(rs.getDouble("stock_minimo"));
                 lProd.setUNIDADPRINCIPAL(rs.getInt("unidad_principal"));
+                lProd.setIdLugar(rs.getByte("id_lugar"));
                 
                 lproducto.add(lProd);
             }
@@ -158,7 +160,7 @@ public class ProductoDAOImpl implements ProductoDAO{
         
         String sql = "SELECT s.id_producto, s.id_unidad_medida, p.descripcion, p.nombre_unidad_medida, s.stock "
                 + "FROM v_stock s"
-                + " JOIN v_productos p ON p.id_producto = s.id_producto"
+                + " JOIN v_productos_lugar p ON p.id_producto = s.id_producto"
                 + "  AND p.id_unidad_medida = s.id_unidad_medida "
                 + "WHERE s.id_lugar = ? and p.descripcion like '%"+criterio+"%'"
                 + " ORDER BY s.stock, p.descripcion";

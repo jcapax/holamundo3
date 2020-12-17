@@ -398,7 +398,7 @@ public class FormTransaccionCompras extends javax.swing.JFrame {
 
         ArrayList<ListaProductos> lProd = new ArrayList<ListaProductos>();
 
-        lProd = prodDAOImpl.getListaProductosVenta(criterio);
+        lProd = prodDAOImpl.getListaProductosVenta(criterio, idLugar);
 
         dtm = (DefaultTableModel) this.jtProductos.getModel();
         dtm.setRowCount(0);

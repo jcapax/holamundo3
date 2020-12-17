@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_compra" pageWidth="612" pageHeight="395" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ec2a521-2bf7-4a8c-a2f6-dbff6cb1b47f">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="almacenes"/>
@@ -51,9 +51,9 @@ FROM temp_ingresos_egresos]]>
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[IMPORTADORA COMERCIAL MENDOZA 
-Dir. Avenida Ostria Gutierrez esq. Reg. Carabineros
-Telf.: 64-69233   Cel.: 75779259   *   75777126 
-Email: jjuan9296@gmail.com - Sucre - Bolivia]]></text>
+Dir. Av. Balnco Galindo Nro 1378 Km 1.5 acera norte
+Cel.: 75777126 * 69499798 * 77984932 * 78370589
+Cochabamba - Bolivia]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="160" y="29" width="260" height="30" forecolor="#054A82" uuid="51bcfa6d-bb48-4a07-a3c7-1ed3d4a82423"/>

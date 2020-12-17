@@ -35,6 +35,7 @@ public class FormProducto extends javax.swing.JFrame {
     private Connection connectionDB;
     private String usuario;
     
+    private byte idLugar;    
     
     public FormProducto() {
         initComponents();
@@ -195,7 +196,7 @@ public class FormProducto extends javax.swing.JFrame {
         llenarTablaProductos();
     }
     
-    public FormProducto(Connection connectionDB, String usuario) {
+    public FormProducto(Connection connectionDB, String usuario, byte idLugar) {
         initComponents();
         this.setLocationRelativeTo(null);
         ljEditar.setVisible(false);
@@ -205,6 +206,7 @@ public class FormProducto extends javax.swing.JFrame {
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
         this.usuario = usuario;
+        this.idLugar = idLugar;
         
         headerTabla();
         
@@ -710,7 +712,7 @@ public class FormProducto extends javax.swing.JFrame {
         int idProducto = (int) jtProductos.getValueAt(filSel, 0);
         String nombreProducto = jtProductos.getValueAt(filSel, 7).toString();
         
-        FormUnidadProducto fUnidadProd = new FormUnidadProducto(connectionDB, idProducto, nombreProducto, usuario);
+        FormUnidadProducto fUnidadProd = new FormUnidadProducto(connectionDB, idProducto, nombreProducto, usuario, idLugar);
         fUnidadProd.setVisible(true);
     }//GEN-LAST:event_jbUnidadProductoActionPerformed
 

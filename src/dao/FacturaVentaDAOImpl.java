@@ -95,7 +95,7 @@ public class FacturaVentaDAOImpl implements FacturaVentaDAO{
     @Override
     public String getLlaveDosificacion(String nroAutorizacion) {
         String llaveDosificacion = null;
-        String sql = "select llave_dosificacion from dosificacion where nro_autorizacion = ?";
+            String sql = "select llave_dosificacion from dosificacion where nro_autorizacion = ?";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

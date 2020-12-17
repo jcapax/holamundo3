@@ -166,7 +166,6 @@ public class AnularTransaccionDAOImpl implements AnularTransaccionDAO {
     public void anularTrans(int idTransaccion) {
         
         String sql_entrega = "Select id_entrega_transaccion From entrega_transaccion Where id_transaccion = "+idTransaccion;
-        System.out.println(sql_entrega);
         String sql;
         try {
             PreparedStatement ps_ent = connectionDB.prepareStatement(sql_entrega);
