@@ -78,7 +78,7 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
     }
     
     @Override
-    public ArrayList<ListaIngresosEgresos> getListIngresosEgresosFechas(int idTipoTransaccion, Date fechaInicio, Date fechaFin) {
+    public ArrayList<ListaIngresosEgresos> getListIngresosEgresosFechas(int idTipoTransaccion, Date fechaInicio, Date fechaFin, byte idLugar) {
         ArrayList<ListaIngresosEgresos> lista = new ArrayList<>();
         
         String sql = "SELECT t.id, id_tipo_transaccion, t.descripcion_tipo_transaccion, t.fecha, t.id_lugar, "
@@ -87,6 +87,7 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
                 + "d.descripcion as cuenta " +
             "FROM v_transaccion t JOIN v_detalle_transaccion d on t.id = d.id_transaccion " +
             "WHERE t.id_tipo_transaccion = "+String.valueOf(idTipoTransaccion)
+                + " and t.id_lugar = " + idLugar
                 + " AND t.fecha BETWEEN '"+String.valueOf(fechaInicio)+"' and '"+String.valueOf(fechaFin)+"'";
         
         
@@ -183,8 +184,11 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
                 "WHERE t.id_tipo_transaccion = " +idTipoTransaccion +
                     " AND t.fecha BETWEEN '"+fechaInicio+"' and '"+fechaFin+"'\n" +
                     " AND usuario = '"+usuario+"'"; 
-        System.out.println(sql);
-        try {
+        try {            
+            String sql_del = "DELETE FROM temp_ingresos_egresos";
+            PreparedStatement ps_del = connectionDB.prepareStatement(sql_del);
+            ps_del.execute();
+            
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public interface IngresoEgresoDAO {
     public ArrayList<IngresoEgreso> getListaCuentasIngresoEgreso(String tipoCuenta);
     public void registrarNuevaCuenta(String nombreCuenta, String idTipoCuenta);
-    public ArrayList<ListaIngresosEgresos> getListIngresosEgresosFechas(int idTipoTransaccion, Date fechaInicio, Date fechaFin);
+    public ArrayList<ListaIngresosEgresos> getListIngresosEgresosFechas(int idTipoTransaccion, Date fechaInicio, Date fechaFin, byte idLugar);
     public void eliminarIngresoEgreso(int idTransaccion);
     public boolean isIngresoEgresoAbierto(int idTransaccion);
     

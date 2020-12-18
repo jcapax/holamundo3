@@ -199,7 +199,8 @@ public class FormIngresosEgresos extends javax.swing.JFrame {
         listaIE = ingresoEgresoDAO.getListIngresosEgresosFechas(
                 idTipoTransaccion, 
                 new Date(jDateFechaInicio.getDate().getTime()), 
-                new Date(jDateFechaFin.getDate().getTime()));
+                new Date(jDateFechaFin.getDate().getTime()),
+                idLugar);
         
         dtm = (DefaultTableModel) this.jtListaIngresosEgresos.getModel();
         dtm.setRowCount(0);
