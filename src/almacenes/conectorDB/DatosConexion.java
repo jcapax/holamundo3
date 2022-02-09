@@ -31,11 +31,11 @@ public class DatosConexion {
     public static final String DEFAULT_PASSWORD = "almacenes_db";
 }
 //*/
-        public class DatosConexion {
+public class DatosConexion {
     public static final String DEFAULT_DRIVER = "org.mariadb.jdbc.Driver";
     public static final String DB_HOST = "sids.com.bo";
     public static final String DB_PORT = "3306";
-    public static final String DB_NAME = "sucre_db_almacenes";
+    public static final String DB_NAME = "dbfarmacia";
     public static final String DEFAULT_URL = "jdbc:mariadb://";
     public static final String DEFAULT_USERNAME = "juanito";
     public static final String DEFAULT_PASSWORD = "Maria-nesta..5";
