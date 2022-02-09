@@ -37,8 +37,8 @@ public class DatosConexion {
     public static final String DB_PORT = "3306";
     public static final String DB_NAME = "sucre_db_almacenes";
     public static final String DEFAULT_URL = "jdbc:mariadb://";
-    public static final String DEFAULT_USERNAME = "sucre_regis";
-    public static final String DEFAULT_PASSWORD = "regis_sucre";
+    public static final String DEFAULT_USERNAME = "juanito";
+    public static final String DEFAULT_PASSWORD = "Maria-nesta..5";
 }
 //
         
