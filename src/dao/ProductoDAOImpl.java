@@ -72,9 +72,14 @@ public class ProductoDAOImpl implements ProductoDAO{
 
     @Override
     public void insertarProducto(Producto producto) {
-        String sqlProd = "insert into "+
-                "producto(id_rubro_producto, id_marca, id_procedencia, descripcion, estado, control_stock, caducidad, usuario) "+
-                "values(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlProd = "INSERT INTO producto ("
+                + "id_laboratorio, id_familia, clase_producto, "
+                + "id_rubro_producto, id_marca, id_procedencia, "
+                + "descripcion, principio_activo, indicaciones, "
+                + "tipo_cuenta, estado, imagen, "
+                + "recargo, control_stock, fecha_hora_registro, "
+                + "usuario, caducidad) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp(), ?, ?)";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sqlProd);
