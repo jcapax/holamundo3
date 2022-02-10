@@ -11,26 +11,18 @@ package almacenes.model;
  */
 public class ListaProductos {
    private int id; 
-   private int idRubroProducto;
-   private String rubro;
-   private int idMarca;
-   private String marca;
-   private int idProcedencia;
-   private String procedencia;
+   private int laboratorio; 
+   private String nombreLaboratorio;
+   private int familia; 
+   private String nombreFamilia;
    private String descripcion;
+   private String principioActivo;
+   private String indicaciones;
    private String estado;
    private int controlStock;
    private int caducidad;
-   private int IDUNIDADMEDIDA;
-   private String nombreUnidadMedida;
-   private int UNIDADPRINCIPAL;
-   private double STOCKMINIMO;
-   private double PRECIOVENTA;
-   private double PRECIOVENTAREBAJA;
-   private double PRECIOVENTAAUMENTO;
-   private double PRECIOCOMPRA;
-   private int ACTUALIZACION;
-   private String codigoAdjunto;
+   
+   private String nombreUnidadMedida;   
    private byte idLugar;
 
     public byte getIdLugar() {
@@ -41,14 +33,6 @@ public class ListaProductos {
         this.idLugar = idLugar;
     }
 
-    public String getCodigoAdjunto() {
-        return codigoAdjunto;
-    }
-
-    public void setCodigoAdjunto(String codigoAdjunto) {
-        this.codigoAdjunto = codigoAdjunto;
-    }
-   
     public int getCaducidad() {
         return caducidad;
     }
@@ -65,52 +49,52 @@ public class ListaProductos {
         this.id = id;
     }
 
-    public int getIdRubroProducto() {
-        return idRubroProducto;
+    public int getLaboratorio() {
+        return laboratorio;
     }
 
-    public void setIdRubroProducto(int idRubroProducto) {
-        this.idRubroProducto = idRubroProducto;
+    public void setLaboratorio(int laboratorio) {
+        this.laboratorio = laboratorio;
     }
 
-    public String getRubro() {
-        return rubro;
+    public String getNombreLaboratorio() {
+        return nombreLaboratorio;
     }
 
-    public void setRubro(String rubro) {
-        this.rubro = rubro;
+    public void setNombreLaboratorio(String nombreLaboratorio) {
+        this.nombreLaboratorio = nombreLaboratorio;
     }
 
-    public int getIdMarca() {
-        return idMarca;
+    public int getFamilia() {
+        return familia;
     }
 
-    public void setIdMarca(int idMarca) {
-        this.idMarca = idMarca;
+    public void setFamilia(int familia) {
+        this.familia = familia;
     }
 
-    public String getMarca() {
-        return marca;
+    public String getNombreFamilia() {
+        return nombreFamilia;
     }
 
-    public void setMarca(String marca) {
-        this.marca = marca;
+    public void setNombreFamilia(String nombreFamilia) {
+        this.nombreFamilia = nombreFamilia;
     }
 
-    public int getIdProcedencia() {
-        return idProcedencia;
+    public String getPrincipioActivo() {
+        return principioActivo;
     }
 
-    public void setIdProcedencia(int idProcedencia) {
-        this.idProcedencia = idProcedencia;
+    public void setPrincipioActivo(String principioActivo) {
+        this.principioActivo = principioActivo;
     }
 
-    public String getProcedencia() {
-        return procedencia;
+    public String getIndicaciones() {
+        return indicaciones;
     }
 
-    public void setProcedencia(String procedencia) {
-        this.procedencia = procedencia;
+    public void setIndicaciones(String indicaciones) {
+        this.indicaciones = indicaciones;
     }
 
     public String getDescripcion() {
@@ -137,77 +121,11 @@ public class ListaProductos {
         this.controlStock = controlStock;
     }
 
-    public int getIDUNIDADMEDIDA() {
-        return IDUNIDADMEDIDA;
-    }
-
-    public void setIDUNIDADMEDIDA(int IDUNIDADMEDIDA) {
-        this.IDUNIDADMEDIDA = IDUNIDADMEDIDA;
-    }
-
     public String getNombreUnidadMedida() {
         return nombreUnidadMedida;
     }
 
     public void setNombreUnidadMedida(String nombreUnidadMedida) {
         this.nombreUnidadMedida = nombreUnidadMedida;
-    }
-
-    public int getUNIDADPRINCIPAL() {
-        return UNIDADPRINCIPAL;
-    }
-
-    public void setUNIDADPRINCIPAL(int UNIDADPRINCIPAL) {
-        this.UNIDADPRINCIPAL = UNIDADPRINCIPAL;
-    }
-
-    public double getSTOCKMINIMO() {
-        return STOCKMINIMO;
-    }
-
-    public void setSTOCKMINIMO(double STOCKMINIMO) {
-        this.STOCKMINIMO = STOCKMINIMO;
-    }
-
-    public double getPRECIOVENTA() {
-        return PRECIOVENTA;
-    }
-
-    public void setPRECIOVENTA(double PRECIOVENTA) {
-        this.PRECIOVENTA = PRECIOVENTA;
-    }
-
-    public double getPRECIOVENTAREBAJA() {
-        return PRECIOVENTAREBAJA;
-    }
-
-    public void setPRECIOVENTAREBAJA(double PRECIOVENTAREBAJA) {
-        this.PRECIOVENTAREBAJA = PRECIOVENTAREBAJA;
-    }
-
-    public double getPRECIOVENTAAUMENTO() {
-        return PRECIOVENTAAUMENTO;
-    }
-
-    public void setPRECIOVENTAAUMENTO(double PRECIOVENTAAUMENTO) {
-        this.PRECIOVENTAAUMENTO = PRECIOVENTAAUMENTO;
-    }
-
-    public double getPRECIOCOMPRA() {
-        return PRECIOCOMPRA;
-    }
-
-    public void setPRECIOCOMPRA(double PRECIOCOMPRA) {
-        this.PRECIOCOMPRA = PRECIOCOMPRA;
-    }
-
-    public int getACTUALIZACION() {
-        return ACTUALIZACION;
-    }
-
-    public void setACTUALIZACION(int ACTUALIZACION) {
-        this.ACTUALIZACION = ACTUALIZACION;
-    }
-   
-   
+    }   
 }

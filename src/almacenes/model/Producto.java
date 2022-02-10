@@ -7,15 +7,19 @@ package almacenes.model;
 
 /**
  *
- * @author jcapax
+ * @author jcapaxz
  */
 public class Producto {
     private int id;
+    private int idLaboratorio;
+    private String nombreLaboratorio;
+    private int idFamilia;
+    private String nombreFamilia;
     private String claseProducto;
-    private int idRubroProducto;
-    private int idMarca;
-    private int idProcedencia;
     private String descripcion;
+    private String principioActivo;
+    private String indicaciones;
+    private String simbolo;
     private String tipoCuenta;
     private String estado;
     private int recargo;
@@ -23,29 +27,68 @@ public class Producto {
     private int caducidad;
     private String usuario;
 
+    public String getSimbolo() {
+        return simbolo;
+    }
+
+    public void setSimbolo(String simbolo) {
+        this.simbolo = simbolo;
+    }
+
+    public String getNombreLaboratorio() {
+        return nombreLaboratorio;
+    }
+
+    public void setNombreLaboratorio(String nombreLaboratorio) {
+        this.nombreLaboratorio = nombreLaboratorio;
+    }
+
+    public String getNombreFamilia() {
+        return nombreFamilia;
+    }
+
+    public void setNombreFamilia(String nombreFamilia) {
+        this.nombreFamilia = nombreFamilia;
+    }
+
+    public int getIdLaboratorio() {
+        return idLaboratorio;
+    }
+
+    public void setIdLaboratorio(int idLaboratorio) {
+        this.idLaboratorio = idLaboratorio;
+    }
+
+    public int getIdFamilia() {
+        return idFamilia;
+    }
+
+    public void setIdFamilia(int idFamilia) {
+        this.idFamilia = idFamilia;
+    }
+
+    public String getPrincipioActivo() {
+        return principioActivo;
+    }
+
+    public void setPrincipioActivo(String principioActivo) {
+        this.principioActivo = principioActivo;
+    }
+
+    public String getIndicaciones() {
+        return indicaciones;
+    }
+
+    public void setIndicaciones(String indicaciones) {
+        this.indicaciones = indicaciones;
+    }
+
     public int getCaducidad() {
         return caducidad;
     }
 
     public void setCaducidad(int caducidad) {
         this.caducidad = caducidad;
-    }
-
-    
-    public Producto(String claseProducto, int idRubroProducto, int idMarca, int idProcedencia, 
-                String descripcion, String tipoCuenta, String estado, 
-                int recargo, int controlStock, int caducidad, String usuario) {
-        this.claseProducto = claseProducto;
-        this.idRubroProducto = idRubroProducto;
-        this.idMarca = idMarca;
-        this.idProcedencia = idProcedencia;
-        this.descripcion = descripcion;
-        this.tipoCuenta = tipoCuenta;
-        this.estado = estado;
-        this.recargo = recargo;
-        this.controlStock = controlStock;
-        this.caducidad = caducidad;
-        this.usuario = usuario;
     }
 
     public Producto() {
@@ -65,30 +108,6 @@ public class Producto {
 
     public void setClaseProducto(String claseProducto) {
         this.claseProducto = claseProducto;
-    }
-
-    public int getIdRubroProducto() {
-        return idRubroProducto;
-    }
-
-    public void setIdRubroProducto(int idRubroProducto) {
-        this.idRubroProducto = idRubroProducto;
-    }
-
-    public int getIdMarca() {
-        return idMarca;
-    }
-
-    public void setIdMarca(int idMarca) {
-        this.idMarca = idMarca;
-    }
-
-    public int getIdProcedencia() {
-        return idProcedencia;
-    }
-
-    public void setIdProcedencia(int idProcedencia) {
-        this.idProcedencia = idProcedencia;
     }
 
     public String getDescripcion() {
