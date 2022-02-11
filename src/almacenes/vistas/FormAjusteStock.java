@@ -413,6 +413,7 @@ public class FormAjusteStock extends javax.swing.JFrame {
     }
 
     public void llenarTablaProductos(String criterio) {
+        /*
         ProductoDAOImpl prodDAOImpl = new ProductoDAOImpl(connectionDB);
 
         ArrayList<ListaProductos> lProd = new ArrayList<ListaProductos>();
@@ -439,6 +440,7 @@ public class FormAjusteStock extends javax.swing.JFrame {
 
         jtProductos.setAutoscrolls(false);
         jtProductos.setModel(dtm);
+        */
     }
 
     public void registrarCaja(int idTransaccion) {

@@ -6,6 +6,7 @@
 package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.Producto;
 import almacenes.model.UnidadProducto;
 import dao.UnidadMedidaDAOImpl;
 import dao.UnidadProductoDAOImlp;
@@ -25,31 +26,37 @@ public class FormUnidadProducto extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     DefaultTableModel dtm;
-    String nombreProducto;
+    String nombreProducto, principioActivo, indicaciones, laboratorio, familia;
     String usuario;
     private byte idLugar;
+    private int idProducto;
     
     public FormUnidadProducto() {
         initComponents();
 
     }
 
-    public FormUnidadProducto(Connection connectionDB, int idProducto, String nombreProducto, String usuario, byte idLugar) {
+    public FormUnidadProducto(Connection connectionDB, Producto producto, String usuario, byte idLugar) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
-        this.nombreProducto = nombreProducto;
+        this.idProducto = producto.getId();
+        this.nombreProducto = producto.getDescripcion();
+        this.principioActivo = producto.getPrincipioActivo();
+        this.indicaciones = producto.getIndicaciones();
+        this.laboratorio = producto.getNombreLaboratorio();
+        this.familia = producto.getNombreFamilia();
         this.usuario = usuario;
         this.idLugar = idLugar;
         
         headerTabla();
         
-        llenarTablaUnidadProduco(idProducto);
+        llenarTablaUnidadProduco(producto.getId());
         llenarComboUnidadMedida();
 //        llenarComboUnidadMedidaPrincipal();
         jlIdProducto.setText(String.valueOf(idProducto));
-        jlNombreProducto.setText(nombreProducto);
+        jlPrincipioActivo.setText(nombreProducto);
 
         byte x = 2;
         botones(x);
@@ -333,10 +340,10 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         jlTituloFormulario = new javax.swing.JLabel();
         jlIdUnidadProducto = new javax.swing.JLabel();
         jlEdicion = new javax.swing.JLabel();
-        jlNombreProducto = new javax.swing.JLabel();
+        jlPrincipioActivo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jcUnidadMedida = new javax.swing.JComboBox<>();
+        jcUnidadMedida = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
         jtxtStockMinimo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -358,6 +365,15 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         jbCancelar = new javax.swing.JButton();
         jbEliminar = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jlIndicaciones = new javax.swing.JLabel();
+        jlNombreProducto2 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jlLaboratorio = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jlFamilia = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -431,14 +447,14 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         jlTituloFormulario.setText("Unidad Medida Producto");
         jlTituloFormulario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jlNombreProducto.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jlNombreProducto.setForeground(new java.awt.Color(0, 0, 102));
-        jlNombreProducto.setText("jlNombreRpoducto");
+        jlPrincipioActivo.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jlPrincipioActivo.setForeground(new java.awt.Color(0, 0, 102));
+        jlPrincipioActivo.setText("Principio Activo");
 
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Unidad Medida");
 
-        jcUnidadMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaActionPerformed(evt);
@@ -570,7 +586,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jtxtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jbNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/folder-add-icon.png"))); // NOI18N
@@ -653,37 +669,91 @@ public class FormUnidadProducto extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel10.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel10.setText("Nombre prod.");
+
+        jLabel11.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel11.setText("Principio Activo");
+
+        jLabel12.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel12.setText("Indicaciones");
+
+        jlIndicaciones.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jlIndicaciones.setForeground(new java.awt.Color(0, 0, 102));
+        jlIndicaciones.setText("Indicaciones");
+
+        jlNombreProducto2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jlNombreProducto2.setForeground(new java.awt.Color(0, 0, 102));
+        jlNombreProducto2.setText("jlNombreProducto");
+
+        jLabel13.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel13.setText("Laboratorio");
+
+        jlLaboratorio.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jlLaboratorio.setForeground(new java.awt.Color(0, 0, 102));
+        jlLaboratorio.setText("Laboratorio");
+
+        jLabel14.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel14.setText("Familia");
+
+        jlFamilia.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jlFamilia.setForeground(new java.awt.Color(0, 0, 102));
+        jlFamilia.setText("Laboratorio");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlIdProducto)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(677, 677, 677)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlIdUnidadMedida)
-                            .addComponent(jlIdUnidadMedidaPrincipal)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 894, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 45, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlIdUnidadProducto, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jlEdicion, javax.swing.GroupLayout.Alignment.TRAILING)))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(167, 167, 167)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel10))
+                                .addGap(48, 48, 48)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlNombreProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jlIndicaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jlPrincipioActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jlLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jlFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jlIdProducto)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(677, 677, 677)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlIdUnidadMedida)
+                                    .addComponent(jlIdUnidadMedidaPrincipal)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 894, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlIdUnidadProducto, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlEdicion, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -692,18 +762,33 @@ public class FormUnidadProducto extends javax.swing.JFrame {
                 .addComponent(jlTituloFormulario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlIdProducto)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlIdUnidadMedidaPrincipal))
+                .addGap(0, 0, 0)
+                .addComponent(jlIdUnidadMedidaPrincipal)
                 .addGap(7, 7, 7)
+                .addComponent(jlIdUnidadMedida)
+                .addGap(5, 5, 5)
+                .addComponent(jlIdUnidadProducto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlEdicion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlNombreProducto2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlLaboratorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlIdUnidadMedida)
-                        .addGap(5, 5, 5)
-                        .addComponent(jlIdUnidadProducto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlEdicion))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(jlPrincipioActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14)
+                            .addComponent(jlFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel12))
+                    .addComponent(jlIndicaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -814,6 +899,11 @@ public class FormUnidadProducto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -834,11 +924,15 @@ public class FormUnidadProducto extends javax.swing.JFrame {
     private javax.swing.JButton jbSalir;
     private javax.swing.JComboBox<String> jcUnidadMedida;
     private javax.swing.JLabel jlEdicion;
+    private javax.swing.JLabel jlFamilia;
     private javax.swing.JLabel jlIdProducto;
     private javax.swing.JLabel jlIdUnidadMedida;
     private javax.swing.JLabel jlIdUnidadMedidaPrincipal;
     private javax.swing.JLabel jlIdUnidadProducto;
-    private javax.swing.JLabel jlNombreProducto;
+    private javax.swing.JLabel jlIndicaciones;
+    private javax.swing.JLabel jlLaboratorio;
+    private javax.swing.JLabel jlNombreProducto2;
+    private javax.swing.JLabel jlPrincipioActivo;
     private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JTable jtUnidadProducto;
     private javax.swing.JTextField jtxtCantidad;

@@ -614,7 +614,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     }//GEN-LAST:event_jtProductosPendientesKeyPressed
 
     private void jbPorEntregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPorEntregarActionPerformed
-
+        /*
         boolean aux = true;
         
         int filSel = jtProductosPendientes.getSelectedRow();
@@ -658,6 +658,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
             txtCantidad.setText("");
             jlStockProducto.setText("");
         }
+        */
     }//GEN-LAST:event_jbPorEntregarActionPerformed
 
     private void jtPorEntregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtPorEntregarKeyPressed

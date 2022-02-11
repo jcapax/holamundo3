@@ -6,7 +6,6 @@
 package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
-import almacenes.model.ListaProductos;
 import almacenes.model.Producto;
 import dao.LaboratorioDAO;
 import dao.LaboratorioDAOImpl;
@@ -15,7 +14,6 @@ import dao.FamiliaDAO;
 import dao.FamiliaDAOImpl;
 import dao.ProductoDAO;
 import dao.ProductoDAOImpl;
-import dao.RubroDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -37,12 +35,37 @@ public class FormProducto extends javax.swing.JFrame {
     DefaultTableModel dtm;
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
+    private ProductoDAO productoDAO;
     private String usuario;
     
     private byte idLugar;    
     
     public FormProducto() {
         initComponents();
+    }
+    
+    public FormProducto(Connection connectionDB, String usuario, byte idLugar) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        ljEditar.setVisible(false);
+        jlIdProducto.setVisible(false);
+        jbGuardar.setEnabled(false);
+        
+        this.databaseUtils = new DatabaseUtils();
+        this.connectionDB = connectionDB;
+        this.usuario = usuario;
+        this.idLugar = idLugar;
+        
+        productoDAO = new ProductoDAOImpl(connectionDB);
+        
+        headerTabla();
+        
+        llenarComboLaboratorio();
+        llenarComboFamilia();        
+        llenarTablaProductos();
+        deshabilitarComponentes();
+        
+        jchCaducidad.setVisible(false);
     }
     
     public void habilitarComponentes(){
@@ -52,6 +75,8 @@ public class FormProducto extends javax.swing.JFrame {
         jcLaboratorio.setEnabled(aux);
         jcFamilia.setEnabled(aux);        
         jtxtNombreProducto.setEnabled(aux);
+        jtxtPrincipioActivo.setEnabled(aux);
+        jtxtIndicaciones.setEnabled(aux);
         jchControlStock.setEnabled(aux);
         jchCaducidad.setEnabled(aux);
         jchEstado.setEnabled(aux);
@@ -64,6 +89,8 @@ public class FormProducto extends javax.swing.JFrame {
         jcLaboratorio.setEnabled(aux);
         jcFamilia.setEnabled(aux);
         jtxtNombreProducto.setEnabled(aux);
+        jtxtPrincipioActivo.setEnabled(aux);
+        jtxtIndicaciones.setEnabled(aux);
         jchControlStock.setEnabled(aux);
         jchCaducidad.setEnabled(aux);
         jchEstado.setEnabled(aux);
@@ -79,8 +106,6 @@ public class FormProducto extends javax.swing.JFrame {
     public void llenarTablaProductos(){
         
         DecimalFormat df = new DecimalFormat("###,##0.00");
-        
-        ProductoDAO productoDAO = new ProductoDAOImpl(connectionDB);
         
         ArrayList<Producto> lProd = new ArrayList<Producto>();
         
@@ -136,7 +161,7 @@ public class FormProducto extends javax.swing.JFrame {
     public void guardarProducto(){
         
         int idLaboratorio = Integer.valueOf(jlIdLaboratorio.getText());        
-        int idFamilia = Integer.valueOf(jlIdLaboratorio.getText());
+        int idFamilia = Integer.valueOf(jlIdFamilia.getText());
         
         String estado;
         int controlStock;
@@ -164,10 +189,9 @@ public class FormProducto extends javax.swing.JFrame {
             caducidad = 0;
         }
         
-        ProductoDAOImpl prodDAOImpl = new ProductoDAOImpl(connectionDB);
-        
         if(ljEditar.getText().equals("1")){
             Producto producto = new Producto();
+            
             producto.setControlStock(controlStock);
             producto.setCaducidad(caducidad);
             producto.setDescripcion(descripcion.toUpperCase());
@@ -178,7 +202,8 @@ public class FormProducto extends javax.swing.JFrame {
             producto.setPrincipioActivo(principioActivo);
             producto.setIndicaciones(indicaciones);
             producto.setUsuario(usuario);
-            prodDAOImpl.editarProducto(producto);
+            
+            productoDAO.editarProducto(producto);
         }
         else{
             Producto producto = new Producto(idLaboratorio, idFamilia, "", 
@@ -186,35 +211,13 @@ public class FormProducto extends javax.swing.JFrame {
                     "", estado, controlStock, 
                     1, usuario);
         
-            prodDAOImpl.insertarProducto(producto);
+            productoDAO.insertarProducto(producto);
         }
         
         llenarTablaProductos();
         
     }
     
-    public FormProducto(Connection connectionDB, String usuario, byte idLugar) {
-        initComponents();
-        this.setLocationRelativeTo(null);
-        ljEditar.setVisible(false);
-        jlIdProducto.setVisible(false);
-        jbGuardar.setEnabled(false);
-        
-        this.databaseUtils = new DatabaseUtils();
-        this.connectionDB = connectionDB;
-        this.usuario = usuario;
-        this.idLugar = idLugar;
-        
-        headerTabla();
-        
-        llenarComboLaboratorio();
-        llenarComboFamilia();        
-        llenarTablaProductos();
-        deshabilitarComponentes();
-        
-        jchCaducidad.setVisible(false);
-    }
-
     public void llenarComboLaboratorio(){
         
         String sel = "Sel";
@@ -672,9 +675,11 @@ public class FormProducto extends javax.swing.JFrame {
         int filSel = jtProductos.getSelectedRow();
         
         int idProducto = (int) jtProductos.getValueAt(filSel, 0);
-        String nombreProducto = jtProductos.getValueAt(filSel, 7).toString();
         
-        FormUnidadProducto fUnidadProd = new FormUnidadProducto(connectionDB, idProducto, nombreProducto, usuario, idLugar);
+        FormUnidadProducto fUnidadProd = new FormUnidadProducto(connectionDB, 
+                getProducto(idProducto), 
+                usuario, 
+                idLugar);
         fUnidadProd.setVisible(true);
     }//GEN-LAST:event_jbUnidadProductoActionPerformed
 
@@ -826,8 +831,6 @@ public class FormProducto extends javax.swing.JFrame {
         try {
             sel = jcFamilia.getSelectedItem().toString();
 
-//            System.out.println("elemento seleccionado "+ sel);
-
             if(sel.equals(comp)){
                 jlIdFamilia.setText("0");
             }
@@ -838,31 +841,32 @@ public class FormProducto extends javax.swing.JFrame {
         }
     }
     
+    private Producto getProducto(int id){        
+        return productoDAO.getProductoById(id);
+    }
     
     private void seleccionarProducto() {
         int fila = jtProductos.getSelectedRow();
-        
-        jlIdProducto.setText(jtProductos.getValueAt(fila, 0).toString());
+        int id = Integer.valueOf(jtProductos.getValueAt(fila, 0).toString());        
+        jlIdProducto.setText(String.valueOf(id));
+        Producto p = new Producto();        
+        p = getProducto(id);
 
-        String marca = jtProductos.getValueAt(fila, 4).toString();
-        jcLaboratorio.setSelectedItem(marca);
+        jcLaboratorio.setSelectedItem(p.getNombreLaboratorio());
         
-        String procedencia = jtProductos.getValueAt(fila, 6).toString();
-        jcFamilia.setSelectedItem(procedencia);
+        jcFamilia.setSelectedItem(p.getNombreFamilia());
         
-        jtxtNombreProducto.setText(jtProductos.getValueAt(fila, 7).toString());
+        jtxtNombreProducto.setText(p.getDescripcion());
+        jtxtPrincipioActivo.setText(p.getPrincipioActivo());
+        jtxtIndicaciones.setText(p.getIndicaciones());
         
         jchEstado.setSelected(Boolean.parseBoolean(jtProductos.getValueAt(fila, 8).toString()));
         
         boolean aux = false;
-        aux = (Boolean.parseBoolean(jtProductos.getValueAt(fila, 9).toString()))?true:false;
-        
-        jchControlStock.setSelected(aux);
-        
-        aux = (Boolean.parseBoolean(jtProductos.getValueAt(fila, 10).toString()))?true:false;
-        
-        jchCaducidad.setSelected(aux);
-        
+        aux = (Boolean.parseBoolean(jtProductos.getValueAt(fila, 9).toString()))?true:false;        
+        jchControlStock.setSelected(aux);        
+        aux = (Boolean.parseBoolean(jtProductos.getValueAt(fila, 10).toString()))?true:false;        
+        jchCaducidad.setSelected(aux);        
     }
     
     public void botones(byte x){

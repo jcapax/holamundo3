@@ -738,11 +738,7 @@ public class FormMenu extends javax.swing.JFrame {
 //                                            idTipoTransaccion, idTipoTransaccionEntrega, 
 //                                            idUsuario, idLugar, idTerminal);
 
-        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
-                                            idTipoTransaccion, idTipoTransaccionEntrega, 
-                                            idUsuario, idLugar, idTerminal,
-                                            idTransaccionCotizacion);
-        formTrans.setVisible(true);
+//        formTrans.setVisible(true);
     }//GEN-LAST:event_jMenuVentasActionPerformed
 
     private void jMenuRubrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRubrosActionPerformed
@@ -898,15 +894,6 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmenuProveedorActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        int idTipoTransaccion = 3; //pedidos
-        int idTipoTransaccionEntrega = 8; //entrega
-        int idTransaccionCotizacion = 0;
-        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
-                                            idTipoTransaccion, idTipoTransaccionEntrega, 
-                                            idUsuario, idLugar, idTerminal, 
-                                            idTransaccionCotizacion);
-        formTrans.setVisible(true);
-
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jmenuPendientesCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuPendientesCobroActionPerformed

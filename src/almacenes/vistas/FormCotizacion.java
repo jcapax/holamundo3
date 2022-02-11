@@ -358,6 +358,7 @@ public class FormCotizacion extends javax.swing.JFrame {
     }
 
     public void llenarTablaProductos(String criterio) {
+        /*
         ProductoDAOImpl prodDAOImpl = new ProductoDAOImpl(connectionDB);
 
         ArrayList<ListaProductos> lProd = new ArrayList<ListaProductos>();
@@ -383,6 +384,7 @@ public class FormCotizacion extends javax.swing.JFrame {
 
         jtProductos.setAutoscrolls(false);
         jtProductos.setModel(dtm);
+        */
     }
 
     private void rebajarRegistros(){

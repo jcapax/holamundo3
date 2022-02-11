@@ -208,7 +208,7 @@ public class ProductoDAOImpl implements ProductoDAO{
     @Override
     public void editarProducto(Producto p) {
         String sql = "update producto "
-                + "id_laboratorio = ?, id_familia = ?, descripcion = ?, "
+                + "set id_laboratorio = ?, id_familia = ?, descripcion = ?, "
                 + "principio_activo = ?, indicaciones = ?, estado = ?, "
                 + "control_stock = ?, caducidad = ?, usuario = ? "
                 + "where id = ?";
@@ -283,6 +283,37 @@ public class ProductoDAOImpl implements ProductoDAO{
         }
         
         return map;
+    }
+
+    @Override
+    public Producto getProductoById(int id) {
+        String sql = "SELECT * FROM v_productos Where id_producto = "+id;
+        Producto p = new Producto();        
+        try {
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();            
+            while(rs.next()){
+                p.setCaducidad(rs.getByte("caducidad"));
+                p.setClaseProducto(rs.getString("clase_producto"));
+                p.setControlStock(rs.getByte("control_stock"));
+                p.setDescripcion(rs.getString("nombre_producto"));
+                p.setEstado(rs.getString("estado"));
+                p.setId(rs.getInt("id_producto"));
+                p.setIdFamilia(rs.getInt("id_familia"));
+                p.setIdLaboratorio(rs.getInt("id_laboratorio"));
+                p.setIndicaciones(rs.getString("indicaciones"));
+                p.setNombreFamilia(rs.getString("nombre_familia"));
+                p.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
+                p.setPrincipioActivo(rs.getString("principio_activo"));
+                p.setSimbolo(rs.getString("simbolo"));
+                p.setPrecioCompra(rs.getDouble("precio_compra"));
+                p.setPrecioVenta(rs.getDouble("precio_venta"));                             
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RubroDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        return p;
     }
     
 }

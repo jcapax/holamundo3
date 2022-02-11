@@ -383,11 +383,11 @@ public class FormListaCotizaciones extends javax.swing.JFrame {
             }
         }
         
-        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
-                                            idTipoTransaccion, idTipoTransaccionEntrega, 
-                                            usuario, idLugar, idTerminal,
-                                            idTransaccionCotizacion);
-        formTrans.setVisible(true);
+//        FormTransaccionBK formTrans = new FormTransaccionBK(connectionDB, 
+//                                            idTipoTransaccion, idTipoTransaccionEntrega, 
+ //                                           usuario, idLugar, idTerminal,
+  //                                          idTransaccionCotizacion);
+    //    formTrans.setVisible(true);
     }//GEN-LAST:event_jbVentaActionPerformed
 
     private void jtListaTransaccionesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtListaTransaccionesKeyPressed
