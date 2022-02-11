@@ -8,8 +8,11 @@ package almacenes.vistas;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.ListaProductos;
 import almacenes.model.Producto;
-import dao.MarcaDAOImpl;
-import dao.ProcedenciaDAOImpl;
+import dao.LaboratorioDAO;
+import dao.LaboratorioDAOImpl;
+
+import dao.FamiliaDAO;
+import dao.FamiliaDAOImpl;
 import dao.ProductoDAOImpl;
 import dao.RubroDAOImpl;
 import java.awt.Color;
@@ -39,17 +42,14 @@ public class FormProducto extends javax.swing.JFrame {
     
     public FormProducto() {
         initComponents();
-        
-        llenarComboMarca();
-         
     }
     
     public void habilitarComponentes(){
         boolean aux = true;
         
         //jPanelComponentes.setEnabled(aux);
-        jcMarca.setEnabled(aux);
-        jcProcedencia.setEnabled(aux);
+        jcLaboratorio.setEnabled(aux);
+        jcFamilia.setEnabled(aux);
         jcRubro.setEnabled(aux);
         jtxtNombreProducto.setEnabled(aux);
         jchControlStock.setEnabled(aux);
@@ -61,8 +61,8 @@ public class FormProducto extends javax.swing.JFrame {
         boolean aux = false;
         
         //jPanelComponentes.setEnabled(aux);
-        jcMarca.setEnabled(aux);
-        jcProcedencia.setEnabled(aux);
+        jcLaboratorio.setEnabled(aux);
+        jcFamilia.setEnabled(aux);
         jcRubro.setEnabled(aux);
         jtxtNombreProducto.setEnabled(aux);
         jchControlStock.setEnabled(aux);
@@ -78,6 +78,7 @@ public class FormProducto extends javax.swing.JFrame {
     }
      
     public void llenarTablaProductos(){
+        /*
         DecimalFormat df = new DecimalFormat("###,##0.00");
         
         ProductoDAOImpl prodDAOImpl = new ProductoDAOImpl(connectionDB);
@@ -139,9 +140,11 @@ public class FormProducto extends javax.swing.JFrame {
         colPCompra.setCellRenderer(renderer);
         
         jtProductos.setModel(dtm);
+        */
     }
     
     public void guardarProducto(){
+        /*
         int idMarca = Integer.valueOf(jlIdMarca.getText());
         int idProcedencia = Integer.valueOf(jlIdProcedencia.getText());
         int idRubroproducto = Integer.valueOf(jlIdRubroProducto.getText());
@@ -194,6 +197,7 @@ public class FormProducto extends javax.swing.JFrame {
         }
         
         llenarTablaProductos();
+        */
     }
     
     public FormProducto(Connection connectionDB, String usuario, byte idLugar) {
@@ -210,8 +214,8 @@ public class FormProducto extends javax.swing.JFrame {
         
         headerTabla();
         
-        llenarComboMarca();
-        llenarComboProcedencia();
+        llenarComboLaboratorio();
+        llenarComboFamilia();
         llenarComboRubro();
         llenarTablaProductos();
         deshabilitarComponentes();
@@ -219,36 +223,36 @@ public class FormProducto extends javax.swing.JFrame {
         jchCaducidad.setVisible(false);
     }
 
-    public void llenarComboMarca(){
+    public void llenarComboLaboratorio(){
         
         String sel = "Sel";
         
-        jcMarca.removeAllItems();
-        jcMarca.addItem(sel);
+        jcLaboratorio.removeAllItems();
+        jcLaboratorio.addItem(sel);
         
-        MarcaDAOImpl marcaDAOImpl = new MarcaDAOImpl(connectionDB);
+        LaboratorioDAO laboratorioDAO = new LaboratorioDAOImpl(connectionDB);
         
-            HashMap<String, Integer> map = marcaDAOImpl.marcaClaveValor();
+            HashMap<String, Integer> map = laboratorioDAO.laboratorioClaveValor();
             
             for (String s : map.keySet()) {
-                jcMarca.addItem(s.toString());
+                jcLaboratorio.addItem(s.toString());
             }
     }
     
-    public void llenarComboProcedencia(){
+    public void llenarComboFamilia(){
         
         String sel = "Sel";
         
-        jcProcedencia.removeAllItems();
-        jcProcedencia.addItem(sel);
+        jcFamilia.removeAllItems();
+        jcFamilia.addItem(sel);
         
-        ProcedenciaDAOImpl procedenciaDAOImpl = new ProcedenciaDAOImpl(connectionDB);
-        
-            HashMap<String, Integer> map = procedenciaDAOImpl.procedenciaClaveValor();
-            
-            for (String s : map.keySet()) {
-                jcProcedencia.addItem(s.toString());
-            }
+        FamiliaDAO familiaDAO = new FamiliaDAOImpl(connectionDB);
+
+        HashMap<String, Integer> map = familiaDAO.familiaClaveValor();
+
+        for (String s : map.keySet()) {
+            jcFamilia.addItem(s.toString());
+        }
     }
     
     public void llenarComboRubro(){
@@ -277,8 +281,8 @@ public class FormProducto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jlIdMarca = new javax.swing.JLabel();
-        jlIdProcedencia = new javax.swing.JLabel();
+        jlIdLaboratorio = new javax.swing.JLabel();
+        jlIdFamilia = new javax.swing.JLabel();
         jlIdRubroProducto = new javax.swing.JLabel();
         ljEditar = new javax.swing.JLabel();
         jlIdProducto = new javax.swing.JLabel();
@@ -300,9 +304,9 @@ public class FormProducto extends javax.swing.JFrame {
         jchEstado = new javax.swing.JCheckBox();
         jchControlStock = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
-        jcMarca = new javax.swing.JComboBox<>();
+        jcLaboratorio = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jcProcedencia = new javax.swing.JComboBox<>();
+        jcFamilia = new javax.swing.JComboBox<>();
         jchCaducidad = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtProductos = new javax.swing.JTable();
@@ -445,22 +449,22 @@ public class FormProducto extends javax.swing.JFrame {
         jchControlStock.setText("Control Stock");
 
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
-        jLabel1.setText("Marca");
+        jLabel1.setText("Laboratorio");
 
-        jcMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcMarca.addActionListener(new java.awt.event.ActionListener() {
+        jcLaboratorio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcLaboratorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcMarcaActionPerformed(evt);
+                jcLaboratorioActionPerformed(evt);
             }
         });
 
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
-        jLabel2.setText("Procedencia");
+        jLabel2.setText("Familia");
 
-        jcProcedencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcProcedencia.addActionListener(new java.awt.event.ActionListener() {
+        jcFamilia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcFamilia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcProcedenciaActionPerformed(evt);
+                jcFamiliaActionPerformed(evt);
             }
         });
 
@@ -473,33 +477,28 @@ public class FormProducto extends javax.swing.JFrame {
             jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelComponentesLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelComponentesLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jchEstado)
+                        .addGap(41, 41, 41)
+                        .addComponent(jchControlStock)
+                        .addGap(34, 34, 34)
+                        .addComponent(jchCaducidad))
+                    .addComponent(jtxtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelComponentesLayout.createSequentialGroup()
-                        .addGroup(jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelComponentesLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jchEstado)
-                                .addGap(41, 41, 41)
-                                .addComponent(jchControlStock)
-                                .addGap(34, 34, 34)
-                                .addComponent(jchCaducidad))
-                            .addComponent(jtxtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanelComponentesLayout.createSequentialGroup()
-                                .addComponent(jcProcedencia, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jcFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(395, Short.MAX_VALUE))
         );
         jPanelComponentesLayout.setVerticalGroup(
             jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,11 +506,11 @@ public class FormProducto extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jcMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jcProcedencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(jcRubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -631,9 +630,9 @@ public class FormProducto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanelComponentes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelComponentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ljEditar)
                         .addGap(204, 204, 204)
                         .addComponent(jlIdProducto))
@@ -644,14 +643,14 @@ public class FormProducto extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(325, 325, 325)
-                                        .addComponent(jlIdMarca))
+                                        .addComponent(jlIdLaboratorio))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(587, 587, 587)
-                                        .addComponent(jlIdProcedencia)
+                                        .addComponent(jlIdFamilia)
                                         .addGap(269, 269, 269)
                                         .addComponent(jlIdRubroProducto))
                                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 59, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -659,10 +658,10 @@ public class FormProducto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jlTituloFormulario)
                 .addGap(3, 3, 3)
-                .addComponent(jlIdMarca)
+                .addComponent(jlIdLaboratorio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlIdProcedencia)
+                    .addComponent(jlIdFamilia)
                     .addComponent(jlIdRubroProducto))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -677,7 +676,7 @@ public class FormProducto extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         pack();
@@ -687,13 +686,13 @@ public class FormProducto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jchEstadoActionPerformed
 
-    private void jcMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcMarcaActionPerformed
-        seleccionarElementoMarca();        
-    }//GEN-LAST:event_jcMarcaActionPerformed
+    private void jcLaboratorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcLaboratorioActionPerformed
+        seleccionarElementoLaboratorio();        
+    }//GEN-LAST:event_jcLaboratorioActionPerformed
 
-    private void jcProcedenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcProcedenciaActionPerformed
-        seleccionarElementoProcedencia();
-    }//GEN-LAST:event_jcProcedenciaActionPerformed
+    private void jcFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcFamiliaActionPerformed
+        seleccionarElementoFamilia();
+    }//GEN-LAST:event_jcFamiliaActionPerformed
 
     private void jcRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcRubroActionPerformed
         seleccionarElementoRubro();
@@ -804,14 +803,14 @@ public class FormProducto extends javax.swing.JFrame {
     private javax.swing.JButton jbNuevo;
     private javax.swing.JButton jbSalir;
     private javax.swing.JButton jbUnidadProducto;
-    private javax.swing.JComboBox<String> jcMarca;
-    private javax.swing.JComboBox<String> jcProcedencia;
+    private javax.swing.JComboBox<String> jcFamilia;
+    private javax.swing.JComboBox<String> jcLaboratorio;
     private javax.swing.JComboBox<String> jcRubro;
     private javax.swing.JCheckBox jchCaducidad;
     private javax.swing.JCheckBox jchControlStock;
     private javax.swing.JCheckBox jchEstado;
-    private javax.swing.JLabel jlIdMarca;
-    private javax.swing.JLabel jlIdProcedencia;
+    private javax.swing.JLabel jlIdFamilia;
+    private javax.swing.JLabel jlIdLaboratorio;
     private javax.swing.JLabel jlIdProducto;
     private javax.swing.JLabel jlIdRubroProducto;
     private javax.swing.JLabel jlTituloFormulario;
@@ -821,52 +820,54 @@ public class FormProducto extends javax.swing.JFrame {
     private javax.swing.JLabel ljEditar;
     // End of variables declaration//GEN-END:variables
 
-    private void seleccionarElementoMarca() {
-        jlIdMarca.setVisible(false);
+    private void seleccionarElementoLaboratorio() {
+        
+        jlIdLaboratorio.setVisible(false);
         String sel = null;
         
         String comp = "Sel";
         
-        MarcaDAOImpl marcaDAOImpl = new MarcaDAOImpl(connectionDB);
         
-        HashMap<String, Integer> map = marcaDAOImpl.marcaClaveValor();
+        LaboratorioDAO laboratorioDAO = new LaboratorioDAOImpl(connectionDB);
+        
+        HashMap<String, Integer> map = laboratorioDAO.laboratorioClaveValor();
             
         try {
-            sel = jcMarca.getSelectedItem().toString();
+            sel = jcLaboratorio.getSelectedItem().toString();
 
 //            System.out.println("elemento seleccionado "+ sel);
 
             if(sel.equals(comp)){
-                jlIdMarca.setText("0");
+                jlIdLaboratorio.setText("0");
             }
             else{
-                jlIdMarca.setText(map.get(sel).toString());
+                jlIdLaboratorio.setText(map.get(sel).toString());
             }
         } catch (Exception e) {
         }
+
         
     }
 
-    private void seleccionarElementoProcedencia() {
-        jlIdProcedencia.setVisible(false);
+    private void seleccionarElementoFamilia() {
+        jlIdFamilia.setVisible(false);
         String sel = null;
         
         String comp = "Sel";
-        
-        ProcedenciaDAOImpl procedenciaDAOImpl = new ProcedenciaDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = procedenciaDAOImpl.procedenciaClaveValor();
+        FamiliaDAO familiaDAO = new FamiliaDAOImpl(connectionDB);
+                
+        HashMap<String, Integer> map = familiaDAO.familiaClaveValor();
             
         try {
-            sel = jcProcedencia.getSelectedItem().toString();
+            sel = jcFamilia.getSelectedItem().toString();
 
 //            System.out.println("elemento seleccionado "+ sel);
 
             if(sel.equals(comp)){
-                jlIdProcedencia.setText("0");
+                jlIdFamilia.setText("0");
             }
             else{
-                jlIdProcedencia.setText(map.get(sel).toString());
+                jlIdFamilia.setText(map.get(sel).toString());
             }
         } catch (Exception e) {
         }
@@ -903,10 +904,10 @@ public class FormProducto extends javax.swing.JFrame {
         jlIdProducto.setText(jtProductos.getValueAt(fila, 0).toString());
 
         String marca = jtProductos.getValueAt(fila, 4).toString();
-        jcMarca.setSelectedItem(marca);
+        jcLaboratorio.setSelectedItem(marca);
         
         String procedencia = jtProductos.getValueAt(fila, 6).toString();
-        jcProcedencia.setSelectedItem(procedencia);
+        jcFamilia.setSelectedItem(procedencia);
         
         String rubro = jtProductos.getValueAt(fila, 2).toString();
         jcRubro.setSelectedItem(rubro);
@@ -961,8 +962,8 @@ public class FormProducto extends javax.swing.JFrame {
     }
 
     private void limpiar() {
-        llenarComboMarca();
-        llenarComboProcedencia();
+        llenarComboLaboratorio();
+        llenarComboFamilia();
         llenarComboRubro();
         jtxtNombreProducto.setText("");
         jchControlStock.setSelected(false);

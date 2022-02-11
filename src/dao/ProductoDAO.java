@@ -18,12 +18,12 @@ import java.util.HashMap;
  */
 public interface ProductoDAO {
     
-    public ArrayList<ListaProductos> getListaProductos();
-    public ArrayList<ListaProductos> getListaProductosVenta(String criterio, byte idLugar);
+    public ArrayList<Producto> getListaProductos();
+    //public ArrayList<Producto> getListaProductosVenta(String criterio, byte idLugar);
     public void insertarProducto(Producto producto);
-    public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio);
-    public byte getControlStock(int idProducto);
-    public ArrayList<StockVencimiento> getListStockVencimiento(byte idLugar, int idProducto, byte idUnidadMedida);
+    //public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio);
+    //public byte getControlStock(int idProducto);
+    //public ArrayList<StockVencimiento> getListStockVencimiento(byte idLugar, int idProducto, byte idUnidadMedida);
     public void editarProducto(Producto producto);
     
     public HashMap<String, Integer> getProductoClaveValor();

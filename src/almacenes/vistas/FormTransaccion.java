@@ -628,6 +628,7 @@ public class FormTransaccion extends javax.swing.JFrame {
     }
 
     public void llenarTablaProductos(String criterio) {
+/*
         ProductoDAOImpl prodDAOImpl = new ProductoDAOImpl(connectionDB);
 
         ArrayList<ListaProductos> lProd = new ArrayList<ListaProductos>();
@@ -653,6 +654,7 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         jtProductos.setAutoscrolls(false);
         jtProductos.setModel(dtm);
+        */
     }
 
     public void llenarClienteProveedor(String tipo) {
@@ -1411,6 +1413,7 @@ public class FormTransaccion extends javax.swing.JFrame {
     }
     
     public void agregar(){
+        /*
         boolean aux = true;
         if (jtxtCantidad.getText().length() == 0) {
             JOptionPane.showMessageDialog(this, "Registrar la cantidad!!!");
@@ -1469,6 +1472,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         jtxtCantidad.setText("");
         jtxtValorUnitario.setText("");
         jlStockProducto.setText("...");
+*/
     }
 
     private void jtxtEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtEliminarActionPerformed

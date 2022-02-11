@@ -104,6 +104,7 @@ public class FormStockProducto extends javax.swing.JFrame {
     }
 
     public void llenarTablaStockProducto(String criterio){
+        /*
          productoDAOImpl = new ProductoDAOImpl(connectionDB);
 
         ArrayList<StockProducto> r = new ArrayList<StockProducto>();
@@ -128,6 +129,7 @@ public class FormStockProducto extends javax.swing.JFrame {
             dtm.addRow(fila);
         }
         jtStockProducto.setModel(dtm);
+        */
     }
 
     
@@ -454,6 +456,7 @@ public class FormStockProducto extends javax.swing.JFrame {
     }
 
     private void llenarStockVencimiento(int idProducto, byte idUnidadMedida) {
+        /*
         ArrayList<StockVencimiento> list = new ArrayList<>();
         
         list = productoDAOImpl.getListStockVencimiento(idLugar, idProducto, idUnidadMedida);
@@ -483,5 +486,6 @@ public class FormStockProducto extends javax.swing.JFrame {
         cantidadStock.setCellRenderer(renderer);
         
         jtStockVencimiento.setModel(dtm);
+*/
     }
 }

@@ -34,67 +34,67 @@ public class ProductoDAOImpl implements ProductoDAO{
     }
     
     @Override
-    public ArrayList<ListaProductos> getListaProductos() {
-        String sql = "SELECT * FROM v_productos_lugar";
+    public ArrayList<Producto> getListaProductos() {
+        String sql = "SELECT * FROM v_productos";
         
-        ArrayList<ListaProductos> lproducto = new ArrayList<ListaProductos>();
+        ArrayList<Producto> list = new ArrayList<Producto>();
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                ListaProductos lProd = new ListaProductos();
+                Producto p = new Producto();
                 
-                lProd.setId(rs.getInt("id_producto"));
-                lProd.setACTUALIZACION(rs.getInt("actualizacion"));
-                lProd.setControlStock(rs.getInt("control_stock"));
-                lProd.setDescripcion(rs.getString("descripcion"));
-                lProd.setCaducidad(rs.getInt("caducidad"));
-                lProd.setEstado(rs.getString("estado"));
-                lProd.setIDUNIDADMEDIDA(rs.getInt("id_unidad_medida"));
-                lProd.setIdMarca(rs.getInt("id_marca"));
-                lProd.setIdProcedencia(rs.getInt("id_procedencia"));
-                lProd.setIdRubroProducto(rs.getInt("id_rubro_producto"));
-                lProd.setMarca(rs.getString("marca"));
-                lProd.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
-                lProd.setPRECIOCOMPRA(rs.getDouble("precio_compra"));
-                lProd.setPRECIOVENTA(rs.getDouble("precio_venta"));
-                lProd.setPRECIOVENTAAUMENTO(rs.getDouble("precio_venta_aumento"));
-                lProd.setPRECIOVENTAREBAJA(rs.getDouble("precio_venta_rebaja"));
-                lProd.setProcedencia(rs.getString("procedencia"));
-                lProd.setRubro(rs.getString("rubro"));
-                lProd.setSTOCKMINIMO(rs.getDouble("stock_minimo"));
-                lProd.setUNIDADPRINCIPAL(rs.getInt("unidad_principal"));
-                lProd.setCodigoAdjunto(rs.getString("codigo_adjunto"));
+                p.setCaducidad(rs.getByte("caducidad"));
+                p.setClaseProducto(rs.getString("clase_producto"));
+                p.setControlStock(rs.getByte("control_stock"));
+                p.setDescripcion(rs.getString("nombre_producto"));
+                p.setEstado(rs.getString("estado"));
+                p.setId(rs.getInt("id"));
+                p.setIdFamilia(rs.getInt("idFamilia"));
+                p.setIdLaboratorio(rs.getInt("idLaboratorio"));
+                p.setIndicaciones(rs.getString("sql"));
+                p.setNombreFamilia(rs.getString("sql"));
+                p.setNombreLaboratorio(rs.getString("sql"));
+                p.setPrincipioActivo(rs.getString("sql"));
+                p.setSimbolo(rs.getString("sql"));
                 
-                lproducto.add(lProd);
+                list.add(p);
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(RubroDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return lproducto;
+        return list;
     }
     
 
     @Override
-    public void insertarProducto(Producto producto) {
-        String sqlProd = "insert into "+
-                "producto(id_rubro_producto, id_marca, id_procedencia, descripcion, estado, control_stock, caducidad, usuario) "+
-                "values(?, ?, ?, ?, ?, ?, ?, ?)";
+    public void insertarProducto(Producto p) {
+        String sqlProd = "INSERT INTO producto ("
+                + "id_laboratorio, id_familia, clase_producto, "                
+                + "descripcion, principio_activo, indicaciones, "
+                + "tipo_cuenta, estado, control_stock, "                
+                + "fecha_hora_registro, usuario, caducidad) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp(), ?, ?)";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sqlProd);
             
-            ps.setInt(1, producto.getIdRubroProducto());
-            ps.setInt(2, producto.getIdMarca());
-            ps.setInt(3, producto.getIdProcedencia());
-            ps.setString(4, producto.getDescripcion());
-            ps.setString(5, producto.getEstado());
-            ps.setInt(6, producto.getControlStock());
-            ps.setInt(7, producto.getCaducidad());
-            ps.setString(8, producto.getUsuario());
+            ps.setInt(1, p.getIdLaboratorio());
+            ps.setInt(2, p.getIdFamilia());
+            ps.setString(3, p.getClaseProducto());
+            ps.setString(4, p.getDescripcion());
+            ps.setString(5, p.getPrincipioActivo());
+            ps.setString(6, p.getIndicaciones());
+            ps.setString(7, p.getTipoCuenta());
+            ps.setString(8, p.getEstado());
+            ps.setString(9, p.getEstado());
+            ps.setInt(10, p.getControlStock());
+            ps.setString(11, p.getUsuario());
+            ps.setInt(12, p.getCaducidad());            
+            
             
             int n = ps.executeUpdate();
             if(n > 0){
@@ -107,9 +107,9 @@ public class ProductoDAOImpl implements ProductoDAO{
             Logger.getLogger(ProductoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+/*
     @Override
-    public ArrayList<ListaProductos> getListaProductosVenta(String criterio, byte idLugar) {
+    public ArrayList<Producto> getListaProductosVenta(String criterio, byte idLugar) {
         String sql = "SELECT * FROM v_productos_lugar "
                 + "WHERE estado = 'V' and id_lugar = "+idLugar+" and descripcion like '%"+criterio+"%' "
                 + "and id_unidad_producto is not null";
@@ -205,25 +205,26 @@ public class ProductoDAOImpl implements ProductoDAO{
         return controlStock;
         
     }
-
+*/
     @Override
-    public void editarProducto(Producto producto) {
+    public void editarProducto(Producto p) {
         String sql = "update producto "
-                + "set id_rubro_producto = ?, id_procedencia = ?, "
-                + "id_marca = ?, descripcion = ?, estado = ?, "
+                + "id_laboratorio = ?, id_familia = ?, descripcion = ?, "
+                + "principio_activo = ?, indicaciones = ?, estado = ?, "
                 + "control_stock = ?, caducidad = ?, usuario = ? "
                 + "where id = ?";
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
-            ps.setInt(1, producto.getIdRubroProducto());
-            ps.setInt(2, producto.getIdProcedencia());
-            ps.setInt(3, producto.getIdMarca());
-            ps.setString(4, producto.getDescripcion());
-            ps.setString(5, producto.getEstado());
-            ps.setInt(6, producto.getControlStock());
-            ps.setInt(7, producto.getCaducidad());
-            ps.setString(8, producto.getUsuario());
-            ps.setInt(9, producto.getId());
+            ps.setInt(1, p.getIdLaboratorio());
+            ps.setInt(2, p.getIdFamilia());            
+            ps.setString(3, p.getDescripcion());
+            ps.setString(4, p.getPrincipioActivo());
+            ps.setString(5, p.getIndicaciones());
+            ps.setString(6, p.getEstado());
+            ps.setInt(7, p.getControlStock());
+            ps.setInt(8, p.getCaducidad());
+            ps.setString(9, p.getUsuario());
+            ps.setInt(10, p.getId());
             ps.executeUpdate();
             
         } catch (SQLException ex) {
@@ -231,7 +232,7 @@ public class ProductoDAOImpl implements ProductoDAO{
         }
         
     }
-
+/*
     @Override
     public ArrayList<StockVencimiento> getListStockVencimiento(byte idLugar, int idProducto, byte idUnidadMedida) {
         ArrayList<StockVencimiento> list = new ArrayList<>();
@@ -257,7 +258,7 @@ public class ProductoDAOImpl implements ProductoDAO{
         }
         return list;
     }
-
+*/
     @Override
     public HashMap<String, Integer> getProductoClaveValor() {
         HashMap<String, Integer> map = new HashMap<String, Integer>();

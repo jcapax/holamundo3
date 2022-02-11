@@ -516,6 +516,7 @@ public class FormTransaccionPedidos extends javax.swing.JFrame {
     }
 
     public void llenarTablaProductos(String criterio) {
+        /*
 
         ArrayList<ListaProductos> lProd = new ArrayList<ListaProductos>();
 
@@ -540,6 +541,7 @@ public class FormTransaccionPedidos extends javax.swing.JFrame {
 
         jtProductos.setAutoscrolls(false);
         jtProductos.setModel(dtm);
+        */
     }
 
     public void llenarClienteProveedor(String tipo) {

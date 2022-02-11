@@ -147,8 +147,8 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuIngresos = new javax.swing.JMenuItem();
         jmenuEgresos = new javax.swing.JMenuItem();
         jMenuConfiguracion = new javax.swing.JMenu();
-        jMenuMarcas = new javax.swing.JMenuItem();
-        jMenuProcedencia = new javax.swing.JMenuItem();
+        jMenuLaboratorio = new javax.swing.JMenuItem();
+        jMenuFamilia = new javax.swing.JMenuItem();
         jMenuRubros = new javax.swing.JMenuItem();
         jMenuUnidadMedida = new javax.swing.JMenuItem();
         jMenuProductos = new javax.swing.JMenuItem();
@@ -478,23 +478,24 @@ public class FormMenu extends javax.swing.JFrame {
 
         jMenuConfiguracion.setText("Configuración");
 
-        jMenuMarcas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/marca.png"))); // NOI18N
-        jMenuMarcas.setText("Marcas");
-        jMenuMarcas.addActionListener(new java.awt.event.ActionListener() {
+        jMenuLaboratorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/marca.png"))); // NOI18N
+        jMenuLaboratorio.setText("Laboratorio");
+        jMenuLaboratorio.setName(""); // NOI18N
+        jMenuLaboratorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuMarcasActionPerformed(evt);
+                jMenuLaboratorioActionPerformed(evt);
             }
         });
-        jMenuConfiguracion.add(jMenuMarcas);
+        jMenuConfiguracion.add(jMenuLaboratorio);
 
-        jMenuProcedencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/procedencia.png"))); // NOI18N
-        jMenuProcedencia.setText("Procedencia");
-        jMenuProcedencia.addActionListener(new java.awt.event.ActionListener() {
+        jMenuFamilia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/procedencia.png"))); // NOI18N
+        jMenuFamilia.setText("Familia");
+        jMenuFamilia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuProcedenciaActionPerformed(evt);
+                jMenuFamiliaActionPerformed(evt);
             }
         });
-        jMenuConfiguracion.add(jMenuProcedencia);
+        jMenuConfiguracion.add(jMenuFamilia);
 
         jMenuRubros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rubro.png"))); // NOI18N
         jMenuRubros.setText("Rubros");
@@ -743,16 +744,6 @@ public class FormMenu extends javax.swing.JFrame {
                                             idTransaccionCotizacion);
         formTrans.setVisible(true);
     }//GEN-LAST:event_jMenuVentasActionPerformed
-
-    private void jMenuMarcasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuMarcasActionPerformed
-        FormMarca fmarca = new FormMarca(connectionDB);
-        fmarca.setVisible(true);
-    }//GEN-LAST:event_jMenuMarcasActionPerformed
-
-    private void jMenuProcedenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProcedenciaActionPerformed
-        FormProcedencia fprocedencia = new FormProcedencia(connectionDB);
-        fprocedencia.setVisible(true);
-    }//GEN-LAST:event_jMenuProcedenciaActionPerformed
 
     private void jMenuRubrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRubrosActionPerformed
         FormRubro frubro = new FormRubro(connectionDB);
@@ -1035,6 +1026,16 @@ public class FormMenu extends javax.swing.JFrame {
         flc.setVisible(true);
     }//GEN-LAST:event_jMenuCotizacionesPendientesActionPerformed
 
+    private void jMenuLaboratorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLaboratorioActionPerformed
+        FormLaboratorio flaboratorio = new FormLaboratorio(connectionDB);
+        flaboratorio.setVisible(true);
+    }//GEN-LAST:event_jMenuLaboratorioActionPerformed
+
+    private void jMenuFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFamiliaActionPerformed
+        FormFamilia ffamilia = new FormFamilia(connectionDB);
+        ffamilia.setVisible(true);
+    }//GEN-LAST:event_jMenuFamiliaActionPerformed
+
     private void salir() {
         this.databaseUtils.close(connectionDB);
         System.exit(0);
@@ -1055,12 +1056,9 @@ public class FormMenu extends javax.swing.JFrame {
             }
             if (permiso.getNombrePermiso().equals(MENU_INFORMES)) {
                 jMenuInformes.setVisible(true);
-            }
-            if (permiso.getNombrePermiso().equals(MENU_CONFIGURACION_MARCAS)) {
-                jMenuMarcas.setVisible(true);
-            }
+            }            
             if (permiso.getNombrePermiso().equals(MENU_CONFIGURACION_PROCEDENCIA)) {
-                jMenuProcedencia.setVisible(true);
+                //jMenuProcedencia.setVisible(true);
             }
             if (permiso.getNombrePermiso().equals(MENU_CONFIGURACION_RUBROS)) {
                 jMenuRubros.setVisible(true);
@@ -1085,9 +1083,8 @@ public class FormMenu extends javax.swing.JFrame {
     private void ocultarMenus() {
         jMenuConfiguracion.setVisible(false);
         jMenuAdministracion.setVisible(false);
-        jMenuInformes.setVisible(false);
-        jMenuMarcas.setVisible(false);
-        jMenuProcedencia.setVisible(false); 
+        jMenuInformes.setVisible(false);        
+        //jMenuProcedencia.setVisible(false); 
         jMenuProcesos.setVisible(false);
         jMenuProductos.setVisible(false);
         jMenuRubros.setVisible(false);
@@ -1151,15 +1148,15 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuCotizacionesPendientes;
     private javax.swing.JMenuItem jMenuEntregasChange;
     private javax.swing.JMenuItem jMenuFacturaFacil;
+    private javax.swing.JMenuItem jMenuFamilia;
     private javax.swing.JMenuItem jMenuILugar;
     private javax.swing.JMenu jMenuInformes;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuLaboratorio;
     private javax.swing.JMenuItem jMenuListasFacturaFacil;
-    private javax.swing.JMenuItem jMenuMarcas;
-    private javax.swing.JMenuItem jMenuProcedencia;
     private javax.swing.JMenu jMenuProcesos;
     private javax.swing.JMenuItem jMenuProductos;
     private javax.swing.JMenuItem jMenuRestaurarDB;
