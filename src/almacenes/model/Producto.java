@@ -26,6 +26,43 @@ public class Producto {
     private int controlStock;
     private int caducidad;
     private String usuario;
+    private Double precioCompra;
+    private Double precioVenta;
+
+    public Double getPrecioCompra() {
+        return precioCompra;
+    }
+
+    public void setPrecioCompra(Double precioCompra) {
+        this.precioCompra = precioCompra;
+    }
+
+    public Double getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(Double precioVenta) {
+        this.precioVenta = precioVenta;
+    }
+
+    public Producto(int idLaboratorio, int idFamilia, String claseProducto, 
+            String descripcion, String principioActivo, String indicaciones, 
+            String tipoCuenta, String estado, int controlStock, 
+            int caducidad, String usuario) {
+        this.idLaboratorio = idLaboratorio;
+        this.idFamilia = idFamilia;
+        this.claseProducto = claseProducto;
+        this.descripcion = descripcion;
+        this.principioActivo = principioActivo;
+        this.indicaciones = indicaciones;
+        this.tipoCuenta = tipoCuenta;
+        this.estado = estado;
+        this.controlStock = controlStock;
+        this.caducidad = caducidad;
+        this.usuario = usuario;
+    }
+    
+    
 
     public String getSimbolo() {
         return simbolo;

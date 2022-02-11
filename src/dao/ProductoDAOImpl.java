@@ -50,14 +50,16 @@ public class ProductoDAOImpl implements ProductoDAO{
                 p.setControlStock(rs.getByte("control_stock"));
                 p.setDescripcion(rs.getString("nombre_producto"));
                 p.setEstado(rs.getString("estado"));
-                p.setId(rs.getInt("id"));
-                p.setIdFamilia(rs.getInt("idFamilia"));
-                p.setIdLaboratorio(rs.getInt("idLaboratorio"));
-                p.setIndicaciones(rs.getString("sql"));
-                p.setNombreFamilia(rs.getString("sql"));
-                p.setNombreLaboratorio(rs.getString("sql"));
-                p.setPrincipioActivo(rs.getString("sql"));
-                p.setSimbolo(rs.getString("sql"));
+                p.setId(rs.getInt("id_producto"));
+                p.setIdFamilia(rs.getInt("id_familia"));
+                p.setIdLaboratorio(rs.getInt("id_laboratorio"));
+                p.setIndicaciones(rs.getString("indicaciones"));
+                p.setNombreFamilia(rs.getString("nombre_familia"));
+                p.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
+                p.setPrincipioActivo(rs.getString("principio_activo"));
+                p.setSimbolo(rs.getString("simbolo"));
+                p.setPrecioCompra(rs.getDouble("precio_compra"));
+                p.setPrecioVenta(rs.getDouble("precio_venta"));
                 
                 list.add(p);
             }
@@ -76,8 +78,8 @@ public class ProductoDAOImpl implements ProductoDAO{
                 + "id_laboratorio, id_familia, clase_producto, "                
                 + "descripcion, principio_activo, indicaciones, "
                 + "tipo_cuenta, estado, control_stock, "                
-                + "fecha_hora_registro, usuario, caducidad) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp(), ?, ?)";
+                + "fecha_hora_registro, usuario) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp(), ?)";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sqlProd);
@@ -89,12 +91,9 @@ public class ProductoDAOImpl implements ProductoDAO{
             ps.setString(5, p.getPrincipioActivo());
             ps.setString(6, p.getIndicaciones());
             ps.setString(7, p.getTipoCuenta());
-            ps.setString(8, p.getEstado());
-            ps.setString(9, p.getEstado());
-            ps.setInt(10, p.getControlStock());
-            ps.setString(11, p.getUsuario());
-            ps.setInt(12, p.getCaducidad());            
-            
+            ps.setString(8, p.getEstado());            
+            ps.setInt(9, p.getControlStock());
+            ps.setString(10, p.getUsuario());
             
             int n = ps.executeUpdate();
             if(n > 0){
@@ -267,8 +266,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                         "from unidad_producto u \n" +
                         "	join producto p on u.id_producto = p.id \n" +
                         "group by u.id_producto, p.descripcion \n" +
-                        "having count(u.id_producto) > 1";
-        
+                        "having count(u.id_producto) > 1";        
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
