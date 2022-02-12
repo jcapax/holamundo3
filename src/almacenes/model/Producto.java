@@ -11,6 +11,7 @@ package almacenes.model;
  */
 public class Producto {
     private int id;
+    private int idUnidadProducto;
     private int idLaboratorio;
     private String nombreLaboratorio;
     private int idFamilia;
@@ -28,6 +29,14 @@ public class Producto {
     private String usuario;
     private Double precioCompra;
     private Double precioVenta;
+
+    public int getIdUnidadProducto() {
+        return idUnidadProducto;
+    }
+
+    public void setIdUnidadProducto(int idUnidadProducto) {
+        this.idUnidadProducto = idUnidadProducto;
+    }
 
     public Double getPrecioCompra() {
         return precioCompra;

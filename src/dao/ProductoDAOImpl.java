@@ -106,44 +106,39 @@ public class ProductoDAOImpl implements ProductoDAO{
             Logger.getLogger(ProductoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-/*
+
     @Override
     public ArrayList<Producto> getListaProductosVenta(String criterio, byte idLugar) {
-        String sql = "SELECT * FROM v_productos_lugar "
-                + "WHERE estado = 'V' and id_lugar = "+idLugar+" and descripcion like '%"+criterio+"%' "
+        String sql = "SELECT * FROM v_productos "
+                + "WHERE estado = 'V' and nombre_producto like '%"+criterio+"%' "
                 + "and id_unidad_producto is not null";
         
-        ArrayList<ListaProductos> lproducto = new ArrayList<ListaProductos>();
+        ArrayList<Producto> lproducto = new ArrayList<Producto>();
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                ListaProductos lProd = new ListaProductos();
+                Producto p = new Producto();
                 
-                lProd.setId(rs.getInt("id_producto"));
-                lProd.setACTUALIZACION(rs.getInt("actualizacion"));
-                lProd.setControlStock(rs.getInt("control_stock"));
-                lProd.setCaducidad(rs.getInt("caducidad"));
-                lProd.setDescripcion(rs.getString("descripcion"));
-                lProd.setEstado(rs.getString("estado"));
-                lProd.setIDUNIDADMEDIDA(rs.getInt("id_unidad_medida"));
-                lProd.setIdMarca(rs.getInt("id_marca"));
-                lProd.setIdProcedencia(rs.getInt("id_procedencia"));
-                lProd.setIdRubroProducto(rs.getInt("id_rubro_producto"));
-                lProd.setMarca(rs.getString("marca"));
-                lProd.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
-                lProd.setPRECIOCOMPRA(rs.getDouble("precio_compra"));
-                lProd.setPRECIOVENTA(rs.getDouble("precio_venta"));
-                lProd.setPRECIOVENTAAUMENTO(rs.getDouble("precio_venta_aumento"));
-                lProd.setPRECIOVENTAREBAJA(rs.getDouble("precio_venta_rebaja"));
-                lProd.setProcedencia(rs.getString("procedencia"));
-                lProd.setRubro(rs.getString("rubro"));
-                lProd.setSTOCKMINIMO(rs.getDouble("stock_minimo"));
-                lProd.setUNIDADPRINCIPAL(rs.getInt("unidad_principal"));
-                lProd.setIdLugar(rs.getByte("id_lugar"));
+                p.setCaducidad(rs.getByte("caducidad"));
+                p.setClaseProducto(rs.getString("clase_producto"));
+                p.setControlStock(rs.getByte("control_stock"));
+                p.setDescripcion(rs.getString("nombre_producto"));
+                p.setEstado(rs.getString("estado"));
+                p.setId(rs.getInt("id_producto"));
+                p.setIdFamilia(rs.getInt("id_familia"));
+                p.setIdUnidadProducto(rs.getInt("id_unidad_producto"));
+                p.setIdLaboratorio(rs.getInt("id_laboratorio"));
+                p.setIndicaciones(rs.getString("indicaciones"));
+                p.setNombreFamilia(rs.getString("nombre_familia"));
+                p.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
+                p.setPrincipioActivo(rs.getString("principio_activo"));
+                p.setSimbolo(rs.getString("simbolo"));
+                p.setPrecioCompra(rs.getDouble("precio_compra"));
+                p.setPrecioVenta(rs.getDouble("precio_venta"));
                 
-                lproducto.add(lProd);
+                lproducto.add(p);
             }
             
         } catch (SQLException ex) {
@@ -152,7 +147,7 @@ public class ProductoDAOImpl implements ProductoDAO{
         
         return lproducto;
     }
-
+/*
     @Override
     public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio) {
         ArrayList<StockProducto> lStockProducto = new ArrayList<StockProducto>();

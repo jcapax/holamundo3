@@ -20,7 +20,7 @@ public interface ProductoDAO {
     
     public ArrayList<Producto> getListaProductos();
     public Producto getProductoById(int id);
-    //public ArrayList<Producto> getListaProductosVenta(String criterio, byte idLugar);
+    public ArrayList<Producto> getListaProductosVenta(String criterio, byte idLugar);
     public void insertarProducto(Producto producto);
     //public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio);
     //public byte getControlStock(int idProducto);

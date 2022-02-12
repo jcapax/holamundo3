@@ -11,7 +11,7 @@ package almacenes.model;
  */
 public class UnidadProducto {
     private int id ;
-    private int idProdcuto;
+    private int idProdcuto;    
     private int idUnidadMedida;
     private String nombreUnidadMedida;
     private int unidadPrincipal;

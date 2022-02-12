@@ -6,6 +6,7 @@
 package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
+import almacenes.model.Producto;
 import almacenes.model.UnidadProducto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,9 +32,9 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
     
     @Override
     public ArrayList<UnidadProducto> getListaUnidadProducto(int idProducto) {
-        String sql = "SELECT * FROM v_productos_lugar WHERE id_producto = " + String.valueOf(idProducto);
+        String sql = "SELECT * FROM v_unidad_producto WHERE id_producto = " + idProducto;
         
-        ArrayList<UnidadProducto> lUnidadProducto = new ArrayList<UnidadProducto>();
+        ArrayList<UnidadProducto> lProducto = new ArrayList<UnidadProducto>();
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -41,32 +42,27 @@ public class UnidadProductoDAOImlp implements UnidadProductoDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 UnidadProducto uProd = new UnidadProducto();
-                uProd.setId(rs.getInt("id_unidad_producto"));
+                
+                uProd.setId(rs.getInt("id"));
                 uProd.setIdProdcuto(rs.getInt("id_producto"));
+                uProd.setNombreProducto(rs.getString("nombre_producto"));
                 uProd.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
-                uProd.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
-                uProd.setNombreUnidadPrincipal(rs.getString("nombre_unidad_principal"));
+                uProd.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));                
                 uProd.setPrecioCompra(rs.getDouble("precio_compra"));
-                uProd.setPrecioVenta(rs.getDouble("precio_venta"));
-                uProd.setPrecioVentaAumento(rs.getDouble("precio_venta_aumento"));
-                uProd.setPrecioVentaRebaja(rs.getDouble("precio_venta_rebaja"));
-                uProd.setStockMinimo(rs.getDouble("stock_minimo"));
-                uProd.setUnidadPrincipal(rs.getInt("unidad_principal"));
-                uProd.setGarantiaMeses(rs.getInt("garantia_meses"));
-                uProd.setCodigoAdjunto(rs.getString("codigo_adjunto"));
-                uProd.setCantidad(rs.getInt("cantidad"));                
-                uProd.setDescuento(rs.getInt("descuento"));
+                uProd.setPrecioVenta(rs.getDouble("precio_venta"));                
+                uProd.setStockMinimo(rs.getDouble("stock_minimo"));                                                
+                uProd.setCantidad(rs.getInt("cantidad"));                                
                 uProd.setIdLugar(rs.getByte("id_lugar"));
                 
                 
-                lUnidadProducto.add(uProd);
+                lProducto.add(uProd);
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(UnidadProductoDAOImlp.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return lUnidadProducto;
+        return lProducto;
     }
     
     @Override
