@@ -7,7 +7,7 @@ package almacenes.model;
 
 /**
  *
- * @author jcapaxz
+ * @author jcapax
  */
 public class Producto {
     private int id;
@@ -15,6 +15,7 @@ public class Producto {
     private int idLaboratorio;
     private String nombreLaboratorio;
     private int idFamilia;
+    private int idUnidadMedida;
     private String nombreFamilia;
     private String claseProducto;
     private String descripcion;
@@ -29,6 +30,24 @@ public class Producto {
     private String usuario;
     private Double precioCompra;
     private Double precioVenta;
+    private int stock;
+
+    public int getIdUnidadMedida() {
+        return idUnidadMedida;
+    }
+
+    public void setIdUnidadMedida(int idUnidadMedida) {
+        this.idUnidadMedida = idUnidadMedida;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+    
 
     public int getIdUnidadProducto() {
         return idUnidadProducto;

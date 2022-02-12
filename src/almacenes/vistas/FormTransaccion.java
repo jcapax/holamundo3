@@ -12,7 +12,7 @@ import almacenes.model.Caja;
 import almacenes.model.DetalleTransaccion;
 import almacenes.model.FacturaVenta;
 import almacenes.model.Temporal;
-import almacenes.model.ListaProductos;
+
 import almacenes.model.Transaccion;
 import almacenes.model.UnidadProducto;
 import dao.ArqueoDAOImpl;
@@ -53,6 +53,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -80,6 +81,7 @@ public class FormTransaccion extends javax.swing.JFrame {
     private String usuario;
     private DecimalFormat df;
     private VencimientoDAO vencimientoDAO;
+    private ClienteProveedorDAO clienteProveedorDAO;
 
 //    DefaultTableModel dtm;
     public FormTransaccion(Connection connectionDB,
@@ -123,6 +125,8 @@ public class FormTransaccion extends javax.swing.JFrame {
 //        byte idTerminal = 1;
         
         ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
+        clienteProveedorDAO = new ClienteProveedorDAOImpl(connectionDB);
+        
 
         llenarTablaProductos("");
         jtxtDetalle.setText("");
@@ -663,9 +667,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         jcClienteProveedor.removeAllItems();
         jcClienteProveedor.addItem(sel);
 
-        ClienteProveedorDAO cp = new ClienteProveedorDAOImpl(connectionDB);
-
-        TreeMap<String, Integer> map = cp.clienteProveedorClaveValor(tipo);
+        HashMap<String, Integer> map = clienteProveedorDAO.clienteProveedorClaveValor(tipo);
 
         for (String s : map.keySet()) {
             jcClienteProveedor.addItem(s.toString());
@@ -678,9 +680,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         String tipo = "C";
         String comp = "Sel";
 
-        ClienteProveedorDAO cp = new ClienteProveedorDAOImpl(connectionDB);
-
-        TreeMap<String, Integer> map = cp.clienteProveedorClaveValor(tipo);
+        HashMap<String, Integer> map = clienteProveedorDAO.clienteProveedorClaveValor(tipo);
 
         try {
             sel = jcClienteProveedor.getSelectedItem().toString();

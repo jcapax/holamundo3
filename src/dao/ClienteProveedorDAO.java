@@ -7,7 +7,7 @@ package dao;
 
 import almacenes.model.ClienteProveedor;
 import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 /**
  *
@@ -19,5 +19,5 @@ public interface ClienteProveedorDAO {
     public void eliminarClienteProveedor(int idCliente);
     public void actualizarClienteProveedor(ClienteProveedor clienteProveedor);    
     public boolean validarEliminacionClienteProveedor();
-    public TreeMap<String, Integer> clienteProveedorClaveValor(String tipo); 
+    public HashMap<String, Integer> clienteProveedorClaveValor(String tipo); 
 }

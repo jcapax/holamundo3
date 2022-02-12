@@ -6,10 +6,7 @@
 package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
-import almacenes.model.ListaProductos;
 import almacenes.model.Producto;
-import almacenes.model.StockProducto;
-import almacenes.model.StockVencimiento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,6 +57,8 @@ public class ProductoDAOImpl implements ProductoDAO{
                 p.setSimbolo(rs.getString("simbolo"));
                 p.setPrecioCompra(rs.getDouble("precio_compra"));
                 p.setPrecioVenta(rs.getDouble("precio_venta"));
+                p.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
+                p.setStock(rs.getInt("stock"));
                 
                 list.add(p);
             }
@@ -137,6 +136,8 @@ public class ProductoDAOImpl implements ProductoDAO{
                 p.setSimbolo(rs.getString("simbolo"));
                 p.setPrecioCompra(rs.getDouble("precio_compra"));
                 p.setPrecioVenta(rs.getDouble("precio_venta"));
+                p.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
+                p.setStock(rs.getInt("stock"));
                 
                 lproducto.add(p);
             }
@@ -302,7 +303,9 @@ public class ProductoDAOImpl implements ProductoDAO{
                 p.setPrincipioActivo(rs.getString("principio_activo"));
                 p.setSimbolo(rs.getString("simbolo"));
                 p.setPrecioCompra(rs.getDouble("precio_compra"));
-                p.setPrecioVenta(rs.getDouble("precio_venta"));                             
+                p.setPrecioVenta(rs.getDouble("precio_venta"));  
+                p.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
+                p.setStock(rs.getInt("stock"));
             }
             
         } catch (SQLException ex) {

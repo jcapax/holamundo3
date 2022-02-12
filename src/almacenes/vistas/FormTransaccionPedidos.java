@@ -545,6 +545,7 @@ public class FormTransaccionPedidos extends javax.swing.JFrame {
     }
 
     public void llenarClienteProveedor(String tipo) {
+        /*
         String sel = "Sel";
 
         jcClienteProveedor.removeAllItems();
@@ -557,10 +558,11 @@ public class FormTransaccionPedidos extends javax.swing.JFrame {
         for (String s : map.keySet()) {
             jcClienteProveedor.addItem(s.toString());
         }
+        */
     }
 
     private void seleccionarClienteProveedor() {
-
+        /*
         String sel = null;
         String tipo = "C";
         String comp = "Sel";
@@ -579,6 +581,7 @@ public class FormTransaccionPedidos extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
+        */
     }
 
 //    public void registrarCaja(int idTransaccion) {

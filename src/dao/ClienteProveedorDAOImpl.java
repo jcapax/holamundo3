@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -140,8 +141,8 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
     }
 
     @Override
-    public TreeMap<String, Integer> clienteProveedorClaveValor(String tipo) {
-        TreeMap<String, Integer> map = new TreeMap<String, Integer>();
+    public HashMap<String, Integer> clienteProveedorClaveValor(String tipo) {
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
         String sql = null;
         
          sql = "SELECT * FROM cliente_proveedor WHERE tipo = '"+tipo+"' ORDER BY razon_social, nombre_completo";
@@ -173,7 +174,8 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
                 map.put(descripcion, rs.getInt("id"));
             }
             
-        } catch (Exception e) {
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return map;
