@@ -534,7 +534,7 @@ public class FormAjusteStock extends javax.swing.JFrame {
 
         
         Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion,
-                idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion);
+                idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion, 0);
 
         idTransaccion = transDaoImpl.insertarTransaccion(trans);
 

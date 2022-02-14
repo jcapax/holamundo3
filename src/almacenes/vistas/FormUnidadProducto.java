@@ -33,7 +33,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
     private byte idLugar;
     private int idProducto;
     private UnidadProductoDAO unidadProductoDAO;
-    private UnidadMedidaDAO unidadMedidaDAO;
+    private UnidadMedidaDAO unidadMedidaDAO;    
     
     public FormUnidadProducto() {
         initComponents();
@@ -117,9 +117,7 @@ public class FormUnidadProducto extends javax.swing.JFrame {
         jcUnidadMedida.removeAllItems();
         jcUnidadMedida.addItem(sel);
 
-        UnidadMedidaDAOImpl unid = new UnidadMedidaDAOImpl(connectionDB);
-
-        HashMap<String, Integer> map = unid.unidadMedidaClaveValor();
+        HashMap<String, Integer> map = unidadMedidaDAO.unidadMedidaClaveValor();
 
         for (String s : map.keySet()) {
             jcUnidadMedida.addItem(s.toString());

@@ -465,7 +465,7 @@ public class FormCotizacion extends javax.swing.JFrame {
 //        descripcion = jtxtRazonSocial.getText().toUpperCase();
 
         Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion,
-                idLugar, idTerminal, tipoMovimineto, estado, usuario, detalle);
+                idLugar, idTerminal, tipoMovimineto, estado, usuario, detalle, 0);
 
         idTransaccion = transDaoImpl.insertarTransaccion(trans);
 

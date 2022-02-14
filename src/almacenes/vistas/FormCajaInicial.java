@@ -22,6 +22,7 @@ public class FormCajaInicial extends javax.swing.JFrame {
     private byte idTerminal;
     private byte idLugar; 
     private String usuario;
+    private ArqueoDAOImpl arqueoDAO;
 
     public FormCajaInicial() {
         initComponents();
@@ -37,15 +38,15 @@ public class FormCajaInicial extends javax.swing.JFrame {
         this.idLugar = idLugar;
         this.idTerminal = idTerminal;
         
+        arqueoDAO = new ArqueoDAOImpl(connectionDB);
+        
         cajaInicial();
     }
     
     public void cajaInicial(){
-        ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
-                
-        int idArqueo = arq.getIdArqueo(idLugar, idTerminal, usuario);
+        int idArqueo = arqueoDAO.getIdArqueo(idLugar, idTerminal, usuario);
         
-        double cajaIni = arq.getCajaInicial(idArqueo);
+        double cajaIni = arqueoDAO.getCajaInicial(idArqueo);
         
         if(cajaIni > 0){
             jtxtCajaInicial.setText(String.valueOf(cajaIni));
@@ -55,19 +56,20 @@ public class FormCajaInicial extends javax.swing.JFrame {
     }
     
     public void registrarCajaInicial(){
-        ArqueoDAOImpl arqueoDaoImpl = new ArqueoDAOImpl(connectionDB);
-        
         double cajaInicial = 0;
         
-        cajaInicial = Double.valueOf(jtxtCajaInicial.getText());
+        if(jtxtCajaInicial.getText().length()<0){
+            cajaInicial = Double.valueOf(jtxtCajaInicial.getText().toString());
+        }
         
         Arqueo arqueo = new Arqueo();
+        
         arqueo.setCajaInicial(cajaInicial);
         arqueo.setIdLugar(idLugar);
         arqueo.setIdTerminal(idTerminal);
         arqueo.setUsuario(usuario);
         
-        arqueoDaoImpl.insertarCajaInicial(arqueo);
+        arqueoDAO.insertarCajaInicial(arqueo);
         
     }
     
@@ -84,12 +86,17 @@ public class FormCajaInicial extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        jlTituloFormulario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setForeground(new java.awt.Color(153, 0, 51));
-        jLabel1.setText("Caja Inicial");
+        jtxtCajaInicial.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel1.setText("Importe");
+
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Save-icon.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -98,6 +105,7 @@ public class FormCajaInicial extends javax.swing.JFrame {
             }
         });
 
+        btnSalir.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
         btnSalir.setText("Cerrar");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -105,6 +113,11 @@ public class FormCajaInicial extends javax.swing.JFrame {
                 btnSalirActionPerformed(evt);
             }
         });
+
+        jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
+        jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
+        jlTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlTituloFormulario.setText("Caja Inicial");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,11 +136,17 @@ public class FormCajaInicial extends javax.swing.JFrame {
                     .addComponent(jtxtCajaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(83, 83, 83)
+                .addContainerGap()
+                .addComponent(jlTituloFormulario)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtCajaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -135,7 +154,7 @@ public class FormCajaInicial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
                     .addComponent(btnGuardar))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,6 +211,7 @@ public class FormCajaInicial extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JTextField jtxtCajaInicial;
     // End of variables declaration//GEN-END:variables
 }

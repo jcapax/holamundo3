@@ -37,6 +37,8 @@ public class FormProducto extends javax.swing.JFrame {
     private Connection connectionDB;
     private ProductoDAO productoDAO;
     private String usuario;
+    private LaboratorioDAO laboratorioDAO;
+    private FamiliaDAO familiaDAO;
     
     private byte idLugar;    
     
@@ -57,6 +59,8 @@ public class FormProducto extends javax.swing.JFrame {
         this.idLugar = idLugar;
         
         productoDAO = new ProductoDAOImpl(connectionDB);
+        laboratorioDAO = new LaboratorioDAOImpl(connectionDB);
+        familiaDAO = new FamiliaDAOImpl(connectionDB);
         
         headerTabla();
         
@@ -225,13 +229,11 @@ public class FormProducto extends javax.swing.JFrame {
         jcLaboratorio.removeAllItems();
         jcLaboratorio.addItem(sel);
         
-        LaboratorioDAO laboratorioDAO = new LaboratorioDAOImpl(connectionDB);
-        
-            HashMap<String, Integer> map = laboratorioDAO.laboratorioClaveValor();
-            
-            for (String s : map.keySet()) {
-                jcLaboratorio.addItem(s.toString());
-            }
+        HashMap<String, Integer> map = laboratorioDAO.laboratorioClaveValor();
+
+        for (String s : map.keySet()) {
+            jcLaboratorio.addItem(s.toString());
+        }
     }
     
     public void llenarComboFamilia(){
@@ -241,8 +243,6 @@ public class FormProducto extends javax.swing.JFrame {
         jcFamilia.removeAllItems();
         jcFamilia.addItem(sel);
         
-        FamiliaDAO familiaDAO = new FamiliaDAOImpl(connectionDB);
-
         HashMap<String, Integer> map = familiaDAO.familiaClaveValor();
 
         for (String s : map.keySet()) {
@@ -793,13 +793,8 @@ public class FormProducto extends javax.swing.JFrame {
     private void seleccionarElementoLaboratorio() {
         
         jlIdLaboratorio.setVisible(false);
-        String sel = null;
-        
+        String sel = null;        
         String comp = "Sel";
-        
-        
-        LaboratorioDAO laboratorioDAO = new LaboratorioDAOImpl(connectionDB);
-        
         HashMap<String, Integer> map = laboratorioDAO.laboratorioClaveValor();
             
         try {
@@ -821,11 +816,8 @@ public class FormProducto extends javax.swing.JFrame {
 
     private void seleccionarElementoFamilia() {
         jlIdFamilia.setVisible(false);
-        String sel = null;
-        
+        String sel = null;        
         String comp = "Sel";
-        FamiliaDAO familiaDAO = new FamiliaDAOImpl(connectionDB);
-                
         HashMap<String, Integer> map = familiaDAO.familiaClaveValor();
             
         try {

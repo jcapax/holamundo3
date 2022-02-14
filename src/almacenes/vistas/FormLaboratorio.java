@@ -7,6 +7,7 @@ package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Laboratorio;
+import dao.LaboratorioDAO;
 import dao.LaboratorioDAOImpl;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -23,11 +24,13 @@ public class FormLaboratorio extends javax.swing.JFrame {
      */
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
+    private LaboratorioDAO laboratorioDAO;
     DefaultTableModel dtm;
     
     public FormLaboratorio() {
         this.databaseUtils = new DatabaseUtils();
         initComponents();
+        laboratorioDAO = new LaboratorioDAOImpl(connectionDB);
         llenarTablaLaboratorio();
     }
     
@@ -40,11 +43,10 @@ public class FormLaboratorio extends javax.swing.JFrame {
     
 
     public void llenarTablaLaboratorio(){
-        LaboratorioDAOImpl rub = new LaboratorioDAOImpl(connectionDB);
         
         ArrayList<Laboratorio> r = new ArrayList<Laboratorio>();
         
-        r = rub.getListaLaboratorios();
+        r = laboratorioDAO.getListaLaboratorios();
         
         dtm = (DefaultTableModel) this.jtLaboratorio.getModel();
         dtm.setRowCount(0);
@@ -68,9 +70,8 @@ public class FormLaboratorio extends javax.swing.JFrame {
     
     public void guardarLaboratorio(){
         String descripcion = txtDescripcion.getText().toUpperCase();
-        Laboratorio r = new Laboratorio(descripcion, "SYS");
-        LaboratorioDAOImpl rdao = new LaboratorioDAOImpl(connectionDB);
-        rdao.insertarLaboratorio(r);
+        Laboratorio r = new Laboratorio(descripcion, "SYS");        
+        laboratorioDAO.insertarLaboratorio(r);
         llenarTablaLaboratorio();
         txtDescripcion.setText("");
     }
@@ -271,8 +272,7 @@ public class FormLaboratorio extends javax.swing.JFrame {
 
         int id = (int) jtLaboratorio.getValueAt(filSel, 0);
 
-        LaboratorioDAOImpl rdao = new LaboratorioDAOImpl(connectionDB);
-        rdao.eliminarLaboratorio(id);
+        laboratorioDAO.eliminarLaboratorio(id);
         llenarTablaLaboratorio();
     }//GEN-LAST:event_btnEliminarActionPerformed
 

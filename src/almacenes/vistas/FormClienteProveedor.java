@@ -24,7 +24,7 @@ public class FormClienteProveedor extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     DefaultTableModel dtm;
-    ClienteProveedorDAO clientProv;
+    ClienteProveedorDAO clienteProveedorDAO;
     String tipo;    
     
     /**
@@ -35,6 +35,7 @@ public class FormClienteProveedor extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
+        clienteProveedorDAO = new ClienteProveedorDAOImpl(connectionDB);
         this.tipo = tipo;
         
         if(tipo.equals("C")){jlTituloFormulario.setText("CLIENTES");}else{jlTituloFormulario.setText("PROVEEDORES");}
@@ -84,10 +85,8 @@ public class FormClienteProveedor extends javax.swing.JFrame {
     
     
     public void llenarTablaClienteProveedor(){
-        clientProv = new ClienteProveedorDAOImpl(connectionDB);
-
         ArrayList<ClienteProveedor> lista = new ArrayList<ClienteProveedor>();
-        lista = clientProv.getListaClienteProveedor(tipo);
+        lista = clienteProveedorDAO.getListaClienteProveedor(tipo);
 
         dtm = (DefaultTableModel) this.jtClienteProveedor.getModel();
         dtm.setRowCount(0);
@@ -591,8 +590,7 @@ public class FormClienteProveedor extends javax.swing.JFrame {
 
     private void guardar() {
         ClienteProveedor cp = new ClienteProveedor();
-        clientProv = new ClienteProveedorDAOImpl(connectionDB);
-        
+                
         String cedulaIdentidad = null;
         String nombreCompleto = null;
         String razonSocial = null;
@@ -623,19 +621,18 @@ public class FormClienteProveedor extends javax.swing.JFrame {
         
         if(jlEdicion.getText().equals("1")){
             cp.setId(getIdClienteProveedorSeleeccionado());
-            clientProv.actualizarClienteProveedor(cp);
+            clienteProveedorDAO.actualizarClienteProveedor(cp);
         }
         else{
-            clientProv.insertarClienteProveedor(cp);
+            clienteProveedorDAO.insertarClienteProveedor(cp);
         }
         
         llenarTablaClienteProveedor();
         
     }
 
-    private void eliminar() {
-        clientProv = new ClienteProveedorDAOImpl(connectionDB);        
-        clientProv.eliminarClienteProveedor(getIdClienteProveedorSeleeccionado());
+    private void eliminar() {        
+        clienteProveedorDAO.eliminarClienteProveedor(getIdClienteProveedorSeleeccionado());
         llenarTablaClienteProveedor();
     }
     

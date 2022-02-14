@@ -37,6 +37,7 @@ public class FormArqueoCaja extends javax.swing.JFrame {
         this.usuario = usuario;
         this.idLugar = idLugar;
         this.idTerminal = idTerminal;
+        arqueoDAO = new ArqueoDAOImpl(connectionDB);
         
         cajaInicial();
         importeArqueo();
@@ -47,13 +48,9 @@ public class FormArqueoCaja extends javax.swing.JFrame {
      */
     public FormArqueoCaja() {
         initComponents();
-        
-
     }
     
     public void cajaInicial(){
-        arqueoDAO = new ArqueoDAOImpl(connectionDB);
-                
         int idArqueo = arqueoDAO.getIdArqueo(idLugar, idTerminal, usuario);
         
         double cajaIni = arqueoDAO.getCajaInicial(idArqueo);
@@ -86,12 +83,6 @@ public class FormArqueoCaja extends javax.swing.JFrame {
     public void importeArqueo(){
         double importeA = 0;
                 
-//        ArrayList<Integer> lTrans = new ArrayList<>(); 
-        
-//        lTrans = arq.getListaTransaccionArqueoPorUsuarioMaquina(idLugar, idTerminal, usuario);
-        
-//        jlImporteArque.setText(String.valueOf(arq.getImportePorArqueoUsuarioMaquina(lTrans)));
-
         importeA = arqueoDAO.getImportePorArqueoUsuarioMaquina(idLugar, idTerminal, usuario);
         jlImporteArque.setText(String.valueOf(importeA));
         
@@ -101,33 +92,30 @@ public class FormArqueoCaja extends javax.swing.JFrame {
     }
     
     public void cerrarCaja(){
-        
-        
-        ArqueoDAOImpl arq = new ArqueoDAOImpl(connectionDB);
-        int idArqueo = arq.getIdArqueo(idLugar, idTerminal, usuario);
+        int idArqueo = arqueoDAO.getIdArqueo(idLugar, idTerminal, usuario);
         
         ArrayList<Integer> lTrans = new ArrayList<>(); 
-        lTrans = arq.getListaTransaccionArqueoPorUsuarioMaquina(idLugar, idTerminal, usuario);
+        lTrans = arqueoDAO.getListaTransaccionArqueoPorUsuarioMaquina(idLugar, idTerminal, usuario);
         
         //*********************************
         //CERRAMOS CAJA
         //*********************************
-        arq.cerrarCaja(lTrans, idArqueo);
+        arqueoDAO.cerrarCaja(lTrans, idArqueo);
         
         //*********************************
         //CERRAMOS TRANSACCIONES
         //*********************************
-        arq.cerrarTransacciones(lTrans);
+        arqueoDAO.cerrarTransacciones(lTrans);
         
         //*********************************
         //CERRAMOS CREDITO + ARQUEO
         //*********************************
-        arq.cerrarCreditoCaja(idLugar, idTerminal, usuario, idArqueo);
+        arqueoDAO.cerrarCreditoCaja(idLugar, idTerminal, usuario, idArqueo);
         
         double importeCierre = 0.0;
         importeCierre = Double.valueOf(jtxtImporteCierre.getText());
         
-        arq.cerrarArqueo(importeCierre, idArqueo);
+        arqueoDAO.cerrarArqueo(importeCierre, idArqueo);
                 
         ReporteVentasDAOImpl reparq = new ReporteVentasDAOImpl(connectionDB, usuario);
         reparq.arqueo(idArqueo);       
@@ -152,9 +140,13 @@ public class FormArqueoCaja extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jtxtCajaInicial.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Caja Inicial");
 
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Save-icon.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -163,6 +155,7 @@ public class FormArqueoCaja extends javax.swing.JFrame {
             }
         });
 
+        btnSalir.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
         btnSalir.setText("Cerrar");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -171,9 +164,13 @@ public class FormArqueoCaja extends javax.swing.JFrame {
             }
         });
 
+        jtxtImporteCierre.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Importe Cierre");
 
+        jlImporteArque.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jlImporteArque.setText("importe arqueo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -217,7 +214,7 @@ public class FormArqueoCaja extends javax.swing.JFrame {
                     .addComponent(btnGuardar))
                 .addGap(52, 52, 52)
                 .addComponent(jlImporteArque)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();

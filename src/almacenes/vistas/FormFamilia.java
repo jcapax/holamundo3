@@ -24,10 +24,12 @@ public class FormFamilia extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     DefaultTableModel dtm;
+    private FamiliaDAOImpl familiaDAOImpl;
     
     public FormFamilia() {
         this.databaseUtils = new DatabaseUtils();
         initComponents();
+        familiaDAOImpl = new FamiliaDAOImpl(connectionDB);
         llenarTablaFamilia();
     }
     
@@ -40,11 +42,9 @@ public class FormFamilia extends javax.swing.JFrame {
     
 
     public void llenarTablaFamilia(){
-        FamiliaDAOImpl rub = new FamiliaDAOImpl(connectionDB);
-        
         ArrayList<Familia> r = new ArrayList<Familia>();
         
-        r = rub.getListaFamilias();
+        r = familiaDAOImpl.getListaFamilias();
         
         dtm = (DefaultTableModel) this.jtFamilia.getModel();
         dtm.setRowCount(0);
@@ -52,8 +52,6 @@ public class FormFamilia extends javax.swing.JFrame {
         jtFamilia.setModel(dtm);
         
         Object[] fila = new Object[3];
-        
-//        System.out.println("nro de registros en pila: " + r.size());
         
         for(int i=0; i< r.size(); i++){
             fila[0] = r.get(i).getId();
@@ -69,8 +67,8 @@ public class FormFamilia extends javax.swing.JFrame {
     public void guardarFamilia(){
         String descripcion = txtDescripcion.getText().toUpperCase();
         Familia r = new Familia(descripcion, "SYS");
-        FamiliaDAOImpl rdao = new FamiliaDAOImpl(connectionDB);
-        rdao.insertarFamilia(r);
+        
+        familiaDAOImpl.insertarFamilia(r);
         llenarTablaFamilia();
         txtDescripcion.setText("");
     }
@@ -271,8 +269,7 @@ public class FormFamilia extends javax.swing.JFrame {
 
         int id = (int) jtFamilia.getValueAt(filSel, 0);
 
-        FamiliaDAOImpl rdao = new FamiliaDAOImpl(connectionDB);
-        rdao.eliminarFamilia(id);
+        familiaDAOImpl.eliminarFamilia(id);
         llenarTablaFamilia();
     }//GEN-LAST:event_btnEliminarActionPerformed
 

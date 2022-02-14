@@ -8,6 +8,7 @@ package almacenes.vistas;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Configuracion;
 import almacenes.model.FacturaVenta;
+import dao.FacturaDAO;
 import dao.FacturaDAOImpl;
 import dao.FacturaFacilDAO;
 import dao.FacturaFacilDAOImpl;
@@ -45,6 +46,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
     private static Connection connectionDB;
 
     private static SistemaDAO sistemaDAO;
+    private FacturaDAO facturaDAO;
 
     DefaultTableModel dtm;
     private String usuario;
@@ -71,6 +73,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
         this.usuario = usuario;
 
         sistemaDAO = new SistemaDAOImpl(this.connectionDB);
+        facturaDAO = new FacturaDAOImpl(connectionDB);
 
         headerTabla();
 
@@ -335,9 +338,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_jbImprimirActionPerformed
 
     private void jbExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcelActionPerformed
-        FacturaDAOImpl rub = new FacturaDAOImpl(connectionDB);
         
-
         ArrayList<FacturaVenta> r = new ArrayList<FacturaVenta>();
 
         byte mes = 0;
@@ -346,7 +347,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
         mes = (byte) (jcMes.getSelectedIndex() + 1);
         anno = Integer.parseInt(jcAnno.getSelectedItem().toString());
 
-        r = rub.getListaFacturasLibroVenta(mes, anno);
+        r = facturaDAO.getListaFacturasLibroVenta(mes, anno);
 
         exportarExcel(r, anno, mes);
         JOptionPane.showMessageDialog(null, "Exportacion Completa", 
@@ -468,8 +469,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
     private void llenarAnnos() {
         jcAnno.removeAllItems();
 
-        FacturaDAOImpl fact = new FacturaDAOImpl(connectionDB);
-        ArrayList<Integer> lanno = fact.getListaAnnosFacturacion();
+        ArrayList<Integer> lanno = facturaDAO.getListaAnnosFacturacion();
         for (byte i = 0; i < lanno.size(); i++) {
             jcAnno.addItem(lanno.get(i).toString());
         }
@@ -479,7 +479,6 @@ public class FormLibroVentas extends javax.swing.JFrame {
     public void llenarTablaFactura() {
         double importeTotal = 0, baseDebitoFiscal = 0, debitoFiscal = 0;
 
-        FacturaDAOImpl rub = new FacturaDAOImpl(connectionDB);
 //        DecimalFormat df = new DecimalFormat("###,##0.00");
 
         ArrayList<FacturaVenta> r = new ArrayList<FacturaVenta>();
@@ -490,7 +489,7 @@ public class FormLibroVentas extends javax.swing.JFrame {
         mes = (byte) (jcMes.getSelectedIndex() + 1);
         anno = Integer.parseInt(jcAnno.getSelectedItem().toString());
 
-        r = rub.getListaFacturasLibroVenta(mes, anno);
+        r = facturaDAO.getListaFacturasLibroVenta(mes, anno);
         
         if(ff.isFacturasAbiertas(anno, mes)){
             jbBloquearFacturas.setVisible(true);

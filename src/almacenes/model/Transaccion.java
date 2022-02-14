@@ -24,8 +24,11 @@ public class Transaccion {
     private String estado;
     private String usuario;
     private String descripcionTransaccion;
+    private int idClienteProveedor;
 
-    public Transaccion(Date fecha, int idTipoTransaccion, int nroTipoTransaccion, byte idLugar, int idTerminal, int tipoMovimiento, String estado, String usuario, String descripcionTransaccion) {
+    public Transaccion(Date fecha, int idTipoTransaccion, int nroTipoTransaccion, byte idLugar, 
+            int idTerminal, int tipoMovimiento, String estado, String usuario, 
+            String descripcionTransaccion, int idClienteProveedor) {
         this.fecha = fecha;
         this.idTipoTransaccion = idTipoTransaccion;
         this.nroTipoTransaccion = nroTipoTransaccion;
@@ -35,6 +38,15 @@ public class Transaccion {
         this.estado = estado;
         this.usuario = usuario;
         this.descripcionTransaccion = descripcionTransaccion;
+        this.idClienteProveedor = idClienteProveedor;
+    }
+
+    public int getIdClienteProveedor() {
+        return idClienteProveedor;
+    }
+
+    public void setIdClienteProveedor(int idClienteProveedor) {
+        this.idClienteProveedor = idClienteProveedor;
     }
 
     public Transaccion() {

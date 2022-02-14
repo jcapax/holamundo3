@@ -22,6 +22,7 @@ public class Producto {
     private String principioActivo;
     private String indicaciones;
     private String simbolo;
+    private String nombreUnidadMedida;
     private String tipoCuenta;
     private String estado;
     private int recargo;
@@ -31,6 +32,14 @@ public class Producto {
     private Double precioCompra;
     private Double precioVenta;
     private int stock;
+
+    public String getNombreUnidadMedida() {
+        return nombreUnidadMedida;
+    }
+
+    public void setNombreUnidadMedida(String nombreUnidadMedida) {
+        this.nombreUnidadMedida = nombreUnidadMedida;
+    }
 
     public int getIdUnidadMedida() {
         return idUnidadMedida;

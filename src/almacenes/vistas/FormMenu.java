@@ -68,6 +68,9 @@ public class FormMenu extends javax.swing.JFrame {
     private static final int REPORTE_TRES = 3;
     private static final int REPORTE_CUATRO = 4;
     
+    private SucursalDAO sucursalDAO;
+    private FacturaDAO facturaDAO;
+    
     /**
      * Creates new form Menu
      */
@@ -80,6 +83,8 @@ public class FormMenu extends javax.swing.JFrame {
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = _connectionDB;
         sistemaDAO = new SistemaDAOImpl(connectionDB);
+        sucursalDAO = new SucursalDAOImpl(connectionDB);
+        facturaDAO = new FacturaDAOImpl(_connectionDB);
         this.idUsuario = _idUsuario;
         this.idLugar = idLugar;
         this.idTerminal = idTerminal;
@@ -197,7 +202,7 @@ public class FormMenu extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(339, Short.MAX_VALUE)
+                .addContainerGap(338, Short.MAX_VALUE)
                 .addComponent(jlUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlTerminal, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,6 +260,7 @@ public class FormMenu extends javax.swing.JFrame {
         jToolBar1.add(jButton4);
 
         jMenuArchivo.setText("Archivo");
+        jMenuArchivo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -269,6 +275,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenuArchivo);
 
         jMenu1.setText("Factura Facil");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jMenuFacturaFacil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/factura_facil.png"))); // NOI18N
         jMenuFacturaFacil.setText("Factura Facil");
@@ -291,8 +298,10 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenuProcesos.setText("Procesos");
+        jMenuProcesos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuProcesos.add(jSeparator8);
 
+        jMenuVentas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/venta.png"))); // NOI18N
         jMenuVentas.setText("Ventas");
         jMenuVentas.addActionListener(new java.awt.event.ActionListener() {
@@ -303,6 +312,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jMenuVentas);
         jMenuProcesos.add(jSeparator4);
 
+        jMenuCompras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/compras.png"))); // NOI18N
         jMenuCompras.setText("Compras");
         jMenuCompras.setName(""); // NOI18N
@@ -314,6 +324,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jMenuCompras);
         jMenuProcesos.add(jSeparator2);
 
+        jmenuCajaInicial.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmenuCajaInicial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/caja_inicial.png"))); // NOI18N
         jmenuCajaInicial.setText("Caja Inicial");
         jmenuCajaInicial.addActionListener(new java.awt.event.ActionListener() {
@@ -323,6 +334,7 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenuProcesos.add(jmenuCajaInicial);
 
+        jmenuCerrarCaja.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmenuCerrarCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/carrar_caja.png"))); // NOI18N
         jmenuCerrarCaja.setText("Cerrar Caja");
         jmenuCerrarCaja.addActionListener(new java.awt.event.ActionListener() {
@@ -333,6 +345,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jmenuCerrarCaja);
         jMenuProcesos.add(jSeparator3);
 
+        jmAnularTrans.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmAnularTrans.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
         jmAnularTrans.setText("Anular Trans");
         jmAnularTrans.addActionListener(new java.awt.event.ActionListener() {
@@ -343,6 +356,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jmAnularTrans);
         jMenuProcesos.add(jSeparator5);
 
+        jmenuReimpresion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmenuReimpresion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reimprimir.png"))); // NOI18N
         jmenuReimpresion.setText("Re Impresion");
         jmenuReimpresion.addActionListener(new java.awt.event.ActionListener() {
@@ -353,6 +367,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jmenuReimpresion);
         jMenuProcesos.add(jSeparator9);
 
+        jmenuDesempaque.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmenuDesempaque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/desempacar.png"))); // NOI18N
         jmenuDesempaque.setText("Desempaque");
         jmenuDesempaque.addActionListener(new java.awt.event.ActionListener() {
@@ -363,6 +378,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jmenuDesempaque);
         jMenuProcesos.add(jSeparator14);
 
+        jmlistaTrnasacciones.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmlistaTrnasacciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/listas.jpg"))); // NOI18N
         jmlistaTrnasacciones.setText("Lista Transacciones");
         jmlistaTrnasacciones.addActionListener(new java.awt.event.ActionListener() {
@@ -373,6 +389,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuProcesos.add(jmlistaTrnasacciones);
         jMenuProcesos.add(jSeparator10);
 
+        jmenuCotizacion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmenuCotizacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calculadora.jpg"))); // NOI18N
         jmenuCotizacion.setText("Cotizacion");
         jmenuCotizacion.addActionListener(new java.awt.event.ActionListener() {
@@ -382,6 +399,7 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenuProcesos.add(jmenuCotizacion);
 
+        jMenuCotizacionesPendientes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuCotizacionesPendientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cotiizacion_pendiente.png"))); // NOI18N
         jMenuCotizacionesPendientes.setText("Cotizaciones Pendientes");
         jMenuCotizacionesPendientes.addActionListener(new java.awt.event.ActionListener() {
@@ -394,6 +412,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenuProcesos);
 
         jMenu2.setText("Creditos");
+        jMenu2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jMenuEntregasChange.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Entregas-Credito.png"))); // NOI18N
         jMenuEntregasChange.setText("Pedidos");
@@ -455,6 +474,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Otros");
+        jMenu3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jmenuIngresos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ingreso.png"))); // NOI18N
         jmenuIngresos.setText("Ingresos");
@@ -477,6 +497,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenuConfiguracion.setText("Configuración");
+        jMenuConfiguracion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jMenuLaboratorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/marca.png"))); // NOI18N
         jMenuLaboratorio.setText("Laboratorio");
@@ -564,6 +585,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenuConfiguracion);
 
         jMenuAdministracion.setText("Administración");
+        jMenuAdministracion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jMenuStockInicial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Configurar.png"))); // NOI18N
         jMenuStockInicial.setText("Ajuste Stock");
@@ -633,6 +655,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenuAdministracion);
 
         jMenuInformes.setText("Informes");
+        jMenuInformes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jMenuStockProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/stock.png"))); // NOI18N
         jMenuStockProductos.setText("Stock Productos");
@@ -682,6 +705,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenuInformes);
 
         jMenuAyuda.setText("Ayuda");
+        jMenuAyuda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuBar1.add(jMenuAyuda);
 
         setJMenuBar(jMenuBar1);
@@ -694,7 +718,7 @@ public class FormMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 921, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -714,31 +738,26 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVentasActionPerformed
-//        FormProcesosVentas procesosVentas = new almacenes.vistas.FormProcesosVentas(connectionDB);
-//        procesosVentas.setVariable("hola");
-//        procesosVentas.setVisible(true);
         int idTipoTransaccion = 2;
         int idTipoTransaccionEntrega = 8;
         int idTransaccionCotizacion = 0;
        
-        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
-        byte idSucursal = suc.getIdSucursal(idLugar);
-        
-        FacturaDAO fac = new FacturaDAOImpl(connectionDB);
-        
-        if(!fac.getEstadoDosificacion(idSucursal)){
+        byte idSucursal = sucursalDAO.getIdSucursal(idLugar);
+        /*
+        if(!facturaDAO.getEstadoDosificacion(idSucursal)){
             JOptionPane.showMessageDialog( null, "¡No se cuenta con una dosificación válida, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if(!fac.getFechaLimiteEmisionVigente(idSucursal)){
+            if(!facturaDAO.getFechaLimiteEmisionVigente(idSucursal)){
                JOptionPane.showMessageDialog( null, "¡La fecha de emisión para las facturas ha vencido, no podrá emitir facturas!!!" , "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+        */
         
-//        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
-//                                            idTipoTransaccion, idTipoTransaccionEntrega, 
-//                                            idUsuario, idLugar, idTerminal);
+        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
+                                            idTipoTransaccion, idTipoTransaccionEntrega, 
+                                            idUsuario, idLugar, idTerminal);
 
-//        formTrans.setVisible(true);
+        formTrans.setVisible(true);
     }//GEN-LAST:event_jMenuVentasActionPerformed
 
     private void jMenuRubrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRubrosActionPerformed
@@ -763,7 +782,7 @@ public class FormMenu extends javax.swing.JFrame {
     private void jMenuComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuComprasActionPerformed
         int idTipoTransaccion = 1;// nro para compras
         int idTipoTransaccionEntrega = 7;
-        FormTransaccionCompras formTrans = new FormTransaccionCompras(connectionDB, 
+        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
                                         idTipoTransaccion, idTipoTransaccionEntrega, 
                                         idUsuario, idLugar, idTerminal);
         formTrans.setVisible(true);
@@ -781,9 +800,15 @@ public class FormMenu extends javax.swing.JFrame {
 
         int idTipoTransaccion = 6;// ajuste stock 
         int idTipoTransaccionEntrega = 7;
+        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
+                                        idTipoTransaccion, idTipoTransaccionEntrega, 
+                                        idUsuario, idLugar, idTerminal);
+        formTrans.setVisible(true);
+        /*
         FormAjusteStock formAjuste = new FormAjusteStock(connectionDB, idTipoTransaccion, 
                 idTipoTransaccionEntrega, idUsuario, idLugar, idTerminal);
         formAjuste.setVisible(true);
+        */
     }//GEN-LAST:event_jMenuStockInicialActionPerformed
 
     private void jMenuStockProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuStockProductosActionPerformed

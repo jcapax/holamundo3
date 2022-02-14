@@ -119,7 +119,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
         nroTipoTransaccion = transDaoImpl.getNroTipoTransaccion(idTipoTransaccion);
 
         Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion,
-                idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion);
+                idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion, 0);
 
         idTransaccion = transDaoImpl.insertarTransaccion(trans);
 

@@ -55,6 +55,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 p.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
                 p.setPrincipioActivo(rs.getString("principio_activo"));
                 p.setSimbolo(rs.getString("simbolo"));
+                p.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
                 p.setPrecioCompra(rs.getDouble("precio_compra"));
                 p.setPrecioVenta(rs.getDouble("precio_venta"));
                 p.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
@@ -134,6 +135,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 p.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
                 p.setPrincipioActivo(rs.getString("principio_activo"));
                 p.setSimbolo(rs.getString("simbolo"));
+                p.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
                 p.setPrecioCompra(rs.getDouble("precio_compra"));
                 p.setPrecioVenta(rs.getDouble("precio_venta"));
                 p.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
@@ -302,6 +304,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 p.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
                 p.setPrincipioActivo(rs.getString("principio_activo"));
                 p.setSimbolo(rs.getString("simbolo"));
+                p.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
                 p.setPrecioCompra(rs.getDouble("precio_compra"));
                 p.setPrecioVenta(rs.getDouble("precio_venta"));  
                 p.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
