@@ -7,6 +7,7 @@ package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Usuario;
+import dao.UsuariosDAO;
 import dao.UsuariosDAOImpl;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class FormUsuario extends javax.swing.JFrame {
     private Connection connectionDB;
     DefaultTableModel dtm;
     private boolean edicionUsuario;
+    private UsuariosDAO usuariosDAO; 
 
     public FormUsuario() {
         initComponents();
@@ -34,6 +36,7 @@ public class FormUsuario extends javax.swing.JFrame {
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
         this.edicionUsuario = false;
+        usuariosDAO = new UsuariosDAOImpl(connectionDB);
         llenarTablaUsuarios();
         deshabilitarComponentes();
     }
@@ -448,11 +451,9 @@ public class FormUsuario extends javax.swing.JFrame {
     }
 
     public void llenarTablaUsuarios() {
-        UsuariosDAOImpl rub = new UsuariosDAOImpl(connectionDB);
-
         ArrayList<Usuario> r = new ArrayList<Usuario>();
 
-        r = rub.getlistaUsuarios();
+        r = usuariosDAO.getlistaUsuarios();
 
         dtm = (DefaultTableModel) this.jtUsuarios.getModel();
         dtm.setRowCount(0);
@@ -475,7 +476,7 @@ public class FormUsuario extends javax.swing.JFrame {
     }
 
     public void guardarUsuario() {
-        UsuariosDAOImpl usuarioDAO = new UsuariosDAOImpl(connectionDB);
+        
         Usuario us = new Usuario();
 
         String login = null;
@@ -510,7 +511,7 @@ public class FormUsuario extends javax.swing.JFrame {
             return;
         }
 
-        verificarPass = usuarioDAO.verificarPass1Pass2(passChar1, passChar2);
+        verificarPass = usuariosDAO.verificarPass1Pass2(passChar1, passChar2);
 
         if (verificarPass) {
             checkAll = true;
@@ -533,7 +534,7 @@ public class FormUsuario extends javax.swing.JFrame {
             us.setContrasenia(pass);
             us.setEstado(estado);
 
-            usuarioDAO.insertarUsuario(us);
+            usuariosDAO.insertarUsuario(us);
         } else {
             byte x = 4;// cancelar
             botones(x);
@@ -572,13 +573,12 @@ public class FormUsuario extends javax.swing.JFrame {
 
     }
 
-    public void eliminarUsuario() {
-        UsuariosDAOImpl us = new UsuariosDAOImpl(connectionDB);
+    public void eliminarUsuario() {        
         int fila = jtUsuarios.getSelectedRow();
         String usuario = jtUsuarios.getValueAt(fila, 1).toString();
-        boolean aux = us.validarEliminacionUsuario(usuario);
+        boolean aux = usuariosDAO.validarEliminacionUsuario(usuario);
         if (aux) {
-            us.eliminarUsuario(usuario);
+            usuariosDAO.eliminarUsuario(usuario);
             llenarTablaUsuarios();
         } else {
             JOptionPane.showMessageDialog(this, "El usuario no puede ser eliminado");
@@ -586,7 +586,6 @@ public class FormUsuario extends javax.swing.JFrame {
     }
 
     private void guardarEdicionUsuario() {
-        UsuariosDAOImpl us = new UsuariosDAOImpl(connectionDB);
         Usuario usuario = new Usuario();
         boolean checkAll = false;
         
@@ -603,7 +602,7 @@ public class FormUsuario extends javax.swing.JFrame {
         String rol = null;
         rol = (jchAdministrador.isSelected())?"1":"2";
         
-        if(us.verificarPassEdicionUsuario(login, new String(passAnterior))){
+        if(usuariosDAO.verificarPassEdicionUsuario(login, new String(passAnterior))){
             checkAll = true;
         }
         else{
@@ -612,7 +611,7 @@ public class FormUsuario extends javax.swing.JFrame {
             return;
         }
         
-        if(us.verificarPass1Pass2(pass1, pass2)){
+        if(usuariosDAO.verificarPass1Pass2(pass1, pass2)){
             checkAll = true;
         }
         else{
@@ -627,7 +626,7 @@ public class FormUsuario extends javax.swing.JFrame {
         usuario.setRol(rol);        
                 
         if (checkAll) {
-            us.editarUsuario(usuario);
+            usuariosDAO.editarUsuario(usuario);
         }
     }
 

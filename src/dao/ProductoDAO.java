@@ -22,8 +22,8 @@ public interface ProductoDAO {
     public Producto getProductoById(int id);
     public ArrayList<Producto> getListaProductosVenta(String criterio, byte idLugar);
     public void insertarProducto(Producto producto);
-    //public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio);
-    //public byte getControlStock(int idProducto);
+    public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio);
+    public byte getControlStock(int idProducto);
     //public ArrayList<StockVencimiento> getListStockVencimiento(byte idLugar, int idProducto, byte idUnidadMedida);
     public void editarProducto(Producto producto);
     

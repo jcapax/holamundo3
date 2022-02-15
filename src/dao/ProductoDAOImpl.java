@@ -7,6 +7,7 @@ package dao;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Producto;
+import almacenes.model.StockProducto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -150,18 +151,19 @@ public class ProductoDAOImpl implements ProductoDAO{
         
         return lproducto;
     }
-/*
+
     @Override
     public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio) {
         ArrayList<StockProducto> lStockProducto = new ArrayList<StockProducto>();
         
-        String sql = "SELECT s.id_producto, s.id_unidad_medida, p.descripcion, p.nombre_unidad_medida, s.stock "
+        String sql = "SELECT s.id_producto, s.id_unidad_medida, p.nombre_producto, "
+                + "p.nombre_unidad_medida, s.stock "
                 + "FROM v_stock s"
-                + " JOIN v_productos_lugar p ON p.id_producto = s.id_producto"
+                + " JOIN v_productos p ON p.id_producto = s.id_producto"
                 + "  AND p.id_unidad_medida = s.id_unidad_medida "
-                + "WHERE s.id_lugar = ? and p.descripcion like '%"+criterio+"%'"
-                + " ORDER BY s.stock, p.descripcion";
-        
+                + "WHERE s.id_lugar = ? and p.nombre_producto like '%"+criterio+"%'"
+                + " ORDER BY s.stock, p.nombre_producto";
+        System.out.println(sql);
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setByte(1, idLugar);
@@ -171,7 +173,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 
                 sp.setIdProducto(rs.getInt("id_producto"));
                 sp.setIdUnidadMedida(rs.getByte("id_unidad_medida"));
-                sp.setNombreProducto(rs.getString("descripcion"));
+                sp.setNombreProducto(rs.getString("nombre_producto"));
                 sp.setNombreUnidadMedida(rs.getString("nombre_unidad_medida"));
                 sp.setStock(rs.getDouble("stock"));
                 
@@ -202,7 +204,7 @@ public class ProductoDAOImpl implements ProductoDAO{
         return controlStock;
         
     }
-*/
+
     @Override
     public void editarProducto(Producto p) {
         String sql = "update producto "

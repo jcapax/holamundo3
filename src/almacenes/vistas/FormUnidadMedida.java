@@ -10,6 +10,7 @@ import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Procedencia;
 import almacenes.model.UnidadMedida;
 import dao.ProcedenciaDAOImpl;
+import dao.UnidadMedidaDAO;
 import dao.UnidadMedidaDAOImpl;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class FormUnidadMedida extends javax.swing.JFrame {
     
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
+    private UnidadMedidaDAO unidadMedidaDAO;
     
     DefaultTableModel dtm;
     
@@ -41,15 +43,14 @@ public class FormUnidadMedida extends javax.swing.JFrame {
         initComponents();
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
+        unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
         llenarTablaUnidadMedida();
     }
 
     public void llenarTablaUnidadMedida(){
-        UnidadMedidaDAOImpl uni = new UnidadMedidaDAOImpl(connectionDB);
-        
         ArrayList<UnidadMedida> um = new ArrayList<UnidadMedida>();
         
-        um = uni.getListUnidadMedida();
+        um = unidadMedidaDAO.getListUnidadMedida();
         
         dtm = (DefaultTableModel) this.jtUnidadMedida.getModel();
         dtm.setRowCount(0);
@@ -76,8 +77,8 @@ public class FormUnidadMedida extends javax.swing.JFrame {
         String descripcion = txtDescripcion.getText().toUpperCase();
         String simbolo = txtSimbolo.getText().toUpperCase();
         UnidadMedida um = new UnidadMedida(descripcion, simbolo, "SYS");
-        UnidadMedidaDAOImpl umdao = new UnidadMedidaDAOImpl(connectionDB);
-        umdao.insertarUnidadMedida(um);
+        
+        unidadMedidaDAO.insertarUnidadMedida(um);
         llenarTablaUnidadMedida();
         
         txtDescripcion.setText("");
@@ -297,8 +298,7 @@ public class FormUnidadMedida extends javax.swing.JFrame {
 
         int id = (int) jtUnidadMedida.getValueAt(filSel, 0);
 
-        UnidadMedidaDAOImpl umdao = new UnidadMedidaDAOImpl(connectionDB);
-        umdao.eliminarUnidadMedida(id);
+        unidadMedidaDAO.eliminarUnidadMedida(id);
         llenarTablaUnidadMedida();
     }//GEN-LAST:event_btnEliminarActionPerformed
 

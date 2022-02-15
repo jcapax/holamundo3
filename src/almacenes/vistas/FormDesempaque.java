@@ -8,9 +8,11 @@ package almacenes.vistas;
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.DetalleTransaccion;
 import almacenes.model.Transaccion;
+import dao.DetalleTransaccionDAO;
 import dao.DetalleTransaccionDAOImpl;
 import dao.ProductoDAO;
 import dao.ProductoDAOImpl;
+import dao.TransaccionDAO;
 import dao.TransaccionDAOImpl;
 import dao.UnidadMedidaDAO;
 import dao.UnidadMedidaDAOImpl;
@@ -35,8 +37,13 @@ public class FormDesempaque extends javax.swing.JFrame {
     private byte idLugar;
     private byte idTerminal;
     private String usuario;
+    private int idProducto, idUnidadMedida1, idUnidadMedida2;
     
     private UnidadProductoDAO unidadProductoDAO;
+    private UnidadMedidaDAO unidadMedidaDAO;
+    private ProductoDAO productoDAO;
+    private TransaccionDAO transaccionDAO;
+    private DetalleTransaccionDAO detalleTransaccionDAO;
     
     public FormDesempaque() {
         initComponents();
@@ -53,11 +60,13 @@ public class FormDesempaque extends javax.swing.JFrame {
         this.idTerminal = idTerminal;       
         
         unidadProductoDAO = new UnidadProductoDAOImlp(connectionDB);
+        unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
+        productoDAO = new ProductoDAOImpl(connectionDB);
+        transaccionDAO = new TransaccionDAOImpl(connectionDB);
+        detalleTransaccionDAO = new DetalleTransaccionDAOImpl(connectionDB);
         
-        vaciarComponentes();
-        
-        llenarComboProductos();
-        
+        vaciarComponentes();        
+        llenarComboProductos();        
     }
 
     public void vaciarComponentes(){
@@ -81,14 +90,14 @@ public class FormDesempaque extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jcProducto = new javax.swing.JComboBox<>();
+        jcProducto = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
         jbDesempacar = new javax.swing.JButton();
         jlTituloFormulario = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jcUnidadMedidaInicio = new javax.swing.JComboBox<>();
+        jcUnidadMedidaInicio = new javax.swing.JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
-        jcUnidadMedidaFinal = new javax.swing.JComboBox<>();
+        jcUnidadMedidaFinal = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
         jtxtCantidadInicial = new javax.swing.JTextField();
         jtxtCantidadFinal = new javax.swing.JTextField();
@@ -102,13 +111,15 @@ public class FormDesempaque extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jcProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcProducto.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jcProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcProductoActionPerformed(evt);
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setText("Producto");
 
@@ -128,40 +139,51 @@ public class FormDesempaque extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaInicio.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedidaInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaInicioActionPerformed(evt);
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Unidad Medida 2");
 
-        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaFinal.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedidaFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaFinalActionPerformed(evt);
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(153, 0, 51));
         jLabel4.setText("Cantidad 1");
 
+        jtxtCantidadInicial.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jtxtCantidadInicial.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        jtxtCantidadFinal.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jtxtCantidadFinal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 0, 51));
         jLabel5.setText("Cantidad 2");
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Unidad Medida 1");
 
+        jlIdUnidadMedidaInicio.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jlIdUnidadMedidaInicio.setText("idUnidad1");
 
+        jlIdUnidadMedidaFinal.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jlIdUnidadMedidaFinal.setText("idUnidad2");
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(153, 0, 51));
         jLabel6.setText("Stock:");
 
@@ -197,7 +219,7 @@ public class FormDesempaque extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jlIdUnidadMedidaFinal)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,6 +252,7 @@ public class FormDesempaque extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
+        jlIdProducto.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jlIdProducto.setText("idProducto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -239,21 +262,20 @@ public class FormDesempaque extends javax.swing.JFrame {
             .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(29, 29, 29)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jlIdProducto))
+                                .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jlIdProducto))
-                            .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(189, 189, 189)
+                        .addGap(182, 182, 182)
                         .addComponent(jbDesempacar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,9 +290,9 @@ public class FormDesempaque extends javax.swing.JFrame {
                 .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addComponent(jbDesempacar)
-                .addGap(26, 26, 26))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -363,14 +385,11 @@ public class FormDesempaque extends javax.swing.JFrame {
         
         jcProducto.removeAllItems();
         jcProducto.addItem(sel);
-        
-        ProductoDAO productoDAOImpl = new ProductoDAOImpl(connectionDB);
-        
-            HashMap<String, Integer> map = productoDAOImpl.getProductoClaveValor();
-            
-            for (String s : map.keySet()) {
-                jcProducto.addItem(s.toString());
-            }
+        HashMap<String, Integer> map = productoDAO.getProductoClaveValor();
+
+        for (String s : map.keySet()) {
+            jcProducto.addItem(s.toString());
+        }
     }
     
     public void llenarComboUnidadMedidaInicio(int idProducto) {
@@ -379,9 +398,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         jcUnidadMedidaInicio.removeAllItems();
         jcUnidadMedidaInicio.addItem(sel);
 
-        UnidadMedidaDAOImpl unid = new UnidadMedidaDAOImpl(connectionDB);
-
-        HashMap<String, Integer> map = unid.unidadMedidaClaveValorProducto(idProducto);
+        HashMap<String, Integer> map = unidadMedidaDAO.unidadMedidaClaveValorProducto(idProducto);
 
         for (String s : map.keySet()) {
             jcUnidadMedidaInicio.addItem(s.toString());
@@ -394,9 +411,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         jcUnidadMedidaFinal.removeAllItems();
         jcUnidadMedidaFinal.addItem(sel);
 
-        UnidadMedidaDAOImpl unid = new UnidadMedidaDAOImpl(connectionDB);
-
-        HashMap<String, Integer> map = unid.unidadMedidaClaveValorProducto(idProducto);
+        HashMap<String, Integer> map = unidadMedidaDAO.unidadMedidaClaveValorProducto(idProducto);
 
         for (String s : map.keySet()) {
             jcUnidadMedidaFinal.addItem(s.toString());
@@ -404,14 +419,9 @@ public class FormDesempaque extends javax.swing.JFrame {
     }
     
     private void seleccionarProducto(){
-        jlIdProducto.setVisible(false);
-        String sel = null;
-        
+        String sel = null;        
         String comp = "Sel";
-        
-        ProductoDAOImpl rubroDAOImpl = new ProductoDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = rubroDAOImpl.getProductoClaveValor();
+        HashMap<String, Integer> map = productoDAO.getProductoClaveValor();
             
         try {
             sel = jcProducto.getSelectedItem().toString();
@@ -419,77 +429,57 @@ public class FormDesempaque extends javax.swing.JFrame {
 //            System.out.println("elemento seleccionado "+ sel);
 
             if(sel.equals(comp)){
-                jlIdProducto.setText("0");
+                idProducto = 0;
             }
             else{
-                jlIdProducto.setText(map.get(sel).toString());
-                llenarComboUnidadMedidaInicio(Integer.valueOf(jlIdProducto.getText()));
-                llenarComboUnidadMedidaFinal(Integer.valueOf(jlIdProducto.getText()));
+                idProducto = Integer.valueOf(map.get(sel).toString());
+                llenarComboUnidadMedidaInicio(idProducto);
+                llenarComboUnidadMedidaFinal(idProducto);
             }
         } catch (Exception e) {
         }
     }
     
-    private void seleccionarUnidadInicio(){
-        jlIdUnidadMedidaInicio.setVisible(false);
-        String sel = null;
-        
-        String comp = "Sel";
-        
-        UnidadMedidaDAO unidadDAOImpl = new UnidadMedidaDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = unidadDAOImpl.unidadMedidaClaveValor();
+    private void seleccionarUnidadInicio(){        
+        String sel = null;        
+        String comp = "Sel";        
+        HashMap<String, Integer> map = unidadMedidaDAO.unidadMedidaClaveValor();
             
         try {
             sel = jcUnidadMedidaInicio.getSelectedItem().toString();
 
-//            System.out.println("elemento seleccionado "+ sel);
-
             if(sel.equals(comp)){
-                jlIdUnidadMedidaInicio.setText("0");
+                idUnidadMedida1 = 0;
             }
             else{
-                jlIdUnidadMedidaInicio.setText(map.get(sel).toString());
+                idUnidadMedida1 = Integer.valueOf(map.get(sel).toString());
+                
                 jlStockProducto.setText(String.valueOf(
-                    unidadProductoDAO.getStockProducto(Integer.valueOf(
-                        jlIdProducto.getText()), 
-                        Integer.valueOf(jlIdUnidadMedidaInicio.getText()), 
-                        idLugar)));
-                jlIdUnidadMedidaFinal.setText("0");
+                    unidadProductoDAO.getStockProducto(idProducto, idUnidadMedida1, idLugar)));
+                idUnidadMedida2 = 0;
             }
         } catch (Exception e) {
         }
     }
     
     private void seleccionarUnidadFinal(){
-        jlIdUnidadMedidaFinal.setVisible(false);
         String sel = null;
-        
         String comp = "Sel";
-        
-        UnidadMedidaDAO unidadDAOImpl = new UnidadMedidaDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = unidadDAOImpl.unidadMedidaClaveValor();
-            
+        HashMap<String, Integer> map = unidadMedidaDAO.unidadMedidaClaveValor();            
         try {
             sel = jcUnidadMedidaFinal.getSelectedItem().toString();
 
-//            System.out.println("elemento seleccionado "+ sel);
-
             if(sel.equals(comp)){
-                jlIdUnidadMedidaFinal.setText("0");
+                idUnidadMedida2 = 0;
             }
             else{
-                jlIdUnidadMedidaFinal.setText(map.get(sel).toString());
+                idUnidadMedida2 = Integer.valueOf(map.get(sel).toString());                
             }
         } catch (Exception e) {
         }
     }
     
     public void desempacar(){
-        int idProducto;
-        int idUnidadMedidaInicial;
-        int idUnidadMedidaFinal;
         int cantidadInicial;
         int cantidadFinal;
         
@@ -498,24 +488,21 @@ public class FormDesempaque extends javax.swing.JFrame {
         int idEntregaTransaccionDesempaque = 0;
         int idEntregaTransaccionDesembalaje = 0;
         
-        idProducto = Integer.valueOf(jlIdProducto.getText().toString().trim());
-        idUnidadMedidaInicial = Integer.valueOf(jlIdUnidadMedidaInicio.getText().toString().trim());
-        idUnidadMedidaFinal = Integer.valueOf(jlIdUnidadMedidaFinal.getText().toString().trim());
         cantidadInicial = Integer.valueOf(jtxtCantidadInicial.getText().toString().trim());
         cantidadFinal = Integer.valueOf(jtxtCantidadFinal.getText().toString().trim());
         
         idTipoTransaccion = 9; // registro transaccion
         idTransaccion = resgistrarTransaccion(idTipoTransaccion);        
-        registrarDetalleTransaccion(idTransaccion, idProducto, idUnidadMedidaInicial, cantidadInicial);
+        registrarDetalleTransaccion(idTransaccion, idProducto, idUnidadMedida1, cantidadInicial);
         
         idTipoTransaccion = 8; // entrega
         idEntregaTransaccionDesempaque = resgistrarTransaccion(idTipoTransaccion);
-        registrarDetalleTransaccion(idEntregaTransaccionDesempaque, idProducto, idUnidadMedidaInicial, cantidadInicial);
+        registrarDetalleTransaccion(idEntregaTransaccionDesempaque, idProducto, idUnidadMedida1, cantidadInicial);
         registrarEntregaTransaccion(idEntregaTransaccionDesempaque, idTransaccion);
         
         idTipoTransaccion = 7; // recepcion
         idEntregaTransaccionDesembalaje = resgistrarTransaccion(idTipoTransaccion);
-        registrarDetalleTransaccion(idEntregaTransaccionDesembalaje, idProducto, idUnidadMedidaFinal, cantidadFinal);
+        registrarDetalleTransaccion(idEntregaTransaccionDesembalaje, idProducto, idUnidadMedida2, cantidadFinal);
         registrarEntregaTransaccion(idEntregaTransaccionDesembalaje, idTransaccion);
         
         JOptionPane.showMessageDialog( null, "Desempaque concluido, revisar Stock!!!" , "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -523,33 +510,31 @@ public class FormDesempaque extends javax.swing.JFrame {
     }
     
     public int resgistrarTransaccion(int idTipoTransaccion){
-        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
-
         int nroTipoTransaccion = 0;
-        int tipoMovimineto = transDaoImpl.getTipoMovimiento(idTipoTransaccion);
+        int tipoMovimineto = transaccionDAO.getTipoMovimiento(idTipoTransaccion);
 
         int idTransaccion = 0;
         String estado = "A";
         String descripcion = "";
+        int idClienteProveedor = 0;
 
         java.util.Date hoy = new java.util.Date();
         java.sql.Date fecha = new java.sql.Date(hoy.getTime());
 
-        nroTipoTransaccion = transDaoImpl.getNroTipoTransaccion(idTipoTransaccion);
+        nroTipoTransaccion = transaccionDAO.getNroTipoTransaccion(idTipoTransaccion);
 
         descripcion = "Desempaque - Embalaje";
 
         Transaccion trans = new Transaccion(fecha, idTipoTransaccion, nroTipoTransaccion,
-                idLugar, idTerminal, tipoMovimineto, estado, usuario, descripcion, 0);
+                idLugar, idTerminal, tipoMovimineto, 
+                estado, usuario, descripcion, idClienteProveedor);
 
-        idTransaccion = transDaoImpl.insertarTransaccion(trans);
+        idTransaccion = transaccionDAO.insertarTransaccion(trans);
 
         return idTransaccion;       
     }
     
-    public void registrarDetalleTransaccion(int idTransaccion, int idProducto, int idUnidadMedida, int cantidad) {
-
-        DetalleTransaccionDAOImpl detTranDAOImpl = new DetalleTransaccionDAOImpl(connectionDB);
+    public void registrarDetalleTransaccion(int idTransaccion, int idProd, int idUnidadMedida, int cantidad) {
 
         double valorUnitario = 0;
         double valorTotal = 0;
@@ -560,7 +545,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         DetalleTransaccion dt = new DetalleTransaccion();
 
         dt.setIdTransaccion(idTransaccion);
-        dt.setIdProducto(idProducto);
+        dt.setIdProducto(idProd);
         dt.setIdUnidadMedida(idUnidadMedida);
         dt.setCantidad(cantidad);
         dt.setValorUnitario(valorUnitario);
@@ -569,12 +554,11 @@ public class FormDesempaque extends javax.swing.JFrame {
 
         detTrans.add(dt);
 
-        detTranDAOImpl.insertarDetalleTransaccion(detTrans);
+        detalleTransaccionDAO.insertarDetalleTransaccion(detTrans);
     }
 
-    public void registrarEntregaTransaccion(int idEntregaTransaccion, int idTransaccion) {
-        TransaccionDAOImpl transDaoImpl = new TransaccionDAOImpl(connectionDB);
-        transDaoImpl.insertarEntregaTransaccion(idTransaccion, idEntregaTransaccion);
+    public void registrarEntregaTransaccion(int idEntregaTransaccion, int idTransaccion) {        
+        transaccionDAO.insertarEntregaTransaccion(idTransaccion, idEntregaTransaccion);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
