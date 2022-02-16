@@ -26,6 +26,9 @@ import javax.swing.JOptionPane;
 public class FormLogin extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
+    private UsuariosDAO usuarioDAO;
+    private LugarDAO lugarDAO;
+    private TerminalDAO terminalDAO;
     int contador = 0;
     
     /**
@@ -40,6 +43,9 @@ public class FormLogin extends javax.swing.JFrame {
         initComponents();
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
+        usuarioDAO = new UsuariosDAOImpl(connectionDB);
+        lugarDAO = new LugarDAOImpl(connectionDB);
+        terminalDAO = new TerminalDAOImpl(connectionDB);
     }
 
     /**
@@ -244,10 +250,6 @@ public class FormLogin extends javax.swing.JFrame {
         char[] pass = jPasswordField1.getPassword();
         String passString = new String(pass);
 
-        UsuariosDAO usuarioDAO = new UsuariosDAOImpl(connectionDB);
-        LugarDAO lugar = new LugarDAOImpl(connectionDB);
-        TerminalDAO terminal = new TerminalDAOImpl(this.connectionDB);
-        
         String idUsuario;
         idUsuario = usuarioDAO.verificarUsuario(nombreUsuario, passString);
         if (idUsuario != null && idUsuario.length() > 0) {
@@ -257,7 +259,7 @@ public class FormLogin extends javax.swing.JFrame {
             rolUsuario = usuarioDAO.getRolUsuario(idUsuario);
             
             
-            if(!lugar.existsLugar()){
+            if(!lugarDAO.existsLugar()){
                 boolean config = false; // cuando no existe configuracion
                 FormLugar fl = new FormLugar(connectionDB, config);
                 fl.setVisible(true);
@@ -265,8 +267,8 @@ public class FormLogin extends javax.swing.JFrame {
             }
             
             if(aux){
-                String hostName = terminal.getNameHost();
-                if(!terminal.existsTerminal(hostName)){
+                String hostName = terminalDAO.getNameHost();
+                if(!terminalDAO.existsTerminal(hostName)){
                     if(rolUsuario == 1){
                         boolean config = false; // cuando no existe configuracion
                         FormTerminal ft = new FormTerminal(connectionDB, config);
@@ -274,12 +276,11 @@ public class FormLogin extends javax.swing.JFrame {
                     }
                     aux = false;
                 }
-            }
-            
+            }            
             if(aux){
-                String hostName = terminal.getNameHost();
-                idTerminal = terminal.getIdTerminal(hostName);
-                idLugar = lugar.getIdLugar(idTerminal);
+                String hostName = terminalDAO.getNameHost();
+                idTerminal = terminalDAO.getIdTerminal(hostName);
+                idLugar = lugarDAO.getIdLugar(idTerminal);
                 new almacenes.vistas.FormMenu(connectionDB, idUsuario, idLugar, idTerminal).setVisible(true);
             }
         } else {

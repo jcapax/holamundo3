@@ -95,6 +95,11 @@ public class Arqueo {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
+
+    @Override
+    public String toString() {
+        return "Arqueo{" + "id=" + id + ", fechaApertura=" + fechaApertura + ", fechaCierre=" + fechaCierre + ", cajaInicial=" + cajaInicial + ", importeCierre=" + importeCierre + ", estado=" + estado + ", idLugar=" + idLugar + ", idTerminal=" + idTerminal + ", usuario=" + usuario + '}';
+    }
     
     
             

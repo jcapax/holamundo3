@@ -89,7 +89,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
         double cajaInicial = 0;
 
         String sql = "select caja_inicial from arqueo where id = ?";
-
+        
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
             ps.setInt(1, idArqueo);

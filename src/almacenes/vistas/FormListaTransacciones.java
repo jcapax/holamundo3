@@ -49,6 +49,8 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         this.usuario = usuario;
         this.setLocationRelativeTo(null);
         
+        transaccionDAO = new TransaccionDAOImpl(connectionDB);
+        
         headerTabla();
 
     }
@@ -67,8 +69,6 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
     public void llenarTablaTransacciones(){
         double importeTotal = 0;
-        
-        transaccionDAO = new TransaccionDAOImpl(connectionDB);
         
         ArrayList<ListaTransaccion> l = new ArrayList<>();
 
@@ -164,6 +164,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         }
 
         fecha.setDateFormatString("dd/MM/yyyy");
+        fecha.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
         jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
@@ -185,6 +186,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             }
         });
 
+        jbBuscar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jbBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Search-icon.png"))); // NOI18N
         jbBuscar.setText("Buscar");
         jbBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +212,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                         .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbBuscar)
-                        .addGap(0, 732, Short.MAX_VALUE)))
+                        .addGap(0, 1062, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -222,7 +224,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                     .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbBuscar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
