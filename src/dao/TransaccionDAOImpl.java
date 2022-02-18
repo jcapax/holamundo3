@@ -181,7 +181,7 @@ public class TransaccionDAOImpl implements TransaccionDAO{
         String sql = "SELECT id, " +
                   "CASE id_tipo_transaccion " +
                   " WHEN 3 then f_get_tipo_credito(id) " +
-                  " ELSE descripcion_tipo_transaccion " +
+                  " ELSE nombre_tipo_movimiento " +
                   " END AS descripcion_tipo_transaccion, fecha, "
                         + "nro_tipo_transaccion, valor_total, fecha_hora_registro, "
                         + "id_tipo_transaccion, "
@@ -189,20 +189,19 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                         "   WHEN 3 then f_get_detalle_credito(id) " +
                         "   ELSE descripcion_transaccion " +
                         "   END AS descripcion_transaccion, "
-                        + "usuario \n" +
+                        + "usuario , nombre_completo, razon_social \n" +
                      "FROM v_transaccion " +
                      "WHERE id_tipo_transaccion in (1, 2, 3, 6, 10) "
                         + "and usuario = '"+usuario+"' "
                         + "and fecha = '"+String.valueOf(fecha)+"' "
                 + "UNION "
                    + "SELECT DISTINCT id, descripcion_transaccion as descripcion_tipo_transaccion, fecha, " +
-                        "nro_tipo_transaccion, valor_total, fecha_hora_registro, 8, 'XXX' as descripcion_transaccion, usuario " +
+                        "nro_tipo_transaccion, valor_total, fecha_hora_registro, 8, "
+                   + "'XXX' as descripcion_transaccion, usuario, '', '' " +
                         "FROM v_entrega_productos_pendientes " +
                         "WHERE fecha = '"+String.valueOf(fecha)+"' " +
                         "and usuario = '"+usuario+"' " +
                       "ORDER BY id";
-        
-        //System.out.println(sql);
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -218,6 +217,8 @@ public class TransaccionDAOImpl implements TransaccionDAO{
                 lt.setIdTipoTransaccion(rs.getInt("id_tipo_transaccion"));
                 lt.setDetalle(rs.getString("descripcion_transaccion"));
                 lt.setUsuario(rs.getString("usuario"));
+                lt.setNombre_completo(rs.getString("nombre_completo"));
+                lt.setRazon_social(rs.getString("razon_social"));
                 
                 lista.add(lt);
             }

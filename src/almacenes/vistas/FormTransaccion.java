@@ -70,6 +70,7 @@ public class FormTransaccion extends javax.swing.JFrame {
     private int idClienteProveedor;
     private int idProducto;
     private int idUnidadMedida;
+    private Double valorUnitarioProducto;
     private String descripcionGeneralProducto, usuario;
     private DecimalFormat df;
     private VencimientoDAO vencimientoDAO;
@@ -185,6 +186,8 @@ public class FormTransaccion extends javax.swing.JFrame {
         reporte.vistaPreviaCompras(idEntregaTransaccion);
         
         JOptionPane.showMessageDialog(this, "Registro generado con éxito");
+        
+        llenarTablaProductos(jtxtxCriterio.getText().toString());
     }
 
     public boolean validarRegistros() {
@@ -358,7 +361,7 @@ public class FormTransaccion extends javax.swing.JFrame {
                 jtProductos.getValueAt(filSel, 3).toString()+" "+
                 jtProductos.getValueAt(filSel, 4).toString();
         String nombreProducto = jtProductos.getValueAt(filSel, 1).toString();
-        Double valorUnitario = (double) jtProductos.getValueAt(filSel, 5);
+        valorUnitarioProducto = (double) jtProductos.getValueAt(filSel, 5);
 
         jlDescripcionProducto.setText(descripcionGeneralProducto);
 
@@ -944,7 +947,9 @@ public class FormTransaccion extends javax.swing.JFrame {
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             //jtxtCantidad.requestFocus();
             FormAuxiliarTemp formAuxiliarTemp = new FormAuxiliarTemp(connectionTemp, 
-                    idProducto, idUnidadMedida, 
+                    idProducto, idUnidadMedida,                                         
+                    valorUnitarioProducto,
+                    idTipoTransaccion,
                     descripcionGeneralProducto);
             formAuxiliarTemp.setVisible(true);                     
         }
@@ -1082,7 +1087,7 @@ public class FormTransaccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jcClienteProveedorActionPerformed
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        llenarTablaTemporal();
+        llenarTablaTemporal();       
     }//GEN-LAST:event_formWindowGainedFocus
 
 

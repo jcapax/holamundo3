@@ -26,17 +26,15 @@ public class FormFamilia extends javax.swing.JFrame {
     DefaultTableModel dtm;
     private FamiliaDAOImpl familiaDAOImpl;
     
-    public FormFamilia() {
-        this.databaseUtils = new DatabaseUtils();
+    public FormFamilia() {        
         initComponents();
-        familiaDAOImpl = new FamiliaDAOImpl(connectionDB);
-        llenarTablaFamilia();
     }
     
     public FormFamilia(Connection connectionDB) {
         initComponents();
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
+        familiaDAOImpl = new FamiliaDAOImpl(connectionDB);
         llenarTablaFamilia();
     }
     

@@ -25,6 +25,15 @@ public class Transaccion {
     private String usuario;
     private String descripcionTransaccion;
     private int idClienteProveedor;
+    private String nombreClienteProveedor;
+
+    public String getNombreClienteProveedor() {
+        return nombreClienteProveedor;
+    }
+
+    public void setNombreClienteProveedor(String nombreClienteProveedor) {
+        this.nombreClienteProveedor = nombreClienteProveedor;
+    }
 
     public Transaccion(Date fecha, int idTipoTransaccion, int nroTipoTransaccion, byte idLugar, 
             int idTerminal, int tipoMovimiento, String estado, String usuario, 

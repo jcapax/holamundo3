@@ -20,6 +20,25 @@ public class ListaTransaccion {
     private int idTipoTransaccion;
     private String detalle;
     private String usuario;
+    private String nombre_completo;
+    private String razon_social;
+
+    public String getNombre_completo() {
+        return nombre_completo;
+    }
+
+    public void setNombre_completo(String nombre_completo) {
+        this.nombre_completo = nombre_completo;
+    }
+
+    
+    public String getRazon_social() {
+        return razon_social;
+    }
+
+    public void setRazon_social(String razon_social) {
+        this.razon_social = razon_social;
+    }
 
     public String getUsuario() {
         return usuario;

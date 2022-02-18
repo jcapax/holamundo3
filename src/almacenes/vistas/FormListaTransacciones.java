@@ -70,25 +70,26 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     public void llenarTablaTransacciones(){
         double importeTotal = 0;
         
-        ArrayList<ListaTransaccion> l = new ArrayList<>();
+        ArrayList<ListaTransaccion> lista = new ArrayList<>();
 
-        l = transaccionDAO.getlistaTransacciones(new Date(fecha.getDate().getTime()), usuario);
+        lista = transaccionDAO.getlistaTransacciones(new Date(fecha.getDate().getTime()), usuario);
 
         dtm = (DefaultTableModel) this.jtListaTransacciones.getModel();
         dtm.setRowCount(0);
 
         jtListaTransacciones.setModel(dtm);
 
-        Object[] fila = new Object[7];
+        Object[] fila = new Object[8];
 
-        for (int i = 0; i < l.size(); i++) {
-            fila[0] = l.get(i).getId();
-            fila[1] = l.get(i).getNroTransaccion();
-            fila[2] = l.get(i).getFecha();            
-            fila[3] = l.get(i).getDescripcion();
-            fila[4] = l.get(i).getDetalle();
-            fila[5] = l.get(i).getIdTipoTransaccion();
-            fila[6] = l.get(i).getValorTotal();            
+        for (int i = 0; i < lista.size(); i++) {
+            fila[0] = lista.get(i).getId();
+            fila[1] = lista.get(i).getNroTransaccion();
+            fila[2] = lista.get(i).getFecha();            
+            fila[3] = lista.get(i).getDescripcion();
+            fila[4] = lista.get(i).getNombre_completo();
+            fila[5] = lista.get(i).getDetalle();
+            fila[6] = lista.get(i).getIdTipoTransaccion();
+            fila[7] = lista.get(i).getValorTotal();            
             
             dtm.addRow(fila);
         }
@@ -123,17 +124,17 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
         jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Nro Trans", "Fecha", "Tipo", "Detalle", "idTipoTransaccion", "Valor Total"
+                "id", "Nro Trans", "Fecha", "Tipo", "Cliente/Proveedor", "Detalle", "idTipoTransaccion", "Valor Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false
+                false, false, false, false, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -155,12 +156,15 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             jtListaTransacciones.getColumnModel().getColumn(3).setMinWidth(150);
             jtListaTransacciones.getColumnModel().getColumn(3).setPreferredWidth(150);
             jtListaTransacciones.getColumnModel().getColumn(3).setMaxWidth(150);
-            jtListaTransacciones.getColumnModel().getColumn(5).setMinWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(5).setPreferredWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(5).setMaxWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(6).setMinWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(6).setPreferredWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(6).setMaxWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(4).setMinWidth(250);
+            jtListaTransacciones.getColumnModel().getColumn(4).setPreferredWidth(250);
+            jtListaTransacciones.getColumnModel().getColumn(4).setMaxWidth(250);
+            jtListaTransacciones.getColumnModel().getColumn(6).setMinWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(6).setPreferredWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(6).setMaxWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(7).setMinWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(7).setPreferredWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(7).setMaxWidth(100);
         }
 
         fecha.setDateFormatString("dd/MM/yyyy");

@@ -29,8 +29,7 @@ public class FormLaboratorio extends javax.swing.JFrame {
     
     public FormLaboratorio() {
         this.databaseUtils = new DatabaseUtils();
-        initComponents();
-        laboratorioDAO = new LaboratorioDAOImpl(connectionDB);
+        initComponents();        
         llenarTablaLaboratorio();
     }
     
@@ -38,6 +37,7 @@ public class FormLaboratorio extends javax.swing.JFrame {
         initComponents();
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
+        laboratorioDAO = new LaboratorioDAOImpl(connectionDB);
         llenarTablaLaboratorio();
     }
     

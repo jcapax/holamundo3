@@ -21,7 +21,7 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
 
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
-    private int idProducto, idUnidadMedida;
+    private int idProducto, idUnidadMedida, idTipoTransaccion;
     private double cantidad, valorUnitario, valorTotal;    
     DefaultTableModel dtm;
 
@@ -32,7 +32,10 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
     public FormAuxiliarTemp(Connection connectionDB, 
         int idProducto, 
         int idUnidadMedida, 
+        double valorUnitario,
+        int idTipoTransaccion,
         String descripcion) {
+        
         initComponents();
         this.setLocationRelativeTo(null);
         this.setAlwaysOnTop(true);
@@ -41,12 +44,52 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
         this.connectionDB = connectionDB;
         this.idProducto = idProducto;
         this.idUnidadMedida = idUnidadMedida;
+        this.idTipoTransaccion = idTipoTransaccion;
+        this.valorUnitario = valorUnitario;
                      
         jlDescripcionProducto.setText(descripcion);        
         
         this.cantidad = 0;
-        this.valorUnitario = 0.0;
         this.valorTotal = 0.0;
+        
+        tipoTransaccion();
+    }
+    
+    private void tipoTransaccion(){
+        jtxtCantidad.requestFocus();
+        
+        if(idTipoTransaccion == 2){
+            jtxtValorUnitario.setText(String.valueOf(valorUnitario));
+            jtxtValorUnitario.setEditable(false);
+        }
+        
+        if(idTipoTransaccion == 1){
+            jtxtValorUnitario.setText(String.valueOf(valorUnitario));
+            jtxtValorUnitario.setEditable(true);
+        }
+        
+        if(idTipoTransaccion == 6){
+            jtxtValorUnitario.setText("0");
+            jtxtValorUnitario.setEditable(false);
+            jtxtValorTotal.setText("0");
+            jtxtValorTotal.setEditable(false);            
+        }        
+    }
+    
+    public void calcularTotal(){
+        int cantidad = 0;        
+        if(idTipoTransaccion == 2){
+            try{
+                cantidad = Integer.valueOf(jtxtCantidad.getText().toString());
+                jtxtValorTotal.setText(String.valueOf(cantidad * valorUnitario));                
+            }catch(Exception e){
+
+            }
+        }
+        if(idTipoTransaccion != 2){
+            cantidad = Integer.valueOf(jtxtCantidad.getText().toString());
+            
+        }
     }
     
     
@@ -68,6 +111,8 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jtxtValorTotal = new javax.swing.JTextField();
         jbAgregar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jtxtValorUnitario = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
@@ -83,7 +128,7 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
         jlTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlTituloFormulario.setText("Auxiliar");
 
-        jbSalir.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jbSalir.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jbSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
         jbSalir.setText("Salir");
         jbSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -92,19 +137,25 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Producto");
 
-        jlDescripcionProducto.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jlDescripcionProducto.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jlDescripcionProducto.setText("...");
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setText("Cantidad");
 
-        jtxtCantidad.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jtxtCantidad.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jtxtCantidad.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtCantidad.setText("1");
+        jtxtCantidad.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtCantidadFocusGained(evt);
+            }
+        });
         jtxtCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtCantidadActionPerformed(evt);
@@ -117,14 +168,27 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtxtCantidadKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtCantidadKeyTyped(evt);
+            }
         });
 
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 0, 51));
         jLabel5.setText("Total");
 
-        jtxtValorTotal.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jtxtValorTotal.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jtxtValorTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtValorTotal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtValorTotalFocusGained(evt);
+            }
+        });
+        jtxtValorTotal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtxtValorTotalMouseClicked(evt);
+            }
+        });
         jtxtValorTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtValorTotalActionPerformed(evt);
@@ -139,12 +203,50 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
             }
         });
 
-        jbAgregar.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jbAgregar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jbAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/plus_button.png"))); // NOI18N
         jbAgregar.setText("Agregar");
         jbAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbAgregarActionPerformed(evt);
+            }
+        });
+        jbAgregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbAgregarKeyPressed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel6.setText("Unit.");
+
+        jtxtValorUnitario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jtxtValorUnitario.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtValorUnitario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtValorUnitarioFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtxtValorUnitarioFocusLost(evt);
+            }
+        });
+        jtxtValorUnitario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtxtValorUnitarioMouseClicked(evt);
+            }
+        });
+        jtxtValorUnitario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtValorUnitarioActionPerformed(evt);
+            }
+        });
+        jtxtValorUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxtValorUnitarioKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtxtValorUnitarioKeyReleased(evt);
             }
         });
 
@@ -156,9 +258,9 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 52, Short.MAX_VALUE)
+                        .addGap(0, 109, Short.MAX_VALUE)
                         .addComponent(jlTituloFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(63, Short.MAX_VALUE))
+                        .addContainerGap(119, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -170,14 +272,18 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jtxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3))
-                                .addGap(8, 8, 8)
+                                .addGap(37, 37, 37)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(73, 73, 73)
+                                        .addGap(28, 28, 28)
+                                        .addComponent(jLabel6))
+                                    .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(41, 41, 41)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(28, 28, 28)
                                         .addComponent(jLabel5))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(36, 36, 36)
-                                        .addComponent(jtxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jtxtValorTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jbAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(36, 36, 36)
@@ -200,11 +306,13 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel3))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtxtCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtxtValorTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jtxtValorTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxtValorUnitario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -225,7 +333,20 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtCantidadActionPerformed
 
     private void jtxtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyPressed
-
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            if(idTipoTransaccion == 2){
+                calcularTotal();
+                jbAgregar.requestFocus();
+            }
+            if(idTipoTransaccion == 6){
+                calcularTotal();
+                jbAgregar.requestFocus();
+            }            
+            if(idTipoTransaccion == 1){
+                calcularTotal();
+                jtxtValorUnitario.requestFocus();
+            }
+        }
     }//GEN-LAST:event_jtxtCantidadKeyPressed
 
     private void jtxtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyReleased
@@ -239,7 +360,9 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
 
     private void jtxtValorTotalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorTotalKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            agregar();            
+            agregar();
+            calcularTotal();
+            jbAgregar.requestFocus();                        
         }// TODO add your handling code here:
     }//GEN-LAST:event_jtxtValorTotalKeyPressed
 
@@ -252,8 +375,59 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        jtxtCantidad.requestFocus();
+        
     }//GEN-LAST:event_formWindowGainedFocus
+
+    private void jtxtValorUnitarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtValorUnitarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtValorUnitarioActionPerformed
+
+    private void jtxtValorUnitarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorUnitarioKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            if(idTipoTransaccion == 1){
+                calcularTotal();               
+                jtxtValorTotal.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_jtxtValorUnitarioKeyPressed
+
+    private void jtxtValorUnitarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtValorUnitarioKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtValorUnitarioKeyReleased
+
+    private void jtxtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtCantidadKeyTyped
+        
+    }//GEN-LAST:event_jtxtCantidadKeyTyped
+
+    private void jtxtCantidadFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtCantidadFocusGained
+                // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtCantidadFocusGained
+
+    private void jbAgregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbAgregarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            agregar();            
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_jbAgregarKeyPressed
+
+    private void jtxtValorTotalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtValorTotalFocusGained
+        
+    }//GEN-LAST:event_jtxtValorTotalFocusGained
+
+    private void jtxtValorUnitarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtValorUnitarioFocusGained
+        
+    }//GEN-LAST:event_jtxtValorUnitarioFocusGained
+
+    private void jtxtValorUnitarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtValorUnitarioFocusLost
+        calcularTotal();
+    }//GEN-LAST:event_jtxtValorUnitarioFocusLost
+
+    private void jtxtValorUnitarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtxtValorUnitarioMouseClicked
+        calcularTotal();
+    }//GEN-LAST:event_jtxtValorUnitarioMouseClicked
+
+    private void jtxtValorTotalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtxtValorTotalMouseClicked
+        calcularTotal();
+    }//GEN-LAST:event_jtxtValorTotalMouseClicked
 
     /**
      * @param args the command line arguments
@@ -292,9 +466,14 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
     }
     
     private void agregar(){
+        calcularTotal();
         cantidad = Integer.valueOf(jtxtCantidad.getText().toString());
-        valorTotal = Double.valueOf(jtxtValorTotal.getText().toString());
-        valorUnitario = valorTotal / cantidad;
+        
+        if(idTipoTransaccion == 2){
+            valorTotal = cantidad * valorUnitario;
+        }else{
+            valorTotal = Double.valueOf(jtxtValorTotal.getText().toString());
+        }
         
         Temporal temp = new Temporal();
 
@@ -320,12 +499,14 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JButton jbAgregar;
     private javax.swing.JToggleButton jbSalir;
     private javax.swing.JLabel jlDescripcionProducto;
     private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JTextField jtxtCantidad;
     private javax.swing.JTextField jtxtValorTotal;
+    private javax.swing.JTextField jtxtValorUnitario;
     // End of variables declaration//GEN-END:variables
 
     
