@@ -60,7 +60,6 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         
         jtListaTransacciones.getTableHeader().setFont(f);
         jtListaTransacciones.getTableHeader().setBackground(Color.orange);
-        
     }
     
     public FormListaTransacciones() {
@@ -124,7 +123,7 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jtListaTransacciones.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
+        jtListaTransacciones.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -300,7 +299,6 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     private void vistaPreviaReciboVenta(int idTransaccion) {
         ReporteVentasDAO reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, usuario);
         reporteVentasDAO.vistaPreviaReciboVenta(idTransaccion);
-        
     }
     
     /**

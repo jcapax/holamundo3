@@ -9,7 +9,9 @@ import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Arqueo;
 import almacenes.model.DetalleTransaccion;
 import almacenes.model.ListaCaja;
+import dao.ArqueoDAO;
 import dao.ArqueoDAOImpl;
+import dao.CajaDAO;
 import dao.CajaDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
 import dao.LugarDAO;
@@ -22,6 +24,7 @@ import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -35,7 +38,14 @@ public class FormArqueos extends javax.swing.JFrame {
 
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
-    DefaultTableModel dtm;
+    private DefaultTableModel dtm;
+    private LugarDAO lugarDAO;
+    private CajaDAO cajaDAO;
+    private ArqueoDAO arqueoDAO;
+    private ReporteVentasDAO reporteVentasDAO;
+    private DetalleTransaccionDAOImpl detalleTransaccionDAO;
+    private byte idLugar;
+    
 
     public FormArqueos() {
         initComponents();
@@ -47,11 +57,15 @@ public class FormArqueos extends javax.swing.JFrame {
 
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
+        arqueoDAO = new ArqueoDAOImpl(connectionDB);
+        lugarDAO = new LugarDAOImpl(connectionDB);
+        cajaDAO = new CajaDAOImpl(connectionDB);
+        reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, "");
+        detalleTransaccionDAO = new DetalleTransaccionDAOImpl(connectionDB);
+        idLugar = 0;
         
         headerTabla();
-
         iniciarComponentes();
-
     }
     
     public void headerTabla(){
@@ -71,8 +85,7 @@ public class FormArqueos extends javax.swing.JFrame {
         llenarComboLugar();
         llenarMeses();
         llenarAnnos();
-        vaciarTotales();
-        jlIdLugar.setVisible(false);
+        vaciarTotales();        
     }
 
     /**
@@ -108,18 +121,21 @@ public class FormArqueos extends javax.swing.JFrame {
         bImprimir = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jcLugar = new javax.swing.JComboBox<String>();
-        jlIdLugar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Mes");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Año");
 
+        jcAnno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcAnno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jcMes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jbBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Search-icon.png"))); // NOI18N
@@ -130,11 +146,12 @@ public class FormArqueos extends javax.swing.JFrame {
             }
         });
 
-        jlTituloFormulario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jlTituloFormulario.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jlTituloFormulario.setForeground(new java.awt.Color(153, 0, 51));
         jlTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlTituloFormulario.setText("Lista Arqueos Mensuales");
 
+        jtArqueos.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtArqueos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -151,6 +168,7 @@ public class FormArqueos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtArqueos.setRowHeight(20);
         jtArqueos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtArqueosMouseClicked(evt);
@@ -169,15 +187,18 @@ public class FormArqueos extends javax.swing.JFrame {
             jtArqueos.getColumnModel().getColumn(5).setResizable(false);
         }
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 0, 51));
         jLabel5.setText("Total Mes");
 
+        jtxtTotalMes.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtxtTotalMes.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jlTituloFormulario1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jlTituloFormulario1.setForeground(new java.awt.Color(153, 0, 51));
         jlTituloFormulario1.setText("Caja");
 
+        jtCaja.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtCaja.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -194,6 +215,7 @@ public class FormArqueos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtCaja.setRowHeight(20);
         jtCaja.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtCajaMouseClicked(evt);
@@ -214,11 +236,14 @@ public class FormArqueos extends javax.swing.JFrame {
             jtCaja.getColumnModel().getColumn(1).setMaxWidth(40);
         }
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(153, 0, 51));
         jLabel6.setText("Total Caja");
 
+        jtxtTotalCaja.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtxtTotalCaja.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        jtDetalleTransaccion.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtDetalleTransaccion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -235,6 +260,7 @@ public class FormArqueos extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jtDetalleTransaccion.setRowHeight(20);
         jScrollPane3.setViewportView(jtDetalleTransaccion);
         if (jtDetalleTransaccion.getColumnModel().getColumnCount() > 0) {
             jtDetalleTransaccion.getColumnModel().getColumn(0).setResizable(false);
@@ -243,8 +269,10 @@ public class FormArqueos extends javax.swing.JFrame {
             jtDetalleTransaccion.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
+        jtxtTotalTransaccion.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtxtTotalTransaccion.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(153, 0, 51));
         jLabel7.setText("Total Movimiento");
 
@@ -268,9 +296,11 @@ public class FormArqueos extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setText("Lugar");
 
+        jcLugar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcLugar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcLugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -278,78 +308,74 @@ public class FormArqueos extends javax.swing.JFrame {
             }
         });
 
-        jlIdLugar.setText("idLugar");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(760, 760, 760)
-                                .addComponent(jlTituloFormulario1)
-                                .addGap(90, 90, 90))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jbBuscar)
-                                .addGap(79, 79, 79)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                        .addComponent(bImprimir))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addGap(291, 291, 291)
-                                            .addComponent(jLabel5)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jtxtTotalMes, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel7)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jtxtTotalTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(jLabel3)
-                                            .addGap(18, 18, 18)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jlIdLugar)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jcLugar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(jLabel1)
-                                                    .addGap(18, 18, 18)
-                                                    .addComponent(jcMes, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(jLabel2)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jlTituloFormulario3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlTituloFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, 1303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    .addComponent(jlTituloFormulario1))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jcLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jcMes, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jcAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jbBuscar)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 814, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bImprimir)))
+                                .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(jLabel6)
+                                            .addGap(0, 0, Short.MAX_VALUE)
+                                            .addComponent(jlTituloFormulario3)
+                                            .addGap(1004, 1004, 1004))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                    .addGap(327, 327, 327)
+                                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                    .addGap(146, 146, 146)
+                                                    .addComponent(jLabel7)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(jtxtTotalTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jtxtTotalCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(10, 10, 10)))
-                                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jlTituloFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, 1013, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(13, Short.MAX_VALUE))
+                                            .addComponent(jtxtTotalMes, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel6)
+                                            .addGap(31, 31, 31)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jtxtTotalCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jlTituloFormulario)
+                .addComponent(jlTituloFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bImprimir)
@@ -360,35 +386,31 @@ public class FormArqueos extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jcLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
+                .addGap(12, 12, 12)
+                .addComponent(jlTituloFormulario1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlTituloFormulario1)
-                    .addComponent(jlIdLugar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
                             .addComponent(jtxtTotalMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlTituloFormulario3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtxtTotalTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(btnSalir))
-                        .addGap(24, 24, 24))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtxtTotalCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
-                        .addGap(230, 230, 230))))
+                        .addGap(8, 8, 8)
+                        .addComponent(jlTituloFormulario3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jtxtTotalTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -431,7 +453,7 @@ public class FormArqueos extends javax.swing.JFrame {
         
         nombre_mes = getNombreMes(mes);
         
-        imprimir_arqueo(anno, mes, nombre_mes);
+        imprimir_arqueos_mes(anno, mes, nombre_mes);
     }//GEN-LAST:event_bImprimirActionPerformed
 
     private void jcLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcLugarActionPerformed
@@ -439,18 +461,17 @@ public class FormArqueos extends javax.swing.JFrame {
     }//GEN-LAST:event_jcLugarActionPerformed
 
     private void seleccionarElementoLugar() {
-        jlIdLugar.setVisible(false);
+        
         String sel = null;
         String comp = "Sel";
-        LugarDAO lugarDAO = new LugarDAOImpl(connectionDB);
         HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
         try {
             sel = jcLugar.getSelectedItem().toString();
             if(sel.equals(comp)){
-                jlIdLugar.setText("0");
+                idLugar = 0;
             }
             else{
-                jlIdLugar.setText(map.get(sel).toString());
+                idLugar = Byte.valueOf(map.get(sel).toString());
             }
         } catch (Exception e) {
         }        
@@ -506,7 +527,6 @@ public class FormArqueos extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcAnno;
     private javax.swing.JComboBox<String> jcLugar;
     private javax.swing.JComboBox<String> jcMes;
-    private javax.swing.JLabel jlIdLugar;
     private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JLabel jlTituloFormulario1;
     private javax.swing.JLabel jlTituloFormulario3;
@@ -521,7 +541,7 @@ public class FormArqueos extends javax.swing.JFrame {
     private void llenarMeses() {
         jcMes.removeAllItems();
 
-        ArrayList<String> lmeses = new ArrayList<String>();
+        List<String> lmeses = new ArrayList<>();
 
         lmeses.add("ENERO");
         lmeses.add("FEBRERO");
@@ -559,8 +579,8 @@ public class FormArqueos extends javax.swing.JFrame {
     private void llenarAnnos() {
         jcAnno.removeAllItems();
 
-        ArqueoDAOImpl fact = new ArqueoDAOImpl(connectionDB);
-        ArrayList<Integer> lanno = fact.getListaAnnosArqueos();
+        List<Integer> lanno = new ArrayList<>();
+        lanno = arqueoDAO.getListaAnnosArqueos();
         for (byte i = 0; i < lanno.size(); i++) {
             jcAnno.addItem(lanno.get(i).toString());
         }
@@ -569,10 +589,9 @@ public class FormArqueos extends javax.swing.JFrame {
     public void llenarCaja(int idArqueo){
         double importeTotal = 0;
         
-        CajaDAOImpl cajaDAO = new CajaDAOImpl(connectionDB);
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
-        ArrayList<ListaCaja> r = new ArrayList<ListaCaja>();
+        List<ListaCaja> r = new ArrayList<>();
 
         r = cajaDAO.getListaCaja(idArqueo);
 
@@ -611,10 +630,9 @@ public class FormArqueos extends javax.swing.JFrame {
     public void llenarDetalleTransaccion(int idTransaccion){
         double importeTotal = 0;
 
-        DetalleTransaccionDAOImpl detalleTransaccionDAO = new DetalleTransaccionDAOImpl(connectionDB);
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
-        ArrayList<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
+        List<DetalleTransaccion> r = new ArrayList<>();
 
         r = detalleTransaccionDAO.getDetalleTransaccion(idTransaccion);
 
@@ -652,15 +670,13 @@ public class FormArqueos extends javax.swing.JFrame {
     public void llenarTablaArqueos() {
         double importeTotal = 0;
 
-        ArqueoDAOImpl arqueoDAO = new ArqueoDAOImpl(connectionDB);
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
-        ArrayList<Arqueo> r = new ArrayList<Arqueo>();
+        List<Arqueo> r = new ArrayList<>();
 
         byte mes = 0;
         int anno = 0;
-        byte idLugar = Byte.valueOf(jlIdLugar.getText());
-
+        
         mes = (byte) (jcMes.getSelectedIndex() + 1);
         anno = Integer.parseInt(jcAnno.getSelectedItem().toString());
         
@@ -671,7 +687,7 @@ public class FormArqueos extends javax.swing.JFrame {
 
         jtArqueos.setModel(dtm);
 
-        Object[] fila = new Object[8];
+        Object[] fila = new Object[8];        
 
         for (int i = 0; i < r.size(); i++) {
             fila[0] = r.get(i).getId();
@@ -709,9 +725,8 @@ public class FormArqueos extends javax.swing.JFrame {
         jtxtTotalMes.setText("");
     }
 
-    private void imprimir_arqueo(Integer anno, byte mes, String nombre_mes) {
-        ReporteVentasDAO aO = new ReporteVentasDAOImpl(connectionDB, "");
-        aO.listaArqueosMes(anno, mes, nombre_mes);
+    private void imprimir_arqueos_mes(Integer anno, byte mes, String nombre_mes) {
+        reporteVentasDAO.listaArqueosMes(anno, mes, nombre_mes, idLugar);
     }
 
     public void llenarComboLugar(){
@@ -721,14 +736,11 @@ public class FormArqueos extends javax.swing.JFrame {
         jcLugar.removeAllItems();
         jcLugar.addItem(sel);
         
-        LugarDAO lugarDAO = new LugarDAOImpl(connectionDB);
-        
         HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
 
         for (String s : map.keySet()) {
             jcLugar.addItem(s.toString());
-        }
-        jlIdLugar.setVisible(false);
+        }        
     }
     
     private String getNombreMes(byte mes) {

@@ -31,6 +31,9 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
     private static final int REPORTE_DOS = 2;
     private static final int REPORTE_TRES = 3;
     private static final int REPORTE_CUATRO = 4;
+    
+    LugarDAO lugarDAO;
+    private byte idLugar;
 
     /**
      *
@@ -45,6 +48,7 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         this.idUsuario = _idUsuario;
         this.modal = _modal;
         this.modoOperacion = _modoOperacion;
+        LugarDAO lugarDAO = new LugarDAOImpl(connectionDB);
         switch (this.modoOperacion) {
             case REPORTE_UNO:
                 this.setTitle("Reporte Uno");
@@ -73,7 +77,6 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         fechaInicio = new com.toedter.calendar.JDateChooser();
         fechaFinal = new com.toedter.calendar.JDateChooser();
-        jlIdLugar = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jcLugar = new javax.swing.JComboBox<String>();
         jPanel2 = new javax.swing.JPanel();
@@ -99,8 +102,6 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
 
         fechaFinal.setDateFormatString("dd/MM/yyyy");
 
-        jlIdLugar.setText("idLugar");
-
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Lugar:");
@@ -122,7 +123,6 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jlIdLugar)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -134,9 +134,7 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlIdLugar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jcLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -219,7 +217,6 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         String errores = validarCampos();
         if (errores.isEmpty()) {
             ReporteVentasDAO reporteVentas = new ReporteVentasDAOImpl(this.connectionDB, this.idUsuario);
-            byte idLugar = Byte.valueOf(jlIdLugar.getText());
             switch (this.modoOperacion) {
                 case REPORTE_UNO:
                     reporteVentas.vistaPreviaReporte(idLugar, new Date(fechaInicio.getDate().getTime()), new Date(fechaFinal.getDate().getTime()));
@@ -247,14 +244,11 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
     }//GEN-LAST:event_jcLugarActionPerformed
 
     private void seleccionarElementoLugar() {
-        jlIdLugar.setVisible(false);
         String sel = null;
         
         String comp = "Sel";
         
-        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+        HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
             
         try {
             sel = jcLugar.getSelectedItem().toString();
@@ -262,10 +256,10 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
 //            System.out.println("elemento seleccionado "+ sel);
 
             if(sel.equals(comp)){
-                jlIdLugar.setText("0");
+                idLugar = 0;
             }
             else{
-                jlIdLugar.setText(map.get(sel).toString());
+                idLugar = Byte.valueOf(map.get(sel).toString());
             }
         } catch (Exception e) {
         }
@@ -285,8 +279,7 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
 
         for (String s : map.keySet()) {
             jcLugar.addItem(s.toString());
-        }
-        jlIdLugar.setVisible(false);
+        }        
     }
     
     private String validarCampos() {
@@ -368,6 +361,5 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JComboBox<String> jcLugar;
-    private javax.swing.JLabel jlIdLugar;
     // End of variables declaration//GEN-END:variables
 }
