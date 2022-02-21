@@ -33,6 +33,8 @@ import dao.VencimientoDAO;
 import dao.VencimientoDAOImpl;
 import dao.reportes.ReporteComprasDAO;
 import dao.reportes.ReporteComprasDAOImpl;
+import dao.reportes.ReporteVentasDAO;
+import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -76,6 +78,8 @@ public class FormTransaccion extends javax.swing.JFrame {
     private VencimientoDAO vencimientoDAO;
     private ClienteProveedorDAO clienteProveedorDAO;   
     private DetalleTransaccionDAO detalleTransaccionDAO;  
+    private ReporteComprasDAO reporteComprasDAO;
+    private ReporteVentasDAO reporteVentasDAO;
     private TransaccionDAO transaccionDAO;
     private ProductoDAO productoDAO;
     private TemporalDAO temporalDAO;
@@ -108,7 +112,8 @@ public class FormTransaccion extends javax.swing.JFrame {
         transaccionDAO = new TransaccionDAOImpl(connectionDB);
         detalleTransaccionDAO = new DetalleTransaccionDAOImpl(connectionDB);
         cajaDAO = new CajaDAOImpl(connectionDB);
-        
+        reporteComprasDAO = new ReporteComprasDAOImpl(connectionDB, usuario);    
+        reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, usuario);
         vencimientoDAO = new VencimientoDAOImpl(connectionDB);
 
         headerTabla();
@@ -181,9 +186,13 @@ public class FormTransaccion extends javax.swing.JFrame {
         //registrarProductosVencimiento(idEntregaTransaccion);
         registrarCaja(idTransaccion);
         limpiar();
-        vaciarProductosTemporales();        
-        ReporteComprasDAO reporte = new ReporteComprasDAOImpl(connectionDB, usuario);
-        reporte.vistaPreviaCompras(idEntregaTransaccion);
+        vaciarProductosTemporales();    
+        
+        if(idTipoTransaccion == 1){
+            reporteComprasDAO.vistaPreviaCompras(idEntregaTransaccion);
+        }else{
+            reporteVentasDAO.vistaPreviaReciboVenta(idTransaccion);
+        }
         
         JOptionPane.showMessageDialog(this, "Registro generado con éxito");
         
@@ -224,8 +233,7 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         vaciarProductosTemporales();
         
-        ReporteComprasDAO reporte = new ReporteComprasDAOImpl(connectionDB, usuario);
-        reporte.vistaPreviaCompras(idEntregaTransaccion);
+        reporteComprasDAO.vistaPreviaCompras(idEntregaTransaccion);
         
 //        JOptionPane.showMessageDialog(this, "Ajuste Stock registrado con exito");
         
@@ -304,50 +312,6 @@ public class FormTransaccion extends javax.swing.JFrame {
         jtTemporal.setModel(dtm);
 
         calcularImportTotalTemp();
-    }
-
-    public void insertarTemp() {
-        /*
-
-        UnidadMedidaDAO unidadMedidaDAO = new UnidadMedidaDAOImpl(connectionDB);
-        
-        Temporal temp = new Temporal();
-
-        int idProducto = Integer.valueOf(jlIdProducto.getText());
-        int idUnidadMedida = Integer.valueOf(jlIdUnidadMedida.getText());
-        String nombreProducto = jtxtNombreProducto.getText();
-        String simbolo = unidadMedidaDAO.getSimboloUnidadMedida(idUnidadMedida);
-        double cantidad = Double.valueOf(jtxtCantidad.getText());
-        double valorUnitario = Double.valueOf(jtxtValorUnitario.getText());
-        double valorTotal = cantidad * valorUnitario;
-        String tipoValor = "N";// normal
-        
-        temp.setCantidad(cantidad);
-        temp.setIdProducto(idProducto);
-        temp.setIdUnidadMedida(idUnidadMedida);
-        temp.setNombreProducto(nombreProducto);
-        temp.setSimbolo(simbolo);
-        temp.setTipoValor(tipoValor);
-        temp.setValorTotal(valorTotal);
-        temp.setValorUnitario(valorUnitario);
-        
-        TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);
-        /*
-        if(vencimientoDAO.isVencimiento(temp.getIdProducto())){
-            try{
-                Date fechaVencimiento = new Date(jtxtFechaVencimiento.getDate().getTime());
-                temp.setFecha_vencimiento(fechaVencimiento.toString());
-                tempDAOImpl.insertarProductoTempFechaVencimiento(temp);
-            }catch(Exception e){
-                
-            }
-            
-        }else{   
-            tempDAOImpl.insertarProductoTemp(temp);
-        //}
-        
-        llenarTablaTemporal();
-        */
     }
 
     public void seleccionarProducto() {
@@ -934,8 +898,6 @@ public class FormTransaccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jbSalirActionPerformed
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-//        TemporalDAOImpl tempDAOImpl = new TemporalDAOImpl(connectionTemp);  
-//        tempDAOImpl.vaciarProductoTemp();
         limpiar();
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
@@ -965,69 +927,6 @@ public class FormTransaccion extends javax.swing.JFrame {
         });
     }
     
-    public void agregar(){
-        /*
-        boolean aux = true;
-        if (jtxtCantidad.getText().length() == 0) {
-            JOptionPane.showMessageDialog(this, "Registrar la cantidad!!!");
-            jtxtCantidad.setText("");
-            jtxtCantidad.requestFocus();
-            aux = false;
-            return;
-        }
-
-        try {
-            Double x = Double.parseDouble(jtxtCantidad.getText());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "La cantidad registrada no es valida!!!");
-            jtxtCantidad.setText("");
-            jtxtCantidad.requestFocus();
-            aux = false;
-            return;
-        }
-
-        if (jtxtCantidad.getText().equals("0")) {
-            JOptionPane.showMessageDialog(this, "La cantidad registrada no es valida!!!");
-            jtxtCantidad.setText("");
-            jtxtCantidad.requestFocus();
-            aux = false;
-            return;
-        }
-
-        try {
-            Integer y = Integer.parseInt(jlIdProducto.getText());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "No se ha seleccionado ningun producto!!!");
-            jtxtCantidad.requestFocus();
-            aux = false;
-            return;
-        }
-
-        if (idTipoTransaccion == 2) { // solo para ventas
-            ProductoDAOImpl prod = new ProductoDAOImpl(connectionDB);
-            byte controlStock = prod.getControlStock(Integer.parseInt(jlIdProducto.getText()));
-
-            if (controlStock == 1) {
-                double stock = Double.valueOf(jlStockProducto.getText());
-                if (Double.parseDouble(jtxtCantidad.getText()) > stock) {
-                    JOptionPane.showMessageDialog(this, "No existe la suficiente cantidad del producto seleccionado en Almacen!!!");
-                    aux = false;
-                    jtxtCantidad.requestFocus();
-                    return;
-                }
-            }
-        }
-
-        if (aux) {
-            insertarTemp();
-        }
-        jtxtNombreProducto.setText("");
-        jtxtCantidad.setText("");
-        jtxtValorUnitario.setText("");
-        jlStockProducto.setText("...");
-        jtxtFechaVencimiento.setCalendar(null);
-*/
-    }
 
     private void jtxtEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtEliminarActionPerformed
         eliminarProductoTemporal();

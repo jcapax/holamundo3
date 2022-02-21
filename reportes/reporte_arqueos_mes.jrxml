@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="id_lugar" class="java.lang.Integer"/>
+	<parameter name="anno" class="java.lang.Integer"/>
+	<parameter name="mes" class="java.lang.Integer"/>
+	<parameter name="nombre_mes" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select *
+		from v_arqueos 
+ where estado = 'C' 
+ 	and year(fecha_cierre) = $P{anno}
+ 	and month(fecha_cierre) = $P{mes}
+    and id_lugar = $P{id_lugar}
+order by id desc]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="fecha_apertura" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_apertura"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_apertura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="fecha_cierre" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_cierre"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_cierre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="caja_inicial" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="caja_inicial"/>
+		<property name="com.jaspersoft.studio.field.label" value="caja_inicial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="importe_cierre" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="importe_cierre"/>
+		<property name="com.jaspersoft.studio.field.label" value="importe_cierre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="estado"/>
+		<property name="com.jaspersoft.studio.field.label" value="estado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="id_terminal" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_terminal"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_terminal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="id_lugar" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_lugar"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="fecha_hora_registro" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_hora_registro"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_hora_registro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="usuario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="usuario"/>
+		<property name="com.jaspersoft.studio.field.label" value="usuario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="nombre_lugar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_lugar"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<field name="nombre_terminal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_terminal"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_terminal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_arqueos"/>
+	</field>
+	<variable name="s_importe_cierre" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe_cierre}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="137" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="569" height="30" forecolor="#054A82" uuid="1b830d90-0458-4b0d-be8c-64ca66cee5fd"/>
+				<textElement textAlignment="Center">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARQUEO GENERAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="106" width="92" height="20" uuid="ea83d862-4f5a-4463-a905-1491114cecab"/>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="106" width="60" height="20" uuid="00f1ef5d-cfdf-4081-b48e-4b5553a628bd"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe Cierre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="412" y="106" width="60" height="20" uuid="a9b2293b-cea1-47d8-bdda-eb5736272190"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Caja Inicial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="352" y="106" width="60" height="20" uuid="a3e2395d-66ae-4e32-aeb5-b79b182e2b09"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Cierre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="106" width="60" height="20" uuid="5e4305a0-d751-4ea8-b263-6763ba040d87"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Apertura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="106" width="80" height="20" uuid="18decdb5-1ffb-4bda-84d0-722f4c99d90a"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Terminal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="106" width="92" height="20" uuid="4c3abc09-d525-426c-a4f7-631790fd6848"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar]]></text>
+			</staticText>
+			<line>
+				<reportElement x="8" y="125" width="540" height="1" uuid="5ffe9e90-1032-4969-99b4-ea938a75f47c">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="40" y="60" width="40" height="20" uuid="58e1ef24-0474-425e-80fb-a621e55ea5cb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="60" width="42" height="20" uuid="36193ae7-7474-4552-9c21-17c21b22616f"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mes:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="60" width="54" height="20" uuid="edfe3d8b-18c8-45b7-a1f9-7ec39664d7d1"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{anno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="218" y="60" width="122" height="20" uuid="09ae4415-f9a6-4572-bd4f-a6936ee7efad"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombre_mes}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="23">
+			<textField>
+				<reportElement x="292" y="0" width="60" height="20" uuid="aaff8cf8-250d-4173-9971-e51fd1b62707"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_apertura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="0" width="60" height="20" uuid="8fc4d3f4-4b5c-4d59-a3c0-8a6bda1bc94f"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_cierre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="412" y="0" width="60" height="20" uuid="c619b1e0-0e0a-4af8-9555-78cf79a84eeb"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{caja_inicial})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="0" width="60" height="20" uuid="dcb7123f-b054-411b-a6e1-6acc4f5a98e4"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{importe_cierre})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="0" width="92" height="20" uuid="3c76fe92-b8a6-4803-befd-f21bfb941f7f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="92" height="20" uuid="13d80bcf-03c6-4c41-a1b4-58831a899189"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_lugar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="212" y="0" width="80" height="20" uuid="619193d7-328e-4842-a458-e80cd4328180"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{nombre_terminal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="12" y="18" width="144" height="20" uuid="b7ad1c35-8d57-4185-87b8-8a07cb9057fe"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="8" y="8" width="540" height="1" uuid="d883c66a-728a-4333-b06c-b7060d496ebb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="35">
+			<textField>
+				<reportElement x="470" y="15" width="60" height="20" uuid="191e14a9-fe9a-4e6d-b501-23188536196d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($V{s_importe_cierre})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="15" width="60" height="20" uuid="58e8436e-7f94-40b6-83b3-5f872c617f47"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="8" y="8" width="540" height="1" uuid="45112db1-a738-4687-b8ce-575a03f1a092">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

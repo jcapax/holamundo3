@@ -21,12 +21,12 @@ import java.util.Map;
 public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     private Connection connectionDB;
     private String idUsuario;
-    private Imprimir imprimir;
+    private Imprimir imprimir;    
     
     public ReporteVentasDAOImpl(Connection _connectionDB, String _idUsuario) {
         this.connectionDB = _connectionDB;
         this.idUsuario = _idUsuario;
-        this.imprimir = new Imprimir(this.connectionDB, this.idUsuario);
+        this.imprimir = new Imprimir(this.connectionDB, this.idUsuario);        
     }
     
     @Override
@@ -100,7 +100,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     public void arqueo(int id) {
         Map parametros = new HashMap<>();
         parametros.put("id", id);
-        this.imprimir.vistaPreviaReporte("Reporte Arqueo", "reporte_arqueo.jrxml", parametros);
+        this.imprimir.vistaPreviaReporte("Reporte Arqueo", "reporte_arqueo.jasper", parametros);
         
     }
 
@@ -133,14 +133,17 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     }
 
     @Override
-    public void listaArqueosMes(Integer anno, byte mes, String nombre_mes) {
+    public void listaArqueosMes(Integer anno, byte mes, String nombre_mes, byte idLugar) {
         Map parametros = new HashMap<>();
         
-        parametros.put("anio", anno);
+        parametros.put("anno", anno);
         parametros.put("mes", Integer.valueOf(mes));
+        parametros.put("id_lugar", Integer.valueOf(idLugar));
         parametros.put("nombre_mes", nombre_mes);
         
-        this.imprimir.vistaPreviaReporte("Reporte Lista Arqueos Mes", "reporte_lista_arqueos.jrxml", parametros);
+        //System.out.println(parametros);
+        
+        this.imprimir.vistaPreviaReporte("Reporte Lista Arqueos Mes", "reporte_arqueos_mes.jrxml", parametros);
     }
 
     @Override
