@@ -145,7 +145,7 @@ public class FormStockProducto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jtxtxCriterio = new javax.swing.JTextField();
         jlLugar = new javax.swing.JLabel();
-        jcLugar = new javax.swing.JComboBox<String>();
+        jcLugar = new javax.swing.JComboBox<>();
         jlIdLugar = new javax.swing.JLabel();
         btnImprimir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -194,7 +194,7 @@ public class FormStockProducto extends javax.swing.JFrame {
         jlLugar.setText("Lugar");
 
         jcLugar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jcLugar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcLugar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcLugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcLugarActionPerformed(evt);
@@ -444,14 +444,14 @@ public class FormStockProducto extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void seleccionarProducto() {
-        
+    /*    
         int fila = jtStockProducto.getSelectedRow();
         
         int idProducto = (int) jtStockProducto.getValueAt(fila, 4);
         byte idUnidadMedida = (byte) jtStockProducto.getValueAt(fila, 5);
         
         //llenarStockVencimiento(idProducto, idUnidadMedida);
-        
+      */  
     }
 
     private void llenarStockVencimiento(int idProducto, byte idUnidadMedida) {
