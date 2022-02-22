@@ -3,7 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_stock_por_lugar" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="22105252-0580-427e-b27c-e4dd7608a18d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
-	<parameter name="id_lugar" class="java.lang.Short"/>
+	<parameter name="id_lugar" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT *,  f_stock_producto(id_producto, id_unidad_medida, $P{id_lugar}) stock,
 		f_nombre_lugar($P{id_lugar}) nombre_lugar                 

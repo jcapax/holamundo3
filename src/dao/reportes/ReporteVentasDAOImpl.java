@@ -100,7 +100,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     public void arqueo(int id) {
         Map parametros = new HashMap<>();
         parametros.put("id", id);
-        this.imprimir.vistaPreviaReporte("Reporte Arqueo", "reporte_arqueo.jasper", parametros);
+        this.imprimir.vistaPreviaReporte("Reporte Arqueo", "reporte_arqueo.jrxml", parametros);
         
     }
 
@@ -126,7 +126,7 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     public void stockProductosLugar(byte idLugar) {
         Map parametros = new HashMap<>();
         
-        parametros.put("id_lugar", idLugar);
+        parametros.put("id_lugar", Integer.valueOf(idLugar));
         
         this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_por_lugar.jrxml", parametros);
 //        this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_lugar.jasper", parametros);

@@ -53,6 +53,8 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
         this.valorTotal = 0.0;
         
         tipoTransaccion();
+        
+        System.out.println(idTipoTransaccion);
     }
     
     private void tipoTransaccion(){
