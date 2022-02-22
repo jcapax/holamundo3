@@ -16,7 +16,6 @@ import dao.reportes.ReporteVentasDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -30,9 +29,10 @@ public class FormStockProducto extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
     DefaultTableModel dtm;
-    byte idLugar;
+    private byte idLugar;
     private ProductoDAO productoDAO;
     private LugarDAO lugarDAO;
+    private ReporteVentasDAO reporteVentasDAO;
     
     public FormStockProducto() {
         initComponents();
@@ -45,20 +45,18 @@ public class FormStockProducto extends javax.swing.JFrame {
         this.connectionDB = connectionDB;        
         productoDAO = new ProductoDAOImpl(connectionDB);
         lugarDAO = new LugarDAOImpl(connectionDB);
+        reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, "");
         this.idLugar = 0;
         headerTabla();
         llenarComboLugar();
         llenarTablaStockProducto("");
         
-        jlLugar.setVisible(false);
-        jcLugar.setVisible(false);
-        jtStockVencimiento.setVisible(false);
     }
     
     public void llenarComboLugar(){
         
         String sel = "Sel";
-        jlIdLugar.setText("0");
+        idLugar = 0;
         jcLugar.removeAllItems();
         jcLugar.addItem(sel);
         
@@ -66,8 +64,7 @@ public class FormStockProducto extends javax.swing.JFrame {
 
         for (String s : map.keySet()) {
             jcLugar.addItem(s.toString());
-        }
-        jlIdLugar.setVisible(false);
+        }        
         llenarTablaStockProducto("");
     }
     
@@ -97,23 +94,18 @@ public class FormStockProducto extends javax.swing.JFrame {
         Font f = new Font("Times New Roman", Font.BOLD, 16);
         
         jtStockProducto.getTableHeader().setFont(f);
-        jtStockProducto.getTableHeader().setBackground(Color.orange);
-        
-        jtStockVencimiento.getTableHeader().setFont(f);
-        jtStockVencimiento.getTableHeader().setBackground(Color.orange);
+        jtStockProducto.getTableHeader().setBackground(Color.orange);        
     }
 
     public void llenarTablaStockProducto(String criterio){
-        List<Producto> lProd = new ArrayList<>();
-
-        lProd = productoDAO.getListaProductosVenta(criterio, idLugar);
+        List<Producto> lProd = productoDAO.getListaProductosVenta(criterio, idLugar);
 
         dtm = (DefaultTableModel) this.jtStockProducto.getModel();
         dtm.setRowCount(0);
 
         jtStockProducto.setModel(dtm);
 
-        Object[] fila = new Object[19];
+        Object[] fila = new Object[6];
 
         lProd.forEach((producto)->{
             if(producto.getStock()!=0){
@@ -145,11 +137,8 @@ public class FormStockProducto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jtxtxCriterio = new javax.swing.JTextField();
         jlLugar = new javax.swing.JLabel();
-        jcLugar = new javax.swing.JComboBox<>();
-        jlIdLugar = new javax.swing.JLabel();
+        jcLugar = new javax.swing.JComboBox<String>();
         btnImprimir = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtStockVencimiento = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtStockProducto = new javax.swing.JTable();
 
@@ -194,7 +183,7 @@ public class FormStockProducto extends javax.swing.JFrame {
         jlLugar.setText("Lugar");
 
         jcLugar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jcLugar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcLugar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcLugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcLugarActionPerformed(evt);
@@ -209,27 +198,6 @@ public class FormStockProducto extends javax.swing.JFrame {
                 btnImprimirActionPerformed(evt);
             }
         });
-
-        jtStockVencimiento.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Fecha Vencimiento", "Cantidad"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Double.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jtStockVencimiento);
 
         jtStockProducto.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jtStockProducto.setModel(new javax.swing.table.DefaultTableModel(
@@ -282,26 +250,23 @@ public class FormStockProducto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSalir))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jtxtxCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnImprimir))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jtxtxCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnImprimir))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jlLugar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jcLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(20, 20, 20)
-                        .addComponent(jlIdLugar)))
+                                .addComponent(jcLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -319,18 +284,11 @@ public class FormStockProducto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtxCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnImprimir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlIdLugar)
-                        .addGap(481, 481, 481))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSalir))
-                        .addGap(38, 38, 38))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSalir)
+                .addContainerGap())
         );
 
         pack();
@@ -365,7 +323,7 @@ public class FormStockProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtxCriterioActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        imprimir(Integer.valueOf(jlIdLugar.getText()));
+        imprimir();
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void jtStockProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtStockProductoMouseClicked
@@ -388,9 +346,8 @@ public class FormStockProducto extends javax.swing.JFrame {
         seleccionarProducto();
     }//GEN-LAST:event_jtStockProductoKeyReleased
 
-    public void imprimir(int idLugar){
-        ReporteVentasDAO reporte = new ReporteVentasDAOImpl(connectionDB, "0");
-        reporte.stockProductosLugar(idLugar);
+    public void imprimir(){
+        reporteVentasDAO.stockProductosLugar(idLugar);
     };
     
     /**
@@ -434,12 +391,9 @@ public class FormStockProducto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> jcLugar;
-    private javax.swing.JLabel jlIdLugar;
     private javax.swing.JLabel jlLugar;
     private javax.swing.JTable jtStockProducto;
-    private javax.swing.JTable jtStockVencimiento;
     private javax.swing.JTextField jtxtxCriterio;
     // End of variables declaration//GEN-END:variables
 

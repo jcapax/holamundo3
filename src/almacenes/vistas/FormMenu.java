@@ -21,6 +21,7 @@ import dao.SucursalDAO;
 import dao.SucursalDAOImpl;
 import dao.TerminalDAO;
 import dao.TerminalDAOImpl;
+import java.awt.AWTException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -995,8 +996,14 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmenuDesempaqueActionPerformed
 
     private void jmlistaTrnasaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmlistaTrnasaccionesActionPerformed
-        FormListaTransacciones flt = new FormListaTransacciones(connectionDB, idUsuario);
-        flt.setVisible(true);
+        FormListaTransacciones flt;
+        try {
+            flt = new FormListaTransacciones(connectionDB, idUsuario);
+            flt.setVisible(true);
+        } catch (AWTException ex) {
+            Logger.getLogger(FormMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jmlistaTrnasaccionesActionPerformed
 
     private void jMenuListasFacturaFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuListasFacturaFacilActionPerformed

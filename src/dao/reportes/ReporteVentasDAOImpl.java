@@ -123,12 +123,12 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     }
 
     @Override
-    public void stockProductosLugar(int idLugar) {
+    public void stockProductosLugar(byte idLugar) {
         Map parametros = new HashMap<>();
         
-        parametros.put("id_lugar", Integer.valueOf(idLugar));
+        parametros.put("id_lugar", idLugar);
         
-        this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_lugar.jrxml", parametros);
+        this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_por_lugar.jrxml", parametros);
 //        this.imprimir.vistaPreviaReporte("Report Stock de Productos Lugar", "reporte_stock_lugar.jasper", parametros);
     }
 
@@ -137,8 +137,8 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
         Map parametros = new HashMap<>();
         
         parametros.put("anno", anno);
-        parametros.put("mes", Integer.valueOf(mes));
-        parametros.put("id_lugar", Integer.valueOf(idLugar));
+        parametros.put("mes", mes);
+        parametros.put("id_lugar", idLugar);
         parametros.put("nombre_mes", nombre_mes);
         
         //System.out.println(parametros);

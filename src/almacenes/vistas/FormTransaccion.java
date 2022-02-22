@@ -46,6 +46,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -343,7 +344,7 @@ public class FormTransaccion extends javax.swing.JFrame {
 
     public void llenarTablaProductos(String criterio) {
 
-        ArrayList<Producto> lProd = new ArrayList<Producto>();
+        List<Producto> lProd = new ArrayList<>();
 
         lProd = productoDAO.getListaProductosVenta(criterio, idLugar);
 
@@ -1027,7 +1028,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         double cantidad = 0;
         String fechaVencimiento = "";
         
-        ArrayList<Vencimiento> listaVencimiento = new ArrayList<>();
+        List<Vencimiento> listaVencimiento = new ArrayList<>();
 
         for (int fila = 0; fila < jtTemporal.getRowCount(); fila++) {
             
@@ -1052,7 +1053,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         
         System.out.println("registrarProductosVencimiento(): "+ listaVencimiento.size());
         
-        vencimientoDAO.insertarVencimiento(listaVencimiento);
+        //vencimientoDAO.insertarVencimiento(listaVencimiento);
     }
     
     public void llenarClienteProveedor(String tipo) {

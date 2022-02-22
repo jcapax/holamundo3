@@ -21,5 +21,5 @@ public interface ReporteVentasDAO {
     public void arqueo(int id);
     public void listaArqueosMes(Integer anno, byte mes, String nombre_mes, byte idLugar);
     
-    public void stockProductosLugar(int idLugar);
+    public void stockProductosLugar(byte idLugar);
 }

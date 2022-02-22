@@ -110,7 +110,15 @@ public class ProductoDAOImpl implements ProductoDAO{
 
     @Override
     public ArrayList<Producto> getListaProductosVenta(String criterio, byte idLugar) {
-        String sql = "SELECT * FROM v_productos "
+        String sql = "SELECT id_producto, id_laboratorio, nombre_laboratorio, "
+                + "id_familia, nombre_familia, clase_producto, "
+                + "nombre_producto, principio_activo, indicaciones, "
+                + "id_unidad_medida, id_unidad_producto, simbolo, "
+                + "nombre_unidad_medida, tipo_cuenta, estado, "
+                + "control_stock, fecha_hora_registro, "
+                + "usuario, caducidad, precio_compra, precio_venta, "
+                + "f_stock_producto(id_producto, id_unidad_medida, "+idLugar+") stock "
+                + "FROM v_productos "
                 + "WHERE estado = 'V' and nombre_producto like '%"+criterio+"%' "
                 + "and id_unidad_producto is not null";
         
