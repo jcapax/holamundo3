@@ -15,11 +15,16 @@ import dao.reportes.ReporteCreditoDAO;
 import dao.reportes.ReporteCreditoDAOImpl;
 import dao.reportes.ReporteVentasDAO;
 import dao.reportes.ReporteVentasDAOImpl;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Robot;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -36,18 +41,22 @@ public class FormListaTransacciones extends javax.swing.JFrame {
      */
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
+    private int idTransaccion;
+    private Robot r;
     
     private String usuario;
     DefaultTableModel dtm;
     
     TransaccionDAO transaccionDAO;
 
-    public FormListaTransacciones(Connection connectionDB, String usuario) {
+    public FormListaTransacciones(Connection connectionDB, String usuario) throws AWTException {
         initComponents();
         
         this.connectionDB = connectionDB;
         this.usuario = usuario;
         this.setLocationRelativeTo(null);
+        this.idTransaccion = 0;
+        
         
         transaccionDAO = new TransaccionDAOImpl(connectionDB);
         
@@ -55,11 +64,18 @@ public class FormListaTransacciones extends javax.swing.JFrame {
 
     }
     
+    public void seleccionarIdTransaccion(){
+        int filSel = jtListaTransacciones.getSelectedRow();
+        idTransaccion = (int) jtListaTransacciones.getValueAt(filSel, 0);
+    }
+            
+    
     public void headerTabla(){
         Font f = new Font("Times New Roman", Font.BOLD, 18);
         
         jtListaTransacciones.getTableHeader().setFont(f);
         jtListaTransacciones.getTableHeader().setBackground(Color.orange);
+        
     }
     
     public FormListaTransacciones() {
@@ -67,9 +83,8 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     }
 
     public void llenarTablaTransacciones(){
-        double importeTotal = 0;
         
-        ArrayList<ListaTransaccion> lista = new ArrayList<>();
+        List<ListaTransaccion> lista = new ArrayList<>();
 
         lista = transaccionDAO.getlistaTransacciones(new Date(fecha.getDate().getTime()), usuario);
 
@@ -86,9 +101,8 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             fila[2] = lista.get(i).getFecha();            
             fila[3] = lista.get(i).getDescripcion();
             fila[4] = lista.get(i).getNombre_completo();
-            fila[5] = lista.get(i).getDetalle();
-            fila[6] = lista.get(i).getIdTipoTransaccion();
-            fila[7] = lista.get(i).getValorTotal();            
+            fila[5] = lista.get(i).getDetalle();            
+            fila[6] = lista.get(i).getValorTotal();            
             
             dtm.addRow(fila);
         }
@@ -113,58 +127,15 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtListaTransacciones = new javax.swing.JTable();
         fecha = new com.toedter.calendar.JDateChooser();
         jlTituloFormulario = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jbDetalle = new javax.swing.JButton();
         jbBuscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtListaTransacciones = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jtListaTransacciones.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "id", "Nro Trans", "Fecha", "Tipo", "Cliente/Proveedor", "Detalle", "idTipoTransaccion", "Valor Total"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jtListaTransacciones.setRowHeight(20);
-        jScrollPane1.setViewportView(jtListaTransacciones);
-        if (jtListaTransacciones.getColumnModel().getColumnCount() > 0) {
-            jtListaTransacciones.getColumnModel().getColumn(0).setMinWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(0).setPreferredWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(0).setMaxWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(1).setMinWidth(75);
-            jtListaTransacciones.getColumnModel().getColumn(1).setPreferredWidth(75);
-            jtListaTransacciones.getColumnModel().getColumn(1).setMaxWidth(75);
-            jtListaTransacciones.getColumnModel().getColumn(2).setMinWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(2).setMaxWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(3).setMinWidth(150);
-            jtListaTransacciones.getColumnModel().getColumn(3).setPreferredWidth(150);
-            jtListaTransacciones.getColumnModel().getColumn(3).setMaxWidth(150);
-            jtListaTransacciones.getColumnModel().getColumn(4).setMinWidth(250);
-            jtListaTransacciones.getColumnModel().getColumn(4).setPreferredWidth(250);
-            jtListaTransacciones.getColumnModel().getColumn(4).setMaxWidth(250);
-            jtListaTransacciones.getColumnModel().getColumn(6).setMinWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(6).setPreferredWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(6).setMaxWidth(0);
-            jtListaTransacciones.getColumnModel().getColumn(7).setMinWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(7).setPreferredWidth(100);
-            jtListaTransacciones.getColumnModel().getColumn(7).setMaxWidth(100);
-        }
 
         fecha.setDateFormatString("dd/MM/yyyy");
         fecha.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -181,11 +152,11 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/print.png"))); // NOI18N
-        jButton3.setText("Imprimir");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jbDetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/productos.png"))); // NOI18N
+        jbDetalle.setText("Detalle");
+        jbDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jbDetalleActionPerformed(evt);
             }
         });
 
@@ -198,24 +169,75 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             }
         });
 
+        jtListaTransacciones.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jtListaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "idTransaccion", "Nro Trans.", "Fecha", "Tipo", "Cliente/Proveedor", "Detalle", "Valor Total"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtListaTransacciones.setFocusCycleRoot(true);
+        jtListaTransacciones.setRowHeight(22);
+        jtListaTransacciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtListaTransaccionesMouseClicked(evt);
+            }
+        });
+        jtListaTransacciones.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtListaTransaccionesKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtListaTransaccionesKeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jtListaTransacciones);
+        if (jtListaTransacciones.getColumnModel().getColumnCount() > 0) {
+            jtListaTransacciones.getColumnModel().getColumn(0).setMinWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(0).setMaxWidth(0);
+            jtListaTransacciones.getColumnModel().getColumn(1).setMinWidth(80);
+            jtListaTransacciones.getColumnModel().getColumn(1).setPreferredWidth(80);
+            jtListaTransacciones.getColumnModel().getColumn(1).setMaxWidth(80);
+            jtListaTransacciones.getColumnModel().getColumn(2).setMinWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(2).setMaxWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(3).setMinWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(3).setMaxWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(6).setMinWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(6).setPreferredWidth(100);
+            jtListaTransacciones.getColumnModel().getColumn(6).setMaxWidth(100);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir))
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1356, Short.MAX_VALUE)
+                    .addComponent(jlTituloFormulario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbBuscar)
-                        .addGap(0, 1062, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jbDetalle)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -226,11 +248,11 @@ public class FormListaTransacciones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbBuscar))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(jbDetalle)
                     .addComponent(btnSalir))
                 .addGap(8, 8, 8))
         );
@@ -242,7 +264,11 @@ public class FormListaTransacciones extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jbDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDetalleActionPerformed
+        seleccionarIdTransaccion();
+        FormDetalleTransaccion formDetalleTransaccion = new FormDetalleTransaccion(connectionDB, idTransaccion);
+        formDetalleTransaccion.setVisible(true);
+        /*
         try{
             ReporteCreditoDAO reporteCreditoDAO;
             
@@ -288,13 +314,27 @@ public class FormListaTransacciones extends javax.swing.JFrame {
             
         }catch(Exception e){
             
-        }        
-    }//GEN-LAST:event_jButton3ActionPerformed
+        }   
+        */
+    }//GEN-LAST:event_jbDetalleActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         llenarTablaTransacciones();
         new Date(fecha.getDate().getTime());
     }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jtListaTransaccionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtListaTransaccionesMouseClicked
+        
+    }//GEN-LAST:event_jtListaTransaccionesMouseClicked
+
+    private void jtListaTransaccionesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtListaTransaccionesKeyPressed
+        
+            
+    }//GEN-LAST:event_jtListaTransaccionesKeyPressed
+    
+    private void jtListaTransaccionesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtListaTransaccionesKeyReleased
+        seleccionarIdTransaccion();
+    }//GEN-LAST:event_jtListaTransaccionesKeyReleased
 
     private void vistaPreviaReciboVenta(int idTransaccion) {
         ReporteVentasDAO reporteVentasDAO = new ReporteVentasDAOImpl(connectionDB, usuario);
@@ -339,9 +379,9 @@ public class FormListaTransacciones extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
     private com.toedter.calendar.JDateChooser fecha;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbDetalle;
     private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JTable jtListaTransacciones;
     // End of variables declaration//GEN-END:variables

@@ -10,12 +10,14 @@ import almacenes.model.AnularTransaccion;
 import almacenes.model.DetalleTransaccion;
 import dao.AnularTransaccionDAO;
 import dao.AnularTransaccionDAOImpl;
+import dao.DetalleTransaccionDAO;
 import dao.DetalleTransaccionDAOImpl;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +32,8 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
 
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
+    private AnularTransaccionDAO anularTransaccionDAO;
+    private DetalleTransaccionDAO detalleTransaccionDAO;
     
     DefaultTableModel dtm;
     String usuario;
@@ -40,6 +44,9 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
         this.usuario = usuario;
+        
+        anularTransaccionDAO = new AnularTransaccionDAOImpl(connectionDB);
+        detalleTransaccionDAO = new DetalleTransaccionDAOImpl(connectionDB);
                 
         headerTabla();
         llenarTablaAnularTransaccion();
@@ -58,8 +65,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
     }
 
     public void anularTransaccion() {
-        AnularTransaccionDAOImpl anuTrans = new AnularTransaccionDAOImpl(connectionDB);
-
+        
         int idTransaccion = 0;
         int idEntregaTransaccion = 0;
 
@@ -69,12 +75,12 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
             byte idTipoTransaccion = (byte) jtAnularComprobante.getValueAt(filSel, 12);
             idEntregaTransaccion = (int) jtAnularComprobante.getValueAt(filSel, 0);
             idTransaccion = (int) jtAnularComprobante.getValueAt(filSel, 1);
-            anuTrans.anularCaja(idTransaccion);
-            anuTrans.anularFactura(idTransaccion);
+            anularTransaccionDAO.anularCaja(idTransaccion);
+            anularTransaccionDAO.anularFactura(idTransaccion);
             if(idTipoTransaccion != 9 ){                
-                anuTrans.anularTrans(idTransaccion, idEntregaTransaccion);
+                anularTransaccionDAO.anularTrans(idTransaccion, idEntregaTransaccion);
             }else{                
-                anuTrans.anularTrans(idTransaccion);
+                anularTransaccionDAO.anularTrans(idTransaccion);
             }
 
             
@@ -87,8 +93,6 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
     }
 
     public void llenarTablaAnularTransaccion() {
-        AnularTransaccionDAO anularTransaccionDAO = new AnularTransaccionDAOImpl(connectionDB);
-
         ArrayList<AnularTransaccion> lista = new ArrayList<>();
 
         byte idTipoTransaccion = 2;
@@ -378,12 +382,12 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
     public void llenarDetalleTransaccion(int idTransaccion){
         double importeTotal = 0;
 
-        DetalleTransaccionDAOImpl rub = new DetalleTransaccionDAOImpl(connectionDB);
+        
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
-        ArrayList<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
+        List<DetalleTransaccion> r = new ArrayList<>();
 
-        r = rub.getDetalleTransaccion(idTransaccion);
+        r = detalleTransaccionDAO.getDetalleTransaccion(idTransaccion);
 
         dtm = (DefaultTableModel) this.jtDetalleTransaccion.getModel();
         dtm.setRowCount(0);

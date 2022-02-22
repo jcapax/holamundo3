@@ -48,7 +48,7 @@ public class ElegirFechasImprimirReportes extends javax.swing.JDialog {
         this.idUsuario = _idUsuario;
         this.modal = _modal;
         this.modoOperacion = _modoOperacion;
-        LugarDAO lugarDAO = new LugarDAOImpl(connectionDB);
+        lugarDAO = new LugarDAOImpl(connectionDB);
         switch (this.modoOperacion) {
             case REPORTE_UNO:
                 this.setTitle("Reporte Uno");
