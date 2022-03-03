@@ -90,29 +90,26 @@ public class FormDesempaque extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jcProducto = new javax.swing.JComboBox<String>();
+        jcProducto = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jbDesempacar = new javax.swing.JButton();
         jlTituloFormulario = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jcUnidadMedidaInicio = new javax.swing.JComboBox<String>();
+        jcUnidadMedidaInicio = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jcUnidadMedidaFinal = new javax.swing.JComboBox<String>();
+        jcUnidadMedidaFinal = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jtxtCantidadInicial = new javax.swing.JTextField();
         jtxtCantidadFinal = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jlIdUnidadMedidaInicio = new javax.swing.JLabel();
-        jlIdUnidadMedidaFinal = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jlStockProducto = new javax.swing.JLabel();
-        jlIdProducto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jcProducto.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jcProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcProductoActionPerformed(evt);
@@ -140,7 +137,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jcUnidadMedidaInicio.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedidaInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaInicioActionPerformed(evt);
@@ -152,7 +149,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         jLabel2.setText("Unidad Medida 2");
 
         jcUnidadMedidaFinal.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedidaFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaFinalActionPerformed(evt);
@@ -177,12 +174,6 @@ public class FormDesempaque extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Unidad Medida 1");
 
-        jlIdUnidadMedidaInicio.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jlIdUnidadMedidaInicio.setText("idUnidad1");
-
-        jlIdUnidadMedidaFinal.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jlIdUnidadMedidaFinal.setText("idUnidad2");
-
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(153, 0, 51));
         jLabel6.setText("Stock:");
@@ -206,20 +197,14 @@ public class FormDesempaque extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jlStockProducto))
                     .addComponent(jtxtCantidadInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlIdUnidadMedidaInicio)))
-                .addGap(80, 80, 80)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1))
+                .addGap(106, 106, 106)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jtxtCantidadFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcUnidadMedidaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jlIdUnidadMedidaFinal)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                    .addComponent(jLabel2))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,9 +212,7 @@ public class FormDesempaque extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jlIdUnidadMedidaInicio))
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcUnidadMedidaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -240,9 +223,7 @@ public class FormDesempaque extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jtxtCantidadInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jlIdUnidadMedidaFinal))
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcUnidadMedidaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -251,9 +232,6 @@ public class FormDesempaque extends javax.swing.JFrame {
                         .addComponent(jtxtCantidadFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
-
-        jlIdProducto.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jlIdProducto.setText("idProducto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -264,14 +242,9 @@ public class FormDesempaque extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(29, 29, 29)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jlIdProducto))
-                                .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(182, 182, 182)
                         .addComponent(jbDesempacar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -283,9 +256,7 @@ public class FormDesempaque extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jlTituloFormulario)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jlIdProducto))
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
@@ -313,7 +284,7 @@ public class FormDesempaque extends javax.swing.JFrame {
     private void jbDesempacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesempacarActionPerformed
         boolean aux = true;
         
-        if(jlIdUnidadMedidaFinal.getText().equals("0")){
+        if(idUnidadMedida2 == 0){
             JOptionPane.showMessageDialog( null, "Registrar las unidades del prodcuto!!!" , "Error", JOptionPane.ERROR_MESSAGE);
             aux = false;
         }
@@ -330,7 +301,7 @@ public class FormDesempaque extends javax.swing.JFrame {
             aux = false;
         }
         
-        if(jlIdUnidadMedidaFinal.getText().equals(jlIdUnidadMedidaInicio.getText())){
+        if(idUnidadMedida2 == idUnidadMedida1){
             JOptionPane.showMessageDialog( null, "Las unidades deben ser diferente!!!" , "Error", JOptionPane.ERROR_MESSAGE);
             aux = false;
         }
@@ -572,9 +543,6 @@ public class FormDesempaque extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcProducto;
     private javax.swing.JComboBox<String> jcUnidadMedidaFinal;
     private javax.swing.JComboBox<String> jcUnidadMedidaInicio;
-    private javax.swing.JLabel jlIdProducto;
-    private javax.swing.JLabel jlIdUnidadMedidaFinal;
-    private javax.swing.JLabel jlIdUnidadMedidaInicio;
     private javax.swing.JLabel jlStockProducto;
     private javax.swing.JLabel jlTituloFormulario;
     private javax.swing.JTextField jtxtCantidadFinal;
