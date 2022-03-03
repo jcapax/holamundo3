@@ -98,10 +98,14 @@ public class FormLogin extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("Nombre de Usuario:");
         jLabel2.setToolTipText("");
 
+        nombreUsuarioTF.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jPasswordField1.setToolTipText("");
         jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -109,9 +113,11 @@ public class FormLogin extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 0, 51));
         jLabel3.setText("Contraseña:");
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -120,6 +126,7 @@ public class FormLogin extends javax.swing.JFrame {
             }
         });
 
+        aceptarBT.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         aceptarBT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Window-Enter-icon.png"))); // NOI18N
         aceptarBT.setText("Aceptar");
         aceptarBT.addActionListener(new java.awt.event.ActionListener() {

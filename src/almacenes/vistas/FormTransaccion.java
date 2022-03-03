@@ -234,7 +234,7 @@ public class FormTransaccion extends javax.swing.JFrame {
 
         vaciarProductosTemporales();
         
-        reporteComprasDAO.vistaPreviaCompras(idEntregaTransaccion);
+        reporteComprasDAO.vistaPreviaAjusteStock(idEntregaTransaccion);
         
 //        JOptionPane.showMessageDialog(this, "Ajuste Stock registrado con exito");
         

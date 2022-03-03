@@ -11,6 +11,7 @@ import almacenes.model.StockProducto;
 import almacenes.model.StockVencimiento;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -18,11 +19,11 @@ import java.util.HashMap;
  */
 public interface ProductoDAO {
     
-    public ArrayList<Producto> getListaProductos();
+    public List<Producto> getListaProductos();
     public Producto getProductoById(int id);
-    public ArrayList<Producto> getListaProductosVenta(String criterio, byte idLugar);
+    public List<Producto> getListaProductosVenta(String criterio, byte idLugar);
     public void insertarProducto(Producto producto);
-    public ArrayList<StockProducto> getListaStockProducto(byte idLugar, String criterio);
+    public List<StockProducto> getListaStockProducto(byte idLugar, String criterio);
     public byte getControlStock(int idProducto);
     //public ArrayList<StockVencimiento> getListStockVencimiento(byte idLugar, int idProducto, byte idUnidadMedida);
     public void editarProducto(Producto producto);

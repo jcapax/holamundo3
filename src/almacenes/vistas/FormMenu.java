@@ -113,8 +113,6 @@ public class FormMenu extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
@@ -150,7 +148,6 @@ public class FormMenu extends javax.swing.JFrame {
         jSeparator12 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator13 = new javax.swing.JPopupMenu.Separator();
-        jmenuCliente = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jmenuIngresos = new javax.swing.JMenuItem();
         jmenuEgresos = new javax.swing.JMenuItem();
@@ -160,6 +157,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuRubros = new javax.swing.JMenuItem();
         jMenuUnidadMedida = new javax.swing.JMenuItem();
         jMenuProductos = new javax.swing.JMenuItem();
+        jmenuCliente = new javax.swing.JMenuItem();
         jmenuProveedor = new javax.swing.JMenuItem();
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         jMenuILugar = new javax.swing.JMenuItem();
@@ -258,30 +256,6 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton2);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/credito.png"))); // NOI18N
-        jButton3.setToolTipText("Credito");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton3);
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pago_transaccion.png"))); // NOI18N
-        jButton4.setToolTipText("Pendiente");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton4);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/gastromed_logo_principal.jpg"))); // NOI18N
@@ -501,16 +475,6 @@ public class FormMenu extends javax.swing.JFrame {
         jMenu2.add(jMenuItem5);
         jMenu2.add(jSeparator13);
 
-        jmenuCliente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jmenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/clients.png"))); // NOI18N
-        jmenuCliente.setText("Clientes");
-        jmenuCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuClienteActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jmenuCliente);
-
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Otros");
@@ -567,6 +531,7 @@ public class FormMenu extends javax.swing.JFrame {
         jMenuRubros.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuRubros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rubro.png"))); // NOI18N
         jMenuRubros.setText("Rubros");
+        jMenuRubros.setEnabled(false);
         jMenuRubros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuRubrosActionPerformed(evt);
@@ -593,6 +558,16 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         jMenuConfiguracion.add(jMenuProductos);
+
+        jmenuCliente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jmenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/clients.png"))); // NOI18N
+        jmenuCliente.setText("Clientes");
+        jmenuCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuClienteActionPerformed(evt);
+            }
+        });
+        jMenuConfiguracion.add(jmenuCliente);
 
         jmenuProveedor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmenuProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/kuser.png"))); // NOI18N
@@ -1020,21 +995,6 @@ public class FormMenu extends javax.swing.JFrame {
         formTrans.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int idTipoTransaccion = 3; //pedidos
-        int idTipoTransaccionEntrega = 8; //entrega
-        FormTransaccion formTrans = new FormTransaccion(connectionDB, 
-                                            idTipoTransaccion, idTipoTransaccionEntrega, 
-                                            idUsuario, idLugar, idTerminal);
-        formTrans.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        int idTipoTransaccion = 3;// pedidos
-        FormPendientesPago pend = new FormPendientesPago(connectionDB, idTipoTransaccion, idUsuario, idLugar, idTerminal);
-        pend.setVisible(true);
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jmenuReimpresionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuReimpresionActionPerformed
         FormReImpresionFactura reimp = new FormReImpresionFactura(connectionDB, idUsuario);
         reimp.setVisible(true);
@@ -1228,8 +1188,6 @@ public class FormMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

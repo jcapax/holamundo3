@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,10 +33,10 @@ public class ProductoDAOImpl implements ProductoDAO{
     }
     
     @Override
-    public ArrayList<Producto> getListaProductos() {
+    public List<Producto> getListaProductos() {
         String sql = "SELECT * FROM v_productos";
         
-        ArrayList<Producto> list = new ArrayList<Producto>();
+        List<Producto> list = new ArrayList<Producto>();
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -60,7 +61,7 @@ public class ProductoDAOImpl implements ProductoDAO{
                 p.setPrecioCompra(rs.getDouble("precio_compra"));
                 p.setPrecioVenta(rs.getDouble("precio_venta"));
                 p.setIdUnidadMedida(rs.getInt("id_unidad_medida"));
-                p.setStock(rs.getInt("stock"));
+                //p.setStock(rs.getInt("stock"));
                 
                 list.add(p);
             }
