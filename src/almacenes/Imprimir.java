@@ -76,7 +76,7 @@ public class Imprimir {
                 }
             }
             
-            System.out.println(rutaReporte);
+            //System.out.println(rutaReporte);
             
             
             JasperReport report = JasperCompileManager.compileReport(rutaReporte);

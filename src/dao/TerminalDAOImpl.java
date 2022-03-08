@@ -128,7 +128,7 @@ public class TerminalDAOImpl implements TerminalDAO{
 //            ps.setString(1, hostname);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                System.out.println("description: "+rs.getString("descripcion"));
+               // System.out.println("description: "+rs.getString("descripcion"));
                 aux = true;
             }
         } catch (SQLException ex) {

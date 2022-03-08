@@ -136,9 +136,9 @@ public class ReporteVentasDAOImpl implements ReporteVentasDAO {
     public void listaArqueosMes(Integer anno, byte mes, String nombre_mes, byte idLugar) {
         Map parametros = new HashMap<>();
         
+        parametros.put("id_lugar", (int) idLugar);
         parametros.put("anno", anno);
-        parametros.put("mes", mes);
-        parametros.put("id_lugar", idLugar);
+        parametros.put("mes", (int) mes);        
         parametros.put("nombre_mes", nombre_mes);
         
         //System.out.println(parametros);

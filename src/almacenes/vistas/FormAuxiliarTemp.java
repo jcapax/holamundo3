@@ -54,7 +54,7 @@ public class FormAuxiliarTemp extends javax.swing.JFrame {
         
         tipoTransaccion();
         
-        System.out.println(idTipoTransaccion);
+        //System.out.println(idTipoTransaccion);
     }
     
     private void tipoTransaccion(){
