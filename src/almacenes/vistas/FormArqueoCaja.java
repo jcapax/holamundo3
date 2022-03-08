@@ -12,6 +12,7 @@ import dao.reportes.ReporteVentasDAO;
 import dao.reportes.ReporteVentasDAOImpl;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -66,7 +67,7 @@ public class FormArqueoCaja extends javax.swing.JFrame {
             jtxtImporteCierre.setEnabled(false);
         }
         
-        ArrayList<Integer> lTrans = new ArrayList<>(); 
+        List<Integer> lTrans = new ArrayList<>(); 
         
         lTrans = arqueoDAO.getListaTransaccionArqueoPorUsuarioMaquina(idLugar, idTerminal, usuario);
         
@@ -94,7 +95,7 @@ public class FormArqueoCaja extends javax.swing.JFrame {
     public void cerrarCaja(){
         int idArqueo = arqueoDAO.getIdArqueo(idLugar, idTerminal, usuario);
         
-        ArrayList<Integer> lTrans = new ArrayList<>(); 
+        List<Integer> lTrans = new ArrayList<>(); 
         lTrans = arqueoDAO.getListaTransaccionArqueoPorUsuarioMaquina(idLugar, idTerminal, usuario);
         
         //*********************************
@@ -117,7 +118,7 @@ public class FormArqueoCaja extends javax.swing.JFrame {
         
         arqueoDAO.cerrarArqueo(importeCierre, idArqueo);
                 
-        ReporteVentasDAOImpl reparq = new ReporteVentasDAOImpl(connectionDB, usuario);
+        ReporteVentasDAO reparq = new ReporteVentasDAOImpl(connectionDB, usuario);
         reparq.arqueo(idArqueo);       
     }
 

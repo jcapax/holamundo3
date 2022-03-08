@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //import personaljava.Conectar;
@@ -40,10 +41,10 @@ public class ProcedenciaDAOImpl implements ProcedenciaDAO{
 
 
     @Override
-    public ArrayList<Procedencia> getListaProcedencia() {
+    public List<Procedencia> getListaProcedencia() {
         sql = "SELECT * FROM procedencia";
         
-        ArrayList<Procedencia> lprocedencia = new ArrayList<Procedencia>();
+        List<Procedencia> lprocedencia = new ArrayList<Procedencia>();
         
         try {
             PreparedStatement pst = connectionDB.prepareStatement(sql);

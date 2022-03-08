@@ -10,6 +10,8 @@ import almacenes.model.Familia;
 import dao.FamiliaDAOImpl;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,7 +42,7 @@ public class FormFamilia extends javax.swing.JFrame {
     
 
     public void llenarTablaFamilia(){
-        ArrayList<Familia> r = new ArrayList<Familia>();
+        List<Familia> r = new ArrayList<Familia>();
         
         r = familiaDAOImpl.getListaFamilias();
         
@@ -154,6 +156,7 @@ public class FormFamilia extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Save-icon.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -162,6 +165,7 @@ public class FormFamilia extends javax.swing.JFrame {
             }
         });
 
+        btnEliminar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/trash_icon.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -170,6 +174,7 @@ public class FormFamilia extends javax.swing.JFrame {
             }
         });
 
+        btnSalir.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close_window.png"))); // NOI18N
         btnSalir.setText("Cerrar");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -202,8 +207,11 @@ public class FormFamilia extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 0, 51));
         jLabel1.setText("Nombre Familia");
+
+        txtDescripcion.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);

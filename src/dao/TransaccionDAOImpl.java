@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -174,9 +175,9 @@ public class TransaccionDAOImpl implements TransaccionDAO{
     }
 
     @Override
-    public ArrayList<ListaTransaccion> getlistaTransacciones(Date fecha, String usuario) {
+    public List<ListaTransaccion> getlistaTransacciones(Date fecha, String usuario) {
         
-        ArrayList<ListaTransaccion> lista = new ArrayList<>();
+        List<ListaTransaccion> lista = new ArrayList<>();
         
         String sql = "SELECT id, " +
                   "CASE id_tipo_transaccion " +
@@ -387,8 +388,8 @@ public class TransaccionDAOImpl implements TransaccionDAO{
     }
 
     @Override
-    public ArrayList<ListaTransaccion> getlistaCotizacionesPendientes(int idLugar) {
-       ArrayList<ListaTransaccion> lista = new ArrayList<>();
+    public List<ListaTransaccion> getlistaCotizacionesPendientes(int idLugar) {
+       List<ListaTransaccion> lista = new ArrayList<>();
         
         String sql = "SELECT id, fecha, nro_tipo_transaccion, valor_total, usuario, descripcion_transaccion " +
                     "FROM v_transaccion " +

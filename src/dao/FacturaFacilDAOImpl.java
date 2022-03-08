@@ -50,7 +50,7 @@ public class FacturaFacilDAOImpl implements FacturaFacilDAO{
     }   
 
     @Override
-    public void insertarDetalleFacturaFacil(ArrayList<DetalleFacturaFacil> facil, int idFacturaFacil) {
+    public void insertarDetalleFacturaFacil(List<DetalleFacturaFacil> facil, int idFacturaFacil) {
         String sql = null;
         PreparedStatement ps;
         ResultSet rs;

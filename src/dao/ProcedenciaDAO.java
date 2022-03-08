@@ -7,8 +7,8 @@ package dao;
 
 
 import almacenes.model.Procedencia;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public interface ProcedenciaDAO {
     
-    public ArrayList<Procedencia> getListaProcedencia();
+    public List<Procedencia> getListaProcedencia();
     public HashMap<String, Integer> procedenciaClaveValor();
     public void insertarProcedencia(Procedencia procedencia);
     public void eliminarProcedencia(int id);

@@ -27,6 +27,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -117,7 +118,7 @@ public class FormFacturaCredito extends javax.swing.JFrame {
         DetalleTransaccionDAOImpl rub = new DetalleTransaccionDAOImpl(connectionDB);
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
-        ArrayList<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
+        List<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
 
         r = rub.getDetalleTransaccion(idTransaccion);
 

@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,10 +35,10 @@ public class ClienteProveedorDAOImpl implements ClienteProveedorDAO{
 
 
     @Override
-    public ArrayList<ClienteProveedor> getListaClienteProveedor(String tipo) {
+    public List<ClienteProveedor> getListaClienteProveedor(String tipo) {
         String sql = "SELECT * FROM cliente_proveedor where tipo = ?";
         
-        ArrayList<ClienteProveedor> cliPro = new ArrayList<ClienteProveedor>();
+        List<ClienteProveedor> cliPro = new ArrayList<ClienteProveedor>();
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);

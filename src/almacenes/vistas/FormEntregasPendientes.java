@@ -31,6 +31,7 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -169,7 +170,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     
     public void llenarPendientesEntrega(){
         
-        ArrayList<EntregaPendiente> lista = new ArrayList<>();
+        List<EntregaPendiente> lista = new ArrayList<>();
         
         lista = entregasDAO.getListaEntregasPendientes();
         
@@ -194,7 +195,7 @@ public final class FormEntregasPendientes extends javax.swing.JFrame {
     }
     
     public void llenarProductosPendientes(int idTransaccion){
-        ArrayList<EntregaPendiente> lista = new ArrayList<>();
+        List<EntregaPendiente> lista = new ArrayList<>();
         
         lista = entregasDAO.getProductosPendientes(idTransaccion);
         

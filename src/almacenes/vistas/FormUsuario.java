@@ -11,6 +11,7 @@ import dao.UsuariosDAO;
 import dao.UsuariosDAOImpl;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -451,7 +452,7 @@ public class FormUsuario extends javax.swing.JFrame {
     }
 
     public void llenarTablaUsuarios() {
-        ArrayList<Usuario> r = new ArrayList<Usuario>();
+        List<Usuario> r = new ArrayList<Usuario>();
 
         r = usuariosDAO.getlistaUsuarios();
 

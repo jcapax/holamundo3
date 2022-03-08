@@ -5,11 +5,8 @@
  */
 package dao;
 
-import almacenes.model.ListaProductos;
 import almacenes.model.Producto;
 import almacenes.model.StockProducto;
-import almacenes.model.StockVencimiento;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

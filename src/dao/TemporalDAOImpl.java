@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -128,10 +129,10 @@ public class TemporalDAOImpl implements TemporalDAO{
     }
 
     @Override
-    public ArrayList<Temporal> getListaTemporal() {
+    public List<Temporal> getListaTemporal() {
         String sql = "SELECT * FROM detalle_transaccion_temp";
         
-        ArrayList<Temporal> lTemporal = new ArrayList<Temporal>();
+        List<Temporal> lTemporal = new ArrayList<Temporal>();
         
         try {
             PreparedStatement pst = sqlite.prepareStatement(sql);
@@ -218,10 +219,10 @@ public class TemporalDAOImpl implements TemporalDAO{
     }
 
     @Override
-    public ArrayList<DetalleFacturaFacil> getListaDetalleFacturaFacilTemporal() {
+    public List<DetalleFacturaFacil> getListaDetalleFacturaFacilTemporal() {
         String sql = "SELECT * FROM detalle_factura_facil_temp order by id";
         
-        ArrayList<DetalleFacturaFacil> lTemporal = new ArrayList<DetalleFacturaFacil>();
+        List<DetalleFacturaFacil> lTemporal = new ArrayList<DetalleFacturaFacil>();
         
         try {
             PreparedStatement pst = sqlite.prepareStatement(sql);
@@ -290,10 +291,10 @@ public class TemporalDAOImpl implements TemporalDAO{
     }
 
     @Override
-    public ArrayList<Temporal> getListEntregaTemporal() {
+    public List<Temporal> getListEntregaTemporal() {
         String sql = "SELECT * FROM entrega_temp";
         
-        ArrayList<Temporal> lTemporal = new ArrayList<Temporal>();
+        List<Temporal> lTemporal = new ArrayList<Temporal>();
         
         try {
             PreparedStatement pst = sqlite.prepareStatement(sql);

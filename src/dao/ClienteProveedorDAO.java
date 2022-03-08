@@ -6,15 +6,15 @@
 package dao;
 
 import almacenes.model.ClienteProveedor;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
  * @author jcarlos.porcel
  */
 public interface ClienteProveedorDAO {
-    public ArrayList<ClienteProveedor> getListaClienteProveedor(String tipo);
+    public List<ClienteProveedor> getListaClienteProveedor(String tipo);
     public void insertarClienteProveedor(ClienteProveedor clienteProveedor);
     public void eliminarClienteProveedor(int idCliente);
     public void actualizarClienteProveedor(ClienteProveedor clienteProveedor);    

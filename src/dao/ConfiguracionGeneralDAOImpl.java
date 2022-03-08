@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,8 +31,8 @@ public class ConfiguracionGeneralDAOImpl implements ConfiguracionGeneralDAO {
     }
 
     @Override
-    public ArrayList<ConfiguracionGeneral> getConfiguracionGeneral() {
-        ArrayList<ConfiguracionGeneral> listaConf = new ArrayList<ConfiguracionGeneral>();
+    public List<ConfiguracionGeneral> getConfiguracionGeneral() {
+        List<ConfiguracionGeneral> listaConf = new ArrayList<ConfiguracionGeneral>();
         String sql = "select * from configuraciones";
 
         PreparedStatement ps;

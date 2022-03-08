@@ -27,6 +27,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -88,7 +89,7 @@ public class FormListaCotizaciones extends javax.swing.JFrame {
         DetalleTransaccionDAOImpl rub = new DetalleTransaccionDAOImpl(connectionDB);
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
-        ArrayList<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
+        List<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
 
         r = rub.getDetalleTransaccion(idTransaccion);
 
@@ -126,7 +127,7 @@ public class FormListaCotizaciones extends javax.swing.JFrame {
         
         transaccionDAO = new TransaccionDAOImpl(connectionDB);
         
-        ArrayList<ListaTransaccion> l = new ArrayList<>();
+        List<ListaTransaccion> l = new ArrayList<>();
 
         l = transaccionDAO.getlistaCotizacionesPendientes(idLugar);
 

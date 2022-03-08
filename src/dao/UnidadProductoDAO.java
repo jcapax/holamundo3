@@ -6,14 +6,14 @@
 package dao;
 
 import almacenes.model.UnidadProducto;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author jcapax
  */
 public interface UnidadProductoDAO {
-    public ArrayList<UnidadProducto> getListaUnidadProducto(int idProducto);    
+    public List<UnidadProducto> getListaUnidadProducto(int idProducto);    
     public double getStockProducto(int idProducto, int idUnidadMedida, int idLugar);
     public void insertarUnidadProducto(UnidadProducto unidadProducto);
     public void eliminarUnidadProducto(int idUnidadProducto);

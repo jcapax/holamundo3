@@ -52,6 +52,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -187,7 +188,7 @@ public class FormTransaccionPedidos extends javax.swing.JFrame {
     }
     
     public void cargarCotizacion(){
-        ArrayList<DetalleTransaccion> listDetalle = detalleTransaccionDAO.getDetalleTransaccion(idTransaccionCotizacion);
+        List<DetalleTransaccion> listDetalle = detalleTransaccionDAO.getDetalleTransaccion(idTransaccionCotizacion);
         
         for(DetalleTransaccion detalle : listDetalle){
             Temporal temp = new Temporal();
@@ -364,7 +365,7 @@ public class FormTransaccionPedidos extends javax.swing.JFrame {
 
     public void llenarTablaTemporal() {
 
-        ArrayList<Temporal> t = new ArrayList<Temporal>();
+        List<Temporal> t = new ArrayList<Temporal>();
 
         t = temporalDAO.getListaTemporal();
 

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface UsuariosDAO {
     public List<Usuario> listar();
-    public ArrayList<Usuario> getlistaUsuarios();
+    public List<Usuario> getlistaUsuarios();
     public String verificarUsuario(String nombreUsuario, String password);
     public void insertarUsuario(Usuario usuario);
     public void eliminarUsuario(String usuario);

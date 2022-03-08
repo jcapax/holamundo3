@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +31,7 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
     }
 
     @Override
-    public void insertarDetalleTransaccion(ArrayList<DetalleTransaccion> detTrans) {
+    public void insertarDetalleTransaccion(List<DetalleTransaccion> detTrans) {
         String sql = "insert into detalle_transaccion("
                 + "id_transaccion, id_producto, id_unidad_medida, cantidad, "
                 + "valor_unitario, valor_sub_total, descuento, valor_total, tipo_valor) "
@@ -57,8 +58,8 @@ public class DetalleTransaccionDAOImpl implements DetalleTransaccionDAO{
     }
 
     @Override
-    public ArrayList<DetalleTransaccion> getDetalleTransaccion(int idTransaccion) {
-        ArrayList<DetalleTransaccion> detTransaccion = new ArrayList<DetalleTransaccion>();
+    public List<DetalleTransaccion> getDetalleTransaccion(int idTransaccion) {
+        List<DetalleTransaccion> detTransaccion = new ArrayList<DetalleTransaccion>();
         
         String sql = "SELECT * FROM v_detalle_transaccion where id_transaccion = ?";
         

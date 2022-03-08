@@ -475,14 +475,12 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jlRazonSocial" alignment="0" min="-2" pref="229" max="-2" attributes="0"/>
                       <Component id="jlClienteProveedor" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jcClienteProveedor" min="-2" pref="408" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jbTransaccion" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jtxtRazonSocial" alignment="0" min="-2" pref="722" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jcClienteProveedor" min="-2" pref="408" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jbTransaccion" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jtxtRazonSocial" alignment="0" min="-2" pref="722" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="25" max="32767" attributes="0"/>
               </Group>

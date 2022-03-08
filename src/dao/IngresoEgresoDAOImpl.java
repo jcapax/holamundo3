@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,8 +34,8 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
     
 
     @Override
-    public ArrayList<IngresoEgreso> getListaCuentasIngresoEgreso(String tipoCuenta) {
-        ArrayList<IngresoEgreso> listaCuentas = new ArrayList<IngresoEgreso>();
+    public List<IngresoEgreso> getListaCuentasIngresoEgreso(String tipoCuenta) {
+        List<IngresoEgreso> listaCuentas = new ArrayList<IngresoEgreso>();
         
         String sql = "select id, clase_producto, descripcion, tipo_cuenta "
                 + "from producto where estado = 'V' and tipo_cuenta in('A', '"+tipoCuenta+"')";
@@ -63,8 +64,9 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
 
     @Override
     public void registrarNuevaCuenta(String nombreCuenta, String idTipoCuenta) {
-        String sql = "insert into producto(clase_producto, descripcion, tipo_cuenta, estado) "
-                + "values('M', ?, ?, 'V')";
+        String sql = "insert into producto(clase_producto, id_laboratorio, id_familia, "
+                + "indicaciones, principio_activo, descripcion, tipo_cuenta, estado) "
+                + "values('M', -1, -1, '', '', ?, ?, 'V')";
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -78,10 +80,10 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
     }
     
     @Override
-    public ArrayList<ListaIngresosEgresos> getListIngresosEgresosFechas(int idTipoTransaccion, Date fechaInicio, Date fechaFin, byte idLugar) {
-        ArrayList<ListaIngresosEgresos> lista = new ArrayList<>();
+    public List<ListaIngresosEgresos> getListIngresosEgresosFechas(int idTipoTransaccion, Date fechaInicio, Date fechaFin, byte idLugar) {
+        List<ListaIngresosEgresos> lista = new ArrayList<>();
         
-        String sql = "SELECT t.id, id_tipo_transaccion, t.descripcion_tipo_transaccion, t.fecha, t.id_lugar, "
+        String sql = "SELECT t.id, id_tipo_transaccion, t.nombre_tipo_movimiento, t.fecha, t.id_lugar, "
                 + "t.valor_total, t.usuario, "
                 + "t.descripcion_transaccion as descripcion_ingreso_egreso, "
                 + "d.descripcion as cuenta " +
@@ -89,7 +91,6 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
             "WHERE t.id_tipo_transaccion = "+String.valueOf(idTipoTransaccion)
                 + " and t.id_lugar = " + idLugar
                 + " AND t.fecha BETWEEN '"+String.valueOf(fechaInicio)+"' and '"+String.valueOf(fechaFin)+"'";
-        
         
         try {
             PreparedStatement ps = connectionDB.prepareStatement(sql);
@@ -99,7 +100,7 @@ public class IngresoEgresoDAOImpl implements IngresoEgresoDAO{
                 
                 lie.setCuenta(rs.getString("cuenta"));
                 lie.setDescripcionIngresoEgreso(rs.getString("descripcion_ingreso_egreso"));
-                lie.setDescripcionTipoTransaccion(rs.getString("descripcion_tipo_transaccion"));
+                lie.setDescripcionTipoTransaccion(rs.getString("nombre_tipo_movimiento"));
                 lie.setIdTipoTransaccion(rs.getInt("id_tipo_transaccion"));
                 lie.setFecha(rs.getString("fecha"));
                 lie.setIdLugar(rs.getInt("id_lugar"));

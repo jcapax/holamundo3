@@ -8,6 +8,7 @@ package dao;
 import almacenes.model.Caja;
 import almacenes.model.ListaCaja;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  */
 public interface CajaDAO {
     public void insertarCaja(Caja caja);
-    public ArrayList<ListaCaja> getListaCaja(int idArqueo);
+    public List<ListaCaja> getListaCaja(int idArqueo);
     public int getIdCaja();
     public void registrarCajaDetalle(int idCaja, String detalle);
 }

@@ -8,9 +8,11 @@ package almacenes.vistas;
 
 import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Procedencia;
+import dao.ProcedenciaDAO;
 import dao.ProcedenciaDAOImpl;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +27,7 @@ public class FormProcedencia extends javax.swing.JFrame {
     
     private DatabaseUtils databaseUtils;
     private Connection connectionDB;
+    private ProcedenciaDAO procedenciaDAO;
     
     DefaultTableModel dtm;
     
@@ -39,15 +42,14 @@ public class FormProcedencia extends javax.swing.JFrame {
         initComponents();
         this.databaseUtils = new DatabaseUtils();
         this.connectionDB = connectionDB;
+        procedenciaDAO = new ProcedenciaDAOImpl(connectionDB);
         llenarTablaProcedencia();
     }
 
     public void llenarTablaProcedencia(){
-        ProcedenciaDAOImpl rub = new ProcedenciaDAOImpl(connectionDB);
+        List<Procedencia> r = new ArrayList<Procedencia>();
         
-        ArrayList<Procedencia> r = new ArrayList<Procedencia>();
-        
-        r = rub.getListaProcedencia();
+        r = procedenciaDAO.getListaProcedencia();
         
         dtm = (DefaultTableModel) this.jtProcedencia.getModel();
         dtm.setRowCount(0);
@@ -72,8 +74,8 @@ public class FormProcedencia extends javax.swing.JFrame {
     public void guardarProcedencia(){
         String descripcion = txtDescripcion.getText().toUpperCase();
         Procedencia r = new Procedencia(descripcion, "SYS");
-        ProcedenciaDAOImpl rdao = new ProcedenciaDAOImpl(connectionDB);
-        rdao.insertarProcedencia(r);
+        
+        procedenciaDAO.insertarProcedencia(r);
         llenarTablaProcedencia();
         txtDescripcion.setText("");
     }

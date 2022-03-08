@@ -28,6 +28,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -104,7 +105,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
     
     public void llenarTablaPendientesPago(){
         
-        ArrayList<PendientePago> r = new ArrayList<PendientePago>();
+        List<PendientePago> r = new ArrayList<PendientePago>();
         
         r = creditoDAO.getListaPendientesPago(idTipoTransaccion);
         
@@ -152,7 +153,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
         double total = 0;
         double saldo = 0;
         
-        ArrayList<Caja> r = new ArrayList<Caja>();
+        List<Caja> r = new ArrayList<Caja>();
         
         r = creditoDAO.getHistorialPagos(idTransaccion);
         
@@ -190,7 +191,7 @@ public class FormPendientesPago extends javax.swing.JFrame {
 
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
-        ArrayList<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
+        List<DetalleTransaccion> r = new ArrayList<DetalleTransaccion>();
 
         r = detalleTransaccionDAO.getDetalleTransaccion(idTransaccion);
 

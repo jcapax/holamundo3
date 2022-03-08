@@ -16,6 +16,7 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,12 +33,16 @@ public class FormSucursal extends javax.swing.JFrame {
     DefaultTableModel dtm;
     private boolean editar = false;
     byte idSucursal = 0;
+    private SucursalDAO sucursalDAO;
+    private LugarDAO lugarDAO;
 
     public FormSucursal(Connection connectionDB) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.connectionDB = connectionDB;
         this.databaseUtils = new DatabaseUtils();
+        sucursalDAO = new SucursalDAOImpl(connectionDB);
+        lugarDAO = new LugarDAOImpl(connectionDB);
         
         headerTabla();
         llenarComboLugar();
@@ -59,9 +64,7 @@ public class FormSucursal extends javax.swing.JFrame {
         jcLugarSucursal.removeAllItems();
         jcLugarSucursal.addItem(sel);
         
-        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+        HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
 
         for (String s : map.keySet()) {
             jcLugarSucursal.addItem(s.toString());
@@ -75,9 +78,7 @@ public class FormSucursal extends javax.swing.JFrame {
         
         String comp = "Sel";
         
-        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+        HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
             
         try {
             sel = jcLugarSucursal.getSelectedItem().toString();
@@ -128,11 +129,9 @@ public class FormSucursal extends javax.swing.JFrame {
     }
     
     public void llenarTablaSucursal(){
-        SucursalDAO suc = new SucursalDAOImpl(connectionDB);
+        List<Sucursal> s = new ArrayList<Sucursal>();
         
-        ArrayList<Sucursal> s = new ArrayList<Sucursal>();
-        
-        s = suc.getListSucursal();
+        s = sucursalDAO.getListSucursal();
         
         dtm = (DefaultTableModel) this.jtSucursal.getModel();
         dtm.setRowCount(0);
@@ -643,7 +642,6 @@ public class FormSucursal extends javax.swing.JFrame {
         sucursal.setActividadSucursal(actividadSucursal);
         sucursal.setEstado(estado);
         
-        SucursalDAO sucursalDAO = new SucursalDAOImpl(connectionDB);
         if(editar){
             sucursal.setId(idSucursalSeleccionado());
             sucursalDAO.editarSucursal(sucursal);
@@ -656,8 +654,8 @@ public class FormSucursal extends javax.swing.JFrame {
 
     private void selccionarSucursal() {
         idSucursal = idSucursalSeleccionado();
-        SucursalDAO sucursalDAO = new SucursalDAOImpl(connectionDB);
-        ArrayList<Sucursal> sucursal = sucursalDAO.getSucursal(idSucursal);
+        
+        List<Sucursal> sucursal = sucursalDAO.getSucursal(idSucursal);
         
         jtxtActividadEconomica.setText(sucursal.get(0).getActividadEconomica());
         jtxtDireccionSucursal.setText(sucursal.get(0).getDireccion());

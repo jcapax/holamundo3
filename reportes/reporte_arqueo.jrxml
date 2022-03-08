@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ventas" pageWidth="595" pageHeight="400" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="270a6510-3414-4656-9342-36f6b9e7f696">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpv.xml"/>
@@ -59,23 +59,33 @@ from arqueo where id = $P{id}]]>
 	<title>
 		<band height="282" splitType="Stretch">
 			<staticText>
-				<reportElement x="10" y="70" width="100" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<reportElement x="24" y="70" width="100" height="20" uuid="371a0527-545a-42d0-91c7-14512988beba"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Fecha Apertura]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="140" y="69" width="100" height="20" uuid="3a33a8b6-0783-491a-bb57-5bc1751dc1cc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Fecha Cierre]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="10" y="100" width="100" height="30" uuid="9e4a5ac3-986f-44d2-88a7-a49f4c6cb117"/>
+				<reportElement x="24" y="93" width="100" height="15" uuid="9e4a5ac3-986f-44d2-88a7-a49f4c6cb117">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{fecha_apertura}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="140" y="100" width="100" height="30" uuid="f58b105a-99d6-4656-878e-f654153e34e5"/>
+				<reportElement x="140" y="93" width="100" height="15" uuid="f58b105a-99d6-4656-878e-f654153e34e5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{fecha_cierre}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="150" width="100" height="20" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0"/>
+				<reportElement x="24" y="150" width="100" height="20" uuid="1c135ea9-9636-4846-b6de-c2d89cc168c0"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -97,14 +107,14 @@ from arqueo where id = $P{id}]]>
 				<textFieldExpression><![CDATA[new DecimalFormat("#0.00").format($F{importe_cierre})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="190" width="100" height="20" uuid="27677860-54a2-4bf1-b312-4714525cb94f"/>
+				<reportElement x="24" y="182" width="100" height="20" uuid="27677860-54a2-4bf1-b312-4714525cb94f"/>
 				<textElement textAlignment="Left">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Usuario]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="140" y="190" width="100" height="20" uuid="18b02b30-36a8-4727-b228-bdb4c55a2866"/>
+				<reportElement x="140" y="182" width="100" height="20" uuid="18b02b30-36a8-4727-b228-bdb4c55a2866"/>
 				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -115,11 +125,14 @@ from arqueo where id = $P{id}]]>
 				<text><![CDATA[ARQUEO DE CAJA]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="10" y="250" width="144" height="20" uuid="b7ad1c35-8d57-4185-87b8-8a07cb9057fe"/>
+				<reportElement x="24" y="250" width="144" height="20" uuid="b7ad1c35-8d57-4185-87b8-8a07cb9057fe"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="17" y="140" width="520" height="1" uuid="1350b49a-b323-44da-9666-4f3f9d5a1f09">
+				<reportElement x="17" y="124" width="520" height="1" uuid="1350b49a-b323-44da-9666-4f3f9d5a1f09">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -132,10 +145,6 @@ from arqueo where id = $P{id}]]>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 			</line>
-			<image>
-				<reportElement x="10" y="0" width="40" height="59" uuid="dddb5e29-4898-46dc-830d-2605ea274cd1"/>
-				<imageExpression><![CDATA["C:\\Users\\jcarlos.porcel\\Documents\\NetBeansProjects\\holamundo3\\reportes\\img\\logo.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>

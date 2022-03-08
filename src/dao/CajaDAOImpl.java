@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,8 +52,8 @@ public class CajaDAOImpl implements CajaDAO{
     }
 
     @Override
-    public ArrayList<ListaCaja> getListaCaja(int idArqueo) {
-       ArrayList<ListaCaja> listaCaja = new ArrayList<ListaCaja>();
+    public List<ListaCaja> getListaCaja(int idArqueo) {
+       List<ListaCaja> listaCaja = new ArrayList<ListaCaja>();
        
        String sql = "select * from v_caja where id_arqueo = ?";
        

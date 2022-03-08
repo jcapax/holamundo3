@@ -5,11 +5,10 @@
  */
 package dao;
 
-import almacenes.model.ListaIngresosEgresos;
 import almacenes.model.ListaTransaccion;
 import almacenes.model.Transaccion;
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,8 +21,8 @@ public interface TransaccionDAO {
     public void insertarEntregaTransaccion(int idTransaccion, int idEntregaTransaccion);
     public double getValorTotalTransaccion(int idTransaccion);
     public Date getFechaTransaccion(int idTransaccion);
-    public ArrayList<ListaTransaccion> getlistaTransacciones(Date fecha, String usuario); 
-    public ArrayList<ListaTransaccion> getlistaCotizacionesPendientes(int idLugar);
+    public List<ListaTransaccion> getlistaTransacciones(Date fecha, String usuario); 
+    public List<ListaTransaccion> getlistaCotizacionesPendientes(int idLugar);
     public int getIdTransaccionOriginalDeEntregaPendiente(int idTransaccion);
     public void crearTemporalEntrega();
     public void eliminarDatosTemporalEntrega();
@@ -32,7 +31,7 @@ public interface TransaccionDAO {
     public void saveCreditoTransaccionEntrega(int idTransaccion);
     public boolean isCreditoEntrega(int idTransaccion);
     
-    public void insertarAtencionCotizacion(int 	idTransaccionCotizacion, int idTransaccionAtencion);
+    public void insertarAtencionCotizacion(int idTransaccionCotizacion, int idTransaccionAtencion);
     
     public void cerrarTransaccionEfectivo(int idTransaccion);
     public void cerrarTransaccionProducto(int idTransaccion);

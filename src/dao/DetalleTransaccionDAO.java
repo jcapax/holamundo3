@@ -7,13 +7,14 @@ package dao;
 
 import almacenes.model.DetalleTransaccion;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author jcapax
  */
 public interface DetalleTransaccionDAO {
-    public void insertarDetalleTransaccion(ArrayList<DetalleTransaccion> detalleTransaccion);
-    public ArrayList<DetalleTransaccion> getDetalleTransaccion(int idTransaccion);
+    public void insertarDetalleTransaccion(List<DetalleTransaccion> detalleTransaccion);
+    public List<DetalleTransaccion> getDetalleTransaccion(int idTransaccion);
     
 }

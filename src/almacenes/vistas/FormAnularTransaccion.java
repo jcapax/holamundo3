@@ -93,7 +93,7 @@ public class FormAnularTransaccion extends javax.swing.JFrame {
     }
 
     public void llenarTablaAnularTransaccion() {
-        ArrayList<AnularTransaccion> lista = new ArrayList<>();
+        List<AnularTransaccion> lista = new ArrayList<>();
 
         byte idTipoTransaccion = 2;
         lista = anularTransaccionDAO.getListaTransaccionesAnular(idTipoTransaccion, usuario);

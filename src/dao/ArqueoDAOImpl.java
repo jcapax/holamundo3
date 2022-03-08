@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -149,7 +150,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     }
   
     @Override
-    public void cerrarCaja(ArrayList<Integer> lTrans, int idArqueo) {
+    public void cerrarCaja(List<Integer> lTrans, int idArqueo) {
         String listaTrans = "0";
         for (int i = 0; i < lTrans.size(); i++) {
             if (i == 0) {
@@ -191,7 +192,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     }
 
     @Override
-    public double getImportePorArqueoUsuarioMaquina(ArrayList<Integer> lTrans) {
+    public double getImportePorArqueoUsuarioMaquina(List<Integer> lTrans) {
         double importeTotal = 0;
 
         String listaTrans = "0";
@@ -249,7 +250,7 @@ public class ArqueoDAOImpl implements ArqueoDAO {
 
     
     @Override
-    public void cerrarTransacciones(ArrayList<Integer> lTrans) {
+    public void cerrarTransacciones(List<Integer> lTrans) {
         String listaTrans = "0";
         for (int i = 0; i < lTrans.size(); i++) {
             if (i == 0) {
@@ -271,8 +272,8 @@ public class ArqueoDAOImpl implements ArqueoDAO {
     
     
     @Override
-    public ArrayList<Arqueo> getListaArqueos(byte idLugar, byte mes, int anno) {
-        ArrayList<Arqueo> listaArqueos = new ArrayList<Arqueo>();
+    public List<Arqueo> getListaArqueos(byte idLugar, byte mes, int anno) {
+        List<Arqueo> listaArqueos = new ArrayList<Arqueo>();
 
         String sql = "select * from arqueo "
                 + "where estado = 'C' and year(fecha_cierre) = ? and month(fecha_cierre)=? "

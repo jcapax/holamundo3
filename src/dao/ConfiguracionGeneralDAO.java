@@ -6,14 +6,14 @@
 package dao;
 
 import almacenes.model.ConfiguracionGeneral;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author jcapax
  */
 public interface ConfiguracionGeneralDAO {
-       public ArrayList<ConfiguracionGeneral> getConfiguracionGeneral();
+       public List<ConfiguracionGeneral> getConfiguracionGeneral();
        public String getRutaExcelLibroVentas();
        public int getNroDiasNullTransaccion();
        public int getImpresionDirectaFactura();

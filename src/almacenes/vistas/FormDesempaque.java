@@ -90,14 +90,14 @@ public class FormDesempaque extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jcProducto = new javax.swing.JComboBox<>();
+        jcProducto = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
         jbDesempacar = new javax.swing.JButton();
         jlTituloFormulario = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jcUnidadMedidaInicio = new javax.swing.JComboBox<>();
+        jcUnidadMedidaInicio = new javax.swing.JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
-        jcUnidadMedidaFinal = new javax.swing.JComboBox<>();
+        jcUnidadMedidaFinal = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
         jtxtCantidadInicial = new javax.swing.JTextField();
         jtxtCantidadFinal = new javax.swing.JTextField();
@@ -109,7 +109,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jcProducto.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jcProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcProductoActionPerformed(evt);
@@ -122,6 +122,7 @@ public class FormDesempaque extends javax.swing.JFrame {
 
         jbDesempacar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
         jbDesempacar.setText("Desempacar");
+        jbDesempacar.setPreferredSize(new java.awt.Dimension(131, 40));
         jbDesempacar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbDesempacarActionPerformed(evt);
@@ -137,7 +138,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jcUnidadMedidaInicio.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaInicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedidaInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaInicioActionPerformed(evt);
@@ -149,7 +150,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         jLabel2.setText("Unidad Medida 2");
 
         jcUnidadMedidaFinal.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcUnidadMedidaFinal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcUnidadMedidaFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcUnidadMedidaFinalActionPerformed(evt);
@@ -178,6 +179,7 @@ public class FormDesempaque extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(153, 0, 51));
         jLabel6.setText("Stock:");
 
+        jlStockProducto.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jlStockProducto.setForeground(new java.awt.Color(153, 0, 51));
         jlStockProducto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jlStockProducto.setText("0");
@@ -240,15 +242,22 @@ public class FormDesempaque extends javax.swing.JFrame {
             .addComponent(jlTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(182, 182, 182)
-                        .addComponent(jbDesempacar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(182, 182, 182)
+                                .addComponent(jbDesempacar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel3)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 12, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,11 +268,11 @@ public class FormDesempaque extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jcProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(jbDesempacar)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addComponent(jbDesempacar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();

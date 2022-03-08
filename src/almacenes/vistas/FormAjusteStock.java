@@ -10,13 +10,11 @@ import almacenes.conectorDB.DatabaseUtils;
 import almacenes.model.Caja;
 import almacenes.model.DetalleTransaccion;
 import almacenes.model.Temporal;
-import almacenes.model.ListaProductos;
 import almacenes.model.Transaccion;
 import dao.ArqueoDAOImpl;
 import dao.CajaDAOImpl;
 import dao.DetalleTransaccionDAOImpl;
 import dao.TemporalDAOImpl;
-import dao.ProductoDAOImpl;
 import dao.TransaccionDAOImpl;
 import dao.UnidadMedidaDAO;
 import dao.UnidadMedidaDAOImpl;
@@ -33,6 +31,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -312,7 +311,7 @@ public class FormAjusteStock extends javax.swing.JFrame {
 
         TemporalDAOImpl tempDAO = new TemporalDAOImpl(connectionTemp);
 
-        ArrayList<Temporal> t = new ArrayList<Temporal>();
+        List<Temporal> t = new ArrayList<Temporal>();
 
         t = tempDAO.getListaTemporal();
 

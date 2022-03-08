@@ -6,7 +6,7 @@
 package dao;
 
 import almacenes.model.Sucursal;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 /**
@@ -17,8 +17,8 @@ public interface SucursalDAO {
     public void insertarSucursal(Sucursal s);
     public void eliminarSucursal(byte idSucursal);
     public void editarSucursal(Sucursal s);
-    public ArrayList<Sucursal> getListSucursal();
-    public ArrayList<Sucursal> getSucursal(byte idSucursal);
+    public List<Sucursal> getListSucursal();
+    public List<Sucursal> getSucursal(byte idSucursal);
     public HashMap<String, Integer> sucursalClaveValor();
     public HashMap<String, Integer> sucursalClaveValorActiva();
     public String getNitSucursal(byte idLugar);

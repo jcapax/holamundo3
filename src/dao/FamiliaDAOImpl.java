@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //import personaljava.Conectar;
@@ -33,10 +34,10 @@ public class FamiliaDAOImpl implements FamiliaDAO{
 	}
 
     @Override
-    public ArrayList<Familia> getListaFamilias() {
+    public List<Familia> getListaFamilias() {
         String sql = "SELECT * FROM familia";
         
-        ArrayList<Familia> lfamilia = new ArrayList<Familia>();
+        List<Familia> lfamilia = new ArrayList<Familia>();
         
         try {
             PreparedStatement pst = connectionDB.prepareStatement(sql);

@@ -21,6 +21,7 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,6 +34,7 @@ public class FormTerminal extends javax.swing.JFrame {
     private Connection connectionDB;
     DefaultTableModel dtm;
     private boolean config;
+    private LugarDAO lugarDAO;
 
     public FormTerminal(Connection connectionDB, boolean config) {
         initComponents();
@@ -40,6 +42,8 @@ public class FormTerminal extends javax.swing.JFrame {
         this.connectionDB = connectionDB;
         this.databaseUtils = new DatabaseUtils();
         this.config = config;
+        
+        lugarDAO = new LugarDAOImpl(connectionDB);
         headerTabla();
         llenarTablaTerminal();
         llenarComboLugar();
@@ -61,7 +65,7 @@ public class FormTerminal extends javax.swing.JFrame {
     public void llenarTablaTerminal(){
         TerminalDAO lug = new TerminalDAOImpl(connectionDB);
         
-        ArrayList<Terminal> t = new ArrayList<Terminal>();
+        List<Terminal> t = new ArrayList<Terminal>();
         
         t = lug.getListTerminal();
         
@@ -282,9 +286,7 @@ public class FormTerminal extends javax.swing.JFrame {
         jcLugar.removeAllItems();
         jcLugar.addItem(sel);
         
-        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+        HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
 
         for (String s : map.keySet()) {
             jcLugar.addItem(s.toString());
@@ -297,9 +299,7 @@ public class FormTerminal extends javax.swing.JFrame {
         
         String comp = "Sel";
         
-        LugarDAO lugarDAOImpl = new LugarDAOImpl(connectionDB);
-        
-        HashMap<String, Integer> map = lugarDAOImpl.lugarClaveValor();
+        HashMap<String, Integer> map = lugarDAO.lugarClaveValor();
             
         try {
             sel = jcLugar.getSelectedItem().toString();

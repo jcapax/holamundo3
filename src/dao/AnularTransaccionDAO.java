@@ -7,13 +7,14 @@ package dao;
 
 import almacenes.model.AnularTransaccion;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author jcapax
  */
 public interface AnularTransaccionDAO {
-    public ArrayList<AnularTransaccion> getListaTransaccionesAnular(byte idTipoTransaccion, String usuario);
+    public List<AnularTransaccion> getListaTransaccionesAnular(byte idTipoTransaccion, String usuario);
     public void anularTrans(int idTransaccion, int idEntregaTransaccion);
     public void anularTrans(int idTransaccion);
     public void anularFactura(int idTransaccion);

@@ -483,7 +483,6 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuIngresos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmenuIngresos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ingreso.png"))); // NOI18N
         jmenuIngresos.setText("Ingresos");
-        jmenuIngresos.setEnabled(false);
         jmenuIngresos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmenuIngresosActionPerformed(evt);
@@ -494,7 +493,6 @@ public class FormMenu extends javax.swing.JFrame {
         jmenuEgresos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jmenuEgresos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salida.png"))); // NOI18N
         jmenuEgresos.setText("Egresos");
-        jmenuEgresos.setEnabled(false);
         jmenuEgresos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmenuEgresosActionPerformed(evt);

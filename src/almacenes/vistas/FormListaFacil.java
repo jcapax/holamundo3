@@ -17,6 +17,7 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -87,7 +88,7 @@ public class FormListaFacil extends javax.swing.JFrame {
     private void llenarAnnos() {
         jcAnno.removeAllItems();
 
-        ArrayList<Integer> lanno = ff.getListaAnnosFacturaFacil();
+        List<Integer> lanno = ff.getListaAnnosFacturaFacil();
         for (byte i = 0; i < lanno.size(); i++) {
             jcAnno.addItem(lanno.get(i).toString());
         }
@@ -116,7 +117,7 @@ public class FormListaFacil extends javax.swing.JFrame {
 
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
-        ArrayList<FacturaFacil> lista = new ArrayList<FacturaFacil>();
+        List<FacturaFacil> lista = new ArrayList<FacturaFacil>();
 
         byte mes = 0;
         int anno = 0;

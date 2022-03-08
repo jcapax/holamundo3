@@ -7,9 +7,8 @@ package dao;
 
 
 import almacenes.model.Familia;
-import almacenes.model.Laboratorio;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -17,7 +16,7 @@ import java.util.HashMap;
  */
 public interface FamiliaDAO {
     
-    public ArrayList<Familia> getListaFamilias();
+    public List<Familia> getListaFamilias();
     public HashMap<String, Integer> familiaClaveValor();
     public void insertarFamilia(Familia familia);
     public void eliminarFamilia(int id);

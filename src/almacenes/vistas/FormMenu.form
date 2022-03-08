@@ -335,7 +335,6 @@
                   <Image iconType="3" name="/Imagenes/ingreso.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ingresos"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmenuIngresosActionPerformed"/>
@@ -350,7 +349,6 @@
                   <Image iconType="3" name="/Imagenes/salida.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Egresos"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmenuEgresosActionPerformed"/>

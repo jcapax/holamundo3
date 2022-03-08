@@ -7,6 +7,7 @@ package dao;
 
 import almacenes.model.Arqueo;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,18 +16,18 @@ import java.util.ArrayList;
 public interface ArqueoDAO {
     public void insertarCajaInicial(Arqueo arqueo);
     public int getIdArqueo(byte idLugar, byte idTerminal, String usuario);
-    public ArrayList<Integer> getListaTransaccionArqueoPorUsuarioMaquina(byte idLugar, byte idTerminal, String usuario);
+    public List<Integer> getListaTransaccionArqueoPorUsuarioMaquina(byte idLugar, byte idTerminal, String usuario);
     public double getCajaInicial(int idArqueo);
     public String getEstadoCaja(int idArqueo);
-    public double getImportePorArqueoUsuarioMaquina(ArrayList<Integer> lTrans);
+    public double getImportePorArqueoUsuarioMaquina(List<Integer> lTrans);
     public double getImportePorArqueoUsuarioMaquina(byte idLugar, byte idTerminal, String usuario);
-    public ArrayList<Arqueo> getListaArqueos(byte idLugar, byte mes, int anno);
-    public ArrayList<Integer> getListaAnnosArqueos();
+    public List<Arqueo> getListaArqueos(byte idLugar, byte mes, int anno);
+    public List<Integer> getListaAnnosArqueos();
     
-    public void cerrarCaja(ArrayList<Integer> lTrans, int idArqueo);
+    public void cerrarCaja(List<Integer> lTrans, int idArqueo);
     public void cerrarCreditoCaja(byte idLugar, byte idTerminal, String usuario, int idArqueo);
     public void cerrarArqueo(double importeCierre, int idArqueo);
-    public void cerrarTransacciones(ArrayList<Integer> lTrans);
+    public void cerrarTransacciones(List<Integer> lTrans);
     
     
 }

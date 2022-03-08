@@ -6,14 +6,14 @@
 package dao;
 
 import almacenes.model.EntregaPendiente;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author jcarlos.porcel
  */
 public interface EntregasDAO {
-    public ArrayList<EntregaPendiente> getListaEntregasPendientes();
-    public ArrayList<EntregaPendiente> getProductosPendientes(int idtransaccion);
+    public List<EntregaPendiente> getListaEntregasPendientes();
+    public List<EntregaPendiente> getProductosPendientes(int idtransaccion);
     public void abonoProducto(EntregaPendiente entregaPendiente);
 }

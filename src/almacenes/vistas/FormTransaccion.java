@@ -198,6 +198,7 @@ public class FormTransaccion extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Registro generado con éxito");
         
         llenarTablaProductos(jtxtxCriterio.getText().toString());
+        jbTransaccion.setEnabled(true);
     }
 
     public boolean validarRegistros() {
@@ -237,6 +238,8 @@ public class FormTransaccion extends javax.swing.JFrame {
         reporteComprasDAO.vistaPreviaAjusteStock(idEntregaTransaccion);
         
 //        JOptionPane.showMessageDialog(this, "Ajuste Stock registrado con exito");
+        llenarTablaProductos(jtxtxCriterio.getText().toString());
+        jbTransaccion.setEnabled(true);
         
     }
 
@@ -271,7 +274,7 @@ public class FormTransaccion extends javax.swing.JFrame {
 
     public void llenarTablaTemporal() {
 
-        ArrayList<Temporal> t = new ArrayList<Temporal>();
+        List<Temporal> t = new ArrayList<Temporal>();
 
         t = temporalDAO.getListaTemporal();
 
@@ -823,12 +826,11 @@ public class FormTransaccion extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlClienteProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                            .addComponent(jcClienteProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbTransaccion))
-                        .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jcClienteProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbTransaccion))
+                    .addComponent(jtxtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -954,8 +956,7 @@ public class FormTransaccion extends javax.swing.JFrame {
                 }
                 registrarAjusteStock();
                 break;
-        }
-        jbTransaccion.setEnabled(true);
+        }        
     }//GEN-LAST:event_jbTransaccionActionPerformed
 
     private void jtProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtProductosKeyReleased

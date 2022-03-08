@@ -63,7 +63,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     
     private TextAutoCompleter ac;
     
-    private ArrayList<DetalleFacturaFacil> listaDetalleFF;
+    private List<DetalleFacturaFacil> listaDetalleFF;
     
     private FacturaFacilDAO facilDAO;
     private TemporalDAOImpl tempDAOImpl;
@@ -157,7 +157,7 @@ public class FormFacturaFacil extends javax.swing.JFrame {
     }
     
     public void llenarTablaDetalleFacturaFacil(){
-        ArrayList<DetalleFacturaFacil> lista = new ArrayList<>();
+        List<DetalleFacturaFacil> lista = new ArrayList<>();
         DetalleFacturaFacil facil = new DetalleFacturaFacil();
         
         dtm = (DefaultTableModel) this.jtDetalleFacturaFacil.getModel();
