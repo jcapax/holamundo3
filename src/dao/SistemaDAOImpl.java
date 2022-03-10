@@ -38,7 +38,7 @@ public class SistemaDAOImpl implements SistemaDAO {
                     "    join rol as r on r.id = rp.id_rol\n" +
                     "    join usuario as u on u.rol = r.id\n" +
                     "    where u.login = \"" + idUsuario + "\"";
-        
+        System.out.println(sql);
         try {
             PreparedStatement pst = connectionDB.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();

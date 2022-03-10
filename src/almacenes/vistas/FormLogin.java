@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author georgeguitar
+ * @author jcapax
  */
 public class FormLogin extends javax.swing.JFrame {
     private DatabaseUtils databaseUtils;
